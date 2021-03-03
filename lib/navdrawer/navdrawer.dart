@@ -13,6 +13,8 @@ import 'package:fludip/pages/search.dart';
 import 'package:fludip/pages/tools.dart';
 import 'package:fludip/pages/events.dart';
 
+//TODO maybe open profile via drawer header?
+
 //Animation between pages
 Route _navRoute(Widget page){
   return PageRouteBuilder(

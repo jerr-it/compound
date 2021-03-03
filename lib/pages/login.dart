@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webclient.dart';
 
+//TODO option to remain logged in
+
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -87,6 +89,7 @@ class _LoginFormState extends State<LoginForm> {
                 labelText: "ID",
               ),
               validator: (str) {
+                //TODO automatically add '-' while typing
                 if (str.isEmpty){
                   return "ID may not be empty";
                 }else{

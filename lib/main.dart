@@ -3,6 +3,8 @@ import 'package:fludip/pages/login.dart';
 
 void main() => runApp(App());
 
+//TODO localisation
+
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
