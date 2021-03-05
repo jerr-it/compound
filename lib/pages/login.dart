@@ -1,3 +1,4 @@
+import 'package:fludip/net/fakeclient.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webclient.dart';
 
@@ -23,29 +24,20 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
-  String usr;
-  String pwd;
+  String _username;
+  String _passphrase;
 
-  //TODO: Add more
-  String _dropdownValue;
-  List<String> servers = [
-    "Leibniz Universität Hannover",
-  ];
-
-  String _serverUrl;
-  List<String> serverUrls = [
-    "https://studip.uni-hannover.de/api.php",
-  ];
+  int _dropdownIndex;
 
   @override
   void initState() {
+    _dropdownIndex = 0;
+
+    var client = FakeClient();
+    client.init("assets/data/fakedata.json");
+    client.setServer(Server.instances.elementAt(_dropdownIndex));
+
     super.initState();
-
-    _dropdownValue = servers.elementAt(0);
-    _serverUrl = serverUrls.elementAt(0);
-
-    var client = WebClient();
-    client.setServer(_serverUrl);
   }
 
   @override
@@ -57,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
         child: Column(
           children: [
             DropdownButton<String>(
-              value: _dropdownValue,
+              value: Server.instances.elementAt(_dropdownIndex).name(),
               icon: Icon(Icons.arrow_drop_down),
               elevation: 16,
               style: TextStyle(color: Colors.black),
@@ -67,17 +59,18 @@ class _LoginFormState extends State<LoginForm> {
               ),
               onChanged: (val) {
                 setState(() {
-                  _dropdownValue = val;
-                  _serverUrl = serverUrls.elementAt(servers.indexOf(_dropdownValue));
-
-                  var client = WebClient();
-                  client.setServer(_serverUrl);
+                  _dropdownIndex = Server.instances.indexWhere((Server server){
+                    return server.name() == val;
+                  });
+                  var client = FakeClient();
+                  client.setServer(Server.instances.elementAt(_dropdownIndex));
                 });
               },
-              items: servers.map<DropdownMenuItem<String>>((val){
+              items: Server.instances.map<DropdownMenuItem<String>>((Server server){
+                String name = server.name();
                 return DropdownMenuItem<String>(
-                  value: val,
-                  child: Text(val),
+                  value: name,
+                  child: Text(name),
                 );
               }).toList(),
             ),
@@ -98,7 +91,7 @@ class _LoginFormState extends State<LoginForm> {
                     return "ID has to look like \"xxx-yyy\"";
                   }
                 }
-                usr = str;
+                _username = str;
                 return null;
               },
             ),
@@ -108,7 +101,7 @@ class _LoginFormState extends State<LoginForm> {
                 labelText: "Password",
               ),
               validator: (str) {
-                pwd = str;
+                _passphrase = str;
                 return null;
               },
             ),
@@ -117,9 +110,8 @@ class _LoginFormState extends State<LoginForm> {
                 if (_formKey.currentState.validate()){
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text("Logging in...")));
 
-                  var client = WebClient();
-                  client.setCredentials(usr, pwd);
-                  client.get("/discovery").then((value) => print(value));
+                  var client = FakeClient();
+                  client.doRoute("courses").then((str) => print(str));
                 }
               },
               child: Text("Submit"),
