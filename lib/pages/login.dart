@@ -75,6 +75,7 @@ class _LoginFormState extends State<LoginForm> {
               }).toList(),
             ),
             TextFormField(
+              initialValue: "exa-mpl", //TODO remove in the future
               maxLengthEnforced: true,
               maxLength: 7,
               decoration: const InputDecoration(
@@ -96,6 +97,7 @@ class _LoginFormState extends State<LoginForm> {
               },
             ),
             TextFormField(
+              initialValue: "abc", //TODO remove in the future
               obscureText: true,
               decoration: const InputDecoration(
                 labelText: "Password",
@@ -111,7 +113,12 @@ class _LoginFormState extends State<LoginForm> {
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text("Logging in...")));
 
                   var client = FakeClient();
-                  client.doRoute("/courses").then((str) => print(str));
+                  client.login(_username, _passphrase);
+                  client.doRoute("/courses").then((str) {
+                    if (str == null){
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Something went wrong...")));
+                    }
+                  });
                 }
               },
               child: Text("Submit"),

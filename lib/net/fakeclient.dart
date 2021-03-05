@@ -26,6 +26,10 @@ class FakeClient{
 
   Map<String,dynamic> _fakeData;
 
+  void login(String username, String password){
+    print(username + ":" + password);
+  }
+
   Future<String> doRoute(String route) {
     if (this._server == null || this._fakeData == null){
       return Future<String>.value(null);
