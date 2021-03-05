@@ -113,10 +113,15 @@ class _LoginFormState extends State<LoginForm> {
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text("Logging in...")));
 
                   var client = FakeClient();
-                  client.login(_username, _passphrase);
-                  client.doRoute("/courses").then((str) {
-                    if (str == null){
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Something went wrong...")));
+                  client.login(_username, _passphrase).then((success){
+                    if (success) {
+                      client.doRoute("/courses").then((str) {
+                        if (str == null){
+                          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Something went wrong...")));
+                        }
+                      });
+                    }else{
+                      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid username or password")));
                     }
                   });
                 }
