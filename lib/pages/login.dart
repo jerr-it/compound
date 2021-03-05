@@ -111,7 +111,7 @@ class _LoginFormState extends State<LoginForm> {
                   Scaffold.of(context).showSnackBar(SnackBar(content: Text("Logging in...")));
 
                   var client = FakeClient();
-                  client.doRoute("courses").then((str) => print(str));
+                  client.doRoute("/courses").then((str) => print(str));
                 }
               },
               child: Text("Submit"),
