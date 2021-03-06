@@ -1,6 +1,8 @@
 import 'package:fludip/net/fakeclient.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webclient.dart';
+import 'package:fludip/navdrawer/navdrawer.dart';
+import 'package:fludip/pages/start.dart';
 
 //TODO option to remain logged in
 
@@ -119,6 +121,10 @@ class _LoginFormState extends State<LoginForm> {
                         if (str == null){
                           Scaffold.of(context).showSnackBar(SnackBar(content: Text("Something went wrong...")));
                         }
+
+                        //Go to start page
+                        Navigator.pop(context);
+                        Navigator.of(context).push(navRoute(StartPage()));
                       });
                     }else{
                       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid username or password")));

@@ -16,7 +16,7 @@ import 'package:fludip/pages/events.dart';
 //TODO maybe open profile via drawer header?
 
 //Animation between pages
-Route _navRoute(Widget page){
+Route navRoute(Widget page){
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -55,7 +55,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Start"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(StartPage()));
+              Navigator.of(context).push(navRoute(StartPage()));
             },
           ),
           ListTile(
@@ -63,7 +63,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Veranstaltungen"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(EventsPage()));
+              Navigator.of(context).push(navRoute(EventsPage()));
             },
           ),
           ListTile(
@@ -71,7 +71,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Nachrichten"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(MessagesPage()));
+              Navigator.of(context).push(navRoute(MessagesPage()));
             },
           ),
           ListTile(
@@ -79,7 +79,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Community"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(CommunityPage()));
+              Navigator.of(context).push(navRoute(CommunityPage()));
             },
           ),
           ListTile(
@@ -87,7 +87,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Profil"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(ProfilePage()));
+              Navigator.of(context).push(navRoute(ProfilePage()));
             },
           ),
           ListTile(
@@ -95,7 +95,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Planer"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(PlannerPage()));
+              Navigator.of(context).push(navRoute(PlannerPage()));
             },
           ),
           ListTile(
@@ -103,7 +103,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Suche"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(SearchPage()));
+              Navigator.of(context).push(navRoute(SearchPage()));
             },
           ),
           ListTile(
@@ -111,7 +111,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Tools"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(ToolsPage()));
+              Navigator.of(context).push(navRoute(ToolsPage()));
             },
           ),
           ListTile(
@@ -119,7 +119,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Dateien"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(FilePage()));
+              Navigator.of(context).push(navRoute(FilePage()));
             },
           ),
           ListTile(
@@ -127,7 +127,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Schwarzes Brett"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(_navRoute(BlackboardPage()));
+              Navigator.of(context).push(navRoute(BlackboardPage()));
             },
           )
         ],
