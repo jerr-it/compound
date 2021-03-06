@@ -18,7 +18,6 @@ class FakeClient{
   void init(String path) async {
     var data = await rootBundle.loadString(path);
     _fakeData = jsonDecode(data);
-    print(_fakeData);
   }
 
   Server _server;

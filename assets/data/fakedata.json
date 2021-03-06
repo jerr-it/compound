@@ -498,7 +498,7 @@
       {
         "news_id": "7516d73adb81ca271c88986bafd14fd7",
         "topic": "Message from outer space spells \"foo\" - scientists left puzzled",
-        "body": "Lorem ipsum dolor...",
+        "body": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
         "date": "1336773600",
         "user_id": "76ed43ef286fb55cf9e41beadb484a9f",
         "expire": "691199",
@@ -510,7 +510,7 @@
       },{
         "news_id": "8516d73adb81ca271c88986bafd14fd7",
         "topic": "Lokaler Baumeister verwundert",
-        "body": "er dachte sie würden es schaffen",
+        "body": "er dachte sie würden es schaffen, denn er war ein erfahrener Baumeister der bereits viele tolle Projekte bearbeitet hat und nie gescheitert ist",
         "date": "1336773600",
         "user_id": "76ed43ef286fb55cf9e41beadb484a9f",
         "expire": "691199",
