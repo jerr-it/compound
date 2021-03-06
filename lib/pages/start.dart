@@ -31,7 +31,7 @@ class _StartPageState extends State<StartPage> {
   }
 
   ///Convert data to widgets
-  List<Widget> _createListEntries(){
+  List<Widget> _buildListEntries(){
     if(_news == null){
       var ret = List<Widget>();
       ret.add(Center(
@@ -70,7 +70,6 @@ class _StartPageState extends State<StartPage> {
               ],
             ),
           ),
-          trailing: Icon(Icons.arrow_drop_down),
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
@@ -90,7 +89,7 @@ class _StartPageState extends State<StartPage> {
       ),
       body: RefreshIndicator(
         child: ListView(
-          children: _createListEntries(),
+          children: _buildListEntries(),
         ),
         onRefresh: (){
           _fetchNews();
