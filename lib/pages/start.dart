@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:fludip/net/fakeclient.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
-import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -47,9 +46,14 @@ class _StartPageState extends State<StartPage> {
     Map<String, dynamic> news = _news["collection"];
     List<Widget> widgets = List<Widget>();
 
+    final DateFormat formatter = DateFormat("dd.MM.yyyy HH:mm");
+
     news.forEach((newsKey, newsData) {
       String topic = newsData["topic"].toString();
       String body = newsData["body"].toString();
+
+      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(newsData["date"].toString()) * 1000);
+      String date = formatter.format(dateTime);
 
       widgets.add(Card(
         child: ExpansionTile(
@@ -58,7 +62,22 @@ class _StartPageState extends State<StartPage> {
               children: [
                 FlutterLogo(size: 32,),
                 Flexible(
-                    child: Text(topic),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          topic,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          date,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w100,
+                          ),
+                        ),
+                      ],
+                    )
                 )
               ],
             ),

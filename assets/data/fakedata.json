@@ -24,6 +24,25 @@
         "allow_comments" : "1",
         "chdate" : "1468409976",
         "user_id" : "76ed43ef286fb55cf9e41beadb484a9f"
+      },
+      "/api.php/news/19f2932ce32be989022c6f43b866e744" : {
+        "comments" : "/api.php/news/19f2932ce32be989022c6f43b866e744/comments",
+        "news_id" : "19f2932ce32be989022c6f43b866e744",
+        "expire" : "14562502",
+        "date" : "1469419952",
+        "chdate_uid" : "",
+        "body_html" : "<div class=\"formatted-content\">Das Stud.IP-Team heisst sie herzlich willkommen. <br>Bitte schauen Sie sich ruhig um!<br><br>Wenn Sie das System selbst installiert haben und diese News sehen, haben Sie die Demonstrationsdaten in die Datenbank eingefügt. Wenn Sie produktiv mit dem System arbeiten wollen, sollten Sie diese Daten später wieder löschen, da die Passwörter der Accounts (vor allem des root-Accounts) öffentlich bekannt sind.</div>",
+        "mkdate" : "1469419952",
+        "topic" : "Testankündigung der Oberklasse, zum Testen natürlich",
+        "body" : "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "ranges" : [
+          "/api.php/user/76ed43ef286fb55cf9e41beadb484a9f/news",
+          "/api.php/studip/news"
+        ],
+        "comments_count" : 0,
+        "allow_comments" : "1",
+        "chdate" : "1468409976",
+        "user_id" : "76ed43ef286fb55cf9e41beadb484a9f"
       }
     }
   }
