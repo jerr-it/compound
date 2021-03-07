@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fludip/net/fakeclient.dart';
+import 'package:fludip/net/webclient.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
 
@@ -22,7 +23,7 @@ class _EventsPageState extends State<EventsPage> {
   ///Fetch the users courses
   void _fetchCourses() async {
     var client = FakeClient();
-    var jsond = await client.doRoute("/courses");
+    var jsond = await client.doRoute("/user/" + Server.userID + "/courses");
     setState(() {
       _courses = jsonDecode(jsond);
     });
@@ -41,44 +42,62 @@ class _EventsPageState extends State<EventsPage> {
       return ret;
     }
 
-    List<dynamic> courses = _courses["courses"];
+    Map<String, dynamic> courses = _courses["collection"];
+    List<Widget> widgets = List<Widget>();
 
-    return courses.map((courseObject) {
-      var title = courseObject["title"].toString();
-      var subTitle = courseObject["subtitle"].toString();
-      var description = courseObject["description"].toString();
-      var location = courseObject["location"].toString();
+    courses.forEach((courseKey, courseData) {
+      String title = courseData["title"].toString();
+      String description = courseData["description"].toString();
 
-      return Card(
+      String lecturers = "";
+      String location = courseData["location"].toString();
+
+      //Gather lecturers
+      Map<String, dynamic> lecturerData = courseData["lecturers"];
+      lecturerData.forEach((lecturerID, lecturerData) {
+        lecturers += lecturerData["name"]["formatted"].toString() + ", ";
+      });
+      lecturers = lecturers.substring(0, lecturers.length-2);
+
+      widgets.add(Card(
         child: ExpansionTile(
           title: Container(
             child: Row(
               children: [
-                Container(
-                  width: 5,
-                  height: 50,
-                  decoration: BoxDecoration(color: Colors.red),
-                  child: Text(""),
-                ),
-                Text(title),
+                FlutterLogo(size: 32,),
+                Flexible(
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
               ],
             ),
           ),
           children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Column(
-                children: [
-                  Text(subTitle),
-                  Text(description),
-                  Text(location),
-                ],
-              ),
-            )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    Icon(Icons.location_on),
+                    Text(location),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Icon(Icons.people),
+                    Text(lecturers),
+                  ],
+                )
+              ],
+            ),
           ],
         ),
-      );
-    }).toList();
+      ));
+    });
+
+    return widgets;
   }
 
   @override
