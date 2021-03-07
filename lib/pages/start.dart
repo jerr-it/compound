@@ -24,7 +24,7 @@ class _StartPageState extends State<StartPage> {
   ///Fetch the data from the web
   void _fetchNews() async {
     var client = FakeClient();
-    var jsond = await client.doRoute("/news");
+    var jsond = await client.doRoute("/studip/news");
     setState(() {
       _news = jsonDecode(jsond);
     });
@@ -44,28 +44,21 @@ class _StartPageState extends State<StartPage> {
       return ret;
     }
 
-    List<dynamic> news = _news["news"];
+    Map<String, dynamic> news = _news["collection"];
+    List<Widget> widgets = List<Widget>();
 
-    return news.map((newsObject) {
-      var title = newsObject["topic"].toString();
-      var body = newsObject["body"].toString();
+    news.forEach((newsKey, newsData) {
+      String topic = newsData["topic"].toString();
+      String body = newsData["body"].toString();
 
-      var subTitleLen = body.length;
-      if (subTitleLen >= 40){
-        subTitleLen = 40;
-      }
-
-      return Card(
+      widgets.add(Card(
         child: ExpansionTile(
           title: Container(
             child: Row(
               children: [
                 FlutterLogo(size: 32,),
                 Flexible(
-                  child: Text(
-                    title,
-                    //overflow: TextOverflow.ellipsis,
-                  )
+                    child: Text(topic),
                 )
               ],
             ),
@@ -77,8 +70,10 @@ class _StartPageState extends State<StartPage> {
             )
           ],
         ),
-      );
-    }).toList();
+      ));
+    });
+
+    return widgets;
   }
 
   @override
