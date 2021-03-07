@@ -258,5 +258,46 @@
         "location" : "A1111"
       }
     }
+  },
+  "/course/984e34196f2e6ea6e1b2cc58f432fb8d/news" : {
+    "collection" : {
+      "/api.php/news/d8d92fb84dbb1150f09199f923c54aa8" : {
+        "expire" : "691140",
+        "chdate_uid" : "",
+        "topic" : "Ausfall der Veranstaltung",
+        "ranges" : [
+          "/api.php/course/a07535cf2f8a72df33c12ddfa4b53dde/news"
+        ],
+        "user_id" : "205f3efb7997a0fc9755da2b535038da",
+        "date" : "1478818800",
+        "chdate" : "1478853886",
+        "mkdate" : "1478853886",
+        "news_id" : "d8d92fb84dbb1150f09199f923c54aa8",
+        "body" : "Die Veranstaltung fällt am 11.11. wegen Beginn der \"5. Jahreszeit\" aus!",
+        "body_html" : "<div class=\"formatted-content\">Die Veranstaltung fällt am 11.11. wegen Beginn der &quot;5. Jahreszeit&quot; aus!</div>",
+        "allow_comments" : "0"
+      },
+      "/api.php/news/e8d92fb84dbb1150f09199f923c54aa8" : {
+        "expire" : "691140",
+        "chdate_uid" : "",
+        "topic" : "Neue Termine verfügbar",
+        "ranges" : [
+          "/api.php/course/a07535cf2f8a72df33c12ddfa4b53dde/news"
+        ],
+        "user_id" : "205f3efb7997a0fc9755da2b535038da",
+        "date" : "1478925800",
+        "chdate" : "1478853886",
+        "mkdate" : "1478853886",
+        "news_id" : "e8d92fb84dbb1150f09199f923c54aa8",
+        "body" : "Die Veranstaltung erhält drei neue Termine: Donnerstags 12:39:33, Mittwochs 4:32:32, Montags 00:00:11.\n Ihr Finanzamt NRW",
+        "body_html" : "<div class=\"formatted-content\">Die Veranstaltung erhält drei neue Termine: Donnerstags 12:39:33, Mittwochs 4:32:32, Montags 00:00:11.\n Ihr Finanzamt NRW!</div>",
+        "allow_comments" : "0"
+      }
+    },
+    "pagination" : {
+      "limit" : 20,
+      "offset" : 0,
+      "total" : 1
+    }
   }
 }
