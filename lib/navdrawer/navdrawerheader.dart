@@ -1,3 +1,4 @@
+import 'package:fludip/net/webclient.dart';
 import 'package:flutter/material.dart';
 
 class NavDrawerHeader extends StatelessWidget {
@@ -14,6 +15,9 @@ class NavDrawerHeader extends StatelessWidget {
         child: Text("[Couldn't load user information"),
       );
     }
+
+    //Save user_id for later use
+    Server.userID = _user["user_id"];
 
     //TODO rank?
     //TODO user profile picture instead of icon

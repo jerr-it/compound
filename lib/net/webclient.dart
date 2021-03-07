@@ -34,6 +34,7 @@ class Server {
     return _name;
   }
 
+  static String userID;
   //Pre-prepared list of instances
   static List<Server> instances = [
     Server(
