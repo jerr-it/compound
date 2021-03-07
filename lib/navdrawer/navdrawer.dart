@@ -14,7 +14,7 @@ import 'package:fludip/pages/blackboard.dart';
 import 'package:fludip/pages/start.dart';
 import 'package:fludip/pages/search.dart';
 import 'package:fludip/pages/tools.dart';
-import 'package:fludip/pages/events.dart';
+import 'package:fludip/pages/events/events.dart';
 
 //TODO maybe open profile via drawer header?
 

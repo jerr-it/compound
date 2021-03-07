@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fludip/net/fakeclient.dart';
 import 'package:fludip/net/webclient.dart';
+import 'package:fludip/pages/events/eventviewer.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
 
@@ -59,7 +60,10 @@ class _EventsPageState extends State<EventsPage> {
       });
       lecturers = lecturers.substring(0, lecturers.length-2);
 
+      //TODO colors according to user settings, green for now
+      //TODO replace flutter logo with something useful
       widgets.add(Card(
+        shape: Border(left: BorderSide(color:Colors.green,width: 5)),
         child: ExpansionTile(
           title: Container(
             child: Row(
@@ -92,6 +96,22 @@ class _EventsPageState extends State<EventsPage> {
                 )
               ],
             ),
+            Container(
+              margin: EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  //TODO new files comments etc indicators here (red marks in the web)
+                  FloatingActionButton(
+                    heroTag: null,
+                    child: Icon(Icons.login),
+                    onPressed: (){
+                      Navigator.push(context, navRoute(EventViewer(eventData: courseData)));
+                    },
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ));
