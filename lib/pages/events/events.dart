@@ -102,9 +102,8 @@ class _EventsPageState extends State<EventsPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   //TODO new files comments etc indicators here (red marks in the web)
-                  FloatingActionButton(
-                    heroTag: null,
-                    child: Icon(Icons.login),
+                  IconButton(
+                    icon: Icon(Icons.login),
                     onPressed: (){
                       Navigator.push(context, navRoute(EventViewer(eventData: courseData)));
                     },
