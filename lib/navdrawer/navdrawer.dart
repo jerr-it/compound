@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:fludip/net/fakeclient.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fludip/navdrawer/navdrawerheader.dart';
@@ -37,101 +40,123 @@ Route navRoute(Widget page){
   );
 }
 
-class NavDrawer extends StatelessWidget {
+class NavDrawer extends StatefulWidget {
+  @override
+  _NavDrawerState createState() => _NavDrawerState();
+}
+
+class _NavDrawerState extends State<NavDrawer> {
+
+  Map<String, dynamic> _user;
+
+  @override
+  void initState() {
+    _fetchUser();
+    super.initState();
+  }
+
+  void _fetchUser() async {
+    var client = FakeClient();
+    var jsond = await client.doRoute("/user");
+    setState(() {
+      _user = jsonDecode(jsond);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            child: NavDrawerHeader(),
-            decoration: BoxDecoration(
-              color:Colors.blue,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: NavDrawerHeader(user: _user,),
+              decoration: BoxDecoration(
+                color:Colors.blue,
+              ),
             ),
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text("Start"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(StartPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.book_rounded),
-            title: Text("Veranstaltungen"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(EventsPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.mail),
-            title: Text("Nachrichten"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(MessagesPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.people),
-            title: Text("Community"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(CommunityPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text("Profil"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(ProfilePage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.event),
-            title: Text("Planer"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(PlannerPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.search),
-            title: Text("Suche"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(SearchPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.api),
-            title: Text("Tools"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(ToolsPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.file_copy),
-            title: Text("Dateien"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(FilePage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.announcement_outlined),
-            title: Text("Schwarzes Brett"),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(BlackboardPage()));
-            },
-          )
-        ],
-      )
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text("Start"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(StartPage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.book_rounded),
+              title: Text("Veranstaltungen"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(EventsPage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.mail),
+              title: Text("Nachrichten"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(MessagesPage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.people),
+              title: Text("Community"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(CommunityPage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text("Profil"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(ProfilePage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.event),
+              title: Text("Planer"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(PlannerPage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.search),
+              title: Text("Suche"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(SearchPage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.api),
+              title: Text("Tools"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(ToolsPage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.file_copy),
+              title: Text("Dateien"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(FilePage()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.announcement_outlined),
+              title: Text("Schwarzes Brett"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(BlackboardPage()));
+              },
+            )
+          ],
+        )
     );
   }
 }

@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
 
 class NavDrawerHeader extends StatelessWidget {
+  final Map<String, dynamic> _user;
+  NavDrawerHeader({@required user})
+  : _user = user;
+
   @override
   Widget build(BuildContext context) {
+    if (_user == null){
+      return Container(
+        width: double.maxFinite,
+        height: double.maxFinite,
+        child: Text("[Couldn't load user information"),
+      );
+    }
+
+    //TODO rank?
+    //TODO user profile picture instead of icon
+    String formattedName = _user["name"]["formatted"].toString();
+    String username = _user["username"].toString();
+    String email = _user["email"].toString();
+
     return Container(
       width: double.maxFinite,
       height: double.maxFinite,
@@ -16,8 +34,8 @@ class NavDrawerHeader extends StatelessWidget {
                 Icon(Icons.portrait, size: 64,),
                 Column(
                   children: [
-                    Text("Max Mustermann", style: TextStyle(fontSize: 16),),
-                    Text("luh-id0", style: TextStyle(fontSize: 16),)
+                    Text(formattedName, style: TextStyle(fontSize: 16),),
+                    Text(username, style: TextStyle(fontSize: 16),)
                   ],
                 )
               ],
@@ -25,8 +43,8 @@ class NavDrawerHeader extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Punkte: 6666", style: TextStyle(fontWeight: FontWeight.w300),),
-                Text("Rang: Halbgott", style: TextStyle(fontWeight: FontWeight.w300),)
+                Text(email, style: TextStyle(fontWeight: FontWeight.w300),),
+                Text("[Something here]", style: TextStyle(fontWeight: FontWeight.w300),)
               ],
             )
           ],
