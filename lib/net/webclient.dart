@@ -123,9 +123,6 @@ class WebClient {
       });
 
       _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, credentials);
-      _oauthClient.get(this._server._baseUrl+ "/users/me").then((value) {
-        print(value.body);
-      });
       return;
     }
     

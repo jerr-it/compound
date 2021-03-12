@@ -35,29 +35,24 @@ class _LoginFormState extends State<LoginForm> {
   void initState() {
     _dropdownIndex = 0;
 
-    var client = FakeClient();
-    client.init("assets/data/fakedata.json");
-    client.setServer(Server.instances.elementAt(_dropdownIndex));
-
-
     var wclient = WebClient();
     wclient.setServer(Server.instances[0]);
     wclient.authorize();
 
-    wclient.getRoute("/users/me").then((data) {
-      print(data);
-    });
-
     super.initState();
   }
 
+  //TODO better layout
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Container(
-        margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+        alignment: AlignmentDirectional.center,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+
           children: [
             DropdownButton<String>(
               value: Server.instances.elementAt(_dropdownIndex).name(),
@@ -73,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
                   _dropdownIndex = Server.instances.indexWhere((Server server){
                     return server.name() == val;
                   });
-                  var client = FakeClient();
+                  var client = WebClient();
                   client.setServer(Server.instances.elementAt(_dropdownIndex));
                 });
               },
@@ -85,63 +80,11 @@ class _LoginFormState extends State<LoginForm> {
                 );
               }).toList(),
             ),
-            TextFormField(
-              initialValue: "exa-mpl", //TODO remove in the future
-              maxLengthEnforced: true,
-              maxLength: 7,
-              decoration: const InputDecoration(
-                hintText: "xxx-yyy",
-                labelText: "ID",
-              ),
-              validator: (str) {
-                //TODO automatically add '-' while typing
-                if (str.isEmpty){
-                  return "ID may not be empty";
-                }else{
-                  List<String> parts = str.split("-");
-                  if (parts.length != 2 || parts.elementAt(0).length != 3 || parts.elementAt(1).length != 3) {
-                    return "ID has to look like \"xxx-yyy\"";
-                  }
-                }
-                _username = str;
-                return null;
-              },
-            ),
-            TextFormField(
-              initialValue: "abc", //TODO remove in the future
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Password",
-              ),
-              validator: (str) {
-                _passphrase = str;
-                return null;
-              },
-            ),
-            ElevatedButton(
+            FloatingActionButton(
+              child: Icon(Icons.login),
               onPressed: (){
-                if (_formKey.currentState.validate()){
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text("Logging in...")));
 
-                  var client = FakeClient();
-                  client.login(_username, _passphrase).then((success){
-                    if (success) {
-                      client.doRoute("/courses").then((str) {
-                        if (str == null){
-                          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Something went wrong...")));
-                        }
-
-                        //Go to start page
-                        Navigator.pop(context);
-                        Navigator.of(context).push(navRoute(StartPage()));
-                      });
-                    }else{
-                      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid username or password")));
-                    }
-                  });
-                }
               },
-              child: Text("Submit"),
             )
           ],
         ),
