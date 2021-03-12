@@ -1,5 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:oauth1/oauth1.dart' as oauth1;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 /// Server bundles information related to authentication and content pulling
 class Server {
@@ -36,15 +44,16 @@ class Server {
 
   static String userID;
   //Pre-prepared list of instances
+  //TODO move this to a secured space, ok for now since the given server is a local
   static List<Server> instances = [
     Server(
-      name: "Example University",
-      consumerKey: "CONSUMER_KEY",
-      consumerSecret: "CONSUMER_SECRET",
-      requestTokenUrl: "http://studip.example.org/dispatch.php/api/oauth/request_token",
-      accessTokenUrl: "http://studip.example.org/dispatch.php/api/oauth/access_token",
-      authorizeUrl: "http://studip.example.org/dispatch.php/api/oauth/authorize",
-      baseUrl: "http://studip.example.org/api.php/",
+      name: "Local",
+      consumerKey: "f25655936896bdfa73c15d6b6cf50e670604a8832",
+      consumerSecret: "650da6e031cae19289ff23f05f85fa80",
+      requestTokenUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/request_token",
+      accessTokenUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/access_token",
+      authorizeUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/authorize",
+      baseUrl: "http://192.168.122.235/studip/jsonapi.php/v1",
     ),
   ];
 }
@@ -60,11 +69,89 @@ class WebClient {
   }
 
   Server _server;
+  oauth1.Client _oauthClient;
+
   void setServer(Server server){
     this._server = server;
   }
 
-  //TODO implement Oauth process
-  //TODO implement routes
-  //For now use fake provider
+  ///Acts as a callback target for oauth
+  Future<Stream<String>> _localCallbackServer() async {
+    final StreamController<String> onCode = new StreamController();
+    
+    HttpServer server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
+    server.listen((HttpRequest request) async {
+      final String code = request.uri.queryParameters["oauth_verifier"];
+
+      request.response
+        ..statusCode = 200
+        ..headers.set("Content-Type", ContentType.html.mimeType)
+        ..write("<html><h1>You can close this window now</h1></html>");
+
+      await request.response.close();
+      await server.close(force: true);
+      onCode.add(code);
+      await onCode.close();
+    });
+
+    return onCode.stream;
+  }
+
+  ///Performs OAuth1 authentication with the set server
+  void authorize() async {
+    var platform = new oauth1.Platform(
+      this._server._requestTokenUrl,
+      this._server._authorizeUrl,
+      this._server._accessTokenUrl,
+      oauth1.SignatureMethods.hmacSha1
+    );
+    
+    var clientCredentials = new oauth1.ClientCredentials(
+      this._server._consumerKey,
+      this._server._consumerSecret
+    );
+
+    var storage = new FlutterSecureStorage();
+    var jsonCredentialStr = await storage.read(key: "oauth_credentials");
+
+    if(jsonCredentialStr != null){
+      var jsonCredentials = jsonDecode(jsonCredentialStr);
+
+      var credentials = oauth1.Credentials.fromMap(<String,String>{
+        "oauth_token":jsonCredentials["oauth_token"],
+        "oauth_token_secret":jsonCredentials["oauth_token_secret"],
+      });
+
+      _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, credentials);
+      _oauthClient.get(this._server._baseUrl+ "/users/me").then((value) {
+        print(value.body);
+      });
+      return;
+    }
+    
+    var auth = new oauth1.Authorization(clientCredentials, platform);
+    
+    auth.requestTemporaryCredentials("http://localhost:8080/").then((res) async {
+      Stream<String> onCode = await _localCallbackServer();
+
+      launch(auth.getResourceOwnerAuthorizationURI(res.credentials.token));
+
+      String verifier = await onCode.first;
+      return auth.requestTokenCredentials(res.credentials, verifier);
+    }).then((res) async {
+      await storage.write(key: "oauth_credentials", value: jsonEncode(res.credentials.toJSON()));
+
+      _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, res.credentials);
+    });
+  }
+
+  ///Execute a GET route
+  Future<Map<String, dynamic>> getRoute(String route) async {
+    if(_oauthClient == null){
+      return Future<Map<String,String>>.value(null);
+    }
+
+    Response res = await _oauthClient.get(this._server._baseUrl + route);
+    return jsonDecode(res.body);
+  }
 }

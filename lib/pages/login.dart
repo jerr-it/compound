@@ -39,6 +39,15 @@ class _LoginFormState extends State<LoginForm> {
     client.init("assets/data/fakedata.json");
     client.setServer(Server.instances.elementAt(_dropdownIndex));
 
+
+    var wclient = WebClient();
+    wclient.setServer(Server.instances[0]);
+    wclient.authorize();
+
+    wclient.getRoute("/users/me").then((data) {
+      print(data);
+    });
+
     super.initState();
   }
 
