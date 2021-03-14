@@ -1,9 +1,10 @@
-import 'package:fludip/data/user.dart';
-import 'package:fludip/net/fakeclient.dart';
+import 'package:fludip/provider/user.dart';
+import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webclient.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
 import 'package:fludip/pages/start.dart';
+import 'package:provider/provider.dart';
 
 //TODO option to remain logged in
 
@@ -87,7 +88,7 @@ class _LoginFormState extends State<LoginForm> {
                 while(!client.isAuthenticated()){}
 
                 var user = await client.getRoute("/users/me");
-                User.data = user["data"];
+                Provider.of<User>(context, listen: false).setData(user["data"]);
 
                 Navigator.pop(context);
                 Navigator.of(context).push(navRoute(StartPage()));

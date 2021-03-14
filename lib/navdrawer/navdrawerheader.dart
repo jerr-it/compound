@@ -1,5 +1,6 @@
-import 'package:fludip/data/user.dart';
+import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavDrawerHeader extends StatefulWidget {
   @override
@@ -16,9 +17,10 @@ class _NavDrawerHeaderState extends State<NavDrawerHeader> {
   Widget build(BuildContext context) {
     //TODO rank?
     //TODO user profile picture instead of icon
-    String formattedName = User.data["attributes"]["formatted-name"].toString();
-    String username = User.data["attributes"]["username"].toString();
-    String email = User.data["attributes"]["email"].toString();
+    var data = Provider.of<User>(context).getData();
+    String formattedName = data["attributes"]["formatted-name"].toString();
+    String username = data["attributes"]["username"].toString();
+    String email = data["attributes"]["email"].toString();
 
     return Container(
       width: double.maxFinite,

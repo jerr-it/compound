@@ -26,6 +26,7 @@ dependencies:
   oauth1: ^1.0.6
   url_launcher: ^5.7.10
   flutter_secure_storage: ^4.1.0
+  provider: ^4.1.2
   flutter:
     sdk: flutter
 
