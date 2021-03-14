@@ -26,7 +26,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  
+
   int _dropdownIndex;
 
   @override

@@ -32,7 +32,7 @@ class _EventsPageState extends State<EventsPage> {
 
   List<Widget> _buildListEntries() {
     if(_courses == null){
-      var ret = List<Widget>();
+      var ret = <Widget>[];
       ret.add(Container(
         margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
         child: ListTile(
@@ -44,7 +44,7 @@ class _EventsPageState extends State<EventsPage> {
     }
 
     Map<String, dynamic> courses = _courses["collection"];
-    List<Widget> widgets = List<Widget>();
+    List<Widget> widgets = <Widget>[];
 
     courses.forEach((courseKey, courseData) {
       String title = courseData["title"].toString();

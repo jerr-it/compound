@@ -33,7 +33,7 @@ class _NewsTabState extends State<NewsTab> {
 
   List<Widget> _buildListEntries(){
     if(_newsData == null){
-      var ret = List<Widget>();
+      var ret = <Widget>[];
       ret.add(Center(
           child:ListTile(
             title: Text("No news found!"),
@@ -45,7 +45,7 @@ class _NewsTabState extends State<NewsTab> {
     }
 
     Map<String, dynamic> news = _newsData["collection"];
-    List<Widget> widgets = List<Widget>();
+    List<Widget> widgets = <Widget>[];
 
     final DateFormat formatter = DateFormat("dd.MM.yyyy HH:mm");
 
