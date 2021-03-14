@@ -26,10 +26,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-
-  String _username;
-  String _passphrase;
-
+  
   int _dropdownIndex;
 
   @override
