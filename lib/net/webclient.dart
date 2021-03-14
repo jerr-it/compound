@@ -129,7 +129,12 @@ class WebClient {
       });
 
       _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, credentials);
-      return;
+
+      //Test if the loaded token actually works
+      var probe = await _oauthClient.get(this._server._baseUrl + "/discovery");
+      if(probe.statusCode == 200){
+        return;
+      }
     }
     
     var auth = new oauth1.Authorization(clientCredentials, platform);
