@@ -2,17 +2,7 @@ import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NavDrawerHeader extends StatefulWidget {
-  @override
-  _NavDrawerHeaderState createState() => _NavDrawerHeaderState();
-}
-
-class _NavDrawerHeaderState extends State<NavDrawerHeader> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class NavDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO rank?
