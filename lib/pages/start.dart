@@ -1,9 +1,9 @@
-import 'dart:convert';
-
-import 'package:fludip/net/fakeclient.dart';
+import 'package:fludip/net/webclient.dart';
+import 'package:fludip/provider/news.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -11,46 +11,17 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-
-  Map<String,dynamic> _news;
-
-  @override
-  void initState() {
-    _fetchNews();
-    super.initState();
-  }
-
-  ///Fetch the data from the web
-  void _fetchNews() async {
-    var client = FakeClient();
-    var jsond = await client.doRoute("/studip/news");
-    setState(() {
-      _news = jsonDecode(jsond);
-    });
-  }
-
   ///Convert data to widgets
   List<Widget> _buildListEntries(){
-    if(_news == null){
-      var ret = <Widget>[];
-      ret.add(Center(
-          child:ListTile(
-            title: Text("No news found!"),
-            subtitle: Text("Check again later..."),
-          )
-        )
-      );
-      return ret;
-    }
 
-    Map<String, dynamic> news = _news["collection"];
+    Map<String, dynamic> news = Provider.of<NewsProvider>(context).getNews("/studip/news")["collection"];
     List<Widget> widgets = <Widget>[];
 
     final DateFormat formatter = DateFormat("dd.MM.yyyy HH:mm");
 
     news.forEach((newsKey, newsData) {
       String topic = newsData["topic"].toString();
-      String body = newsData["body"].toString();
+      String body = newsData["body"].toString(); //TODO get rid of html stuff
 
       DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(newsData["date"].toString()) * 1000);
       String date = formatter.format(dateTime);
@@ -105,8 +76,11 @@ class _StartPageState extends State<StartPage> {
         child: ListView(
           children: _buildListEntries(),
         ),
-        onRefresh: (){
-          _fetchNews();
+        onRefresh: () async {
+          var client = WebClient();
+          var globalNews = await client.getRoute("/studip/news");
+          Provider.of<NewsProvider>(context).setNews("/studip/news", globalNews);
+
           return Future<void>.value(null);
         },
       ),

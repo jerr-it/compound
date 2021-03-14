@@ -17,10 +17,10 @@ class _NavDrawerHeaderState extends State<NavDrawerHeader> {
   Widget build(BuildContext context) {
     //TODO rank?
     //TODO user profile picture instead of icon
-    var data = Provider.of<User>(context).getData();
-    String formattedName = data["attributes"]["formatted-name"].toString();
-    String username = data["attributes"]["username"].toString();
-    String email = data["attributes"]["email"].toString();
+    var data = Provider.of<UserProvider>(context).getData();
+    String formattedName = data["name"]["formatted"].toString();
+    String username = data["name"]["username"].toString();
+    String email = data["email"].toString();
 
     return Container(
       width: double.maxFinite,

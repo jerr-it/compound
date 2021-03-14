@@ -53,7 +53,7 @@ class Server {
       requestTokenUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/request_token",
       accessTokenUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/access_token",
       authorizeUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/authorize",
-      baseUrl: "http://192.168.122.235/studip/jsonapi.php/v1",
+      baseUrl: "http://192.168.122.235/studip/api.php",
     ),
   ];
 }
@@ -103,6 +103,7 @@ class WebClient {
   }
 
   ///Performs OAuth1 authentication with the set server
+  ///TODO account for someone de-authorizing the app, which renders the locally saved oauth credentials invalid
   void authenticate() async {
     var platform = new oauth1.Platform(
       this._server._requestTokenUrl,

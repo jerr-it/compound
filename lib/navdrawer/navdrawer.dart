@@ -1,3 +1,5 @@
+import 'package:fludip/net/webclient.dart';
+import 'package:fludip/provider/news.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fludip/navdrawer/navdrawerheader.dart';
@@ -12,6 +14,7 @@ import 'package:fludip/pages/start.dart';
 import 'package:fludip/pages/search.dart';
 import 'package:fludip/pages/tools.dart';
 import 'package:fludip/pages/events/events.dart';
+import 'package:provider/provider.dart';
 
 //TODO maybe open profile via drawer header?
 
@@ -53,7 +56,11 @@ class NavDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.home),
               title: Text("Start"),
-              onTap: () {
+              onTap: () async {
+                var client = WebClient();
+                var globalNews = await client.getRoute("/studip/news");
+                Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
+
                 Navigator.pop(context);
                 Navigator.of(context).push(navRoute(StartPage()));
               },
