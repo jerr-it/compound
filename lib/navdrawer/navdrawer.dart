@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:fludip/net/fakeclient.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fludip/navdrawer/navdrawerheader.dart';
@@ -40,29 +37,7 @@ Route navRoute(Widget page){
   );
 }
 
-class NavDrawer extends StatefulWidget {
-  @override
-  _NavDrawerState createState() => _NavDrawerState();
-}
-
-class _NavDrawerState extends State<NavDrawer> {
-
-  Map<String, dynamic> _user;
-
-  @override
-  void initState() {
-    _fetchUser();
-    super.initState();
-  }
-
-  void _fetchUser() async {
-    var client = FakeClient();
-    var jsond = await client.doRoute("/user");
-    setState(() {
-      _user = jsonDecode(jsond);
-    });
-  }
-
+class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -70,7 +45,7 @@ class _NavDrawerState extends State<NavDrawer> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              child: NavDrawerHeader(user: _user,),
+              child: NavDrawerHeader(),
               decoration: BoxDecoration(
                 color:Colors.blue,
               ),

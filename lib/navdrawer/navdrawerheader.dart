@@ -1,29 +1,24 @@
-import 'package:fludip/net/webclient.dart';
+import 'package:fludip/data/user.dart';
 import 'package:flutter/material.dart';
 
-class NavDrawerHeader extends StatelessWidget {
-  final Map<String, dynamic> _user;
-  NavDrawerHeader({@required user})
-  : _user = user;
+class NavDrawerHeader extends StatefulWidget {
+  @override
+  _NavDrawerHeaderState createState() => _NavDrawerHeaderState();
+}
+
+class _NavDrawerHeaderState extends State<NavDrawerHeader> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_user == null){
-      return Container(
-        width: double.maxFinite,
-        height: double.maxFinite,
-        child: Text("[Couldn't load user information"),
-      );
-    }
-
-    //Save user_id for later use
-    Server.userID = _user["user_id"];
-
     //TODO rank?
     //TODO user profile picture instead of icon
-    String formattedName = _user["name"]["formatted"].toString();
-    String username = _user["username"].toString();
-    String email = _user["email"].toString();
+    String formattedName = User.data["attributes"]["formatted-name"].toString();
+    String username = User.data["attributes"]["username"].toString();
+    String email = User.data["attributes"]["email"].toString();
 
     return Container(
       width: double.maxFinite,

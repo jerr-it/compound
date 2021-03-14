@@ -1,3 +1,4 @@
+import 'package:fludip/data/user.dart';
 import 'package:fludip/net/fakeclient.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webclient.dart';
@@ -37,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
 
     var wclient = WebClient();
     wclient.setServer(Server.instances[0]);
-    wclient.authorize();
+    wclient.authenticate();
 
     super.initState();
   }
@@ -82,8 +83,17 @@ class _LoginFormState extends State<LoginForm> {
             ),
             FloatingActionButton(
               child: Icon(Icons.login),
-              onPressed: (){
+              onPressed: () async {
+                var client = WebClient();
+                client.authenticate();
 
+                while(!client.isAuthenticated()){}
+
+                var user = await client.getRoute("/users/me");
+                User.data = user["data"];
+
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(StartPage()));
               },
             )
           ],

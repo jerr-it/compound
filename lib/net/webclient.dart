@@ -75,6 +75,11 @@ class WebClient {
     this._server = server;
   }
 
+  ///Returns true if authentication is completed
+  bool isAuthenticated(){
+    return _oauthClient != null;
+  }
+
   ///Acts as a callback target for oauth
   Future<Stream<String>> _localCallbackServer() async {
     final StreamController<String> onCode = new StreamController();
@@ -98,7 +103,7 @@ class WebClient {
   }
 
   ///Performs OAuth1 authentication with the set server
-  void authorize() async {
+  void authenticate() async {
     var platform = new oauth1.Platform(
       this._server._requestTokenUrl,
       this._server._authorizeUrl,
