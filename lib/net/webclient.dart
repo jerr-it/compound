@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
@@ -12,6 +13,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 /// Server bundles information related to authentication and content pulling
 class Server {
   String _name;
+  String _logoURL;
+  Color _color;
 
   String _consumerKey;
   String _consumerSecret;
@@ -23,6 +26,8 @@ class Server {
 
   Server({
     @required name,
+    @required logoURL,
+    @required color,
     @required consumerKey,
     @required consumerSecret,
     @required requestTokenUrl,
@@ -31,6 +36,8 @@ class Server {
     @required baseUrl,
   }) :
         assert(name != null), _name = name,
+        assert(logoURL != null), _logoURL = logoURL,
+        assert(color != null), _color = color,
         assert(consumerKey != null), _consumerKey = consumerKey,
         assert(consumerSecret != null), _consumerSecret = consumerSecret,
         assert(requestTokenUrl != null), _requestTokenUrl = requestTokenUrl,
@@ -42,12 +49,22 @@ class Server {
     return _name;
   }
 
+  String logoURL(){
+    return _logoURL;
+  }
+
+  Color color(){
+    return _color;
+  }
+
   static String userID;
   //Pre-prepared list of instances
   //TODO move this to a secured space, ok for now since the given server is a local
   static List<Server> instances = [
     Server(
-      name: "Local",
+      name: "localhost",
+      logoURL: "https://cdn.pixabay.com/photo/2017/05/12/15/16/hexagon-2307348_960_720.png",
+      color: Colors.red,
       consumerKey: "f25655936896bdfa73c15d6b6cf50e670604a8832",
       consumerSecret: "650da6e031cae19289ff23f05f85fa80",
       requestTokenUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/request_token",
@@ -55,6 +72,28 @@ class Server {
       authorizeUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/authorize",
       baseUrl: "http://192.168.122.235/studip/api.php",
     ),
+    Server(
+      name: "Universität ABC",
+      logoURL: "https://cdn.pixabay.com/photo/2016/07/28/11/06/university-1547551_960_720.png",
+      color: Colors.lightBlue,
+      consumerKey: "abc123",
+      consumerSecret: "abc123",
+      requestTokenUrl: "abc123",
+      accessTokenUrl: "abc123",
+      authorizeUrl: "abc123",
+      baseUrl: "abc123",
+    ),
+    Server(
+      name: "University of Example",
+      logoURL: "https://cdn.pixabay.com/photo/2017/02/01/09/55/arrow-2029273_960_720.png",
+      color: Colors.purple,
+      consumerKey: "abc123",
+      consumerSecret: "abc123",
+      requestTokenUrl: "abc123",
+      accessTokenUrl: "abc123",
+      authorizeUrl: "abc123",
+      baseUrl: "abc123",
+    )
   ];
 }
 
