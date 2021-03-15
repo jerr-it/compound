@@ -14,9 +14,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider.value(value: UserProvider()),
-      ChangeNotifierProvider.value(value: NewsProvider()),
-      ChangeNotifierProvider.value(value: EventProvider()),
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+      ChangeNotifierProvider(create: (_) => NewsProvider()),
+      ChangeNotifierProvider(create: (_) => EventProvider()),
     ],
     child: MaterialApp(
       title: "Fludip",

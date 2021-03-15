@@ -15,7 +15,7 @@ import 'package:fludip/pages/blackboard.dart';
 import 'package:fludip/pages/start.dart';
 import 'package:fludip/pages/search.dart';
 import 'package:fludip/pages/tools.dart';
-import 'package:fludip/pages/events/events.dart';
+import 'package:fludip/pages/events/course.dart';
 import 'package:provider/provider.dart';
 
 //TODO maybe open profile via drawer header?
@@ -82,7 +82,7 @@ class NavDrawer extends StatelessWidget {
                 }
 
                 Navigator.pop(context);
-                Navigator.of(context).push(navRoute(EventsPage()));
+                Navigator.of(context).push(navRoute(CoursePage()));
               },
             ),
             ListTile(
