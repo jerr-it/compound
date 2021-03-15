@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class EventProvider extends ChangeNotifier {
+class CoursesProvider extends ChangeNotifier {
   Map<String,dynamic> _data;
 
   bool initialized(){

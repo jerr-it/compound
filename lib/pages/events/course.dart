@@ -1,4 +1,6 @@
-import 'package:fludip/provider/events.dart';
+import 'package:fludip/net/webclient.dart';
+import 'package:fludip/provider/courses.dart';
+import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
 import 'package:provider/provider.dart';
@@ -133,7 +135,7 @@ class CoursePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var courses = Provider.of<EventProvider>(context).getData();
+    var courses = Provider.of<CoursesProvider>(context).getData();
 
     return Scaffold(
       appBar: AppBar(
@@ -143,7 +145,11 @@ class CoursePage extends StatelessWidget {
         child: ListView(
           children: _buildListEntries(courses),
         ),
-        onRefresh: (){
+        onRefresh: () async {
+          var client = WebClient();
+          String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
+          var events = await client.getRoute("/user/" + userID + "/courses");
+          Provider.of<CoursesProvider>(context, listen: false).setData(events);
           return Future<void>.value(null);
         },
       ),

@@ -1,5 +1,5 @@
 import 'package:fludip/net/webclient.dart';
-import 'package:fludip/provider/events.dart';
+import 'package:fludip/provider/courses.dart';
 import 'package:fludip/provider/news.dart';
 import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
@@ -74,11 +74,11 @@ class NavDrawer extends StatelessWidget {
               leading: Icon(Icons.book_rounded),
               title: Text("Veranstaltungen"),
               onTap: () async {
-                if(!Provider.of<EventProvider>(context,listen: false).initialized()){
+                if(!Provider.of<CoursesProvider>(context,listen: false).initialized()){
                   var client = WebClient();
                   String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
                   var events = await client.getRoute("/user/" + userID + "/courses");
-                  Provider.of<EventProvider>(context, listen: false).setData(events);
+                  Provider.of<CoursesProvider>(context, listen: false).setData(events);
                 }
 
                 Navigator.pop(context);
