@@ -1,3 +1,4 @@
+import 'package:fludip/pages/course/colormapper.dart';
 import 'package:fludip/provider/courses.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
@@ -59,6 +60,8 @@ class CoursePage extends StatelessWidget {
       String lecturers = "";
       String location = courseData["location"].toString();
 
+      Color color = ColorMapper.convert(courseData["group"]);
+
       //Gather lecturers
       Map<String, dynamic> lecturerData = courseData["lecturers"];
       lecturerData.forEach((lecturerID, lecturerData) {
@@ -72,7 +75,7 @@ class CoursePage extends StatelessWidget {
       widgets.add(
           Container(
               decoration: BoxDecoration(
-                  border: Border(left: BorderSide(color: Colors.green, width: 5.0))
+                  border: Border(left: BorderSide(color: color, width: 7.5))
               ),
               child: ExpansionTile(
                 title: Container(
