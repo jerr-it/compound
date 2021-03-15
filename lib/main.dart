@@ -1,5 +1,5 @@
 import 'package:fludip/provider/courses.dart';
-import 'package:fludip/provider/news.dart';
+import 'package:fludip/provider/globalnews.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/pages/login.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => UserProvider()),
-      ChangeNotifierProvider(create: (_) => NewsProvider()),
+      ChangeNotifierProvider(create: (_) => GlobalNewsProvider()),
       ChangeNotifierProvider(create: (_) => CoursesProvider()),
     ],
     child: MaterialApp(

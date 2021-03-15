@@ -1,6 +1,4 @@
-import 'package:fludip/net/webclient.dart';
 import 'package:fludip/provider/courses.dart';
-import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +48,9 @@ class CoursePage extends StatelessWidget {
 
     Map<String, dynamic> courses = coursesJSON["collection"];
     List<Widget> widgets = <Widget>[];
+    if(courses == null){
+      return widgets;
+    }
 
     courses.forEach((courseKey, courseData) {
       String title = courseData["title"].toString();
@@ -146,10 +147,7 @@ class CoursePage extends StatelessWidget {
           children: _buildListEntries(courses),
         ),
         onRefresh: () async {
-          var client = WebClient();
-          String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
-          var events = await client.getRoute("/user/" + userID + "/courses");
-          Provider.of<CoursesProvider>(context, listen: false).setData(events);
+          Provider.of<CoursesProvider>(context, listen: false).update();
           return Future<void>.value(null);
         },
       ),

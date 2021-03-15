@@ -1,5 +1,4 @@
-import 'package:fludip/net/webclient.dart';
-import 'package:fludip/provider/news.dart';
+import 'package:fludip/provider/globalnews.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
 import 'package:intl/intl.dart';
@@ -12,10 +11,13 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   ///Convert data to widgets
-  List<Widget> _buildListEntries(){
-
-    Map<String, dynamic> news = Provider.of<NewsProvider>(context).getNews("/studip/news")["collection"];
+  List<Widget> _buildListEntries() {
+    Map<String, dynamic> news =
+        Provider.of<GlobalNewsProvider>(context).get()["collection"];
     List<Widget> widgets = <Widget>[];
+    if(news == null){
+      return widgets;
+    }
 
     final DateFormat formatter = DateFormat("dd.MM.yyyy HH:mm");
 
@@ -23,7 +25,8 @@ class _StartPageState extends State<StartPage> {
       String topic = newsData["topic"].toString();
       String body = newsData["body"].toString(); //TODO get rid of html stuff
 
-      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(newsData["date"].toString()) * 1000);
+      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(
+          int.parse(newsData["date"].toString()) * 1000);
       String date = formatter.format(dateTime);
 
       widgets.add(Card(
@@ -31,25 +34,26 @@ class _StartPageState extends State<StartPage> {
           title: Container(
             child: Row(
               children: [
-                FlutterLogo(size: 32,),
+                FlutterLogo(
+                  size: 32,
+                ),
                 Flexible(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          topic,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          date,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                      ],
-                    )
-                )
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      topic,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      date,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w100,
+                      ),
+                    ),
+                  ],
+                ))
               ],
             ),
           ),
@@ -69,22 +73,18 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Start"),
-      ),
-      body: RefreshIndicator(
-        child: ListView(
-          children: _buildListEntries(),
+        appBar: AppBar(
+          title: Text("Start"),
         ),
-        onRefresh: () async {
-          var client = WebClient();
-          var globalNews = await client.getRoute("/studip/news");
-          Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
-
-          return Future<void>.value(null);
-        },
-      ),
-      drawer: NavDrawer()
-    );
+        body: RefreshIndicator(
+          child: ListView(
+            children: _buildListEntries(),
+          ),
+          onRefresh: () async {
+            Provider.of<GlobalNewsProvider>(context, listen: false).update();
+            return Future<void>.value(null);
+          },
+        ),
+        drawer: NavDrawer());
   }
 }

@@ -1,6 +1,5 @@
-import 'package:fludip/net/webclient.dart';
 import 'package:fludip/provider/courses.dart';
-import 'package:fludip/provider/news.dart';
+import 'package:fludip/provider/globalnews.dart';
 import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
 
@@ -60,10 +59,8 @@ class NavDrawer extends StatelessWidget {
               title: Text("Start"),
               onTap: () async {
                 //Only do it once at the start to improve nav drawer performance
-                if(!Provider.of<NewsProvider>(context, listen: false).initialized()){
-                  var client = WebClient();
-                  var globalNews = await client.getRoute("/studip/news");
-                  Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
+                if(!Provider.of<GlobalNewsProvider>(context, listen: false).initialized()){
+                  Provider.of<GlobalNewsProvider>(context, listen: false).update();
                 }
 
                 Navigator.pop(context);
@@ -75,10 +72,9 @@ class NavDrawer extends StatelessWidget {
               title: Text("Veranstaltungen"),
               onTap: () async {
                 if(!Provider.of<CoursesProvider>(context,listen: false).initialized()){
-                  var client = WebClient();
                   String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
-                  var events = await client.getRoute("/user/" + userID + "/courses");
-                  Provider.of<CoursesProvider>(context, listen: false).setData(events);
+                  Provider.of<CoursesProvider>(context, listen: false).setUserID(userID);
+                  Provider.of<CoursesProvider>(context, listen: false).update();
                 }
 
                 Navigator.pop(context);

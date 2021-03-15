@@ -1,15 +1,12 @@
 import 'package:fludip/net/webclient.dart';
 import 'package:flutter/material.dart';
 
-class CoursesProvider extends ChangeNotifier {
-  Map<String,dynamic> _data;
+///Keeps all news organized in a map
+///The key to each is the route by which they were retrieved
+class GlobalNewsProvider extends ChangeNotifier{
+  Map<String, dynamic> _data;
   final WebClient _client = WebClient();
-  String _userID;
-  
-  void setUserID(String userID){
-    _userID = userID;
-  }
-  
+
   bool initialized(){
     return _data != null;
   }
@@ -19,11 +16,11 @@ class CoursesProvider extends ChangeNotifier {
       _data = Map<String,dynamic>();
     }
 
-    _data = await _client.getRoute("/user/" + _userID + "/courses");
+    _data = await _client.getRoute("/studip/news");
     notifyListeners();
   }
 
-  Map<String,dynamic> getData(){
+  Map<String, dynamic> get() {
     return _data;
   }
 }

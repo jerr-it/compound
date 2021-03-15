@@ -1,11 +1,13 @@
+import 'package:fludip/net/webclient.dart';
 import 'package:flutter/material.dart';
 
 ///Saves the logged in users data as returned by /users/me
 class UserProvider extends ChangeNotifier {
   Map<String, dynamic> _data;
+  final WebClient _client = WebClient();
 
-  void setData(Map<String, dynamic> data){
-    _data = data;
+  void update() async {
+    _data = await _client.getRoute("/user");
     notifyListeners();
   }
 

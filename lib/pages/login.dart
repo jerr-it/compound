@@ -1,4 +1,4 @@
-import 'package:fludip/provider/news.dart';
+import 'package:fludip/provider/globalnews.dart';
 import 'package:fludip/provider/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webclient.dart';
@@ -83,11 +83,8 @@ class _LoginFormState extends State<LoginForm> {
               onPressed: () async {
                 var client = WebClient();
                 client.authenticate().then((value) async {
-                  var user = await client.getRoute("/user");
-                  Provider.of<UserProvider>(context, listen: false).setData(user);
-
-                  var globalNews = await client.getRoute("/studip/news");
-                  Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
+                  Provider.of<UserProvider>(context, listen: false).update();
+                  Provider.of<GlobalNewsProvider>(context, listen: false).update();
 
                   Navigator.pop(context);
                   Navigator.of(context).push(navRoute(StartPage()));
