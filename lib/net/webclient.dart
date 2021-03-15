@@ -104,7 +104,7 @@ class WebClient {
 
   ///Performs OAuth1 authentication with the set server
   ///TODO account for someone de-authorizing the app, which renders the locally saved oauth credentials invalid
-  Future<void> authenticate() async {
+  Future<int> authenticate() async {
     var platform = new oauth1.Platform(
       this._server._requestTokenUrl,
       this._server._authorizeUrl,
@@ -131,9 +131,14 @@ class WebClient {
       _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, credentials);
 
       //Test if the loaded token actually works
-      var probe = await _oauthClient.get(this._server._baseUrl + "/discovery");
-      if(probe.statusCode == 200){
-        return Future<void>.value();
+      var probe = await _oauthClient.get(this._server._baseUrl + "/discovery").timeout(Duration(seconds: 5), onTimeout: (){
+        return Response("{}", 900);
+      });
+
+      //Return if the connection was successfully tested, or a timeout occurred
+      //In both cases we dont want to do a new oauth setup
+      if(probe.statusCode == 200 || probe.statusCode == 900){
+        return Future<int>.value(probe.statusCode);
       }
     }
     
@@ -151,7 +156,7 @@ class WebClient {
     await storage.write(key: "oauth_credentials", value: jsonEncode(res.credentials.toJSON()));
     _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, res.credentials);
 
-    return Future<void>.value();
+    return Future<int>.value(200);
   }
 
   ///Execute a GET route

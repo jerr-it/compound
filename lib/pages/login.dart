@@ -82,7 +82,13 @@ class _LoginFormState extends State<LoginForm> {
               child: Icon(Icons.login),
               onPressed: () async {
                 var client = WebClient();
-                client.authenticate().then((value) async {
+                client.authenticate().then((statusCode) async {
+                  if(statusCode != 200){
+                    //TODO help dialog to clarify error codes
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
+                    return;
+                  }
+
                   Provider.of<UserProvider>(context, listen: false).update();
                   Provider.of<GlobalNewsProvider>(context, listen: false).update();
 
