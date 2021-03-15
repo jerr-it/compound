@@ -57,9 +57,12 @@ class NavDrawer extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text("Start"),
               onTap: () async {
-                var client = WebClient();
-                var globalNews = await client.getRoute("/studip/news");
-                Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
+                //Only do it once at the start to improve nav drawer performance
+                if(!Provider.of<NewsProvider>(context, listen: false).initialized()){
+                  var client = WebClient();
+                  var globalNews = await client.getRoute("/studip/news");
+                  Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
+                }
 
                 Navigator.pop(context);
                 Navigator.of(context).push(navRoute(StartPage()));

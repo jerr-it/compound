@@ -104,7 +104,7 @@ class WebClient {
 
   ///Performs OAuth1 authentication with the set server
   ///TODO account for someone de-authorizing the app, which renders the locally saved oauth credentials invalid
-  void authenticate() async {
+  Future<void> authenticate() async {
     var platform = new oauth1.Platform(
       this._server._requestTokenUrl,
       this._server._authorizeUrl,
@@ -133,24 +133,25 @@ class WebClient {
       //Test if the loaded token actually works
       var probe = await _oauthClient.get(this._server._baseUrl + "/discovery");
       if(probe.statusCode == 200){
-        return;
+        return Future<void>.value();
       }
     }
     
     var auth = new oauth1.Authorization(clientCredentials, platform);
     
-    auth.requestTemporaryCredentials("http://localhost:8080/").then((res) async {
+    var res = await auth.requestTemporaryCredentials("http://localhost:8080/").then((res) async {
       Stream<String> onCode = await _localCallbackServer();
 
       launch(auth.getResourceOwnerAuthorizationURI(res.credentials.token));
 
       String verifier = await onCode.first;
       return auth.requestTokenCredentials(res.credentials, verifier);
-    }).then((res) async {
-      await storage.write(key: "oauth_credentials", value: jsonEncode(res.credentials.toJSON()));
-
-      _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, res.credentials);
     });
+
+    await storage.write(key: "oauth_credentials", value: jsonEncode(res.credentials.toJSON()));
+    _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, res.credentials);
+
+    return Future<void>.value();
   }
 
   ///Execute a GET route

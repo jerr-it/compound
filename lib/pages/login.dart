@@ -36,7 +36,6 @@ class _LoginFormState extends State<LoginForm> {
 
     var wclient = WebClient();
     wclient.setServer(Server.instances[0]);
-    wclient.authenticate();
 
     super.initState();
   }
@@ -83,18 +82,16 @@ class _LoginFormState extends State<LoginForm> {
               child: Icon(Icons.login),
               onPressed: () async {
                 var client = WebClient();
-                client.authenticate();
+                client.authenticate().then((value) async {
+                  var user = await client.getRoute("/user");
+                  Provider.of<UserProvider>(context, listen: false).setData(user);
 
-                while(!client.isAuthenticated()){}
+                  var globalNews = await client.getRoute("/studip/news");
+                  Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
 
-                var user = await client.getRoute("/user");
-                Provider.of<UserProvider>(context, listen: false).setData(user);
-
-                var globalNews = await client.getRoute("/studip/news");
-                Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
-
-                Navigator.pop(context);
-                Navigator.of(context).push(navRoute(StartPage()));
+                  Navigator.pop(context);
+                  Navigator.of(context).push(navRoute(StartPage()));
+                });
               },
             )
           ],

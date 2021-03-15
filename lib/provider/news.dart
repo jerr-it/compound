@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 class NewsProvider extends ChangeNotifier{
   Map<String, Map<String, dynamic>> _data;
 
+  bool initialized(){
+    return _data != null;
+  }
+
   void setNews(String route, Map<String, dynamic> data){
     if (_data == null){
       _data = Map<String, Map<String, dynamic>>();

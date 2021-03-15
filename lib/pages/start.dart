@@ -79,7 +79,7 @@ class _StartPageState extends State<StartPage> {
         onRefresh: () async {
           var client = WebClient();
           var globalNews = await client.getRoute("/studip/news");
-          Provider.of<NewsProvider>(context).setNews("/studip/news", globalNews);
+          Provider.of<NewsProvider>(context, listen: false).setNews("/studip/news", globalNews);
 
           return Future<void>.value(null);
         },
