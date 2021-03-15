@@ -1,10 +1,8 @@
-import 'dart:convert';
-
-import 'package:fludip/net/fakeclient.dart';
-import 'package:fludip/net/webclient.dart';
 import 'package:fludip/pages/events/eventviewer.dart';
+import 'package:fludip/provider/events.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
+import 'package:provider/provider.dart';
 
 class EventsPage extends StatefulWidget {
   @override
@@ -12,26 +10,8 @@ class EventsPage extends StatefulWidget {
 }
 
 class _EventsPageState extends State<EventsPage> {
-
-  Map<String, dynamic> _courses;
-
-  @override
-  void initState() {
-    _fetchCourses();
-    super.initState();
-  }
-
-  ///Fetch the users courses
-  void _fetchCourses() async {
-    var client = FakeClient();
-    var jsond = await client.doRoute("/user/" + Server.userID + "/courses");
-    setState(() {
-      _courses = jsonDecode(jsond);
-    });
-  }
-
-  List<Widget> _buildListEntries() {
-    if(_courses == null){
+  List<Widget> _buildListEntries(Map<String,dynamic> coursesJSON) {
+    if(coursesJSON == null){
       var ret = <Widget>[];
       ret.add(Container(
         margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -43,7 +23,7 @@ class _EventsPageState extends State<EventsPage> {
       return ret;
     }
 
-    Map<String, dynamic> courses = _courses["collection"];
+    Map<String, dynamic> courses = coursesJSON["collection"];
     List<Widget> widgets = <Widget>[];
 
     courses.forEach((courseKey, courseData) {
@@ -121,16 +101,18 @@ class _EventsPageState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    var courses = Provider.of<EventProvider>(context).getData();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Veranstaltungen"),
       ),
       body: RefreshIndicator(
         child: ListView(
-          children: _buildListEntries(),
+          children: _buildListEntries(courses),
         ),
         onRefresh: (){
-          _fetchCourses();
           return Future<void>.value(null);
         },
       ),

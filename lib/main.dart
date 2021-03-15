@@ -1,3 +1,4 @@
+import 'package:fludip/provider/events.dart';
 import 'package:fludip/provider/news.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/pages/login.dart';
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
     return MultiProvider(providers: [
       ChangeNotifierProvider.value(value: UserProvider()),
       ChangeNotifierProvider.value(value: NewsProvider()),
+      ChangeNotifierProvider.value(value: EventProvider()),
     ],
     child: MaterialApp(
       title: "Fludip",
