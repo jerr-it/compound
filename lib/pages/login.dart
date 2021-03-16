@@ -45,8 +45,10 @@ class _LoginFormState extends State<LoginForm> {
           border: Border.all(color: server.color(), width: 5),
           borderRadius: BorderRadius.circular(5.0),
         ),
-        child:InkWell(
-          child: ClipRRect(
+        child: Material(
+          color: server.color(),
+          child: InkWell(
+            child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -66,23 +68,24 @@ class _LoginFormState extends State<LoginForm> {
                 ],
               ),
             ),
-          onTap: (){
-            var client = WebClient();
-            client.setServer(server);
-            client.authenticate().then((statusCode) async {
-              if(statusCode != 200){
-                //TODO help dialog to clarify error codes
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
-                return;
-              }
+            onTap: (){
+              var client = WebClient();
+              client.setServer(server);
+              client.authenticate().then((statusCode) async {
+                if(statusCode != 200){
+                  //TODO help dialog to clarify error codes
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
+                  return;
+                }
 
-              Provider.of<UserProvider>(context, listen: false).update();
-              Provider.of<GlobalNewsProvider>(context, listen: false).update();
+                Provider.of<UserProvider>(context, listen: false).update();
+                Provider.of<GlobalNewsProvider>(context, listen: false).update();
 
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(StartPage()));
-            });
-          },
+                Navigator.pop(context);
+                Navigator.of(context).push(navRoute(StartPage()));
+              });
+            },
+          )
         )
       );
     }).toList();
@@ -91,8 +94,20 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 21, 26, 45)
+      ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          Text(
+            "Choose your university",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
           CarouselSlider(items: _buildServerSlides(),
               options: CarouselOptions(
                 autoPlay: true,
