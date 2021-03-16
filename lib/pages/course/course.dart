@@ -1,4 +1,5 @@
 import 'package:fludip/pages/course/colormapper.dart';
+import 'package:fludip/pages/course/tabs/overview.dart';
 import 'package:fludip/provider/courses.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
@@ -16,25 +17,27 @@ class GridButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Container(
-        color: _color,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(_icon),
-            Text(_caption),
-          ],
+    return Material(
+      color: _color,
+      child: InkWell(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(_icon),
+              Text(_caption),
+            ],
+          ),
         ),
-      ),
-      onTap: _onTap,
+        onTap: _onTap,
+      )
     );
   }
 }
 
 class CoursePage extends StatelessWidget {
-  List<Widget> _buildListEntries(Map<String,dynamic> coursesJSON) {
+  List<Widget> _buildListEntries(BuildContext context, Map<String,dynamic> coursesJSON) {
     if(coursesJSON == null){
       var ret = <Widget>[];
       ret.add(Container(
@@ -55,19 +58,7 @@ class CoursePage extends StatelessWidget {
 
     courses.forEach((courseKey, courseData) {
       String title = courseData["title"].toString();
-      String description = courseData["description"].toString();
-
-      String lecturers = "";
-      String location = courseData["location"].toString();
-
       Color color = ColorMapper.convert(courseData["group"]);
-
-      //Gather lecturers
-      Map<String, dynamic> lecturerData = courseData["lecturers"];
-      lecturerData.forEach((lecturerID, lecturerData) {
-        lecturers += lecturerData["name"]["formatted"].toString() + ", ";
-      });
-      lecturers = lecturers.substring(0, lecturers.length-2);
 
       //TODO colors according to user settings, green for now
       //TODO let user set which actions should be on the slideshow
@@ -99,8 +90,8 @@ class CoursePage extends StatelessWidget {
                     mainAxisSpacing: 2,
                     crossAxisSpacing: 2,
                     children: [
-                      GridButton(icon: Icons.topic, caption: "Overview", color: Colors.white, onTap: (){
-                        //TODO page route
+                      GridButton(icon: Icons.topic, caption: "Overview", color: Colors.white54, onTap: (){
+                        Navigator.push(context, navRoute(OverviewTab(data: courseData)));
                       }),
                       GridButton(icon: Icons.forum, caption: "Forum", color: Colors.red, onTap: (){
                         //TODO page route
@@ -109,18 +100,6 @@ class CoursePage extends StatelessWidget {
                         //TODO page route
                       }),
                       GridButton(icon: Icons.file_copy, caption: "Files", color: Colors.purple, onTap: (){
-                        //TODO page route
-                      }),
-                      GridButton(icon: Icons.auto_stories, caption: "Schedule", color: Colors.orange, onTap: (){
-                        //TODO page route
-                      }),
-                      GridButton(icon: Icons.info, caption: "Information", color: Colors.pink, onTap: (){
-                        //TODO page route
-                      }),
-                      GridButton(icon: Icons.article_rounded, caption: "Wiki", color: Colors.lime, onTap: (){
-                        //TODO page route
-                      }),
-                      GridButton(icon: Icons.ad_units, caption: "Blubber", color: Colors.indigoAccent, onTap: (){
                         //TODO page route
                       }),
                     ],
@@ -147,7 +126,7 @@ class CoursePage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         child: ListView(
-          children: _buildListEntries(courses),
+          children: _buildListEntries(context, courses),
         ),
         onRefresh: () async {
           Provider.of<CoursesProvider>(context, listen: false).update();
