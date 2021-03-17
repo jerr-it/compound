@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fludip/navdrawer/navdrawer.dart';
+import 'package:fludip/navdrawer/navDrawer.dart';
 
 class PlannerPage extends StatefulWidget {
   @override

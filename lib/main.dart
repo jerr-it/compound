@@ -1,11 +1,11 @@
-import 'package:fludip/provider/course/forum.dart';
-import 'package:fludip/provider/courses.dart';
-import 'package:fludip/provider/globalnews.dart';
+import 'package:fludip/provider/course/forumProvider.dart';
+import 'package:fludip/provider/coursesProvider.dart';
+import 'package:fludip/provider/globalNewsProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:fludip/pages/login.dart';
+import 'package:fludip/pages/loginPage.dart';
 import 'package:provider/provider.dart';
 
-import 'provider/user.dart';
+import 'provider/userProvider.dart';
 
 void main() => runApp(App());
 

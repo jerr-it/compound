@@ -1,4 +1,4 @@
-import 'package:fludip/provider/course/forum.dart';
+import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,4 @@
-import 'package:fludip/net/webclient.dart';
+import 'package:fludip/net/webClient.dart';
 import 'package:flutter/material.dart';
 
 ///Keeps all news organized in a map

@@ -1,10 +1,10 @@
-import 'package:fludip/pages/course/colormapper.dart';
+import 'package:fludip/pages/course/colorMapper.dart';
 import 'package:fludip/pages/course/tabs/forum.dart';
 import 'package:fludip/pages/course/tabs/overview.dart';
-import 'package:fludip/provider/course/forum.dart';
-import 'package:fludip/provider/courses.dart';
+import 'package:fludip/provider/course/forumProvider.dart';
+import 'package:fludip/provider/coursesProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:fludip/navdrawer/navdrawer.dart';
+import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:provider/provider.dart';
 
 //Convenience class to be used in grid view below

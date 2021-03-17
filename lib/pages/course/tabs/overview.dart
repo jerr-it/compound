@@ -1,4 +1,4 @@
-import 'package:fludip/pages/course/colormapper.dart';
+import 'package:fludip/pages/course/colorMapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';

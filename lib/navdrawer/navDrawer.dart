@@ -1,20 +1,20 @@
-import 'package:fludip/provider/courses.dart';
-import 'package:fludip/provider/globalnews.dart';
-import 'package:fludip/provider/user.dart';
+import 'package:fludip/provider/coursesProvider.dart';
+import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/provider/userProvider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:fludip/navdrawer/navdrawerheader.dart';
+import 'package:fludip/navdrawer/navDrawerHeader.dart';
 
-import 'package:fludip/pages/community.dart';
-import 'package:fludip/pages/files.dart';
-import 'package:fludip/pages/messages.dart';
-import 'package:fludip/pages/planner.dart';
-import 'package:fludip/pages/profile.dart';
-import 'package:fludip/pages/blackboard.dart';
-import 'package:fludip/pages/start.dart';
-import 'package:fludip/pages/search.dart';
-import 'package:fludip/pages/tools.dart';
-import 'package:fludip/pages/course/course.dart';
+import 'package:fludip/pages/communityPage.dart';
+import 'package:fludip/pages/filesPage.dart';
+import 'package:fludip/pages/messagesPage.dart';
+import 'package:fludip/pages/plannerPage.dart';
+import 'package:fludip/pages/profilePage.dart';
+import 'package:fludip/pages/blackboardPage.dart';
+import 'package:fludip/pages/startPage.dart';
+import 'package:fludip/pages/searchPage.dart';
+import 'package:fludip/pages/toolsPage.dart';
+import 'package:fludip/pages/course/coursePage.dart';
 import 'package:provider/provider.dart';
 
 //TODO maybe open profile via drawer header?

@@ -1,12 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:fludip/navdrawer/navdrawer.dart';
-import 'package:fludip/pages/start.dart';
-import 'package:fludip/provider/globalnews.dart';
-import 'package:fludip/provider/user.dart';
-import 'package:fludip/util/loadingindicator.dart';
+import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:fludip/pages/startPage.dart';
+import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/provider/userProvider.dart';
+import 'package:fludip/util/loadingIndicator.dart';
 
 import 'package:flutter/material.dart';
-import 'package:fludip/net/webclient.dart';
+import 'package:fludip/net/webClient.dart';
 import 'package:provider/provider.dart';
 
 //TODO option to remain logged in

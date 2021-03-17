@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fludip/net/webclient.dart';
+import 'package:fludip/net/webClient.dart';
 
 ///Provides forum data for all the users courses.
 ///They are identified by their course ID.

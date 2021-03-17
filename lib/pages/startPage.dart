@@ -1,6 +1,6 @@
-import 'package:fludip/provider/globalnews.dart';
+import 'package:fludip/provider/globalNewsProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:fludip/navdrawer/navdrawer.dart';
+import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
