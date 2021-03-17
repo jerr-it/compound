@@ -4,18 +4,19 @@ import 'package:fludip/net/webClient.dart';
 ///Provides forum data for all the users courses.
 ///They are identified by their course ID.
 ///Forum is structured as Category > Area > Entry
+///values beginning with ':' indicate a concrete value:
 ///TODO add forum entries (/forum_entry/:entry_id).
 ///ForumProvider
 ///|-courseID1
 ///  |-collection                   <- provided by /course/:course_id/forum_categories
-///    |-category1
+///    |-:category_id_url
 ///      |-entry_name: "Allgemein"
 ///      |-pos: "0"
 ///      |-areas_count: 1
 ///      |-seminar_id: "fjan848f.."
 ///      |-areas                    <- inserted using /forum_category/:category_id/areas
 ///      |  |-collection
-///      |    |-areaID1
+///      |    |-:area_id_url
 ///      |      |-course: "/api.php/..."
 ///      |      |-depth: "1"
 ///      |      |-content: "Hier ist Raum für allgemeine Diskussion"
