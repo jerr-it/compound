@@ -1,13 +1,14 @@
+import 'package:fludip/provider/course/forum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import '../colormapper.dart';
+import 'package:provider/provider.dart';
 
 class ForumTab extends StatefulWidget {
-  final Map<String, dynamic> _courseData;
+  final String _courseID;
+  Map<String, dynamic> _forumData;
 
-  ForumTab({@required data})
-      : _courseData = data;
+  ForumTab({@required courseID})
+      : _courseID = courseID;
 
   @override
   _ForumTabState createState() => _ForumTabState();
@@ -15,41 +16,40 @@ class ForumTab extends StatefulWidget {
 
 class _ForumTabState extends State<ForumTab> {
   List<Widget> _gatherCategories(){
-    Map<String, dynamic> categories;
-    try{
-      categories = widget._courseData["modules"]["forum"]["collection"];
-    }catch(e){
-      return <Widget>[
-        Container(
-          padding: EdgeInsets.all(20),
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Nothing here :(",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-            ],
-          )
-        )
-      ];
-    }
     List<Widget> widgets = <Widget>[];
 
-    categories.forEach((categoryKey, categoryData) {
-      String name = categoryData["entry_name"];
-      print(categoryData);
+    if(widget._forumData == null){
+      return widgets;
+    }
 
-      widgets.add(ListTile(
-        leading: Icon(Icons.forum_outlined),
-        title: Text(name),
+    //1. display category name large
+    //2. display subtopics of category
+    //TODO 3. make tap on subtopics display its entries
+    Map<String, dynamic> categories = widget._forumData["collection"];
+    categories.forEach((categoryKey, categoryData) {
+      String categoryName = categoryData["entry_name"];
+      widgets.add(Text(
+        categoryName,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ));
 
-      widgets.add(Divider());
+      Map<String,dynamic> areas = categoryData["areas"]["collection"];
+      areas.forEach((areaKey, areaData) {
+        String subject = areaData["subject"];
+        String content = areaData["content"];
+
+        widgets.add(ListTile(
+          leading: Icon(Icons.topic),
+          title: Text(subject),
+          subtitle: Text(content),
+          onTap: (){
+            //TODO show entries
+          },
+        ));
+      });
     });
 
     return widgets;
@@ -57,12 +57,14 @@ class _ForumTabState extends State<ForumTab> {
 
   @override
   Widget build(BuildContext context) {
+    widget._forumData = Provider.of<ForumProvider>(context).getData(widget._courseID);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Forum: " + widget._courseData["title"]),
-        backgroundColor: ColorMapper.convert(widget._courseData["group"]),
+        title: Text("Forum"),
       ),
       body: Container(
+        padding: EdgeInsets.all(10),
         child: ListView(
           children: _gatherCategories(),
         ),

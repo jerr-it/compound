@@ -1,6 +1,7 @@
 import 'package:fludip/pages/course/colormapper.dart';
 import 'package:fludip/pages/course/tabs/forum.dart';
 import 'package:fludip/pages/course/tabs/overview.dart';
+import 'package:fludip/provider/course/forum.dart';
 import 'package:fludip/provider/courses.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navdrawer.dart';
@@ -95,7 +96,11 @@ class CoursePage extends StatelessWidget {
                         Navigator.push(context, navRoute(OverviewTab(data: courseData)));
                       }),
                       GridButton(icon: Icons.forum, caption: "Forum", color: Colors.red, onTap: (){
-                        Navigator.push(context, navRoute(ForumTab(data: courseData)));
+                        if(!Provider.of<ForumProvider>(context,listen: false).initialized()){
+                          Provider.of<ForumProvider>(context, listen: false).update(courseData["course_id"]);
+                        }
+
+                        Navigator.push(context, navRoute(ForumTab(courseID: courseData["course_id"],)));
                       }),
                       GridButton(icon: Icons.people, caption: "Participants", color: Colors.green, onTap: (){
                         //TODO page route

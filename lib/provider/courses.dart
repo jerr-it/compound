@@ -2,6 +2,7 @@ import 'package:fludip/net/webclient.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+///This provider provides the data for the courses themselves *and* the overview tab
 class CoursesProvider extends ChangeNotifier {
   Map<String,dynamic> _data;
   final WebClient _client = WebClient();
@@ -28,26 +29,24 @@ class CoursesProvider extends ChangeNotifier {
   ///For example replaces start_semester with the data returned from
   /// /semester/:semester_id
   /// Inserts announcements under the key "announcements"
-  /// Inserts forum under "modules""forum"
   Future<void> _fillLinks() async {
     Map<String,dynamic> coursesJSON = _data["collection"];
 
 
     await Future.forEach(coursesJSON.keys, (courseKey) async {
+      //Announcements
       var announcementData = await _client.getRoute("/course/" + courseKey.toString().split("/").last + "/news");
       _data["collection"][courseKey]["announcements"] = announcementData;
 
+      //Semester start date
       String route = _data["collection"][courseKey]["start_semester"];
       var data = await _gatherLink(route);
       _data["collection"][courseKey]["start_semester"] = data;
 
+      //Semester end date
       route = _data["collection"][courseKey]["end_semester"];
       data = await _gatherLink(route);
       _data["collection"][courseKey]["end_semester"] = data;
-
-      route = _data["collection"][courseKey]["modules"]["forum"];
-      data = await _gatherLink(route);
-      _data["collection"][courseKey]["modules"]["forum"] = data;
     });
 
     return Future<void>.value(null);
