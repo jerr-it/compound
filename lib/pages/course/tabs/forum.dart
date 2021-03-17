@@ -21,7 +21,7 @@ class _ForumTabState extends State<ForumTab> {
     List<Widget> widgets = <Widget>[];
 
     if(widget._forumData == null){
-      return <Widget>[CommonWidgets.nothing()];
+      return widgets;
     }
 
     //1. display category name large

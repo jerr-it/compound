@@ -93,7 +93,8 @@ class _OverviewTabState extends State<OverviewTab> {
                           ),
                         ),
                       ],
-                    ))
+                    )
+                )
               ],
             ),
           ),
@@ -125,8 +126,7 @@ class _OverviewTabState extends State<OverviewTab> {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +185,7 @@ class _OverviewTabState extends State<OverviewTab> {
             Divider(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: _gatherAnnouncements(),
+              children: _gatherAnnouncements()
             ),
             Divider(),
           ],
