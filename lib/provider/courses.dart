@@ -27,10 +27,15 @@ class CoursesProvider extends ChangeNotifier {
   ///Fills up links inside a course with their respective data
   ///For example replaces start_semester with the data returned from
   /// /semester/:semester_id
+  /// Inserts announcements under the key "announcements"
   Future<void> _fillLinks() async {
     Map<String,dynamic> coursesJSON = _data["collection"];
 
+
     await Future.forEach(coursesJSON.keys, (courseKey) async {
+      var announcementData = await _client.getRoute("/course/" + courseKey.toString().split("/").last + "/news");
+      _data["collection"][courseKey]["announcements"] = announcementData;
+
       String route = _data["collection"][courseKey]["start_semester"];
       var data = await _gatherLink(route);
       _data["collection"][courseKey]["start_semester"] = data;

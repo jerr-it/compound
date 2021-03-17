@@ -1,6 +1,7 @@
 import 'package:fludip/pages/course/colormapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class OverviewTab extends StatefulWidget {
   final Map<String, dynamic> _courseData;
@@ -33,6 +34,76 @@ class _OverviewTabState extends State<OverviewTab> {
       widgets.add(Text(
         "     \u2022" + lecturerData["name"]["formatted"].toString(),
         textAlign: TextAlign.right,
+      ));
+    });
+
+    return widgets;
+  }
+
+  ///Helper to get list of announcements from this course
+  List<Widget> _gatherAnnouncements(){
+    List<Widget> widgets = <Widget>[];
+
+    widgets.add(Text(
+      "Announcements",
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ));
+
+    Map<String, dynamic> announcementData;
+    try{
+      announcementData = widget._courseData["announcements"]["collection"];
+    }catch(e){
+      return widgets;
+    }
+
+    final DateFormat formatter = DateFormat("dd.MM.yyyy HH:mm");
+
+    announcementData.forEach((key, value) {
+      String topic = value["topic"].toString();
+      String body = value["body"].toString(); //TODO get rid of html stuff
+
+      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(
+          int.parse(value["date"].toString()) * 1000);
+      String date = formatter.format(dateTime);
+
+      widgets.add(Card(
+        child: ExpansionTile(
+          title: Container(
+            child: Row(
+              children: [
+                FlutterLogo(
+                  size: 32,
+                ),
+                Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          topic,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          date,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w100,
+                          ),
+                        ),
+                      ],
+                    ))
+              ],
+            ),
+          ),
+          children: [
+            Container(
+              margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+              child: Text(body),
+            )
+          ],
+        ),
       ));
     });
 
@@ -110,6 +181,11 @@ class _OverviewTabState extends State<OverviewTab> {
                   "     " + widget._courseData["location"] != null ? widget._courseData["location"] : "None",
                 )
               ],
+            ),
+            Divider(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _gatherAnnouncements(),
             ),
             Divider(),
           ],
