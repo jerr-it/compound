@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
@@ -122,6 +123,7 @@ class WebClient {
   ///Acts as a callback target for oauth
   Future<Stream<String>> _localCallbackServer() async {
     final StreamController<String> onCode = new StreamController();
+    String callbackPage = await rootBundle.loadString("assets/callbackPage.html");
     
     HttpServer server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
     server.listen((HttpRequest request) async {
@@ -130,7 +132,7 @@ class WebClient {
       request.response
         ..statusCode = 200
         ..headers.set("Content-Type", ContentType.html.mimeType)
-        ..write("<html><h1>You can close this window now</h1></html>");
+        ..write(callbackPage);
 
       await request.response.close();
       await server.close(force: true);
