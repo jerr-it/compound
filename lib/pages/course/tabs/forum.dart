@@ -1,4 +1,5 @@
 import 'package:fludip/provider/course/forumProvider.dart';
+import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -15,17 +16,24 @@ class ForumTab extends StatefulWidget {
 }
 
 class _ForumTabState extends State<ForumTab> {
+
   List<Widget> _gatherCategories(){
     List<Widget> widgets = <Widget>[];
 
     if(widget._forumData == null){
-      return widgets;
+      return <Widget>[CommonWidgets.nothing()];
     }
 
     //1. display category name large
     //2. display subtopics of category
     //TODO 3. make tap on subtopics display its entries
-    Map<String, dynamic> categories = widget._forumData["collection"];
+    Map<String, dynamic> categories;
+    try{
+      categories = widget._forumData["collection"];
+    }catch(e){ //There are no forum categories (forum is entirely empty)
+      return <Widget>[CommonWidgets.nothing()];
+    }
+
     categories.forEach((categoryKey, categoryData) {
       String categoryName = categoryData["entry_name"];
       widgets.add(Text(

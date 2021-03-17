@@ -62,8 +62,6 @@ class CoursePage extends StatelessWidget {
       String title = courseData["title"].toString();
       Color color = ColorMapper.convert(courseData["group"]);
 
-      //TODO colors according to user settings, green for now
-      //TODO let user set which actions should be on the slideshow
       //TODO trailing: List of options for which new content appeared, for example a new file upload
       widgets.add(
           Container(
@@ -96,7 +94,7 @@ class CoursePage extends StatelessWidget {
                         Navigator.push(context, navRoute(OverviewTab(data: courseData)));
                       }),
                       GridButton(icon: Icons.forum, caption: "Forum", color: Colors.red, onTap: (){
-                        if(!Provider.of<ForumProvider>(context,listen: false).initialized()){
+                        if(!Provider.of<ForumProvider>(context,listen: false).initialized(courseData["course_id"])){
                           Provider.of<ForumProvider>(context, listen: false).update(courseData["course_id"]);
                         }
 

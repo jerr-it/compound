@@ -33,8 +33,8 @@ class ForumProvider extends ChangeNotifier{
   Map<String, Map<String,dynamic>> _data;
   final WebClient _client = WebClient();
 
-  bool initialized(){
-    return _data != null;
+  bool initialized(String courseID){
+    return _data != null && _data[courseID] != null;
   }
 
   void update(String courseID) async {
@@ -45,18 +45,20 @@ class ForumProvider extends ChangeNotifier{
     Map<String,dynamic> courseForumCategories = await _client.getRoute("/course/" + courseID + "/forum_categories");
     _data[courseID] = courseForumCategories;
 
-    Map<String, dynamic> categoriesMap = courseForumCategories["collection"];
-    var categoryKeys = categoriesMap.keys;
+    try {
+      Map<String, dynamic> categoriesMap = courseForumCategories["collection"];
+      var categoryKeys = categoriesMap.keys;
 
-    await Future.forEach(categoryKeys, (categoryKey) async {
-      String categoryID = categoriesMap[categoryKey]["category_id"];
-      String route = "/forum_category/" + categoryID + "/areas";
+      await Future.forEach(categoryKeys, (categoryKey) async {
+        String categoryID = categoriesMap[categoryKey]["category_id"];
+        String route = "/forum_category/" + categoryID + "/areas";
 
-      var areaData = await _client.getRoute(route);
-      _data[courseID]["collection"][categoryKey]["areas"] = areaData;
-    });
-
-    debugPrint(_data.toString(), wrapWidth:1024);
+        var areaData = await _client.getRoute(route);
+        _data[courseID]["collection"][categoryKey]["areas"] = areaData;
+      });
+    }catch(e){
+      print("Collection empty: " + e.toString());
+    }
 
     notifyListeners();
   }
