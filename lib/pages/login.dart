@@ -3,6 +3,7 @@ import 'package:fludip/navdrawer/navdrawer.dart';
 import 'package:fludip/pages/start.dart';
 import 'package:fludip/provider/globalnews.dart';
 import 'package:fludip/provider/user.dart';
+import 'package:fludip/util/loadingindicator.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webclient.dart';
@@ -69,8 +70,11 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             onTap: (){
+              LoadingIndicator.show(context, "Logging in...");
+
               var client = WebClient();
               client.setServer(server);
+
               client.authenticate().then((statusCode) async {
                 if(statusCode != 200){
                   //TODO help dialog to clarify error codes
@@ -80,6 +84,8 @@ class _LoginFormState extends State<LoginForm> {
 
                 Provider.of<UserProvider>(context, listen: false).update();
                 Provider.of<GlobalNewsProvider>(context, listen: false).update();
+
+                LoadingIndicator.dismiss(context);
 
                 Navigator.pop(context);
                 Navigator.of(context).push(navRoute(StartPage()));
