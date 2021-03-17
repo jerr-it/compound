@@ -28,6 +28,7 @@ class CoursesProvider extends ChangeNotifier {
   ///For example replaces start_semester with the data returned from
   /// /semester/:semester_id
   /// Inserts announcements under the key "announcements"
+  /// Inserts forum under "modules""forum"
   Future<void> _fillLinks() async {
     Map<String,dynamic> coursesJSON = _data["collection"];
 
@@ -43,6 +44,10 @@ class CoursesProvider extends ChangeNotifier {
       route = _data["collection"][courseKey]["end_semester"];
       data = await _gatherLink(route);
       _data["collection"][courseKey]["end_semester"] = data;
+
+      route = _data["collection"][courseKey]["modules"]["forum"];
+      data = await _gatherLink(route);
+      _data["collection"][courseKey]["modules"]["forum"] = data;
     });
 
     return Future<void>.value(null);
