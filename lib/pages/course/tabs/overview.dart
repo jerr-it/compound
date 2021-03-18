@@ -124,7 +124,7 @@ class _OverviewTabState extends State<OverviewTab> {
         margin: EdgeInsets.all(5),
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
+          border: Border.all(color: Colors.black12),
         ),
         child: ListView(
           children: [

@@ -1,3 +1,5 @@
+import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:fludip/pages/course/tabs/forumTopics.dart';
 import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,7 @@ class ForumTab extends StatefulWidget {
 
 class _ForumTabState extends State<ForumTab> {
 
-  List<Widget> _gatherCategories(){
+  List<Widget> _buildCategoryList(){
     List<Widget> widgets = <Widget>[];
 
     if(widget._forumData == null){
@@ -53,8 +55,13 @@ class _ForumTabState extends State<ForumTab> {
           leading: Icon(Icons.topic),
           title: Text(subject),
           subtitle: Text(content),
-          onTap: (){
-            //TODO show entries
+          onTap: () {
+            String course = categoryData["course"].toString().replaceFirst("/studip/api.php/course/", "");
+            String category = "/studip/api.php/forum_category/" + categoryData["category_id"].toString();
+
+            Provider.of<ForumProvider>(context, listen: false).loadAreaTopics(course, category, areaKey);
+
+            Navigator.push(context, navRoute(ForumTopicsViewer(courseID: course, categoryIDUrl: category, areaIDUrl: areaKey)));
           },
         ));
       });
@@ -74,7 +81,7 @@ class _ForumTabState extends State<ForumTab> {
       body: Container(
         padding: EdgeInsets.all(10),
         child: ListView(
-          children: _gatherCategories(),
+          children: _buildCategoryList(),
         ),
       ),
     );
