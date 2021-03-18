@@ -98,7 +98,7 @@ class CoursePage extends StatelessWidget {
                           Provider.of<ForumProvider>(context, listen: false).update(courseData["course_id"]);
                         }
 
-                        Navigator.push(context, navRoute(ForumTab(courseID: courseData["course_id"],)));
+                        Navigator.push(context, navRoute(ForumTab(courseID: courseData["course_id"], color: ColorMapper.convert(courseData["group"]),)));
                       }),
                       GridButton(icon: Icons.people, caption: "Participants", color: Colors.green, onTap: (){
                         //TODO page route

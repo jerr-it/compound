@@ -1,4 +1,5 @@
 import 'package:fludip/pages/course/colorMapper.dart';
+import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -101,7 +102,7 @@ class _OverviewTabState extends State<OverviewTab> {
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Text(body),
+              child: Text(StringUtil.removeHTMLTags(body)),
             )
           ],
         ),

@@ -5,16 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ForumTopicsViewer extends StatefulWidget {
+  String _pageTitle;
   String _courseID;
   String _categoryIDUrl;
   String _areaIDUrl;
+  Color _courseColor;
 
   List<dynamic> _topicsData;
 
-  ForumTopicsViewer({@required courseID, @required categoryIDUrl, @required areaIDUrl})
-  : _courseID = courseID,
-    _categoryIDUrl = categoryIDUrl,
-    _areaIDUrl = areaIDUrl;
+  ForumTopicsViewer({@required pageTitle,@required courseID, @required categoryIDUrl, @required areaIDUrl, @required color}) :
+        _pageTitle = pageTitle,
+        _courseID = courseID,
+        _categoryIDUrl = categoryIDUrl,
+        _areaIDUrl = areaIDUrl,
+        _courseColor = color;
 
   @override
   _ForumTopicsViewerState createState() => _ForumTopicsViewerState();
@@ -26,6 +30,10 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
     List<Widget> widgets = <Widget>[];
     if(widget._topicsData == null){
       return widgets;
+    }
+
+    if(widget._topicsData.isEmpty){
+      return <Widget>[CommonWidgets.nothing()];
     }
 
     widget._topicsData.forEach((topicData) {
@@ -49,7 +57,8 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Topics"),
+        title: Text(widget._pageTitle),
+        backgroundColor: widget._courseColor,
       ),
       body: Container(
         padding: EdgeInsets.all(10),

@@ -9,9 +9,11 @@ import 'package:provider/provider.dart';
 class ForumTab extends StatefulWidget {
   final String _courseID;
   Map<String, dynamic> _forumData;
+  Color _courseColor;
 
-  ForumTab({@required courseID})
-      : _courseID = courseID;
+  ForumTab({@required courseID, @required color})
+      : _courseID = courseID,
+        _courseColor = color;
 
   @override
   _ForumTabState createState() => _ForumTabState();
@@ -52,7 +54,7 @@ class _ForumTabState extends State<ForumTab> {
         String content = areaData["content"];
 
         widgets.add(ListTile(
-          leading: Icon(Icons.topic),
+          leading: Icon(Icons.topic, size: 30),
           title: Text(subject),
           subtitle: Text(content),
           onTap: () {
@@ -61,7 +63,7 @@ class _ForumTabState extends State<ForumTab> {
 
             Provider.of<ForumProvider>(context, listen: false).loadAreaTopics(course, category, areaKey);
 
-            Navigator.push(context, navRoute(ForumTopicsViewer(courseID: course, categoryIDUrl: category, areaIDUrl: areaKey)));
+            Navigator.push(context, navRoute(ForumTopicsViewer(pageTitle: subject,courseID: course, categoryIDUrl: category, areaIDUrl: areaKey, color: widget._courseColor,)));
           },
         ));
       });
@@ -77,6 +79,7 @@ class _ForumTabState extends State<ForumTab> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Forum"),
+        backgroundColor: widget._courseColor,
       ),
       body: Container(
         padding: EdgeInsets.all(10),

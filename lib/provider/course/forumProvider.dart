@@ -84,14 +84,13 @@ class ForumProvider extends ChangeNotifier{
   void loadAreaTopics(String courseID, String categoryIDUrl, String areaIDUrl) async {
     _data ??= Map<String, Map<String,dynamic>>();
 
-
     Map<String,dynamic> areaMap = _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl];
 
     String topicID = areaMap["topic_id"];
     Map<String, dynamic> areaData = await _client.getRoute("/forum_entry/" + topicID);
 
     _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"] ??= <dynamic>[];
-    //_data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"].clear();
+    _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"].clear();
     _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"].addAll(areaData["children"]);
 
     notifyListeners();
