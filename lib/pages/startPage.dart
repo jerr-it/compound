@@ -1,4 +1,5 @@
 import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:intl/intl.dart';
@@ -60,7 +61,7 @@ class _StartPageState extends State<StartPage> {
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Text(body),
+              child: Text(StringUtil.removeHTMLTags(body)),
             )
           ],
         ),

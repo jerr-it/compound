@@ -29,11 +29,10 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
     }
 
     widget._topicsData.forEach((topicData) {
-      print(StringUtil.removeHTMLTags(topicData["subject"]));
       widgets.add(ListTile(
-        leading: Icon(Icons.forum),
-        title: Text(StringUtil.removeHTMLTags(topicData["subject"])),
-        subtitle: Text(StringUtil.removeHTMLTags(topicData["content"])),
+        leading: Icon(Icons.forum, size: 30),
+        title: Text(StringUtil.removeHTMLTags(topicData["subject"]).replaceAll("\n", "")),
+        subtitle: Text(StringUtil.removeHTMLTags(topicData["content"]).replaceAll("\n", "")),
         onTap: (){
 
         },
@@ -52,9 +51,12 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
       appBar: AppBar(
         title: Text("Topics"),
       ),
-      body: ListView(
-        children: _buildTopicList(),
-      ),
+      body: Container(
+        padding: EdgeInsets.all(10),
+        child: ListView(
+          children: _buildTopicList(),
+        ),
+      )
     );
   }
 }
