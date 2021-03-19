@@ -15,6 +15,66 @@ class MembersTab extends StatefulWidget {
 }
 
 class _MembersTabState extends State<MembersTab> {
+  List<Widget> _buildMembersList(){
+    List<Widget> widgets = <Widget>[];
+    if(widget._members == null){
+      return widgets;
+    }
+
+    if(widget._members.containsKey("dozent")) {
+      widgets.add(Text(
+        "Lecturers",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ));
+
+      widget._members["dozent"].forEach((lecturerIDUrl, lecturerData) {
+        widgets.add(ListTile(
+          leading: Icon(Icons.person, size: 30),
+          title: Text(lecturerData["member"]["name"]["formatted"]),
+        ));
+      });
+    }
+
+    if(widget._members.containsKey("tutor")) {
+      widgets.add(Text(
+          "Tutors",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          )
+      ));
+
+      widget._members["tutor"].forEach((tutorIDUrl, tutorData) {
+        widgets.add(ListTile(
+          leading: Icon(Icons.person, size: 30),
+          title: Text(tutorData["member"]["name"]["formatted"]),
+        ));
+      });
+    }
+
+    if(widget._members.containsKey("autor")) {
+      widgets.add(Text(
+          "Students",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          )
+      ));
+
+      widget._members["autor"].forEach((autorIDUrl, autorData) {
+        widgets.add(ListTile(
+          leading: Icon(Icons.person, size: 30),
+          title: Text(autorData["member"]["name"]["formatted"]),
+        ));
+      });
+    }
+
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     widget._members = Provider.of<MembersProvider>(context).getMembers(widget._courseID);
@@ -23,7 +83,12 @@ class _MembersTabState extends State<MembersTab> {
       appBar: AppBar(
         title: Text("Members"),
       ),
-      body: Container(),
+      body: Container(
+        padding: EdgeInsets.all(10),
+        child: ListView(
+          children: _buildMembersList(),
+        ),
+      ),
     );
   }
 }

@@ -102,7 +102,7 @@ class CoursePage extends StatelessWidget {
 
                         Navigator.push(context, navRoute(ForumTab(courseID: courseData["course_id"], color: ColorMapper.convert(courseData["group"]),)));
                       }),
-                      GridButton(icon: Icons.people, caption: "Participants", color: Colors.green, onTap: (){
+                      GridButton(icon: Icons.people, caption: "Members", color: Colors.green, onTap: (){
                         if(!Provider.of<MembersProvider>(context, listen: false).initialized(courseData["course_id"])){
                           Provider.of<MembersProvider>(context, listen: false).update(courseData["course_id"]);
                         }

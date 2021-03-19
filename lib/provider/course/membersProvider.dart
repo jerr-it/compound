@@ -44,13 +44,20 @@ class MembersProvider extends ChangeNotifier {
     _members[courseID] = new Map<String, dynamic>();
 
     Map<String, dynamic> dozentMap = await _client.getRoute("/course/" + courseID + "/members?status=dozent");
-    _members[courseID]["dozent"] = dozentMap["collection"];
+    if(dozentMap["pagination"]["total"] != 0){
+      _members[courseID]["dozent"] = dozentMap["collection"];
+    }
 
     Map<String, dynamic> tutorMap = await _client.getRoute("/course/" + courseID + "/members?status=tutor");
-    _members[courseID]["tutor"] = tutorMap["collection"];
+    if(tutorMap["pagination"]["total"] != 0){
+      _members[courseID]["tutor"] = tutorMap["collection"];
+    }
+
 
     Map<String, dynamic> autorMap = await _client.getRoute("/course/" + courseID + "/members?status=autor");
-    _members[courseID]["autor"] = autorMap["collection"];
+    if(autorMap["pagination"]["total"] != 0){
+      _members[courseID]["autor"] = autorMap["collection"];
+    }
 
     notifyListeners();
   }
