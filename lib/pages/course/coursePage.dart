@@ -1,5 +1,5 @@
 import 'package:fludip/pages/course/colorMapper.dart';
-import 'package:fludip/pages/course/tabs/forum.dart';
+import 'package:fludip/pages/course/tabs/forum/forum.dart';
 import 'package:fludip/pages/course/tabs/overview.dart';
 import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:fludip/provider/coursesProvider.dart';

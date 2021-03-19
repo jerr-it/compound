@@ -5,7 +5,7 @@ import 'package:fludip/net/webClient.dart';
 ///They are identified by their course ID.
 ///Forum is structured as Category > Area > Topic > Entry
 ///values beginning with ':' indicate a concrete value:
-///TODO add forum entries (/forum_entry/:entry_id).
+///TODO restructure for easier use and better overview
 ///ForumProvider
 ///|-courseID1{}
 ///  |-collection{}                   <- provided by /course/:course_id/forum_categories
@@ -38,6 +38,7 @@ import 'package:fludip/net/webClient.dart';
 ///      |        |-mkdate: "1477316401"
 ///      |        |-content: "<div class=\"formatted-content\">Test-Inhalt des Test-Themas.</div>"  #Also contains html for some reason
 ///      |        |-course: "/api.php/course/..."
+///      |        |-entries[]      <- inserted using /forum_entry/:topic_id ["children"], same structure as topics[]
 ///      |-category_id: "afgr81r..."
 ///      |-course: "/api.php/..."
 class ForumProvider extends ChangeNotifier{
@@ -73,7 +74,7 @@ class ForumProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<dynamic> getTopicsMap(String courseID, String categoryIDUrl, String areaIDUrl){
+  List<dynamic> getTopics(String courseID, String categoryIDUrl, String areaIDUrl){
     try {
       return _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"];
     }catch(e){
@@ -92,6 +93,36 @@ class ForumProvider extends ChangeNotifier{
     _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"] ??= <dynamic>[];
     _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"].clear();
     _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"].addAll(areaData["children"]);
+
+    notifyListeners();
+  }
+
+  List<dynamic> getTopicEntries(String courseID, String categoryIDUrl, String areaIDUrl, String topicID){
+    try{
+      List<dynamic> topics = _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"];
+      var targetTopicIdx = topics.indexWhere((element) => element["topic_id"] == topicID);
+      return topics[targetTopicIdx]["entries"];
+    }catch(e){
+      return null;
+    }
+  }
+
+  void loadTopicEntries(String courseID, String categoryIDUrl, String areaIDUrl, String topicID) async {
+    _data ??= Map<String, Map<String,dynamic>>();
+
+    List<dynamic> topics = _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"];
+    var targetTopicIdx = topics.indexWhere((element) => element["topic_id"] == topicID);
+
+    var entriesData = await _client.getRoute("/forum_entry/" + topics[targetTopicIdx]["topic_id"]);
+
+    var headEntry = new Map<String,dynamic>.from(entriesData);
+    headEntry.remove("children");
+
+    List<dynamic> entries = <dynamic>[];
+    entries.add(headEntry);
+    entries.addAll(entriesData["children"]);
+
+    _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"][targetTopicIdx]["entries"] = entries;
 
     notifyListeners();
   }

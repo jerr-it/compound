@@ -1,5 +1,5 @@
 import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:fludip/pages/course/tabs/forumTopics.dart';
+import 'package:fludip/pages/course/tabs/forum/forumTopics.dart';
 import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
