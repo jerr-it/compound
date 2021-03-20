@@ -4,10 +4,13 @@ import 'package:provider/provider.dart';
 
 class MembersTab extends StatefulWidget {
   String _courseID;
+  Color _color;
 
   Map<String, dynamic> _members;
 
-  MembersTab({@required courseID}) : _courseID = courseID;
+  MembersTab({@required courseID, @required color})
+      : _courseID = courseID,
+        _color = color;
 
   @override
   _MembersTabState createState() => _MembersTabState();
@@ -81,6 +84,7 @@ class _MembersTabState extends State<MembersTab> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Members"),
+        backgroundColor: widget._color,
       ),
       body: RefreshIndicator(
         child: Container(

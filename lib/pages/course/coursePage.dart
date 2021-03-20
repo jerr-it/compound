@@ -110,11 +110,12 @@ class CoursePage extends StatelessWidget {
                       }
 
                       Navigator.push(
-                          context,
-                          navRoute(ForumTab(
-                            courseID: courseData["course_id"],
-                            color: ColorMapper.convert(courseData["group"]),
-                          )));
+                        context,
+                        navRoute(ForumTab(
+                          courseID: courseData["course_id"],
+                          color: ColorMapper.convert(courseData["group"]),
+                        )),
+                      );
                     },
                   ),
                   GridButton(
@@ -126,7 +127,13 @@ class CoursePage extends StatelessWidget {
                         Provider.of<MembersProvider>(context, listen: false).update(courseData["course_id"]);
                       }
 
-                      Navigator.push(context, navRoute(MembersTab(courseID: courseData["course_id"])));
+                      Navigator.push(
+                        context,
+                        navRoute(MembersTab(
+                          courseID: courseData["course_id"],
+                          color: ColorMapper.convert(courseData["group"]),
+                        )),
+                      );
                     },
                   ),
                   GridButton(

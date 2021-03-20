@@ -11,6 +11,9 @@ import 'provider/userProvider.dart';
 void main() => runApp(App());
 
 //TODO localisation
+//TODO user settings:
+// 1. custom colors for courses
+// 2. (fingerprint?) unlock
 
 class App extends StatelessWidget {
   @override
