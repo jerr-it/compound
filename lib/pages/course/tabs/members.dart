@@ -83,11 +83,17 @@ class _MembersTabState extends State<MembersTab> {
       appBar: AppBar(
         title: Text("Members"),
       ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView(
-          children: _buildMembersList(),
+      body: RefreshIndicator(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: _buildMembersList(),
+          ),
         ),
+        onRefresh: () async {
+          Provider.of<MembersProvider>(context, listen: false).update(widget._courseID);
+          return Future<void>.value(null);
+        },
       ),
     );
   }

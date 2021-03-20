@@ -82,12 +82,6 @@ class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
           return Future<void>.value(null);
         },
       ),
-      /*body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView(
-          children: _buildEntryList(),
-        )
-      ),*/
     );
   }
 }
