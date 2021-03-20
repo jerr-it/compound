@@ -6,7 +6,6 @@ class NavDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO rank?
-    //TODO user profile picture instead of icon
     var data = Provider.of<UserProvider>(context).getData();
     String formattedName = data["name"]["formatted"].toString();
     String username = data["name"]["username"].toString();
@@ -20,11 +19,19 @@ class NavDrawerHeader extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Icon(
-                  Icons.portrait,
-                  size: 64,
+                Container(
+                  padding: EdgeInsets.zero,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(2.5),
+                  ),
+                  child: Image.network(
+                    data["avatar_medium"],
+                    width: 40,
+                    height: 40,
+                  ),
                 ),
                 Column(
                   children: [
@@ -37,7 +44,7 @@ class NavDrawerHeader extends StatelessWidget {
                       style: TextStyle(fontSize: 16),
                     )
                   ],
-                )
+                ),
               ],
             ),
             Row(

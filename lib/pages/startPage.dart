@@ -23,7 +23,7 @@ class _StartPageState extends State<StartPage> {
 
     news.forEach((newsKey, newsData) {
       String topic = newsData["topic"].toString();
-      String body = newsData["body"].toString(); //TODO get rid of html stuff
+      String body = StringUtil.removeHTMLTags(newsData["body"].toString());
 
       DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(newsData["date"].toString()) * 1000);
       String date = formatter.format(dateTime);
@@ -60,7 +60,7 @@ class _StartPageState extends State<StartPage> {
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Text(StringUtil.removeHTMLTags(body)),
+              child: Text(body),
             )
           ],
         ),

@@ -29,7 +29,6 @@ class _ForumTabState extends State<ForumTab> {
 
     //1. display category name large
     //2. display subtopics of category
-    //TODO 3. make tap on subtopics display its entries
     Map<String, dynamic> categories;
     try {
       categories = widget._forumData["collection"];

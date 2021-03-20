@@ -143,7 +143,6 @@ class WebClient {
   }
 
   ///Performs OAuth1 authentication with the set server
-  ///TODO account for someone de-authorizing the app, which renders the locally saved oauth credentials invalid
   Future<int> authenticate() async {
     var platform = new oauth1.Platform(this._server._requestTokenUrl, this._server._authorizeUrl,
         this._server._accessTokenUrl, oauth1.SignatureMethods.hmacSha1);

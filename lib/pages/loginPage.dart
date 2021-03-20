@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:fludip/net/webClient.dart';
 import 'package:provider/provider.dart';
 
-//TODO option to remain logged in
-
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

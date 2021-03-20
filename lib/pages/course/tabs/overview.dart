@@ -61,7 +61,7 @@ class _OverviewTabState extends State<OverviewTab> {
 
     announcementData.forEach((key, value) {
       String topic = value["topic"].toString();
-      String body = value["body"].toString(); //TODO get rid of html stuff
+      String body = StringUtil.removeHTMLTags(value["body"].toString());
 
       DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(value["date"].toString()) * 1000);
       String date = formatter.format(dateTime);
@@ -98,7 +98,7 @@ class _OverviewTabState extends State<OverviewTab> {
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Text(StringUtil.removeHTMLTags(body)),
+              child: Text(body),
             )
           ],
         ),
