@@ -22,11 +22,20 @@ class NavDrawerHeader extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.portrait, size: 64,),
+                Icon(
+                  Icons.portrait,
+                  size: 64,
+                ),
                 Column(
                   children: [
-                    Text(formattedName, style: TextStyle(fontSize: 16),),
-                    Text(username, style: TextStyle(fontSize: 16),)
+                    Text(
+                      formattedName,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      username,
+                      style: TextStyle(fontSize: 16),
+                    )
                   ],
                 )
               ],
@@ -34,10 +43,16 @@ class NavDrawerHeader extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(email, style: TextStyle(fontWeight: FontWeight.w300),),
-                Text("[Something here]", style: TextStyle(fontWeight: FontWeight.w300),)
+                Text(
+                  email,
+                  style: TextStyle(fontWeight: FontWeight.w300),
+                ),
+                Text(
+                  "[Something here]",
+                  style: TextStyle(fontWeight: FontWeight.w300),
+                )
               ],
-            )
+            ),
           ],
         ),
       ),

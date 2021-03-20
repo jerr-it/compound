@@ -15,8 +15,8 @@ class ForumTopicsViewer extends StatefulWidget {
 
   List<dynamic> _topicsData;
 
-  ForumTopicsViewer({@required pageTitle,@required courseID, @required categoryIDUrl, @required areaIDUrl, @required color}) :
-        _pageTitle = pageTitle,
+  ForumTopicsViewer({@required pageTitle, @required courseID, @required categoryIDUrl, @required areaIDUrl, @required color})
+      : _pageTitle = pageTitle,
         _courseID = courseID,
         _categoryIDUrl = categoryIDUrl,
         _areaIDUrl = areaIDUrl,
@@ -27,25 +27,25 @@ class ForumTopicsViewer extends StatefulWidget {
 }
 
 class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
-
-  List<Widget> _buildTopicList(){
+  List<Widget> _buildTopicList() {
     List<Widget> widgets = <Widget>[];
-    if(widget._topicsData == null){
+    if (widget._topicsData == null) {
       return widgets;
     }
 
-    if(widget._topicsData.isEmpty){
+    if (widget._topicsData.isEmpty) {
       return <Widget>[CommonWidgets.nothing()];
     }
 
     widget._topicsData.forEach((topicData) {
       String title = StringUtil.removeHTMLTags(topicData["subject"]).replaceAll("\n", "");
       String subtitle = StringUtil.removeHTMLTags(topicData["content"]).replaceAll("\n", "");
+
       widgets.add(ListTile(
         leading: Icon(Icons.forum, size: 30),
         title: Text(title),
         subtitle: Text(subtitle),
-        onTap: (){
+        onTap: () {
           Provider.of<ForumProvider>(context, listen: false).loadTopicEntries(
             widget._courseID,
             widget._categoryIDUrl,
@@ -53,16 +53,22 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
             topicData["topic_id"],
           );
 
-          Navigator.push(context, navRoute(ForumEntriesViewer(
-            pageTitle: title,
-            color: widget._courseColor,
-            courseID: widget._courseID,
-            categoryIDUrl: widget._categoryIDUrl,
-            areaIDUrl: widget._areaIDUrl,
-            topicID: topicData["topic_id"],
-          )));
+          Navigator.push(
+            context,
+            navRoute(
+              ForumEntriesViewer(
+                pageTitle: title,
+                color: widget._courseColor,
+                courseID: widget._courseID,
+                categoryIDUrl: widget._categoryIDUrl,
+                areaIDUrl: widget._areaIDUrl,
+                topicID: topicData["topic_id"],
+              ),
+            ),
+          );
         },
       ));
+
       widgets.add(Divider());
     });
 
@@ -71,7 +77,8 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
 
   @override
   Widget build(BuildContext context) {
-    widget._topicsData = Provider.of<ForumProvider>(context).getTopics(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl);
+    widget._topicsData =
+        Provider.of<ForumProvider>(context).getTopics(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,10 +93,11 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<ForumProvider>(context,listen: false).loadAreaTopics(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl);
+          Provider.of<ForumProvider>(context, listen: false)
+              .loadAreaTopics(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl);
           return Future<void>.value(null);
         },
-      )
+      ),
     );
   }
 }

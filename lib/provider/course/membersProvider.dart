@@ -23,39 +23,38 @@ import 'package:flutter/material.dart';
 ///   |-tutor{}     <- provided by /api.php/course/:course_id/members?status=tutor
 ///   |-autor{}     <- provided by /api.php/course/:course_idi/members?status=autor
 class MembersProvider extends ChangeNotifier {
-  Map<String, Map<String,dynamic>> _members;
+  Map<String, Map<String, dynamic>> _members;
   final WebClient _client = WebClient();
 
-  bool initialized(String courseID){
+  bool initialized(String courseID) {
     return _members != null && _members[courseID] != null;
   }
 
-  Map<String, dynamic> getMembers(String courseID){
-    try{
+  Map<String, dynamic> getMembers(String courseID) {
+    try {
       return _members[courseID];
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
   void update(String courseID) async {
-    _members ??= new Map<String, Map<String,dynamic>>();
+    _members ??= new Map<String, Map<String, dynamic>>();
 
     _members[courseID] = new Map<String, dynamic>();
 
     Map<String, dynamic> dozentMap = await _client.getRoute("/course/" + courseID + "/members?status=dozent");
-    if(dozentMap["pagination"]["total"] != 0){
+    if (dozentMap["pagination"]["total"] != 0) {
       _members[courseID]["dozent"] = dozentMap["collection"];
     }
 
     Map<String, dynamic> tutorMap = await _client.getRoute("/course/" + courseID + "/members?status=tutor");
-    if(tutorMap["pagination"]["total"] != 0){
+    if (tutorMap["pagination"]["total"] != 0) {
       _members[courseID]["tutor"] = tutorMap["collection"];
     }
 
-
     Map<String, dynamic> autorMap = await _client.getRoute("/course/" + courseID + "/members?status=autor");
-    if(autorMap["pagination"]["total"] != 0){
+    if (autorMap["pagination"]["total"] != 0) {
       _members[courseID]["autor"] = autorMap["collection"];
     }
 

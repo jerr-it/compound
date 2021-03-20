@@ -41,18 +41,18 @@ import 'package:fludip/net/webClient.dart';
 ///      |        |-entries[]      <- inserted using /forum_entry/:topic_id ["children"], same structure as topics[]
 ///      |-category_id: "afgr81r..."
 ///      |-course: "/api.php/..."
-class ForumProvider extends ChangeNotifier{
-  Map<String, Map<String,dynamic>> _data;
+class ForumProvider extends ChangeNotifier {
+  Map<String, Map<String, dynamic>> _data;
   final WebClient _client = WebClient();
 
-  bool initialized(String courseID){
+  bool initialized(String courseID) {
     return _data != null && _data[courseID] != null;
   }
 
   void update(String courseID) async {
-    _data ??= Map<String, Map<String,dynamic>>();
+    _data ??= Map<String, Map<String, dynamic>>();
 
-    Map<String,dynamic> courseForumCategories = await _client.getRoute("/course/" + courseID + "/forum_categories");
+    Map<String, dynamic> courseForumCategories = await _client.getRoute("/course/" + courseID + "/forum_categories");
     _data[courseID] = courseForumCategories;
 
     try {
@@ -67,25 +67,25 @@ class ForumProvider extends ChangeNotifier{
         var areaData = await _client.getRoute(route);
         _data[courseID]["collection"][categoryKey]["areas"] = areaData;
       });
-    }catch(e){
+    } catch (e) {
       print("Collection empty: " + e.toString());
     }
 
     notifyListeners();
   }
 
-  List<dynamic> getTopics(String courseID, String categoryIDUrl, String areaIDUrl){
+  List<dynamic> getTopics(String courseID, String categoryIDUrl, String areaIDUrl) {
     try {
       return _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"];
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
   void loadAreaTopics(String courseID, String categoryIDUrl, String areaIDUrl) async {
-    _data ??= Map<String, Map<String,dynamic>>();
+    _data ??= Map<String, Map<String, dynamic>>();
 
-    Map<String,dynamic> areaMap = _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl];
+    Map<String, dynamic> areaMap = _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl];
 
     String topicID = areaMap["topic_id"];
     Map<String, dynamic> areaData = await _client.getRoute("/forum_entry/" + topicID);
@@ -97,40 +97,41 @@ class ForumProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<dynamic> getTopicEntries(String courseID, String categoryIDUrl, String areaIDUrl, String topicID){
-    try{
+  List<dynamic> getTopicEntries(String courseID, String categoryIDUrl, String areaIDUrl, String topicID) {
+    try {
       List<dynamic> topics = _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"];
       var targetTopicIdx = topics.indexWhere((element) => element["topic_id"] == topicID);
       return topics[targetTopicIdx]["entries"];
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
   void loadTopicEntries(String courseID, String categoryIDUrl, String areaIDUrl, String topicID) async {
-    _data ??= Map<String, Map<String,dynamic>>();
+    _data ??= Map<String, Map<String, dynamic>>();
 
     List<dynamic> topics = _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"];
     var targetTopicIdx = topics.indexWhere((element) => element["topic_id"] == topicID);
 
     var entriesData = await _client.getRoute("/forum_entry/" + topics[targetTopicIdx]["topic_id"]);
 
-    var headEntry = new Map<String,dynamic>.from(entriesData);
+    var headEntry = new Map<String, dynamic>.from(entriesData);
     headEntry.remove("children");
 
     List<dynamic> entries = <dynamic>[];
     entries.add(headEntry);
     entries.addAll(entriesData["children"]);
 
-    _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"][targetTopicIdx]["entries"] = entries;
+    _data[courseID]["collection"][categoryIDUrl]["areas"]["collection"][areaIDUrl]["topics"][targetTopicIdx]["entries"] =
+        entries;
 
     notifyListeners();
   }
 
-  Map<String,dynamic> getData(String courseID){
+  Map<String, dynamic> getData(String courseID) {
     try {
       return _data[courseID];
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }

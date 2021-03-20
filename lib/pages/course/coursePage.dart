@@ -17,7 +17,10 @@ class GridButton extends StatelessWidget {
   final Function _onTap;
 
   GridButton({@required icon, @required caption, @required color, @required onTap})
-  : _icon = icon, _caption = caption, _color = color, _onTap = onTap;
+      : _icon = icon,
+        _caption = caption,
+        _color = color,
+        _onTap = onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +38,14 @@ class GridButton extends StatelessWidget {
           ),
         ),
         onTap: _onTap,
-      )
+      ),
     );
   }
 }
 
 class CoursePage extends StatelessWidget {
-  List<Widget> _buildListEntries(BuildContext context, Map<String,dynamic> coursesJSON) {
-    if(coursesJSON == null){
+  List<Widget> _buildListEntries(BuildContext context, Map<String, dynamic> coursesJSON) {
+    if (coursesJSON == null) {
       var ret = <Widget>[];
       ret.add(Container(
         margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -56,7 +59,7 @@ class CoursePage extends StatelessWidget {
 
     Map<String, dynamic> courses = coursesJSON["collection"];
     List<Widget> widgets = <Widget>[];
-    if(courses == null){
+    if (courses == null) {
       return widgets;
     }
 
@@ -65,61 +68,84 @@ class CoursePage extends StatelessWidget {
       Color color = ColorMapper.convert(courseData["group"]);
 
       //TODO trailing: List of options for which new content appeared, for example a new file upload
-      widgets.add(
-          Container(
-              decoration: BoxDecoration(
-                  border: Border(left: BorderSide(color: color, width: 7.5))
-              ),
-              child: ExpansionTile(
-                title: Container(
-                  child: Row(
-                    children: [
-                      FlutterLogo(size:32),
-                      Flexible(
-                        child: Text(
-                          title,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+      widgets.add(Container(
+          decoration: BoxDecoration(border: Border(left: BorderSide(color: color, width: 7.5))),
+          child: ExpansionTile(
+            title: Container(
+              child: Row(
                 children: [
-                  GridView.count(
-                    crossAxisCount: 4,
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                    children: [
-                      GridButton(icon: Icons.topic, caption: "Overview", color: Colors.white54, onTap: (){
-                        Navigator.push(context, navRoute(OverviewTab(data: courseData)));
-                      }),
-                      GridButton(icon: Icons.forum, caption: "Forum", color: Colors.red, onTap: (){
-                        if(!Provider.of<ForumProvider>(context,listen: false).initialized(courseData["course_id"])){
-                          Provider.of<ForumProvider>(context, listen: false).update(courseData["course_id"]);
-                        }
+                  FlutterLogo(size: 32),
+                  Flexible(
+                    child: Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            children: [
+              GridView.count(
+                crossAxisCount: 4,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                mainAxisSpacing: 2,
+                crossAxisSpacing: 2,
+                children: [
+                  GridButton(
+                    icon: Icons.topic,
+                    caption: "Overview",
+                    color: Colors.white54,
+                    onTap: () {
+                      Navigator.push(context, navRoute(OverviewTab(data: courseData)));
+                    },
+                  ),
+                  GridButton(
+                    icon: Icons.forum,
+                    caption: "Forum",
+                    color: Colors.red,
+                    onTap: () {
+                      if (!Provider.of<ForumProvider>(context, listen: false).initialized(courseData["course_id"])) {
+                        Provider.of<ForumProvider>(context, listen: false).update(courseData["course_id"]);
+                      }
 
-                        Navigator.push(context, navRoute(ForumTab(courseID: courseData["course_id"], color: ColorMapper.convert(courseData["group"]),)));
-                      }),
-                      GridButton(icon: Icons.people, caption: "Members", color: Colors.green, onTap: (){
-                        if(!Provider.of<MembersProvider>(context, listen: false).initialized(courseData["course_id"])){
-                          Provider.of<MembersProvider>(context, listen: false).update(courseData["course_id"]);
-                        }
+                      Navigator.push(
+                          context,
+                          navRoute(ForumTab(
+                            courseID: courseData["course_id"],
+                            color: ColorMapper.convert(courseData["group"]),
+                          )));
+                    },
+                  ),
+                  GridButton(
+                    icon: Icons.people,
+                    caption: "Members",
+                    color: Colors.green,
+                    onTap: () {
+                      if (!Provider.of<MembersProvider>(context, listen: false).initialized(courseData["course_id"])) {
+                        Provider.of<MembersProvider>(context, listen: false).update(courseData["course_id"]);
+                      }
 
-                        Navigator.push(context, navRoute(MembersTab(courseID: courseData["course_id"])));
-                      }),
-                      GridButton(icon: Icons.file_copy, caption: "Files", color: Colors.purple, onTap: (){
-                        //TODO page route
-                      }),
-                    ],
-                  )
+                      Navigator.push(context, navRoute(MembersTab(courseID: courseData["course_id"])));
+                    },
+                  ),
+                  GridButton(
+                    icon: Icons.file_copy,
+                    caption: "Files",
+                    color: Colors.purple,
+                    onTap: () {
+                      //TODO page route
+                    },
+                  ),
                 ],
               )
-          )
-      );
+            ],
+          )));
 
-      widgets.add(Divider(height: 0.25,thickness: 0.5,));
+      widgets.add(Divider(
+        height: 0.25,
+        thickness: 0.5,
+      ));
     });
 
     return widgets;
@@ -127,7 +153,6 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var courses = Provider.of<CoursesProvider>(context).getData();
 
     return Scaffold(

@@ -13,10 +13,9 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   ///Convert data to widgets
   List<Widget> _buildListEntries() {
-    Map<String, dynamic> news =
-        Provider.of<GlobalNewsProvider>(context).get()["collection"];
+    Map<String, dynamic> news = Provider.of<GlobalNewsProvider>(context).get()["collection"];
     List<Widget> widgets = <Widget>[];
-    if(news == null){
+    if (news == null) {
       return widgets;
     }
 
@@ -26,8 +25,7 @@ class _StartPageState extends State<StartPage> {
       String topic = newsData["topic"].toString();
       String body = newsData["body"].toString(); //TODO get rid of html stuff
 
-      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(
-          int.parse(newsData["date"].toString()) * 1000);
+      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(newsData["date"].toString()) * 1000);
       String date = formatter.format(dateTime);
 
       widgets.add(Card(
@@ -39,22 +37,23 @@ class _StartPageState extends State<StartPage> {
                   size: 32,
                 ),
                 Flexible(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      topic,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      date,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        topic,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
-                ))
+                      Text(
+                        date,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -74,18 +73,19 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Start"),
+      appBar: AppBar(
+        title: Text("Start"),
+      ),
+      body: RefreshIndicator(
+        child: ListView(
+          children: _buildListEntries(),
         ),
-        body: RefreshIndicator(
-          child: ListView(
-            children: _buildListEntries(),
-          ),
-          onRefresh: () async {
-            Provider.of<GlobalNewsProvider>(context, listen: false).update();
-            return Future<void>.value(null);
-          },
-        ),
-        drawer: NavDrawer());
+        onRefresh: () async {
+          Provider.of<GlobalNewsProvider>(context, listen: false).update();
+          return Future<void>.value(null);
+        },
+      ),
+      drawer: NavDrawer(),
+    );
   }
 }

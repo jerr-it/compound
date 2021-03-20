@@ -7,17 +7,15 @@ import 'package:intl/intl.dart';
 class OverviewTab extends StatefulWidget {
   final Map<String, dynamic> _courseData;
 
-  OverviewTab({@required data})
-  : _courseData = data;
+  OverviewTab({@required data}) : _courseData = data;
 
   @override
   _OverviewTabState createState() => _OverviewTabState();
 }
 
 class _OverviewTabState extends State<OverviewTab> {
-
   ///Helper to get list of formatted lecturer names from this course
-  List<Widget> _gatherLecturers(){
+  List<Widget> _gatherLecturers() {
     List<Widget> widgets = <Widget>[];
 
     widgets.add(Text(
@@ -31,7 +29,6 @@ class _OverviewTabState extends State<OverviewTab> {
 
     Map<String, dynamic> lecturerData = widget._courseData["lecturers"];
     lecturerData.forEach((lecturerID, lecturerData) {
-      //lecturers.add(lecturerData["name"]["formatted"].toString());
       widgets.add(Text(
         "     \u2022" + lecturerData["name"]["formatted"].toString(),
         textAlign: TextAlign.right,
@@ -42,7 +39,7 @@ class _OverviewTabState extends State<OverviewTab> {
   }
 
   ///Helper to get list of announcements from this course
-  List<Widget> _gatherAnnouncements(){
+  List<Widget> _gatherAnnouncements() {
     List<Widget> widgets = <Widget>[];
 
     widgets.add(Text(
@@ -54,9 +51,9 @@ class _OverviewTabState extends State<OverviewTab> {
     ));
 
     Map<String, dynamic> announcementData;
-    try{
+    try {
       announcementData = widget._courseData["announcements"]["collection"];
-    }catch(e){
+    } catch (e) {
       return widgets;
     }
 
@@ -66,8 +63,7 @@ class _OverviewTabState extends State<OverviewTab> {
       String topic = value["topic"].toString();
       String body = value["body"].toString(); //TODO get rid of html stuff
 
-      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(
-          int.parse(value["date"].toString()) * 1000);
+      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(value["date"].toString()) * 1000);
       String date = formatter.format(dateTime);
 
       widgets.add(Card(
@@ -79,22 +75,22 @@ class _OverviewTabState extends State<OverviewTab> {
                   size: 32,
                 ),
                 Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          topic,
-                          overflow: TextOverflow.ellipsis,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        topic,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        date,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w100,
                         ),
-                        Text(
-                          date,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                      ],
-                    )
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -141,7 +137,7 @@ class _OverviewTabState extends State<OverviewTab> {
                 ),
                 Text(
                   widget._courseData["number"] != "" ? "     " + widget._courseData["number"] : "     " + "None",
-                )
+                ),
               ],
             ),
             Divider(),
@@ -161,9 +157,14 @@ class _OverviewTabState extends State<OverviewTab> {
                   ),
                 ),
                 Text(
-                    "     " + (widget._courseData["start_semester"] != null ? widget._courseData["start_semester"]["title"] : "unlimited")
-                      + " - "
-                      + (widget._courseData["end_semester"] != null ? widget._courseData["end_semester"]["title"] : "unlimited")
+                  "     " +
+                      (widget._courseData["start_semester"] != null
+                          ? widget._courseData["start_semester"]["title"]
+                          : "unlimited") +
+                      " - " +
+                      (widget._courseData["end_semester"] != null
+                          ? widget._courseData["end_semester"]["title"]
+                          : "unlimited"),
                 ),
               ],
             ),
@@ -180,14 +181,11 @@ class _OverviewTabState extends State<OverviewTab> {
                 ),
                 Text(
                   "     " + widget._courseData["location"] != null ? widget._courseData["location"] : "None",
-                )
+                ),
               ],
             ),
             Divider(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _gatherAnnouncements()
-            ),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: _gatherAnnouncements()),
             Divider(),
           ],
         ),

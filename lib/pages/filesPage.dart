@@ -10,13 +10,13 @@ class _FilePageState extends State<FilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Dateien"),
-        ),
-        body: Center(
-          child: Text("This is the Dateien page"),
-        ),
-        drawer: NavDrawer()
+      appBar: AppBar(
+        title: Text("Dateien"),
+      ),
+      body: Center(
+        child: Text("This is the Dateien page"),
+      ),
+      drawer: NavDrawer(),
     );
   }
 }

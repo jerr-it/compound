@@ -15,16 +15,17 @@ void main() => runApp(App());
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => UserProvider()),
-      ChangeNotifierProvider(create: (_) => GlobalNewsProvider()),
-      ChangeNotifierProvider(create: (_) => CoursesProvider()),
-      ChangeNotifierProvider(create: (_) => ForumProvider()),
-      ChangeNotifierProvider(create: (_) => MembersProvider())
-    ],
-    child: MaterialApp(
-      title: "Fludip",
-      home: LoginPage(),
-    ));
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => GlobalNewsProvider()),
+          ChangeNotifierProvider(create: (_) => CoursesProvider()),
+          ChangeNotifierProvider(create: (_) => ForumProvider()),
+          ChangeNotifierProvider(create: (_) => MembersProvider())
+        ],
+        child: MaterialApp(
+          title: "Fludip",
+          home: LoginPage(),
+        ));
   }
 }

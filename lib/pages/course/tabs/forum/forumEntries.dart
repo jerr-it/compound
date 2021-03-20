@@ -15,14 +15,14 @@ class ForumEntriesViewer extends StatefulWidget {
 
   List<dynamic> _entriesData;
 
-  ForumEntriesViewer({
-    @required pageTitle,
-    @required courseID,
-    @required categoryIDUrl,
-    @required areaIDUrl,
-    @required color,
-    @required topicID}) :
-        _pageTitle = pageTitle,
+  ForumEntriesViewer(
+      {@required pageTitle,
+      @required courseID,
+      @required categoryIDUrl,
+      @required areaIDUrl,
+      @required color,
+      @required topicID})
+      : _pageTitle = pageTitle,
         _courseID = courseID,
         _categoryIDUrl = categoryIDUrl,
         _areaIDUrl = areaIDUrl,
@@ -35,13 +35,13 @@ class ForumEntriesViewer extends StatefulWidget {
 
 ///TODO show user and time stamp
 class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
-  List<Widget> _buildEntryList(){
+  List<Widget> _buildEntryList() {
     List<Widget> widgets = <Widget>[];
-    if(widget._entriesData == null){
+    if (widget._entriesData == null) {
       return widgets;
     }
 
-    if(widget._entriesData.isEmpty){
+    if (widget._entriesData.isEmpty) {
       return <Widget>[CommonWidgets.nothing()];
     }
 
@@ -78,7 +78,8 @@ class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<ForumProvider>(context, listen: false).loadTopicEntries(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl, widget._topicID);
+          Provider.of<ForumProvider>(context, listen: false)
+              .loadTopicEntries(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl, widget._topicID);
           return Future<void>.value(null);
         },
       ),

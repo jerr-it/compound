@@ -11,7 +11,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, dynamic> getData(){
+  Map<String, dynamic> getData() {
     return _data;
   }
 }

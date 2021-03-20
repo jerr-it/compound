@@ -20,11 +20,10 @@ class ForumTab extends StatefulWidget {
 }
 
 class _ForumTabState extends State<ForumTab> {
-
-  List<Widget> _buildCategoryList(){
+  List<Widget> _buildCategoryList() {
     List<Widget> widgets = <Widget>[];
 
-    if(widget._forumData == null){
+    if (widget._forumData == null) {
       return widgets;
     }
 
@@ -32,9 +31,10 @@ class _ForumTabState extends State<ForumTab> {
     //2. display subtopics of category
     //TODO 3. make tap on subtopics display its entries
     Map<String, dynamic> categories;
-    try{
+    try {
       categories = widget._forumData["collection"];
-    }catch(e){ //There are no forum categories (forum is entirely empty)
+    } catch (e) {
+      //There are no forum categories (forum is entirely empty)
       return <Widget>[CommonWidgets.nothing()];
     }
 
@@ -51,19 +51,17 @@ class _ForumTabState extends State<ForumTab> {
       Map<String, dynamic> areas;
       try {
         areas = categoryData["areas"]["collection"];
-      }catch(e){
+      } catch (e) {
         widgets.add(ListTile(
           leading: Icon(Icons.assignment_late),
           title: Text(
-              "Nothing here :(",
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w100
-            ),
+            "Nothing here :(",
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
           ),
         ));
         return;
       }
+
       areas.forEach((areaKey, areaData) {
         String subject = areaData["subject"];
         String content = areaData["content"];
@@ -78,7 +76,18 @@ class _ForumTabState extends State<ForumTab> {
 
             Provider.of<ForumProvider>(context, listen: false).loadAreaTopics(course, category, areaKey);
 
-            Navigator.push(context, navRoute(ForumTopicsViewer(pageTitle: subject,courseID: course, categoryIDUrl: category, areaIDUrl: areaKey, color: widget._courseColor,)));
+            Navigator.push(
+              context,
+              navRoute(
+                ForumTopicsViewer(
+                  pageTitle: subject,
+                  courseID: course,
+                  categoryIDUrl: category,
+                  areaIDUrl: areaKey,
+                  color: widget._courseColor,
+                ),
+              ),
+            );
           },
         ));
       });

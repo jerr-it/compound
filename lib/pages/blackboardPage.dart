@@ -10,13 +10,13 @@ class _BlackboardPageState extends State<BlackboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Schwarzes Brett"),
-        ),
-        body: Center(
-          child: Text("This is the schwarzes Brett page"),
-        ),
-        drawer: NavDrawer()
+      appBar: AppBar(
+        title: Text("Schwarzes Brett"),
+      ),
+      body: Center(
+        child: Text("This is the schwarzes Brett page"),
+      ),
+      drawer: NavDrawer(),
     );
   }
 }

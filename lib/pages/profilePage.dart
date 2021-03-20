@@ -10,13 +10,13 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Profil"),
-        ),
-        body: Center(
-          child: Text("This is the profil page"),
-        ),
-        drawer: NavDrawer()
+      appBar: AppBar(
+        title: Text("Profil"),
+      ),
+      body: Center(
+        child: Text("This is the profil page"),
+      ),
+      drawer: NavDrawer(),
     );
   }
 }

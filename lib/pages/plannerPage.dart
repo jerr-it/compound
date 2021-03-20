@@ -10,13 +10,13 @@ class _PlannerPageState extends State<PlannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Planer"),
-        ),
-        body: Center(
-          child: Text("This is the planer page"),
-        ),
-        drawer: NavDrawer()
+      appBar: AppBar(
+        title: Text("Planer"),
+      ),
+      body: Center(
+        child: Text("This is the planer page"),
+      ),
+      drawer: NavDrawer(),
     );
   }
 }

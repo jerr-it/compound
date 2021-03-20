@@ -37,7 +37,7 @@ class _LoginFormState extends State<LoginForm> {
     super.initState();
   }
 
-  List<Widget> _buildServerSlides(){
+  List<Widget> _buildServerSlides() {
     return Server.instances.map<Widget>((server) {
       return Container(
         margin: EdgeInsets.all(5),
@@ -54,7 +54,11 @@ class _LoginFormState extends State<LoginForm> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.network(server.logoURL(), width: 100, height: 100,),
+                  Image.network(
+                    server.logoURL(),
+                    width: 100,
+                    height: 100,
+                  ),
                   Container(
                     alignment: Alignment.bottomCenter,
                     width: MediaQuery.of(context).size.width * 0.75,
@@ -69,14 +73,14 @@ class _LoginFormState extends State<LoginForm> {
                 ],
               ),
             ),
-            onTap: (){
+            onTap: () {
               LoadingIndicator.show(context, "Logging in...");
 
               var client = WebClient();
               client.setServer(server);
 
               client.authenticate().then((statusCode) async {
-                if(statusCode != 200){
+                if (statusCode != 200) {
                   //TODO help dialog to clarify error codes
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
                   return;
@@ -91,8 +95,8 @@ class _LoginFormState extends State<LoginForm> {
                 Navigator.of(context).push(navRoute(StartPage()));
               });
             },
-          )
-        )
+          ),
+        ),
       );
     }).toList();
   }
@@ -100,9 +104,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 21, 26, 45)
-      ),
+      decoration: BoxDecoration(color: Color.fromARGB(255, 21, 26, 45)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -114,12 +116,13 @@ class _LoginFormState extends State<LoginForm> {
               fontSize: 20,
             ),
           ),
-          CarouselSlider(items: _buildServerSlides(),
-              options: CarouselOptions(
-                autoPlay: true,
-                aspectRatio: 2.0,
-                enlargeCenterPage: true,
-              )
+          CarouselSlider(
+            items: _buildServerSlides(),
+            options: CarouselOptions(
+              autoPlay: true,
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+            ),
           ),
         ],
       ),

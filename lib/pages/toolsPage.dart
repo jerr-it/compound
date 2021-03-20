@@ -10,13 +10,13 @@ class _ToolsPageState extends State<ToolsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Tools"),
-        ),
-        body: Center(
-          child: Text("This is the tools page"),
-        ),
-        drawer: NavDrawer()
+      appBar: AppBar(
+        title: Text("Tools"),
+      ),
+      body: Center(
+        child: Text("This is the tools page"),
+      ),
+      drawer: NavDrawer(),
     );
   }
 }

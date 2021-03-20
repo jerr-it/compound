@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 ///Collection of commonly used pages
-class CommonWidgets{
-  static Widget nothing(){
+class CommonWidgets {
+  static Widget nothing() {
     return Center(
       child: Container(
         child: Text(

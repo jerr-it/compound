@@ -7,21 +7,20 @@ class MembersTab extends StatefulWidget {
 
   Map<String, dynamic> _members;
 
-  MembersTab({@required courseID}) :
-      _courseID = courseID;
+  MembersTab({@required courseID}) : _courseID = courseID;
 
   @override
   _MembersTabState createState() => _MembersTabState();
 }
 
 class _MembersTabState extends State<MembersTab> {
-  List<Widget> _buildMembersList(){
+  List<Widget> _buildMembersList() {
     List<Widget> widgets = <Widget>[];
-    if(widget._members == null){
+    if (widget._members == null) {
       return widgets;
     }
 
-    if(widget._members.containsKey("dozent")) {
+    if (widget._members.containsKey("dozent")) {
       widgets.add(Text(
         "Lecturers",
         style: TextStyle(
@@ -38,13 +37,13 @@ class _MembersTabState extends State<MembersTab> {
       });
     }
 
-    if(widget._members.containsKey("tutor")) {
+    if (widget._members.containsKey("tutor")) {
       widgets.add(Text(
-          "Tutors",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          )
+        "Tutors",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ));
 
       widget._members["tutor"].forEach((tutorIDUrl, tutorData) {
@@ -55,13 +54,13 @@ class _MembersTabState extends State<MembersTab> {
       });
     }
 
-    if(widget._members.containsKey("autor")) {
+    if (widget._members.containsKey("autor")) {
       widgets.add(Text(
-          "Students",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          )
+        "Students",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ));
 
       widget._members["autor"].forEach((autorIDUrl, autorData) {

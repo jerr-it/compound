@@ -76,21 +76,21 @@ import 'dart:async';
 ///    | |-wiki: "/api.php/course/:course_id/wiki
 ///    | |-forum: "/api.php/course/:course_id/forum_categories
 class CoursesProvider extends ChangeNotifier {
-  Map<String,dynamic> _data;
+  Map<String, dynamic> _data;
   final WebClient _client = WebClient();
   String _userID;
-  
-  void setUserID(String userID){
+
+  void setUserID(String userID) {
     _userID = userID;
   }
-  
-  bool initialized(){
+
+  bool initialized() {
     return _data != null;
   }
 
   ///Small helper for _fillLinks
   Future<Map<String, dynamic>> _gatherLink(String route) async {
-    if(route == null){
+    if (route == null) {
       return Future<Map<String, dynamic>>.value(null);
     }
     route = route.replaceFirst("/api.php", "").replaceFirst("/studip", "");
@@ -100,8 +100,7 @@ class CoursesProvider extends ChangeNotifier {
   ///Fills up links inside a course with their respective data
   ///as described at the top of the file
   Future<void> _fillLinks() async {
-    Map<String,dynamic> coursesJSON = _data["collection"];
-
+    Map<String, dynamic> coursesJSON = _data["collection"];
 
     await Future.forEach(coursesJSON.keys, (courseKey) async {
       //Announcements
@@ -123,8 +122,8 @@ class CoursesProvider extends ChangeNotifier {
   }
 
   void update() async {
-    if (_data == null){
-      _data = Map<String,dynamic>();
+    if (_data == null) {
+      _data = Map<String, dynamic>();
     }
 
     _data = await _client.getRoute("/user/" + _userID + "/courses");
@@ -133,7 +132,7 @@ class CoursesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String,dynamic> getData(){
+  Map<String, dynamic> getData() {
     return _data;
   }
 }
