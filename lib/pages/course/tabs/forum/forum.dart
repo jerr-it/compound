@@ -48,7 +48,22 @@ class _ForumTabState extends State<ForumTab> {
         ),
       ));
 
-      Map<String,dynamic> areas = categoryData["areas"]["collection"];
+      Map<String, dynamic> areas;
+      try {
+        areas = categoryData["areas"]["collection"];
+      }catch(e){
+        widgets.add(ListTile(
+          leading: Icon(Icons.assignment_late),
+          title: Text(
+              "Nothing here :(",
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w100
+            ),
+          ),
+        ));
+        return;
+      }
       areas.forEach((areaKey, areaData) {
         String subject = areaData["subject"];
         String content = areaData["content"];
@@ -81,11 +96,17 @@ class _ForumTabState extends State<ForumTab> {
         title: Text("Forum"),
         backgroundColor: widget._courseColor,
       ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: ListView(
-          children: _buildCategoryList(),
+      body: RefreshIndicator(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: _buildCategoryList(),
+          ),
         ),
+        onRefresh: () async {
+          Provider.of<ForumProvider>(context, listen: false).update(widget._courseID);
+          return Future<void>.value(null);
+        },
       ),
     );
   }

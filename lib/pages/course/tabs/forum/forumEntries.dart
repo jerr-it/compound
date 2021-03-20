@@ -70,12 +70,24 @@ class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
         title: Text(widget._pageTitle),
         backgroundColor: widget._courseColor,
       ),
-      body: Container(
+      body: RefreshIndicator(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: _buildEntryList(),
+          ),
+        ),
+        onRefresh: () async {
+          Provider.of<ForumProvider>(context, listen: false).loadTopicEntries(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl, widget._topicID);
+          return Future<void>.value(null);
+        },
+      ),
+      /*body: Container(
         padding: EdgeInsets.all(10),
         child: ListView(
           children: _buildEntryList(),
         )
-      ),
+      ),*/
     );
   }
 }
