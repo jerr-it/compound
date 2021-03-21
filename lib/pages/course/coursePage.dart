@@ -1,7 +1,9 @@
 import 'package:fludip/pages/course/colorMapper.dart';
+import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
 import 'package:fludip/pages/course/tabs/members.dart';
 import 'package:fludip/pages/course/tabs/overview.dart';
+import 'package:fludip/provider/course/fileProvider.dart';
 import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:fludip/provider/course/membersProvider.dart';
 import 'package:fludip/provider/coursesProvider.dart';
@@ -68,7 +70,8 @@ class CoursePage extends StatelessWidget {
       Color color = ColorMapper.convert(courseData["group"]);
 
       //TODO trailing: List of options for which new content appeared, for example a new file upload
-      widgets.add(Container(
+      widgets.add(
+        Container(
           decoration: BoxDecoration(border: Border(left: BorderSide(color: color, width: 7.5))),
           child: ExpansionTile(
             title: Container(
@@ -141,13 +144,25 @@ class CoursePage extends StatelessWidget {
                     caption: "Files",
                     color: Colors.purple,
                     onTap: () {
-                      //TODO page route
+                      if (!Provider.of<FileProvider>(context, listen: false).initialized(courseData["course_id"])) {
+                        Provider.of<FileProvider>(context, listen: false).update(courseData["course_id"]);
+                      }
+
+                      Navigator.push(
+                        context,
+                        navRoute(FilesTab(
+                          courseID: courseData["course_id"],
+                          color: ColorMapper.convert(courseData["group"]),
+                        )),
+                      );
                     },
                   ),
                 ],
               )
             ],
-          )));
+          ),
+        ),
+      );
 
       widgets.add(Divider(
         height: 0.25,
