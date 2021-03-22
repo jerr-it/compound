@@ -1,3 +1,4 @@
+import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/provider/course/fileProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,14 @@ import 'package:provider/provider.dart';
 class FilesTab extends StatefulWidget {
   String _courseID;
   Color _color;
+  List<int> _subFolderPath;
 
   Map<String, dynamic> _files;
 
-  FilesTab({@required courseID, @required color})
+  FilesTab({@required courseID, @required color, @required path})
       : _courseID = courseID,
-        _color = color;
+        _color = color,
+        _subFolderPath = path;
 
   @override
   _FilesTabState createState() => _FilesTabState();
@@ -25,16 +28,40 @@ class _FilesTabState extends State<FilesTab> {
     }
 
     List<dynamic> subfolders = widget._files["subfolders"];
-    subfolders.forEach((subfolder) {
+    if (subfolders == null) {
+      return widgets;
+    }
+
+    for (int i = 0; i < subfolders.length; i++) {
+      Map<String, dynamic> subfolder = subfolders[i];
+
       if (!subfolder.containsKey("name")) {
-        return;
+        continue;
       }
 
       widgets.add(ListTile(
         leading: Icon(Icons.folder),
         title: Text(subfolder["name"]),
+        onTap: () {
+          List<int> subPath = <int>[];
+          subPath.addAll(widget._subFolderPath);
+          subPath.add(i);
+
+          if (!Provider.of<FileProvider>(context, listen: false).initialized(widget._courseID, subPath)) {
+            Provider.of<FileProvider>(context, listen: false).update(widget._courseID, subPath);
+          }
+
+          Navigator.push(
+            context,
+            navRoute(FilesTab(
+              courseID: widget._courseID,
+              color: widget._color,
+              path: subPath,
+            )),
+          );
+        },
       ));
-    });
+    }
 
     List<dynamic> fileRefs = widget._files["file_refs"];
     fileRefs.forEach((fileRef) {
@@ -53,7 +80,7 @@ class _FilesTabState extends State<FilesTab> {
 
   @override
   Widget build(BuildContext context) {
-    widget._files = Provider.of<FileProvider>(context).getFiles(widget._courseID);
+    widget._files = Provider.of<FileProvider>(context).getFiles(widget._courseID, widget._subFolderPath);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +95,7 @@ class _FilesTabState extends State<FilesTab> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<FileProvider>(context, listen: false).update(widget._courseID);
+          Provider.of<FileProvider>(context, listen: false).update(widget._courseID, widget._subFolderPath);
           return Future<void>.value(null);
         },
       ),

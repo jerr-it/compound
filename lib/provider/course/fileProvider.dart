@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 
 ///Provides data for the courses filed
 ///Identified by their coureID
+///composed of:
+/// /:course_id/top_folder
+/// /:course_id/folder/folderid
+///
 ///|-:course_id
 ///  |-id: "f83j2..."
 ///  |-user_id: "098fj29..."
@@ -43,25 +47,59 @@ class FileProvider extends ChangeNotifier {
   Map<String, Map<String, dynamic>> _files;
   final WebClient _client = WebClient();
 
-  bool initialized(String courseID) {
-    return _files != null && _files[courseID] != null;
+  bool initialized(String courseID, List<int> subFolderIndices) {
+    if (_files == null || _files[courseID] == null) {
+      return false;
+    }
+
+    Map<String, dynamic> currentFolder = _files[courseID];
+    for (int i = 0; i < subFolderIndices.length; i++) {
+      currentFolder = currentFolder["subfolders"][subFolderIndices[i]];
+    }
+
+    return currentFolder.containsKey("subfolders");
   }
 
-  Map<String, dynamic> getFiles(String courseID) {
+  Map<String, dynamic> getFiles(String courseID, List<int> subFolderIndices) {
     try {
-      return _files[courseID];
+      Map<String, dynamic> currentFolder = _files[courseID];
+
+      for (int i = 0; i < subFolderIndices.length; i++) {
+        currentFolder = currentFolder["subfolders"][subFolderIndices[i]];
+      }
+
+      return currentFolder;
     } catch (e) {
       return null;
     }
   }
 
-  void update(String courseID) async {
-    _files ??= new Map<String, Map<String, dynamic>>();
+  void update(String courseID, List<int> subFolderIndices) async {
+    print("UPDATE FILES");
+    if (_files == null) {
+      _files = new Map<String, Map<String, dynamic>>();
 
-    String route = "/course/$courseID/top_folder";
-    var data = await _client.getRoute(route);
+      String route = "/course/$courseID/top_folder";
+      var data = await _client.getRoute(route);
 
-    _files[courseID] = data;
+      _files[courseID] = data;
+    }
+
+    var currentFile = _files[courseID];
+    for (int i = 0; i < subFolderIndices.length; i++) {
+      //Load the desired folders subfolders, if not done already
+      Map<String, dynamic> subFolder = currentFile["subfolders"][subFolderIndices[i]];
+      if (!subFolder.containsKey("subfolders")) {
+        String subFolderID = subFolder["id"];
+        var newSubFolders = await _client.getRoute("/folder/$subFolderID");
+
+        subFolder = newSubFolders;
+        currentFile["subfolders"][subFolderIndices[i]] = newSubFolders;
+      }
+
+      //Move down to selected folder
+      currentFile = subFolder;
+    }
 
     notifyListeners();
   }

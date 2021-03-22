@@ -144,8 +144,8 @@ class CoursePage extends StatelessWidget {
                     caption: "Files",
                     color: Colors.purple,
                     onTap: () {
-                      if (!Provider.of<FileProvider>(context, listen: false).initialized(courseData["course_id"])) {
-                        Provider.of<FileProvider>(context, listen: false).update(courseData["course_id"]);
+                      if (!Provider.of<FileProvider>(context, listen: false).initialized(courseData["course_id"], <int>[])) {
+                        Provider.of<FileProvider>(context, listen: false).update(courseData["course_id"], <int>[]);
                       }
 
                       Navigator.push(
@@ -153,6 +153,7 @@ class CoursePage extends StatelessWidget {
                         navRoute(FilesTab(
                           courseID: courseData["course_id"],
                           color: ColorMapper.convert(courseData["group"]),
+                          path: <int>[],
                         )),
                       );
                     },
