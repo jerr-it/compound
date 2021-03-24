@@ -75,7 +75,6 @@ class FileProvider extends ChangeNotifier {
   }
 
   void update(String courseID, List<int> subFolderIndices) async {
-    print("UPDATE FILES");
     if (_files == null) {
       _files = new Map<String, Map<String, dynamic>>();
 

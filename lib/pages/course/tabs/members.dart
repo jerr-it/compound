@@ -34,7 +34,11 @@ class _MembersTabState extends State<MembersTab> {
 
       widget._members["dozent"].forEach((lecturerIDUrl, lecturerData) {
         widgets.add(ListTile(
-          leading: Icon(Icons.person, size: 30),
+          leading: Image.network(
+            lecturerData["member"]["avatar_normal"],
+            width: 30,
+            height: 30,
+          ),
           title: Text(lecturerData["member"]["name"]["formatted"]),
         ));
       });
@@ -51,7 +55,11 @@ class _MembersTabState extends State<MembersTab> {
 
       widget._members["tutor"].forEach((tutorIDUrl, tutorData) {
         widgets.add(ListTile(
-          leading: Icon(Icons.person, size: 30),
+          leading: Image.network(
+            tutorData["member"]["avatar_normal"],
+            width: 30,
+            height: 30,
+          ),
           title: Text(tutorData["member"]["name"]["formatted"]),
         ));
       });
@@ -68,7 +76,11 @@ class _MembersTabState extends State<MembersTab> {
 
       widget._members["autor"].forEach((autorIDUrl, autorData) {
         widgets.add(ListTile(
-          leading: Icon(Icons.person, size: 30),
+          leading: Image.network(
+            autorData["member"]["avatar_normal"],
+            width: 30,
+            height: 30,
+          ),
           title: Text(autorData["member"]["name"]["formatted"]),
         ));
       });
