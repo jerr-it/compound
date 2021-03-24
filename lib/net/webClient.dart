@@ -118,6 +118,14 @@ class WebClient {
     return _oauthClient != null;
   }
 
+  ///Deletes credentials from storage and reroutes to the login page
+  void logout() async {
+    var storage = new FlutterSecureStorage();
+    await storage.delete(key: "oauth_credentials");
+
+    _oauthClient.close();
+  }
+
   ///Acts as a callback target for oauth
   Future<Stream<String>> _localCallbackServer() async {
     final StreamController<String> onCode = new StreamController();

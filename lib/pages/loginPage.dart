@@ -89,8 +89,7 @@ class _LoginFormState extends State<LoginForm> {
 
                 LoadingIndicator.dismiss(context);
 
-                Navigator.pop(context);
-                Navigator.of(context).push(navRoute(StartPage()));
+                Navigator.pushReplacement(context, navRoute(StartPage()));
               });
             },
           ),

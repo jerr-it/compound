@@ -1,3 +1,5 @@
+import 'package:fludip/net/webClient.dart';
+import 'package:fludip/pages/loginPage.dart';
 import 'package:fludip/provider/coursesProvider.dart';
 import 'package:fludip/provider/globalNewsProvider.dart';
 import 'package:fludip/provider/userProvider.dart';
@@ -143,6 +145,25 @@ class NavDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(BlackboardPage()));
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text("Settings"),
+            onTap: () {
+              //Reroute to settings page
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text("Logout"),
+            onTap: () {
+              var client = WebClient();
+              client.logout();
+
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.pushReplacement(context, navRoute(LoginPage()));
             },
           ),
         ],
