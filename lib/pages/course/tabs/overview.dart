@@ -1,4 +1,5 @@
 import 'package:fludip/pages/course/colorMapper.dart';
+import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -57,52 +58,12 @@ class _OverviewTabState extends State<OverviewTab> {
       return widgets;
     }
 
-    final DateFormat formatter = DateFormat("dd.MM.yyyy HH:mm");
-
     announcementData.forEach((key, value) {
       String topic = value["topic"].toString();
+      int timeStamp = int.parse(value["date"].toString()) * 1000;
       String body = StringUtil.removeHTMLTags(value["body"].toString());
 
-      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(value["date"].toString()) * 1000);
-      String date = formatter.format(dateTime);
-
-      widgets.add(Card(
-        child: ExpansionTile(
-          title: Container(
-            child: Row(
-              children: [
-                FlutterLogo(
-                  size: 32,
-                ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        topic,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        date,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w100,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Text(body),
-            )
-          ],
-        ),
-      ));
+      widgets.add(CommonWidgets.announcement(topic, timeStamp, body));
     });
 
     return widgets;

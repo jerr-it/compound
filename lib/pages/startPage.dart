@@ -1,8 +1,8 @@
 import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class StartPage extends StatefulWidget {
@@ -19,52 +19,12 @@ class _StartPageState extends State<StartPage> {
       return widgets;
     }
 
-    final DateFormat formatter = DateFormat("dd.MM.yyyy HH:mm");
-
     news.forEach((newsKey, newsData) {
       String topic = newsData["topic"].toString();
+      int timeStamp = int.parse(newsData["date"].toString()) * 1000;
       String body = StringUtil.removeHTMLTags(newsData["body"].toString());
 
-      DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(int.parse(newsData["date"].toString()) * 1000);
-      String date = formatter.format(dateTime);
-
-      widgets.add(Card(
-        child: ExpansionTile(
-          title: Container(
-            child: Row(
-              children: [
-                FlutterLogo(
-                  size: 32,
-                ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        topic,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        date,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w100,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: Text(body),
-            )
-          ],
-        ),
-      ));
+      widgets.add(CommonWidgets.announcement(topic, timeStamp, body));
     });
 
     return widgets;
