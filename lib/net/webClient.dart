@@ -174,7 +174,6 @@ class WebClient {
       var probe = await _oauthClient.get(this._server._baseUrl + "/discovery").timeout(Duration(seconds: 5), onTimeout: () {
         return Response("{}", 900);
       });
-      var x = jsonDecode(probe.body);
 
       //Return if the connection was successfully tested, or a timeout occurred
       //In both cases we dont want to do a new oauth setup
