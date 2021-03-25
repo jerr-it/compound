@@ -116,14 +116,11 @@ class _OverviewTabState extends State<OverviewTab> {
         backgroundColor: ColorMapper.convert(widget._courseData["group"]),
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        margin: EdgeInsets.all(5),
-        padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black12),
         ),
         child: ListView(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -106,8 +106,8 @@ class _ForumTabState extends State<ForumTab> {
       ),
       body: RefreshIndicator(
         child: Container(
-          padding: EdgeInsets.all(10),
           child: ListView(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             children: _buildCategoryList(),
           ),
         ),

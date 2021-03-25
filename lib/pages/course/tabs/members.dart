@@ -100,8 +100,8 @@ class _MembersTabState extends State<MembersTab> {
       ),
       body: RefreshIndicator(
         child: Container(
-          padding: EdgeInsets.all(10),
           child: ListView(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             children: _buildMembersList(),
           ),
         ),
