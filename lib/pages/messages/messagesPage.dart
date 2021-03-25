@@ -1,3 +1,4 @@
+import 'package:fludip/pages/messages/messageViewer.dart';
 import 'package:fludip/provider/messageProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,9 @@ class _MessagesPageState extends State<MessagesPage> {
             fontWeight: FontWeight.w300,
           ),
         ),
+        onTap: () {
+          Navigator.push(context, navRoute(MessageViewer(messageData: messageData)));
+        },
       ));
 
       widgets.add(Divider());
