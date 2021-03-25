@@ -2,6 +2,7 @@ import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
 import 'package:fludip/provider/coursesProvider.dart';
 import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/provider/messageProvider.dart';
 import 'package:fludip/provider/userProvider.dart';
 import 'package:flutter/material.dart';
 
@@ -87,6 +88,12 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.mail),
             title: Text("Nachrichten"),
             onTap: () {
+              if (!Provider.of<MessageProvider>(context, listen: false).initialized()) {
+                String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
+                Provider.of<MessageProvider>(context, listen: false).setUserID(userID);
+                Provider.of<MessageProvider>(context, listen: false).update();
+              }
+
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(MessagesPage()));
             },
