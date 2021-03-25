@@ -1,4 +1,5 @@
 import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/course/fileProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,10 @@ class _FilesTabState extends State<FilesTab> {
       widgets.add(ListTile(
         leading: Icon(Icons.file_copy),
         title: Text(fileRef["name"]),
+        onTap: () {
+          var client = WebClient();
+          client.download(fileRef["url"]);
+        },
       ));
     });
 
