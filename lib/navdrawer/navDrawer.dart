@@ -10,7 +10,7 @@ import 'package:fludip/navdrawer/navDrawerHeader.dart';
 
 import 'package:fludip/pages/communityPage.dart';
 import 'package:fludip/pages/filesPage.dart';
-import 'package:fludip/pages/messagesPage.dart';
+import 'package:fludip/pages/messages/messagesPage.dart';
 import 'package:fludip/pages/plannerPage.dart';
 import 'package:fludip/pages/profilePage.dart';
 import 'package:fludip/pages/blackboardPage.dart';
