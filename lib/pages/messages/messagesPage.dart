@@ -1,3 +1,4 @@
+import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/messages/messageViewer.dart';
 import 'package:fludip/provider/messageProvider.dart';
 import 'package:fludip/util/str.dart';
@@ -20,10 +21,17 @@ class _MessagesPageState extends State<MessagesPage> {
     }
 
     widget._data.forEach((messageIdUrl, messageData) {
+      bool unread = messageData["unread"];
       widgets.add(ListTile(
         leading: Icon(Icons.mail, size: 30),
-        title: Text(messageData["subject"]),
-        subtitle: Text(messageData["sender"]["name"]["formatted"]),
+        title: Text(
+          messageData["subject"],
+          style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
+        ),
+        subtitle: Text(
+          messageData["sender"]["name"]["formatted"],
+          style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
+        ),
         trailing: Text(
           StringUtil.fromUnixTime(int.parse(messageData["mkdate"]) * 1000, "dd.MM.yyyy HH:mm"),
           style: TextStyle(
@@ -31,6 +39,14 @@ class _MessagesPageState extends State<MessagesPage> {
           ),
         ),
         onTap: () {
+          if (unread) {
+            var client = WebClient();
+            client.markRead(messageData["message_id"]);
+            setState(() {
+              widget._data[messageIdUrl]["unread"] = false;
+            });
+          }
+
           Navigator.push(context, navRoute(MessageViewer(messageData: messageData)));
         },
       ));

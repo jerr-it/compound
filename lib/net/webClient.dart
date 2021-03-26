@@ -213,4 +213,11 @@ class WebClient {
   void download(String fileUrl) async {
     //TODO implement
   }
+
+  void markRead(String msgID) async {
+    await _oauthClient.put(
+      this._server._baseUrl + "/message/$msgID",
+      body: <String, String>{"unread": "0"},
+    );
+  }
 }
