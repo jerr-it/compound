@@ -1,6 +1,7 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/messages/messageViewer.dart';
 import 'package:fludip/provider/messageProvider.dart';
+import 'package:fludip/util/popupDialog.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
@@ -62,11 +63,20 @@ class _MessagesPageState extends State<MessagesPage> {
             color: Colors.red,
             icon: Icons.delete,
             onTap: () {
-              var client = WebClient();
-              client.deleteMsg(messageData["message_id"]);
-              setState(() {
-                widget._data.remove(messageIdUrl);
-              });
+              Popup.display(
+                context,
+                title: "Are you sure?",
+                optionA: "Confirm",
+                optionB: "Cancel",
+                optionAAction: () {
+                  var client = WebClient();
+                  client.deleteMsg(messageData["message_id"]);
+                  setState(() {
+                    widget._data.remove(messageIdUrl);
+                  });
+                },
+                optionBAction: () {},
+              );
             },
           )
         ],
