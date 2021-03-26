@@ -220,4 +220,8 @@ class WebClient {
       body: <String, String>{"unread": "0"},
     );
   }
+
+  void deleteMsg(String msgID) async {
+    await _oauthClient.delete(this._server._baseUrl + "/message/$msgID");
+  }
 }

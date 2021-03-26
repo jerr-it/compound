@@ -4,10 +4,12 @@ import 'package:fludip/provider/messageProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class MessagesPage extends StatefulWidget {
   Map<String, dynamic> _data;
+  final SlidableController slideController = SlidableController();
 
   @override
   _MessagesPageState createState() => _MessagesPageState();
@@ -22,36 +24,57 @@ class _MessagesPageState extends State<MessagesPage> {
 
     widget._data.forEach((messageIdUrl, messageData) {
       bool unread = messageData["unread"];
-      widgets.add(ListTile(
-        leading: Icon(Icons.mail, size: 30),
-        title: Text(
-          messageData["subject"],
-          style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
-        ),
-        subtitle: Text(
-          messageData["sender"]["name"]["formatted"],
-          style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
-        ),
-        trailing: Text(
-          StringUtil.fromUnixTime(int.parse(messageData["mkdate"]) * 1000, "dd.MM.yyyy HH:mm"),
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
+      widgets.add(Slidable(
+        controller: widget.slideController,
+        actionPane: SlidableStrechActionPane(),
+        actionExtentRatio: 1 / 5,
+        child: ListTile(
+          leading: Icon(Icons.mail, size: 30),
+          title: Text(
+            messageData["subject"],
+            style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
           ),
-        ),
-        onTap: () {
-          if (unread) {
-            var client = WebClient();
-            client.markRead(messageData["message_id"]);
-            setState(() {
-              widget._data[messageIdUrl]["unread"] = false;
-            });
-          }
+          subtitle: Text(
+            messageData["sender"]["name"]["formatted"],
+            style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
+          ),
+          trailing: Text(
+            StringUtil.fromUnixTime(int.parse(messageData["mkdate"]) * 1000, "dd.MM.yyyy HH:mm"),
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          onTap: () {
+            if (unread) {
+              var client = WebClient();
+              client.markRead(messageData["message_id"]);
+              setState(() {
+                widget._data[messageIdUrl]["unread"] = false;
+              });
+            }
 
-          Navigator.push(context, navRoute(MessageViewer(messageData: messageData)));
-        },
+            Navigator.push(context, navRoute(MessageViewer(messageData: messageData)));
+          },
+        ),
+        secondaryActions: [
+          IconSlideAction(
+            caption: "Delete",
+            color: Colors.red,
+            icon: Icons.delete,
+            onTap: () {
+              var client = WebClient();
+              client.deleteMsg(messageData["message_id"]);
+              setState(() {
+                widget._data.remove(messageIdUrl);
+              });
+            },
+          )
+        ],
       ));
 
-      widgets.add(Divider());
+      widgets.add(Divider(
+        height: 5,
+      ));
     });
 
     return widgets;
