@@ -1,3 +1,4 @@
+import 'package:fludip/provider/blubber/blubberThreadViewer.dart';
 import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,13 @@ class _CommunityPageState extends State<CommunityPage> {
         leading: leading,
         title: Text(thread["name"]),
         subtitle: Text(StringUtil.fromUnixTime(thread["timestamp"] * 1000, "dd.MM.yyyy HH:mm")),
+        onTap: () {
+          if (!Provider.of<BlubberProvider>(context, listen: false).threadInitialized(thread["name"])) {
+            Provider.of<BlubberProvider>(context, listen: false).initThread(thread["name"]);
+          }
+
+          Navigator.push(context, navRoute(BlubberThreadViewer(name: thread["name"])));
+        },
       ));
 
       widgets.add(Divider());
