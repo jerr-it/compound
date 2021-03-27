@@ -1,3 +1,4 @@
+import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:fludip/provider/course/membersProvider.dart';
 import 'package:fludip/provider/coursesProvider.dart';
@@ -29,6 +30,7 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MembersProvider()),
         ChangeNotifierProvider(create: (_) => FileProvider()),
         ChangeNotifierProvider(create: (_) => MessageProvider()),
+        ChangeNotifierProvider(create: (_) => BlubberProvider()),
       ],
       child: MaterialApp(
         title: "Fludip",

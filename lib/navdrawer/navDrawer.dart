@@ -1,5 +1,6 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
+import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/coursesProvider.dart';
 import 'package:fludip/provider/globalNewsProvider.dart';
 import 'package:fludip/provider/messageProvider.dart';
@@ -102,6 +103,10 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.people),
             title: Text("Community"),
             onTap: () {
+              if (!Provider.of<BlubberProvider>(context, listen: false).initialized()) {
+                Provider.of<BlubberProvider>(context, listen: false).init();
+              }
+
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(CommunityPage()));
             },

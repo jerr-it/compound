@@ -1,3 +1,4 @@
+import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/course/colorMapper.dart';
 import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
@@ -156,6 +157,16 @@ class CoursePage extends StatelessWidget {
                           path: <int>[],
                         )),
                       );
+                    },
+                  ),
+                  GridButton(
+                    icon: Icons.chat,
+                    caption: "Blubber",
+                    color: Colors.amber,
+                    onTap: () async {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("open blubber"),
+                      ));
                     },
                   ),
                 ],
