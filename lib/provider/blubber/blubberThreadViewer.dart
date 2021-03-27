@@ -23,53 +23,28 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
 
     List<dynamic> comments = widget._thread["comments"];
     comments.forEach((comment) {
-      if (comment["class"] == "mine") {
-        widgets.add(
-          Padding(
-            padding: EdgeInsets.all(5),
-            child: Bubble(
-              alignment: Alignment.topRight,
-              nip: BubbleNip.rightTop,
-              color: Colors.lightGreen,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(comment["user_name"]),
-                      Text(StringUtil.fromUnixTime(comment["chdate"] * 1000, "dd.MM.yyyy HH:mm")),
-                    ],
-                  ),
-                  Text(comment["content"]),
-                ],
-              ),
+      widgets.add(
+        Padding(
+          padding: EdgeInsets.all(5),
+          child: Bubble(
+            alignment: comment["class"] == "mine" ? Alignment.topRight : Alignment.bottomLeft,
+            nip: comment["class"] == "mine" ? BubbleNip.rightTop : BubbleNip.leftBottom,
+            color: comment["class"] == "mine" ? Colors.lightGreen : Colors.white30,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(comment["user_name"]),
+                    Text(StringUtil.fromUnixTime(comment["chdate"] * 1000, "dd.MM.yyyy HH:mm")),
+                  ],
+                ),
+                Text(comment["content"]),
+              ],
             ),
           ),
-        );
-      } else {
-        widgets.add(
-          Padding(
-            padding: EdgeInsets.all(5),
-            child: Bubble(
-              alignment: Alignment.topLeft,
-              nip: BubbleNip.leftTop,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(comment["user_name"]),
-                      Text(StringUtil.fromUnixTime(comment["chdate"] * 1000, "dd.MM.yyyy HH:mm")),
-                    ],
-                  ),
-                  Text(comment["content"]),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
+        ),
+      );
     });
 
     return widgets;
