@@ -66,10 +66,37 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
       appBar: AppBar(
         title: widget._thread == null ? Text("Blubber") : Text(widget._thread["thread_posting"]["name"]),
       ),
-      body: ListView(
-        reverse: true,
-        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-        children: _buildChat(),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              reverse: true,
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              children: _buildChat(),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.black12,
+            ),
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: TextField(),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    child: IconButton(icon: Icon(Icons.send), onPressed: () {}),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
