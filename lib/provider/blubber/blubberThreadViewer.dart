@@ -31,12 +31,20 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
             nip: comment["class"] == "mine" ? BubbleNip.rightTop : BubbleNip.leftBottom,
             color: comment["class"] == "mine" ? Colors.lightGreen : Colors.white30,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: comment["class"] == "mine" ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(comment["user_name"]),
-                    Text(StringUtil.fromUnixTime(comment["chdate"] * 1000, "dd.MM.yyyy HH:mm")),
+                    Text(
+                      comment["user_name"],
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
+                    ),
+                    Text(
+                      ", " + StringUtil.fromUnixTime(comment["chdate"] * 1000, "HH:mm"),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
+                    ),
                   ],
                 ),
                 Text(comment["content"]),
