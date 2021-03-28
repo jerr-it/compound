@@ -9,7 +9,7 @@ class UserProvider extends ChangeNotifier {
   User _user;
   final WebClient _client = WebClient();
 
-  void fetch() async {
+  Future<void> fetch() async {
     var result = await _client.httpGet("/user");
     Map<String, dynamic> decoded = jsonDecode(result.body);
 

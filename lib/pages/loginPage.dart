@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/startPage.dart';
-import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:fludip/util/loadingIndicator.dart';
 
@@ -85,7 +85,7 @@ class _LoginFormState extends State<LoginForm> {
                 }
 
                 Provider.of<UserProvider>(context, listen: false).fetch();
-                Provider.of<GlobalNewsProvider>(context, listen: false).update();
+                Provider.of<NewsProvider>(context, listen: false).update();
 
                 LoadingIndicator.dismiss(context);
 

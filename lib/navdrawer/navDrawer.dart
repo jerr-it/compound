@@ -2,7 +2,7 @@ import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
 import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/coursesProvider.dart';
-import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/messageProvider.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
@@ -63,8 +63,8 @@ class NavDrawer extends StatelessWidget {
             title: Text("Start"),
             onTap: () async {
               //Only do it once at the start to improve nav drawer performance
-              if (!Provider.of<GlobalNewsProvider>(context, listen: false).initialized()) {
-                Provider.of<GlobalNewsProvider>(context, listen: false).update();
+              if (!Provider.of<NewsProvider>(context, listen: false).initialized()) {
+                Provider.of<NewsProvider>(context, listen: false).update();
               }
 
               Navigator.pop(context);

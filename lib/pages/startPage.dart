@@ -1,4 +1,4 @@
-import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   ///Convert data to widgets
   List<Widget> _buildListEntries() {
-    Map<String, dynamic> news = Provider.of<GlobalNewsProvider>(context).get()["collection"];
+    Map<String, dynamic> news = Provider.of<NewsProvider>(context).get()["collection"];
     List<Widget> widgets = <Widget>[];
     if (news == null) {
       return widgets;
@@ -41,7 +41,7 @@ class _StartPageState extends State<StartPage> {
           children: _buildListEntries(),
         ),
         onRefresh: () async {
-          Provider.of<GlobalNewsProvider>(context, listen: false).update();
+          Provider.of<NewsProvider>(context, listen: false).update();
           return Future<void>.value(null);
         },
       ),
