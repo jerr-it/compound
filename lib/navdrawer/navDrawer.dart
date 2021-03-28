@@ -104,7 +104,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Community"),
             onTap: () {
               if (!Provider.of<BlubberProvider>(context, listen: false).initialized()) {
-                Provider.of<BlubberProvider>(context, listen: false).init();
+                Provider.of<BlubberProvider>(context, listen: false).fetchOverview();
               }
 
               Navigator.pop(context);

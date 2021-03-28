@@ -224,4 +224,13 @@ class WebClient {
   void deleteMsg(String msgID) async {
     await _oauthClient.delete(this._server._baseUrl + "/message/$msgID");
   }
+
+  void postBlubberMsg(String threadID, String message) async {
+    await _oauthClient.post(
+      this._server._baseUrl + "/blubber/threads/$threadID/comments",
+      body: <String, String>{
+        "content": message,
+      },
+    );
+  }
 }

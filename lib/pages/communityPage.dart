@@ -44,7 +44,7 @@ class _CommunityPageState extends State<CommunityPage> {
         subtitle: Text(StringUtil.fromUnixTime(thread["timestamp"] * 1000, "dd.MM.yyyy HH:mm")),
         onTap: () {
           if (!Provider.of<BlubberProvider>(context, listen: false).threadInitialized(thread["name"])) {
-            Provider.of<BlubberProvider>(context, listen: false).initThread(thread["name"]);
+            Provider.of<BlubberProvider>(context, listen: false).fetchThread(thread["name"]);
           }
 
           Navigator.push(context, navRoute(BlubberThreadViewer(name: thread["name"])));

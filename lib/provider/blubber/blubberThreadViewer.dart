@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bubble/bubble.dart';
+import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,7 @@ import 'package:provider/provider.dart';
 class BlubberThreadViewer extends StatefulWidget {
   Map<String, dynamic> _thread;
   String _threadName;
+  final TextEditingController _tController = TextEditingController();
 
   BlubberThreadViewer({@required name}) : _threadName = name;
 
@@ -15,6 +19,22 @@ class BlubberThreadViewer extends StatefulWidget {
 }
 
 class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
+  Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(Duration(seconds: 15), (timer) {
+      Provider.of<BlubberProvider>(context, listen: false).fetchThread(widget._threadName);
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   List<Widget> _buildChat() {
     List<Widget> widgets = <Widget>[];
     if (widget._thread == null) {
@@ -84,13 +104,24 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
-                  child: TextField(),
+                  child: TextField(controller: widget._tController),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
-                    child: IconButton(icon: Icon(Icons.send), onPressed: () {}),
+                    child: IconButton(
+                      color: Colors.blue,
+                      icon: Icon(Icons.send),
+                      onPressed: () async {
+                        var client = WebClient();
+                        client.postBlubberMsg(widget._thread["thread_posting"]["thread_id"], widget._tController.text);
+
+                        widget._tController.clear();
+                        await Future.delayed(Duration(seconds: 1)); //TODO some better way to wait for result?
+                        Provider.of<BlubberProvider>(context, listen: false).fetchThread(widget._threadName);
+                      },
+                    ),
                   ),
                 ),
               ],

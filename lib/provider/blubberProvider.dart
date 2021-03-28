@@ -39,7 +39,7 @@ class BlubberProvider extends ChangeNotifier {
     return _data[name] != null;
   }
 
-  void init() async {
+  void fetchOverview() async {
     _data ??= <String, dynamic>{};
     _threads ??= <dynamic>[];
 
@@ -49,13 +49,14 @@ class BlubberProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void initThread(String name) async {
+  void fetchThread(String name) async {
     var threadObject = _threads.firstWhere((thread) => thread["name"] == name);
     String threadID = threadObject["thread_id"];
 
     var threadContent = await _client.getRoute("/blubber/threads/$threadID");
     _data[name] = threadContent;
 
+    print("FETCH THREAD");
     notifyListeners();
   }
 
