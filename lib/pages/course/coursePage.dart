@@ -4,6 +4,8 @@ import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
 import 'package:fludip/pages/course/tabs/members.dart';
 import 'package:fludip/pages/course/tabs/overview.dart';
+import 'package:fludip/provider/blubber/blubberThreadViewer.dart';
+import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/course/fileProvider.dart';
 import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:fludip/provider/course/membersProvider.dart';
@@ -164,9 +166,15 @@ class CoursePage extends StatelessWidget {
                     caption: "Blubber",
                     color: Colors.amber,
                     onTap: () async {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("open blubber"),
-                      ));
+                      String threadName = courseData["title"];
+                      if (!Provider.of<BlubberProvider>(context, listen: false).initialized()) {
+                        await Provider.of<BlubberProvider>(context, listen: false).fetchOverview();
+                      }
+                      if (!Provider.of<BlubberProvider>(context, listen: false).threadInitialized(threadName)) {
+                        await Provider.of<BlubberProvider>(context, listen: false).fetchThread(threadName);
+                      }
+
+                      Navigator.push(context, navRoute(BlubberThreadViewer(name: threadName)));
                     },
                   ),
                 ],
