@@ -9,7 +9,7 @@ import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/course/fileProvider.dart';
 import 'package:fludip/provider/course/forumProvider.dart';
 import 'package:fludip/provider/course/membersProvider.dart';
-import 'package:fludip/provider/coursesProvider.dart';
+import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:provider/provider.dart';
@@ -195,7 +195,7 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var courses = Provider.of<CoursesProvider>(context).getData();
+    var courses = Provider.of<GeneralCourseProvider>(context).getData();
 
     return Scaffold(
       appBar: AppBar(
@@ -206,7 +206,7 @@ class CoursePage extends StatelessWidget {
           children: _buildListEntries(context, courses),
         ),
         onRefresh: () async {
-          Provider.of<CoursesProvider>(context, listen: false).update();
+          Provider.of<GeneralCourseProvider>(context, listen: false).update();
           return Future<void>.value(null);
         },
       ),
