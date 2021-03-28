@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:fludip/pages/loginPage.dart';
 import 'package:provider/provider.dart';
 
-import 'provider/userProvider.dart';
+import 'provider/user/userProvider.dart';
 
 void main() => runApp(App());
 

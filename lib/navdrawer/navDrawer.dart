@@ -4,7 +4,7 @@ import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/coursesProvider.dart';
 import 'package:fludip/provider/globalNewsProvider.dart';
 import 'package:fludip/provider/messageProvider.dart';
-import 'package:fludip/provider/userProvider.dart';
+import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fludip/navdrawer/navDrawerHeader.dart';

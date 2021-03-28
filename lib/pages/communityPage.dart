@@ -1,4 +1,4 @@
-import 'package:fludip/provider/blubber/blubberThreadViewer.dart';
+import 'package:fludip/pages/community/blubberThreadViewer.dart';
 import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
