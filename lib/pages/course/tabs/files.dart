@@ -1,6 +1,6 @@
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/fileProvider.dart';
+import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
