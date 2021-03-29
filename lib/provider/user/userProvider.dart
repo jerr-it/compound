@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/user/userModel.dart';
-import 'package:flutter/material.dart';
 
 ///Saves the logged in users data as returned by /users/me
 class UserProvider extends ChangeNotifier {

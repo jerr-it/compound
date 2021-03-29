@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/news/newsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+
+import 'package:fludip/net/webClient.dart';
+import 'package:fludip/provider/news/newsModel.dart';
 
 ///Keeps all news organized in a map
 ///The key to each is the route by which they were retrieved

@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/files/folderModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+
+import 'package:fludip/net/webClient.dart';
+import 'package:fludip/provider/course/files/folderModel.dart';
 
 ///Provides data for the courses filed
 ///Identified by their coureID
