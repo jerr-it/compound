@@ -1,5 +1,5 @@
 import 'package:fludip/provider/blubberProvider.dart';
-import 'package:fludip/provider/course/forumProvider.dart';
+import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/membersProvider.dart';
 import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
