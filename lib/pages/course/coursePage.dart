@@ -8,7 +8,7 @@ import 'package:fludip/pages/community/blubberThreadViewer.dart';
 import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
-import 'package:fludip/provider/course/membersProvider.dart';
+import 'package:fludip/provider/course/members/membersProvider.dart';
 import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';

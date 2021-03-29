@@ -1,4 +1,4 @@
-import 'package:fludip/provider/course/membersProvider.dart';
+import 'package:fludip/provider/course/members/membersProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

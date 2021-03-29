@@ -20,6 +20,10 @@ class ForumProvider extends ChangeNotifier {
     return _forums != null && _forums[courseID] != null;
   }
 
+  ///--------------------------------///
+  ///Category                        ///
+  ///--------------------------------///
+
   List<ForumCategory> getCategories(String courseID) {
     return _forums[courseID];
   }
@@ -39,6 +43,10 @@ class ForumProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  ///--------------------------------///
+  ///Area                            ///
+  ///--------------------------------///
 
   List<ForumArea> getAreas(String courseID, int categoryIdx) {
     ForumCategory selectedCategory = _forums[courseID][categoryIdx];
@@ -64,6 +72,10 @@ class ForumProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///--------------------------------///
+  ///Topic                           ///
+  ///--------------------------------///
+
   List<ForumTopic> getTopics(String courseID, int categoryIdx, int areaIdx) {
     ForumArea selectedArea = _forums[courseID][categoryIdx].areas[areaIdx];
     return selectedArea.topics;
@@ -87,6 +99,10 @@ class ForumProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  ///--------------------------------///
+  ///Entry                           ///
+  ///--------------------------------///
 
   List<ForumEntry> getEntries(String courseID, int categoryIdx, int areaIdx, int topicIdx) {
     ForumTopic selectedTopic = _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx];
