@@ -4,7 +4,7 @@ import 'package:fludip/provider/course/members/membersProvider.dart';
 import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
-import 'package:fludip/provider/messageProvider.dart';
+import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/pages/loginPage.dart';
 import 'package:provider/provider.dart';

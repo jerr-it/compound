@@ -1,6 +1,6 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/messages/messageViewer.dart';
-import 'package:fludip/provider/messageProvider.dart';
+import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:fludip/util/popupDialog.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
