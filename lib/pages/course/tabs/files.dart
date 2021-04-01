@@ -1,5 +1,4 @@
 import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/course/files/fileModel.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/files/folderModel.dart';
@@ -72,7 +71,6 @@ class _FilesTabState extends State<FilesTab> {
         leading: Icon(Icons.file_copy),
         title: Text(fileRef.name),
         onTap: () {
-          var client = WebClient();
           //TODO download file
         },
       ));

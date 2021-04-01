@@ -14,7 +14,6 @@ import 'provider/user/userProvider.dart';
 void main() => runApp(App());
 
 //TODO localisation
-//TODO refactor providers to use predefined classes to return data
 //TODO user settings:
 // 1. custom colors for courses
 // 2. (fingerprint?) unlock
