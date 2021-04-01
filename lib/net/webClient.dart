@@ -199,29 +199,30 @@ class WebClient {
     return Future<int>.value(200);
   }
 
-  ///Execute a GET route
-  Future<Map<String, dynamic>> getRoute(String route) async {
-    if (_oauthClient == null) {
-      return Future<Map<String, String>>.value(null);
-    }
-
-    Response res = await _oauthClient.get(this._server._baseUrl + route);
-    return jsonDecode(res.body);
+  Future<Response> httpGet(String url, {Map<String, String> headers = const <String, String>{}}) {
+    return _oauthClient.get(_server._baseUrl + url, headers: headers);
   }
 
-  ///Download a file identified by its id
-  void download(String fileUrl) async {
-    //TODO implement
-  }
-
-  void markRead(String msgID) async {
-    await _oauthClient.put(
-      this._server._baseUrl + "/message/$msgID",
-      body: <String, String>{"unread": "0"},
+  Future<Response> httpPost(String url, {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
+    return _oauthClient.post(
+      _server._baseUrl + url,
+      headers: headers,
+      body: body,
     );
   }
 
-  void deleteMsg(String msgID) async {
-    await _oauthClient.delete(this._server._baseUrl + "/message/$msgID");
+  Future<Response> httpPut(String url, {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
+    return _oauthClient.put(
+      _server._baseUrl + url,
+      headers: headers,
+      body: body,
+    );
+  }
+
+  Future<Response> httpDelete(String url, {Map<String, String> headers = const <String, String>{}}) {
+    return _oauthClient.delete(
+      _server._baseUrl + url,
+      headers: headers,
+    );
   }
 }

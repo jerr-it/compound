@@ -1,6 +1,8 @@
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/fileProvider.dart';
+import 'package:fludip/provider/course/files/fileModel.dart';
+import 'package:fludip/provider/course/files/fileProvider.dart';
+import 'package:fludip/provider/course/files/folderModel.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +12,7 @@ class FilesTab extends StatefulWidget {
   Color _color;
   List<int> _subFolderPath;
 
-  Map<String, dynamic> _files;
+  Folder _currentFolder;
 
   FilesTab({@required courseID, @required color, @required path})
       : _courseID = courseID,
@@ -24,32 +26,32 @@ class FilesTab extends StatefulWidget {
 class _FilesTabState extends State<FilesTab> {
   List<Widget> _buildFileList() {
     List<Widget> widgets = <Widget>[];
-    if (widget._files == null) {
+    if (widget._currentFolder == null) {
       return widgets;
     }
 
-    List<dynamic> subfolders = widget._files["subfolders"];
+    List<Folder> subfolders = widget._currentFolder.subFolders;
     if (subfolders == null) {
       return widgets;
     }
 
     for (int i = 0; i < subfolders.length; i++) {
-      Map<String, dynamic> subfolder = subfolders[i];
+      Folder subfolder = subfolders[i];
 
-      if (!subfolder.containsKey("name")) {
+      if (subfolder.name == null) {
         continue;
       }
 
       widgets.add(ListTile(
         leading: Icon(Icons.folder),
-        title: Text(subfolder["name"]),
-        onTap: () {
+        title: Text(subfolder.name),
+        onTap: () async {
           List<int> subPath = <int>[];
           subPath.addAll(widget._subFolderPath);
           subPath.add(i);
 
           if (!Provider.of<FileProvider>(context, listen: false).initialized(widget._courseID, subPath)) {
-            Provider.of<FileProvider>(context, listen: false).update(widget._courseID, subPath);
+            await Provider.of<FileProvider>(context, listen: false).update(widget._courseID, subPath);
           }
 
           Navigator.push(
@@ -64,14 +66,14 @@ class _FilesTabState extends State<FilesTab> {
       ));
     }
 
-    List<dynamic> fileRefs = widget._files["file_refs"];
+    List<File> fileRefs = widget._currentFolder.files;
     fileRefs.forEach((fileRef) {
       widgets.add(ListTile(
         leading: Icon(Icons.file_copy),
-        title: Text(fileRef["name"]),
+        title: Text(fileRef.name),
         onTap: () {
           var client = WebClient();
-          client.download(fileRef["url"]);
+          //TODO download file
         },
       ));
     });
@@ -85,7 +87,7 @@ class _FilesTabState extends State<FilesTab> {
 
   @override
   Widget build(BuildContext context) {
-    widget._files = Provider.of<FileProvider>(context).getFiles(widget._courseID, widget._subFolderPath);
+    widget._currentFolder = Provider.of<FileProvider>(context).getFolder(widget._courseID, widget._subFolderPath);
 
     return Scaffold(
       appBar: AppBar(
@@ -100,7 +102,7 @@ class _FilesTabState extends State<FilesTab> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<FileProvider>(context, listen: false).update(widget._courseID, widget._subFolderPath);
+          await Provider.of<FileProvider>(context, listen: false).update(widget._courseID, widget._subFolderPath);
           return Future<void>.value(null);
         },
       ),

@@ -1,4 +1,5 @@
-import 'package:fludip/provider/course/forumProvider.dart';
+import 'package:fludip/provider/course/forum/entryModel.dart';
+import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -9,25 +10,25 @@ class ForumEntriesViewer extends StatefulWidget {
   Color _courseColor;
 
   String _courseID;
-  String _categoryIDUrl;
-  String _areaIDUrl;
-  String _topicID;
+  int _categoryIdx;
+  int _areaIdx;
+  int _topicIdx;
 
-  List<dynamic> _entriesData;
+  List<ForumEntry> _entries;
 
   ForumEntriesViewer(
       {@required pageTitle,
       @required courseID,
-      @required categoryIDUrl,
-      @required areaIDUrl,
+      @required categoryIdx,
+      @required areaIdx,
       @required color,
-      @required topicID})
+      @required topicIdx})
       : _pageTitle = pageTitle,
         _courseID = courseID,
-        _categoryIDUrl = categoryIDUrl,
-        _areaIDUrl = areaIDUrl,
+        _categoryIdx = categoryIdx,
+        _areaIdx = areaIdx,
         _courseColor = color,
-        _topicID = topicID;
+        _topicIdx = topicIdx;
 
   @override
   _ForumEntriesViewerState createState() => _ForumEntriesViewerState();
@@ -37,18 +38,18 @@ class ForumEntriesViewer extends StatefulWidget {
 class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
   List<Widget> _buildEntryList() {
     List<Widget> widgets = <Widget>[];
-    if (widget._entriesData == null) {
+    if (widget._entries == null) {
       return widgets;
     }
 
-    if (widget._entriesData.isEmpty) {
+    if (widget._entries.isEmpty) {
       return <Widget>[CommonWidgets.nothing()];
     }
 
-    widget._entriesData.forEach((entryData) {
+    widget._entries.forEach((entry) {
       widgets.add(ListTile(
         leading: Icon(Icons.person, size: 30),
-        title: Text(StringUtil.removeHTMLTags(entryData["content"]).replaceAll("\n", "")),
+        title: Text(StringUtil.removeHTMLTags(entry.content.replaceAll("\n", ""))),
       ));
       widgets.add(Divider());
     });
@@ -58,11 +59,11 @@ class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
 
   @override
   Widget build(BuildContext context) {
-    widget._entriesData = Provider.of<ForumProvider>(context).getTopicEntries(
+    widget._entries = Provider.of<ForumProvider>(context).getEntries(
       widget._courseID,
-      widget._categoryIDUrl,
-      widget._areaIDUrl,
-      widget._topicID,
+      widget._categoryIdx,
+      widget._areaIdx,
+      widget._topicIdx,
     );
 
     return Scaffold(
@@ -78,8 +79,8 @@ class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<ForumProvider>(context, listen: false)
-              .loadTopicEntries(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl, widget._topicID);
+          await Provider.of<ForumProvider>(context, listen: false)
+              .updateEntries(widget._courseID, widget._categoryIdx, widget._areaIdx, widget._topicIdx);
           return Future<void>.value(null);
         },
       ),

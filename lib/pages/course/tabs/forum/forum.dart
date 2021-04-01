@@ -1,6 +1,7 @@
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/course/tabs/forum/forumTopics.dart';
-import 'package:fludip/provider/course/forumProvider.dart';
+import 'package:fludip/provider/course/forum/categoryModel.dart';
+import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class ForumTab extends StatefulWidget {
   final String _courseID;
-  Map<String, dynamic> _forumData;
+  List<ForumCategory> _categories;
   Color _courseColor;
 
   ForumTab({@required courseID, @required color})
@@ -23,81 +24,56 @@ class _ForumTabState extends State<ForumTab> {
   List<Widget> _buildCategoryList() {
     List<Widget> widgets = <Widget>[];
 
-    if (widget._forumData == null) {
-      return widgets;
+    if (widget._categories == null) {
+      return <Widget>[LinearProgressIndicator()];
     }
 
     //1. display category name large
     //2. display subtopics of category
-    Map<String, dynamic> categories;
-    try {
-      categories = widget._forumData["collection"];
-    } catch (e) {
-      //There are no forum categories (forum is entirely empty)
-      return <Widget>[CommonWidgets.nothing()];
-    }
-
-    categories.forEach((categoryKey, categoryData) {
-      String categoryName = categoryData["entry_name"];
+    for (int categoryIdx = 0; categoryIdx < widget._categories.length; categoryIdx++) {
       widgets.add(Text(
-        categoryName,
+        widget._categories[categoryIdx].name,
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
       ));
 
-      Map<String, dynamic> areas;
-      try {
-        areas = categoryData["areas"]["collection"];
-      } catch (e) {
-        widgets.add(ListTile(
-          leading: Icon(Icons.assignment_late),
-          title: Text(
-            "Nothing here :(",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
-          ),
-        ));
-        return;
+      if (widget._categories[categoryIdx].areas == null) {
+        return <Widget>[LinearProgressIndicator()];
       }
 
-      areas.forEach((areaKey, areaData) {
-        String subject = areaData["subject"];
-        String content = areaData["content"];
-
+      for (int areaIdx = 0; areaIdx < widget._categories[categoryIdx].areas.length; areaIdx++) {
         widgets.add(ListTile(
           leading: Icon(Icons.topic, size: 30),
-          title: Text(subject),
-          subtitle: Text(content),
-          onTap: () {
-            String course = categoryData["course"].toString().replaceFirst("/studip/api.php/course/", "");
-            String category = "/studip/api.php/forum_category/" + categoryData["category_id"].toString();
-
-            Provider.of<ForumProvider>(context, listen: false).loadAreaTopics(course, category, areaKey);
+          title: Text(widget._categories[categoryIdx].areas[areaIdx].subject),
+          subtitle: Text(widget._categories[categoryIdx].areas[areaIdx].content),
+          onTap: () async {
+            await Provider.of<ForumProvider>(context, listen: false).updateTopics(widget._courseID, categoryIdx, areaIdx);
 
             Navigator.push(
               context,
               navRoute(
                 ForumTopicsViewer(
-                  pageTitle: subject,
-                  courseID: course,
-                  categoryIDUrl: category,
-                  areaIDUrl: areaKey,
+                  pageTitle: widget._categories[categoryIdx].areas[areaIdx].subject,
+                  courseID: widget._courseID,
+                  categoryIdx: categoryIdx,
+                  areaIdx: areaIdx,
                   color: widget._courseColor,
                 ),
               ),
             );
           },
         ));
-      });
-    });
+      }
+    }
 
     return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
-    widget._forumData = Provider.of<ForumProvider>(context).getData(widget._courseID);
+    widget._categories = Provider.of<ForumProvider>(context).getCategories(widget._courseID);
 
     return Scaffold(
       appBar: AppBar(
@@ -112,7 +88,7 @@ class _ForumTabState extends State<ForumTab> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<ForumProvider>(context, listen: false).update(widget._courseID);
+          await Provider.of<ForumProvider>(context, listen: false).updateCategories(widget._courseID);
           return Future<void>.value(null);
         },
       ),

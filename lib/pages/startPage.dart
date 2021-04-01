@@ -1,4 +1,5 @@
-import 'package:fludip/provider/globalNewsProvider.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
+import 'package:fludip/provider/news/newsModel.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -13,18 +14,16 @@ class StartPage extends StatefulWidget {
 class _StartPageState extends State<StartPage> {
   ///Convert data to widgets
   List<Widget> _buildListEntries() {
-    Map<String, dynamic> news = Provider.of<GlobalNewsProvider>(context).get()["collection"];
+    List<News> announcements = Provider.of<NewsProvider>(context).get("global");
     List<Widget> widgets = <Widget>[];
-    if (news == null) {
+    if (announcements == null) {
       return widgets;
     }
 
-    news.forEach((newsKey, newsData) {
-      String topic = newsData["topic"].toString();
-      int timeStamp = int.parse(newsData["date"].toString()) * 1000;
-      String body = StringUtil.removeHTMLTags(newsData["body"].toString());
+    announcements.forEach((news) {
+      String body = StringUtil.removeHTMLTags(news.body.toString());
 
-      widgets.add(CommonWidgets.announcement(topic, timeStamp, body));
+      widgets.add(CommonWidgets.announcement(news.topic, news.chdate, body));
     });
 
     return widgets;
@@ -41,7 +40,7 @@ class _StartPageState extends State<StartPage> {
           children: _buildListEntries(),
         ),
         onRefresh: () async {
-          Provider.of<GlobalNewsProvider>(context, listen: false).update();
+          Provider.of<NewsProvider>(context, listen: false).update("global");
           return Future<void>.value(null);
         },
       ),

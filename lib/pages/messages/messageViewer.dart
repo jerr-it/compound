@@ -1,10 +1,11 @@
+import 'package:fludip/provider/messages/messageModel.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 
 class MessageViewer extends StatefulWidget {
-  Map<String, dynamic> _messageData;
+  Message _message;
 
-  MessageViewer({@required messageData}) : _messageData = messageData;
+  MessageViewer({@required message}) : _message = message;
 
   @override
   _MessageViewerState createState() => _MessageViewerState();
@@ -20,7 +21,7 @@ class _MessageViewerState extends State<MessageViewer> {
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           children: [
             Text(
-              widget._messageData["subject"],
+              widget._message.subject,
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.normal,
@@ -29,13 +30,13 @@ class _MessageViewerState extends State<MessageViewer> {
             Divider(),
             ListTile(
               leading: Image.network(
-                widget._messageData["sender"]["avatar_normal"],
+                widget._message.sender.avatarUrlNormal,
                 width: 30,
                 height: 30,
               ),
-              title: Text(widget._messageData["sender"]["email"]),
+              title: Text(widget._message.sender.email),
               subtitle: Text(
-                StringUtil.fromUnixTime(int.parse(widget._messageData["mkdate"]) * 1000, "dd.MM.yyyy HH:mm"),
+                StringUtil.fromUnixTime(widget._message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
                 ),
@@ -43,7 +44,7 @@ class _MessageViewerState extends State<MessageViewer> {
             ),
             Divider(),
             Text(
-              StringUtil.removeHTMLTags(widget._messageData["message"]),
+              StringUtil.removeHTMLTags(widget._message.content),
             ),
           ],
         ),

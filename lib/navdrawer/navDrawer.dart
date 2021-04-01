@@ -1,9 +1,10 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
-import 'package:fludip/provider/coursesProvider.dart';
-import 'package:fludip/provider/globalNewsProvider.dart';
-import 'package:fludip/provider/messageProvider.dart';
-import 'package:fludip/provider/userProvider.dart';
+import 'package:fludip/provider/blubber/blubberProvider.dart';
+import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
+import 'package:fludip/provider/messages/messageProvider.dart';
+import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fludip/navdrawer/navDrawerHeader.dart';
@@ -62,8 +63,8 @@ class NavDrawer extends StatelessWidget {
             title: Text("Start"),
             onTap: () async {
               //Only do it once at the start to improve nav drawer performance
-              if (!Provider.of<GlobalNewsProvider>(context, listen: false).initialized()) {
-                Provider.of<GlobalNewsProvider>(context, listen: false).update();
+              if (!Provider.of<NewsProvider>(context, listen: false).initialized()) {
+                Provider.of<NewsProvider>(context, listen: false).update("global");
               }
 
               Navigator.pop(context);
@@ -74,10 +75,10 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.book_rounded),
             title: Text("Veranstaltungen"),
             onTap: () async {
-              if (!Provider.of<CoursesProvider>(context, listen: false).initialized()) {
-                String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
-                Provider.of<CoursesProvider>(context, listen: false).setUserID(userID);
-                Provider.of<CoursesProvider>(context, listen: false).update();
+              if (!Provider.of<GeneralCourseProvider>(context, listen: false).initialized()) {
+                String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
+                Provider.of<GeneralCourseProvider>(context, listen: false).setUserID(userID);
+                Provider.of<GeneralCourseProvider>(context, listen: false).update();
               }
 
               Navigator.pop(context);
@@ -89,7 +90,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Nachrichten"),
             onTap: () {
               if (!Provider.of<MessageProvider>(context, listen: false).initialized()) {
-                String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
+                String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
                 Provider.of<MessageProvider>(context, listen: false).setUserID(userID);
                 Provider.of<MessageProvider>(context, listen: false).update();
               }
@@ -102,6 +103,10 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.people),
             title: Text("Community"),
             onTap: () {
+              if (!Provider.of<BlubberProvider>(context, listen: false).initialized()) {
+                Provider.of<BlubberProvider>(context, listen: false).fetchOverview();
+              }
+
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(CommunityPage()));
             },

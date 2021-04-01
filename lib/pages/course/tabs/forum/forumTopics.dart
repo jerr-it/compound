@@ -1,6 +1,7 @@
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/course/tabs/forum/forumEntries.dart';
-import 'package:fludip/provider/course/forumProvider.dart';
+import 'package:fludip/provider/course/forum/forumProvider.dart';
+import 'package:fludip/provider/course/forum/topicModel.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +10,17 @@ import 'package:provider/provider.dart';
 class ForumTopicsViewer extends StatefulWidget {
   String _pageTitle;
   String _courseID;
-  String _categoryIDUrl;
-  String _areaIDUrl;
+  int _categoryIdx;
+  int _areaIdx;
   Color _courseColor;
 
-  List<dynamic> _topicsData;
+  List<ForumTopic> _topics;
 
-  ForumTopicsViewer({@required pageTitle, @required courseID, @required categoryIDUrl, @required areaIDUrl, @required color})
+  ForumTopicsViewer({@required pageTitle, @required courseID, @required categoryIdx, @required areaIdx, @required color})
       : _pageTitle = pageTitle,
         _courseID = courseID,
-        _categoryIDUrl = categoryIDUrl,
-        _areaIDUrl = areaIDUrl,
+        _categoryIdx = categoryIdx,
+        _areaIdx = areaIdx,
         _courseColor = color;
 
   @override
@@ -29,28 +30,28 @@ class ForumTopicsViewer extends StatefulWidget {
 class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
   List<Widget> _buildTopicList() {
     List<Widget> widgets = <Widget>[];
-    if (widget._topicsData == null) {
+    if (widget._topics == null) {
       return widgets;
     }
 
-    if (widget._topicsData.isEmpty) {
+    if (widget._topics.isEmpty) {
       return <Widget>[CommonWidgets.nothing()];
     }
 
-    widget._topicsData.forEach((topicData) {
-      String title = StringUtil.removeHTMLTags(topicData["subject"]).replaceAll("\n", "");
-      String subtitle = StringUtil.removeHTMLTags(topicData["content"]).replaceAll("\n", "");
+    for (int topicIdx = 0; topicIdx < widget._topics.length; topicIdx++) {
+      String title = StringUtil.removeHTMLTags(widget._topics[topicIdx].subject.replaceAll("\n", ""));
+      String subtitle = StringUtil.removeHTMLTags(widget._topics[topicIdx].content.replaceAll("\n", ""));
 
       widgets.add(ListTile(
         leading: Icon(Icons.forum, size: 30),
         title: Text(title),
         subtitle: Text(subtitle),
-        onTap: () {
-          Provider.of<ForumProvider>(context, listen: false).loadTopicEntries(
+        onTap: () async {
+          await Provider.of<ForumProvider>(context, listen: false).updateEntries(
             widget._courseID,
-            widget._categoryIDUrl,
-            widget._areaIDUrl,
-            topicData["topic_id"],
+            widget._categoryIdx,
+            widget._areaIdx,
+            topicIdx,
           );
 
           Navigator.push(
@@ -60,9 +61,9 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
                 pageTitle: title,
                 color: widget._courseColor,
                 courseID: widget._courseID,
-                categoryIDUrl: widget._categoryIDUrl,
-                areaIDUrl: widget._areaIDUrl,
-                topicID: topicData["topic_id"],
+                categoryIdx: widget._categoryIdx,
+                areaIdx: widget._areaIdx,
+                topicIdx: topicIdx,
               ),
             ),
           );
@@ -70,15 +71,14 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
       ));
 
       widgets.add(Divider());
-    });
+    }
 
     return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
-    widget._topicsData =
-        Provider.of<ForumProvider>(context).getTopics(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl);
+    widget._topics = Provider.of<ForumProvider>(context).getTopics(widget._courseID, widget._categoryIdx, widget._areaIdx);
 
     return Scaffold(
       appBar: AppBar(
@@ -93,8 +93,8 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<ForumProvider>(context, listen: false)
-              .loadAreaTopics(widget._courseID, widget._categoryIDUrl, widget._areaIDUrl);
+          await Provider.of<ForumProvider>(context, listen: false)
+              .updateTopics(widget._courseID, widget._categoryIdx, widget._areaIdx);
           return Future<void>.value(null);
         },
       ),
