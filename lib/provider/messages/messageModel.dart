@@ -37,7 +37,7 @@ class Message {
     _mkdate = int.parse(data["mkdate"]);
     _priority = data["priority"];
     _read = !data["unread"];
-    _tags = data["tags"];
+    _tags = List<String>.from(data["tags"]);
 
     _sender = sender;
   }

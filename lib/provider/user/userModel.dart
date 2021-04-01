@@ -20,26 +20,26 @@ class User {
   String _avatarUrlMedium;
   String _avatarUrlNormal;
 
-  get userID => this._userID;
+  String get userID => this._userID;
 
-  get userName => this._userName;
-  get formattedName => this._formattedName;
-  get namePrefix => this._namePrefix;
-  get nameSuffix => this._nameSuffix;
-  get familyName => this._familyName;
-  get firstName => this._firstName;
+  String get userName => this._userName;
+  String get formattedName => this._formattedName;
+  String get namePrefix => this._namePrefix;
+  String get nameSuffix => this._nameSuffix;
+  String get familyName => this._familyName;
+  String get firstName => this._firstName;
 
-  get phone => this._phone;
-  get privateAddress => this._privateAddress;
-  get homepage => this._homepage;
-  get email => this._email;
+  String get phone => this._phone;
+  String get privateAddress => this._privateAddress;
+  String get homepage => this._homepage;
+  String get email => this._email;
 
-  get permissions => this._permissions;
+  String get permissions => this._permissions;
 
-  get avatarUrlOriginal => this._avatarUrlOriginal;
-  get avatarUrlSmall => this._avatarUrlSmall;
-  get avatarUrlMedium => this._avatarUrlMedium;
-  get avatarUrlNormal => this._avatarUrlNormal;
+  String get avatarUrlOriginal => this._avatarUrlOriginal;
+  String get avatarUrlSmall => this._avatarUrlSmall;
+  String get avatarUrlMedium => this._avatarUrlMedium;
+  String get avatarUrlNormal => this._avatarUrlNormal;
 
   User.fromMap(Map<String, dynamic> data) {
     _userID = data["user_id"];

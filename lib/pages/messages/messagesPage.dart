@@ -55,7 +55,7 @@ class _MessagesPageState extends State<MessagesPage> {
               });*/
             }
 
-            Navigator.push(context, navRoute(MessageViewer(messageData: message)));
+            Navigator.push(context, navRoute(MessageViewer(message: message)));
           },
         ),
         secondaryActions: [
