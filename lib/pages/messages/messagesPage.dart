@@ -71,11 +71,10 @@ class _MessagesPageState extends State<MessagesPage> {
                 optionB: "Cancel",
                 optionAAction: () {
                   //TODO delete message action
-                  /*var client = WebClient();
-                  client.deleteMsg(messageData["message_id"]);
+                  Provider.of<MessageProvider>(context, listen: false).deleteMessage(message.id);
                   setState(() {
-                    widget._data.remove(messageIdUrl);
-                  });*/
+                    widget._messages.remove(message);
+                  });
                 },
                 optionBAction: () {},
               );
