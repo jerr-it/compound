@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bubble/bubble.dart';
 import 'package:fludip/provider/blubber/blubberMessageModel.dart';
 import 'package:fludip/provider/blubber/blubberThreadModel.dart';
-import 'package:fludip/provider/blubberProvider.dart';
+import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

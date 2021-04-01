@@ -1,6 +1,6 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
-import 'package:fludip/provider/blubberProvider.dart';
+import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';

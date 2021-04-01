@@ -1,4 +1,4 @@
-import 'package:fludip/provider/blubberProvider.dart';
+import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
 import 'package:fludip/provider/course/overview/generalCourseProvider.dart';

@@ -4,7 +4,7 @@ import 'package:fludip/pages/course/tabs/forum/forum.dart';
 import 'package:fludip/pages/course/tabs/members.dart';
 import 'package:fludip/pages/course/tabs/overview.dart';
 import 'package:fludip/pages/community/blubberThreadViewer.dart';
-import 'package:fludip/provider/blubberProvider.dart';
+import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';

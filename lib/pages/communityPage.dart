@@ -1,6 +1,6 @@
 import 'package:fludip/pages/community/blubberThreadViewer.dart';
 import 'package:fludip/provider/blubber/blubberThreadModel.dart';
-import 'package:fludip/provider/blubberProvider.dart';
+import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
