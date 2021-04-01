@@ -43,6 +43,5 @@ class MessageProvider extends ChangeNotifier {
 
   List<Message> get() {
     return _messages;
-    ;
   }
 }

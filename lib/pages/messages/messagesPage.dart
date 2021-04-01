@@ -1,13 +1,13 @@
-import 'package:fludip/net/webClient.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
+
 import 'package:fludip/pages/messages/messageViewer.dart';
 import 'package:fludip/provider/messages/messageModel.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:fludip/util/popupDialog.dart';
 import 'package:fludip/util/str.dart';
-import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
 
 class MessagesPage extends StatefulWidget {
   List<Message> _messages;
