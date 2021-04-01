@@ -115,7 +115,15 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
                       color: Colors.blue,
                       icon: Icon(Icons.send),
                       onPressed: () async {
-                        //TODO post mechanic
+                        Provider.of<BlubberProvider>(context, listen: false).postMessage(
+                          widget._thread.id,
+                          widget._tController.text,
+                        );
+
+                        widget._tController.clear();
+                        Future.delayed(Duration(seconds: 1)).then((value) {
+                          Provider.of<BlubberProvider>(context, listen: false).fetchThread(widget._threadName);
+                        });
                       },
                     ),
                   ),

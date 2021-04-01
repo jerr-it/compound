@@ -62,4 +62,11 @@ class BlubberProvider extends ChangeNotifier {
   BlubberThread getThread(String name) {
     return _threads[name];
   }
+
+  void postMessage(String threadID, String message) {
+    _client.httpPost(
+      "/blubber/threads/$threadID/comments",
+      body: <String, String>{"content": message},
+    );
+  }
 }
