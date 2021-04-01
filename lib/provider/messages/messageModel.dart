@@ -10,6 +10,7 @@ class Message {
   int _mkdate;
   String _priority;
   bool _read;
+
   List<String> _tags;
 
   User _sender;
@@ -23,6 +24,8 @@ class Message {
   int get mkdate => this._mkdate;
   String get priority => this._priority;
   bool get read => this._read;
+  set read(value) => this._read = value;
+
   List<String> get tags => this._tags;
 
   User get sender => this._sender;

@@ -45,8 +45,14 @@ class MessageProvider extends ChangeNotifier {
     return _messages;
   }
 
-  Future<void> deleteMessage(String msgID) {
+  void markMessageRead(String msgID) {
+    _client.httpPut(
+      "/message/$msgID",
+      body: <String, String>{"unread": "0"},
+    );
+  }
+
+  void deleteMessage(String msgID) {
     _client.httpDelete("/message/$msgID");
-    return Future<void>.value(null);
   }
 }

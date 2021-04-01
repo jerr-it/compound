@@ -47,12 +47,10 @@ class _MessagesPageState extends State<MessagesPage> {
           ),
           onTap: () {
             if (!message.read) {
-              //TODO mark as read
-              /*var client = WebClient();
-              client.markRead(messageData["message_id"]);
+              Provider.of<MessageProvider>(context, listen: false).markMessageRead(message.id);
               setState(() {
-                widget._data[messageIdUrl]["unread"] = false;
-              });*/
+                message.read = true;
+              });
             }
 
             Navigator.push(context, navRoute(MessageViewer(message: message)));
@@ -70,7 +68,6 @@ class _MessagesPageState extends State<MessagesPage> {
                 optionA: "Confirm",
                 optionB: "Cancel",
                 optionAAction: () {
-                  //TODO delete message action
                   Provider.of<MessageProvider>(context, listen: false).deleteMessage(message.id);
                   setState(() {
                     widget._messages.remove(message);
