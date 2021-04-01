@@ -29,17 +29,26 @@ class ForumProvider extends ChangeNotifier {
   }
 
   Future<void> updateCategories(String courseID) async {
+    _forums ??= <String, List<ForumCategory>>{};
+
     List<ForumCategory> categories = <ForumCategory>[];
 
     Response res = await _client.httpGet("/course/$courseID/forum_categories");
-    Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
 
-    decoded.forEach((categoryKey, categoryData) {
-      ForumCategory category = ForumCategory.fromMap(categoryData);
-      categories.add(category);
-    });
+    try {
+      Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
 
-    _forums[courseID] = categories;
+      decoded.forEach((categoryKey, categoryData) {
+        ForumCategory category = ForumCategory.fromMap(categoryData);
+        categories.add(category);
+      });
+
+      _forums[courseID] = categories;
+
+      for (int i = 0; i < _forums[courseID].length; i++) {
+        await _updateAreas(courseID, i);
+      }
+    } catch (e) {}
 
     notifyListeners();
   }
@@ -53,7 +62,7 @@ class ForumProvider extends ChangeNotifier {
     return selectedCategory.areas;
   }
 
-  Future<void> updateAreas(String courseID, int categoryIdx) async {
+  Future<void> _updateAreas(String courseID, int categoryIdx) async {
     ForumCategory selectedCategory = _forums[courseID][categoryIdx];
 
     String categoryID = selectedCategory.categoryID;
@@ -113,12 +122,23 @@ class ForumProvider extends ChangeNotifier {
     ForumTopic selectedTopic = _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx];
 
     String topicID = selectedTopic.id;
-    String route = "forum_entry/$topicID";
+    String route = "/forum_entry/$topicID";
 
     Response res = await _client.httpGet(route);
     List<dynamic> decoded = jsonDecode(res.body)["children"];
 
     List<ForumEntry> entries = <ForumEntry>[];
+
+    //Add first entry by hand, because its not provided by /forum_entry/:topic_id
+    entries.add(ForumEntry.fromMap(<String, dynamic>{
+      "subject": selectedTopic.subject,
+      "content": selectedTopic.content,
+      "chdate": selectedTopic.chdate.toString(),
+      "mkdate": selectedTopic.mkdate.toString(),
+      "anonymous": selectedTopic.anonymous,
+      "depth": selectedTopic.depth,
+    }));
+
     decoded.forEach((entryData) {
       entries.add(ForumEntry.fromMap(entryData));
     });

@@ -114,12 +114,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
                       color: Colors.blue,
                       icon: Icon(Icons.send),
                       onPressed: () async {
-                        var client = WebClient();
-                        client.postBlubberMsg(widget._thread["thread_posting"]["thread_id"], widget._tController.text);
-
-                        widget._tController.clear();
-                        await Future.delayed(Duration(seconds: 1)); //TODO some better way to wait for result?
-                        Provider.of<BlubberProvider>(context, listen: false).fetchThread(widget._threadName);
+                        //TODO post mechanic
                       },
                     ),
                   ),

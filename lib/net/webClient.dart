@@ -200,12 +200,12 @@ class WebClient {
   }
 
   Future<Response> httpGet(String url, {Map<String, String> headers = const <String, String>{}}) {
-    return _oauthClient.get(url, headers: headers);
+    return _oauthClient.get(_server._baseUrl + url, headers: headers);
   }
 
   Future<Response> httpPost(String url, {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
     return _oauthClient.post(
-      url,
+      _server._baseUrl + url,
       headers: headers,
       body: body,
     );
@@ -213,7 +213,7 @@ class WebClient {
 
   Future<Response> httpPut(String url, {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
     return _oauthClient.put(
-      url,
+      _server._baseUrl + url,
       headers: headers,
       body: body,
     );
@@ -221,7 +221,7 @@ class WebClient {
 
   Future<Response> httpDelete(String url, {Map<String, String> headers = const <String, String>{}}) {
     return _oauthClient.delete(
-      url,
+      _server._baseUrl + url,
       headers: headers,
     );
   }

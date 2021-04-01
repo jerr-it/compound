@@ -10,16 +10,16 @@ class Semester {
   int _seminarsBegin;
   int _seminarsEnd;
 
-  get title => this._title;
-  get description => this._description;
+  String get title => this._title;
+  String get description => this._description;
 
-  get semesterID => this._semesterID;
+  String get semesterID => this._semesterID;
 
-  get begin => this._begin;
-  get end => this._end;
+  int get begin => this._begin;
+  int get end => this._end;
 
-  get seminarsBegin => this._seminarsBegin;
-  get seminarsEnd => this._seminarsEnd;
+  int get seminarsBegin => this._seminarsBegin;
+  int get seminarsEnd => this._seminarsEnd;
 
   Semester.fromMap(Map<String, dynamic> data) {
     _title = data["title"];
@@ -32,5 +32,9 @@ class Semester {
 
     _seminarsBegin = data["seminars_begin"];
     _seminarsEnd = data["seminars_end"];
+  }
+
+  Semester.empty() {
+    _title = "unlimited";
   }
 }

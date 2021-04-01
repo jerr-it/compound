@@ -14,18 +14,18 @@ class Message {
 
   User _sender;
 
-  get id => this._id;
+  String get id => this._id;
 
-  get subject => this._subject;
-  get content => this._content;
-  get contentHTML => this._contentHTML;
+  String get subject => this._subject;
+  String get content => this._content;
+  String get contentHTML => this._contentHTML;
 
-  get mkdate => this._mkdate;
-  get priority => this._priority;
-  get read => this._read;
-  get tags => this._tags;
+  int get mkdate => this._mkdate;
+  String get priority => this._priority;
+  bool get read => this._read;
+  List<String> get tags => this._tags;
 
-  get sender => this._sender;
+  User get sender => this._sender;
 
   Message.fromMap(Map<String, dynamic> data, User sender) {
     _id = data["message_id"];

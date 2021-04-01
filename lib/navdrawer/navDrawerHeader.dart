@@ -1,3 +1,4 @@
+import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,10 +7,7 @@ class NavDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO rank?
-    var data = Provider.of<UserProvider>(context).getData();
-    String formattedName = data["name"]["formatted"].toString();
-    String username = data["name"]["username"].toString();
-    String email = data["email"].toString();
+    User user = Provider.of<UserProvider>(context).getData();
 
     return Container(
       width: double.maxFinite,
@@ -28,7 +26,7 @@ class NavDrawerHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(2.5),
                   ),
                   child: Image.network(
-                    data["avatar_medium"],
+                    user.avatarUrlMedium,
                     width: 40,
                     height: 40,
                   ),
@@ -36,11 +34,11 @@ class NavDrawerHeader extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      formattedName,
+                      user.formattedName,
                       style: TextStyle(fontSize: 16),
                     ),
                     Text(
-                      username,
+                      user.userName,
                       style: TextStyle(fontSize: 16),
                     )
                   ],
@@ -51,11 +49,11 @@ class NavDrawerHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  email,
+                  user.email,
                   style: TextStyle(fontWeight: FontWeight.w300),
                 ),
                 Text(
-                  "[Something here]",
+                  user.homepage,
                   style: TextStyle(fontWeight: FontWeight.w300),
                 )
               ],

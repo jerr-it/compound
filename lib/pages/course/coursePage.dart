@@ -1,4 +1,3 @@
-import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/course/colorMapper.dart';
 import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
@@ -9,7 +8,9 @@ import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
+import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
+import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:provider/provider.dart';
@@ -49,28 +50,14 @@ class GridButton extends StatelessWidget {
 }
 
 class CoursePage extends StatelessWidget {
-  List<Widget> _buildListEntries(BuildContext context, Map<String, dynamic> coursesJSON) {
-    if (coursesJSON == null) {
-      var ret = <Widget>[];
-      ret.add(Container(
-        margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: ListTile(
-          title: Text("No courses found!"),
-          subtitle: Text("Try again later..."),
-        ),
-      ));
-      return ret;
-    }
-
-    Map<String, dynamic> courses = coursesJSON["collection"];
-    List<Widget> widgets = <Widget>[];
+  List<Widget> _buildListEntries(BuildContext context, List<Course> courses) {
     if (courses == null) {
-      return widgets;
+      return <Widget>[CommonWidgets.nothing()];
     }
 
-    courses.forEach((courseKey, courseData) {
-      String title = courseData["title"].toString();
-      Color color = ColorMapper.convert(courseData["group"]);
+    List<Widget> widgets = <Widget>[];
+    courses.forEach((course) {
+      Color color = ColorMapper.convert(course.group);
 
       //TODO trailing: List of options for which new content appeared, for example a new file upload
       widgets.add(
@@ -83,7 +70,7 @@ class CoursePage extends StatelessWidget {
                   FlutterLogo(size: 32),
                   Flexible(
                     child: Text(
-                      title,
+                      course.title,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -99,27 +86,27 @@ class CoursePage extends StatelessWidget {
                 crossAxisSpacing: 2,
                 children: [
                   GridButton(
-                    icon: Icons.topic,
-                    caption: "Overview",
+                    icon: Icons.new_releases_sharp,
+                    caption: "News",
                     color: Colors.white54,
                     onTap: () {
-                      Navigator.push(context, navRoute(OverviewTab(data: courseData)));
+                      Navigator.push(context, navRoute(NewsTab(data: course)));
                     },
                   ),
                   GridButton(
                     icon: Icons.forum,
                     caption: "Forum",
                     color: Colors.red,
-                    onTap: () {
-                      if (!Provider.of<ForumProvider>(context, listen: false).initialized(courseData["course_id"])) {
-                        Provider.of<ForumProvider>(context, listen: false).update(courseData["course_id"]);
+                    onTap: () async {
+                      if (!Provider.of<ForumProvider>(context, listen: false).initialized(course.courseID)) {
+                        await Provider.of<ForumProvider>(context, listen: false).updateCategories(course.courseID);
                       }
 
                       Navigator.push(
                         context,
                         navRoute(ForumTab(
-                          courseID: courseData["course_id"],
-                          color: ColorMapper.convert(courseData["group"]),
+                          courseID: course.courseID,
+                          color: ColorMapper.convert(course.group),
                         )),
                       );
                     },
@@ -129,15 +116,15 @@ class CoursePage extends StatelessWidget {
                     caption: "Members",
                     color: Colors.green,
                     onTap: () {
-                      if (!Provider.of<MembersProvider>(context, listen: false).initialized(courseData["course_id"])) {
-                        Provider.of<MembersProvider>(context, listen: false).update(courseData["course_id"]);
+                      if (!Provider.of<MembersProvider>(context, listen: false).initialized(course.courseID)) {
+                        Provider.of<MembersProvider>(context, listen: false).update(course.courseID);
                       }
 
                       Navigator.push(
                         context,
                         navRoute(MembersTab(
-                          courseID: courseData["course_id"],
-                          color: ColorMapper.convert(courseData["group"]),
+                          courseID: course.courseID,
+                          color: ColorMapper.convert(course.group),
                         )),
                       );
                     },
@@ -147,15 +134,15 @@ class CoursePage extends StatelessWidget {
                     caption: "Files",
                     color: Colors.purple,
                     onTap: () {
-                      if (!Provider.of<FileProvider>(context, listen: false).initialized(courseData["course_id"], <int>[])) {
-                        Provider.of<FileProvider>(context, listen: false).update(courseData["course_id"], <int>[]);
+                      if (!Provider.of<FileProvider>(context, listen: false).initialized(course.courseID, <int>[])) {
+                        Provider.of<FileProvider>(context, listen: false).update(course.courseID, <int>[]);
                       }
 
                       Navigator.push(
                         context,
                         navRoute(FilesTab(
-                          courseID: courseData["course_id"],
-                          color: ColorMapper.convert(courseData["group"]),
+                          courseID: course.courseID,
+                          color: ColorMapper.convert(course.group),
                           path: <int>[],
                         )),
                       );
@@ -166,7 +153,7 @@ class CoursePage extends StatelessWidget {
                     caption: "Blubber",
                     color: Colors.amber,
                     onTap: () async {
-                      String threadName = courseData["title"];
+                      String threadName = course.title;
                       if (!Provider.of<BlubberProvider>(context, listen: false).initialized()) {
                         await Provider.of<BlubberProvider>(context, listen: false).fetchOverview();
                       }
@@ -195,7 +182,7 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var courses = Provider.of<GeneralCourseProvider>(context).getData();
+    List<Course> courses = Provider.of<GeneralCourseProvider>(context).courses();
 
     return Scaffold(
       appBar: AppBar(

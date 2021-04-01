@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:fludip/provider/news/newsModel.dart';
 import 'package:http/http.dart';
 
 import 'package:flutter/material.dart';
@@ -35,15 +36,35 @@ class GeneralCourseProvider extends ChangeNotifier {
     await Future.forEach(courseMap.keys, (courseKey) async {
       Map<String, dynamic> courseData = courseMap[courseKey];
 
-      String startSemesterRoute = courseData["start_semester"].toString().replaceFirst("/api.php", "");
-      Response res = await _client.httpGet(startSemesterRoute);
-      Semester start = Semester.fromMap(jsonDecode(res.body));
+      Semester start;
+      try {
+        String startSemesterRoute = courseData["start_semester"].toString().split("/api.php")[1];
+        Response res = await _client.httpGet(startSemesterRoute);
+        start = Semester.fromMap(jsonDecode(res.body));
+      } catch (e) {
+        start = Semester.empty();
+      }
 
-      String endSemesterRoute = courseData["end_semester"].toString().replaceFirst("/api.php", "");
-      res = await _client.httpGet(endSemesterRoute);
-      Semester end = Semester.fromMap(jsonDecode(res.body));
+      Semester end;
+      try {
+        String endSemesterRoute = courseData["end_semester"].toString().split("/api.php")[1];
+        res = await _client.httpGet(endSemesterRoute);
+        end = Semester.fromMap(jsonDecode(res.body));
+      } catch (e) {
+        end = Semester.empty();
+      }
 
-      _courses.add(Course.fromMap(courseData, start, end));
+      String courseID = courseData["course_id"];
+      String announcementsRoute = "/course/$courseID/news";
+      res = await _client.httpGet(announcementsRoute);
+
+      Map<String, dynamic> announcementsData = jsonDecode(res.body)["collection"];
+      List<News> news = <News>[];
+      announcementsData.forEach((announcementKey, announcement) {
+        news.add(News.fromMap(announcement));
+      });
+
+      _courses.add(Course.fromMap(courseData, start, end, news));
     });
 
     notifyListeners();

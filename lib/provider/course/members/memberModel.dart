@@ -5,9 +5,9 @@ class Members {
   List<User> _tutors;
   List<User> _studends;
 
-  get lecturers => this._lecturers;
-  get tutors => this._tutors;
-  get studends => this._studends;
+  List<User> get lecturers => this._lecturers;
+  List<User> get tutors => this._tutors;
+  List<User> get studends => this._studends;
 
   Members.from(List<User> lecturers, List<User> tutors, List<User> students) {
     _lecturers = lecturers;

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fludip/net/webClient.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +47,7 @@ class BlubberProvider extends ChangeNotifier {
     _data ??= <String, dynamic>{};
     _threads ??= <dynamic>[];
 
-    var res = await _client.getRoute("/blubber/threads");
+    var res = jsonDecode((await _client.httpGet("/blubber/threads")).body);
     _threads = res["threads"];
 
     notifyListeners();
@@ -57,7 +59,7 @@ class BlubberProvider extends ChangeNotifier {
     var threadObject = _threads.firstWhere((thread) => thread["name"] == name);
     String threadID = threadObject["thread_id"];
 
-    var threadContent = await _client.getRoute("/blubber/threads/$threadID");
+    var threadContent = jsonDecode((await _client.httpGet("/blubber/threads/$threadID")).body);
     _data[name] = threadContent;
 
     notifyListeners();

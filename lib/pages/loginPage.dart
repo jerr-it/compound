@@ -85,7 +85,7 @@ class _LoginFormState extends State<LoginForm> {
                 }
 
                 Provider.of<UserProvider>(context, listen: false).fetch();
-                Provider.of<NewsProvider>(context, listen: false).update();
+                Provider.of<NewsProvider>(context, listen: false).update("global");
 
                 LoadingIndicator.dismiss(context);
 

@@ -64,7 +64,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () async {
               //Only do it once at the start to improve nav drawer performance
               if (!Provider.of<NewsProvider>(context, listen: false).initialized()) {
-                Provider.of<NewsProvider>(context, listen: false).update();
+                Provider.of<NewsProvider>(context, listen: false).update("global");
               }
 
               Navigator.pop(context);
@@ -76,7 +76,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Veranstaltungen"),
             onTap: () async {
               if (!Provider.of<GeneralCourseProvider>(context, listen: false).initialized()) {
-                String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
+                String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
                 Provider.of<GeneralCourseProvider>(context, listen: false).setUserID(userID);
                 Provider.of<GeneralCourseProvider>(context, listen: false).update();
               }
@@ -90,7 +90,7 @@ class NavDrawer extends StatelessWidget {
             title: Text("Nachrichten"),
             onTap: () {
               if (!Provider.of<MessageProvider>(context, listen: false).initialized()) {
-                String userID = Provider.of<UserProvider>(context, listen: false).getData()["user_id"];
+                String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
                 Provider.of<MessageProvider>(context, listen: false).setUserID(userID);
                 Provider.of<MessageProvider>(context, listen: false).update();
               }

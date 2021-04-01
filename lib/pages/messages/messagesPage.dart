@@ -1,5 +1,6 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/messages/messageViewer.dart';
+import 'package:fludip/provider/messages/messageModel.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:fludip/util/popupDialog.dart';
 import 'package:fludip/util/str.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class MessagesPage extends StatefulWidget {
-  Map<String, dynamic> _data;
+  List<Message> _messages;
   final SlidableController slideController = SlidableController();
 
   @override
@@ -19,12 +20,11 @@ class MessagesPage extends StatefulWidget {
 class _MessagesPageState extends State<MessagesPage> {
   List<Widget> _buildMessageList() {
     List<Widget> widgets = <Widget>[];
-    if (widget._data == null) {
+    if (widget._messages == null) {
       return widgets;
     }
 
-    widget._data.forEach((messageIdUrl, messageData) {
-      bool unread = messageData["unread"];
+    widget._messages.forEach((message) {
       widgets.add(Slidable(
         controller: widget.slideController,
         actionPane: SlidableStrechActionPane(),
@@ -32,29 +32,30 @@ class _MessagesPageState extends State<MessagesPage> {
         child: ListTile(
           leading: Icon(Icons.mail, size: 30),
           title: Text(
-            messageData["subject"],
-            style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
+            message.subject,
+            style: TextStyle(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
           ),
           subtitle: Text(
-            messageData["sender"]["name"]["formatted"],
-            style: TextStyle(fontWeight: unread ? FontWeight.bold : FontWeight.normal),
+            message.sender.formattedName,
+            style: TextStyle(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
           ),
           trailing: Text(
-            StringUtil.fromUnixTime(int.parse(messageData["mkdate"]) * 1000, "dd.MM.yyyy HH:mm"),
+            StringUtil.fromUnixTime(message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
             style: TextStyle(
               fontWeight: FontWeight.w300,
             ),
           ),
           onTap: () {
-            if (unread) {
-              var client = WebClient();
+            if (!message.read) {
+              //TODO mark as read
+              /*var client = WebClient();
               client.markRead(messageData["message_id"]);
               setState(() {
                 widget._data[messageIdUrl]["unread"] = false;
-              });
+              });*/
             }
 
-            Navigator.push(context, navRoute(MessageViewer(messageData: messageData)));
+            Navigator.push(context, navRoute(MessageViewer(messageData: message)));
           },
         ),
         secondaryActions: [
@@ -69,11 +70,12 @@ class _MessagesPageState extends State<MessagesPage> {
                 optionA: "Confirm",
                 optionB: "Cancel",
                 optionAAction: () {
-                  var client = WebClient();
+                  //TODO delete message action
+                  /*var client = WebClient();
                   client.deleteMsg(messageData["message_id"]);
                   setState(() {
                     widget._data.remove(messageIdUrl);
-                  });
+                  });*/
                 },
                 optionBAction: () {},
               );
@@ -92,7 +94,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
   @override
   Widget build(BuildContext context) {
-    widget._data = Provider.of<MessageProvider>(context).get();
+    widget._messages = Provider.of<MessageProvider>(context).get();
 
     return Scaffold(
       appBar: AppBar(

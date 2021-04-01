@@ -1,4 +1,5 @@
 import 'package:fludip/provider/course/overview/semesterModel.dart';
+import 'package:fludip/provider/news/newsModel.dart';
 
 class Course {
   String _courseID;
@@ -9,30 +10,35 @@ class Course {
 
   String _type;
   int _group;
-  int _number;
+  String _number;
 
   String _location;
 
   Semester _startSemester;
   Semester _endSemester;
 
-  get courseID => this._courseID;
+  List<News> _news;
 
-  get title => this._title;
-  get subtitle => this._subtitle;
-  get description => this._description;
+  String get courseID => this._courseID;
 
-  get type => this._type;
-  get group => this._group;
-  get number => this._number;
+  String get title => this._title;
+  String get subtitle => this._subtitle;
+  String get description => this._description;
 
-  get location => this._location;
+  String get type => this._type;
+  int get group => this._group;
+  String get number => this._number;
 
-  get startSemester => this._startSemester;
-  get endSemester => this._endSemester;
+  String get location => this._location;
 
-  Course.fromMap(Map<String, dynamic> data, Semester start, Semester end) {
-    _courseID = data[_courseID];
+  Semester get startSemester => this._startSemester;
+  Semester get endSemester => this._endSemester;
+
+  List<News> get news => this._news;
+  set news(value) => this._news = value;
+
+  Course.fromMap(Map<String, dynamic> data, Semester start, Semester end, List<News> news) {
+    _courseID = data["course_id"];
 
     _title = data["title"];
     _subtitle = data["subtitle"];
@@ -40,11 +46,13 @@ class Course {
 
     _type = data["type"];
     _group = data["group"];
-    _number = int.parse(data["number"]);
+    _number = data["number"];
 
     _location = data["location"];
 
     _startSemester = start;
     _endSemester = end;
+
+    _news = news;
   }
 }

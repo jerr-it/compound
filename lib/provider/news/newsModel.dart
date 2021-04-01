@@ -16,22 +16,22 @@ class News {
   bool _allowComments;
   int _commentCount;
 
-  get topic => this._topic;
-  get body => this._body;
-  get bodyHTML => this._bodyHTML;
+  String get topic => this._topic;
+  String get body => this._body;
+  String get bodyHTML => this._bodyHTML;
 
-  get userID => this._userID;
-  get newsID => this._newsID;
+  String get userID => this._userID;
+  String get newsID => this._newsID;
 
-  get commentsUrl => this._commentsUrl;
+  String get commentsUrl => this._commentsUrl;
 
-  get date => this._date;
-  get chdate => this._chdate;
-  get mkdate => this._mkdate;
-  get expire => this._expire;
+  int get date => this._date;
+  int get chdate => this._chdate;
+  int get mkdate => this._mkdate;
+  int get expire => this._expire;
 
-  get allowComments => this._allowComments;
-  get commentCount => this._commentCount;
+  bool get allowComments => this._allowComments;
+  int get commentCount => this._commentCount;
 
   News.fromMap(Map<String, dynamic> data) {
     _topic = data["topic"];
@@ -43,12 +43,12 @@ class News {
 
     _commentsUrl = data["comments"];
 
-    _date = data["date"];
-    _chdate = data["chdate"];
-    _mkdate = data["mkdate"];
-    _expire = data["expire"];
+    _date = int.parse(data["date"]) * 1000;
+    _chdate = int.parse(data["chdate"]) * 1000;
+    _mkdate = int.parse(data["mkdate"]) * 1000;
+    _expire = int.parse(data["expire"]) * 1000;
 
-    _allowComments = data["allow_comments"];
+    _allowComments = data["allow_comments"] == "0" ? false : true;
     _commentCount = data["comments_count"];
   }
 }

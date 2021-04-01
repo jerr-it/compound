@@ -1,3 +1,4 @@
+import 'package:fludip/provider/course/members/memberModel.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,7 @@ class MembersTab extends StatefulWidget {
   String _courseID;
   Color _color;
 
-  Map<String, dynamic> _members;
+  Members _members;
 
   MembersTab({@required courseID, @required color})
       : _courseID = courseID,
@@ -23,7 +24,7 @@ class _MembersTabState extends State<MembersTab> {
       return widgets;
     }
 
-    if (widget._members.containsKey("dozent")) {
+    if (widget._members.lecturers.isNotEmpty) {
       widgets.add(Text(
         "Lecturers",
         style: TextStyle(
@@ -32,19 +33,19 @@ class _MembersTabState extends State<MembersTab> {
         ),
       ));
 
-      widget._members["dozent"].forEach((lecturerIDUrl, lecturerData) {
+      widget._members.lecturers.forEach((lecturer) {
         widgets.add(ListTile(
           leading: Image.network(
-            lecturerData["member"]["avatar_normal"],
+            lecturer.avatarUrlNormal,
             width: 30,
             height: 30,
           ),
-          title: Text(lecturerData["member"]["name"]["formatted"]),
+          title: Text(lecturer.formattedName),
         ));
       });
     }
 
-    if (widget._members.containsKey("tutor")) {
+    if (widget._members.tutors.isNotEmpty) {
       widgets.add(Text(
         "Tutors",
         style: TextStyle(
@@ -53,19 +54,19 @@ class _MembersTabState extends State<MembersTab> {
         ),
       ));
 
-      widget._members["tutor"].forEach((tutorIDUrl, tutorData) {
+      widget._members.tutors.forEach((tutor) {
         widgets.add(ListTile(
           leading: Image.network(
-            tutorData["member"]["avatar_normal"],
+            tutor.avatarUrlNormal,
             width: 30,
             height: 30,
           ),
-          title: Text(tutorData["member"]["name"]["formatted"]),
+          title: Text(tutor.formattedName),
         ));
       });
     }
 
-    if (widget._members.containsKey("autor")) {
+    if (widget._members.studends.isNotEmpty) {
       widgets.add(Text(
         "Students",
         style: TextStyle(
@@ -74,14 +75,14 @@ class _MembersTabState extends State<MembersTab> {
         ),
       ));
 
-      widget._members["autor"].forEach((autorIDUrl, autorData) {
+      widget._members.studends.forEach((student) {
         widgets.add(ListTile(
           leading: Image.network(
-            autorData["member"]["avatar_normal"],
+            student.avatarUrlNormal,
             width: 30,
             height: 30,
           ),
-          title: Text(autorData["member"]["name"]["formatted"]),
+          title: Text(student.formattedName),
         ));
       });
     }
