@@ -17,7 +17,7 @@ class BlubberProvider extends ChangeNotifier {
   }
 
   bool threadInitialized(String name) {
-    return _threads[name].comments != null;
+    return _threads[name] != null && _threads[name].comments != null;
   }
 
   Future<void> fetchOverview() async {
@@ -36,6 +36,10 @@ class BlubberProvider extends ChangeNotifier {
 
   Future<void> fetchThread(String name) async {
     BlubberThread thread = _threads[name];
+    if (thread == null) {
+      return;
+    }
+
     String threadID = thread.id;
 
     Response res = await _client.httpGet("/blubber/threads/$threadID");
