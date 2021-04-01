@@ -25,7 +25,7 @@ class _ForumTabState extends State<ForumTab> {
     List<Widget> widgets = <Widget>[];
 
     if (widget._categories == null) {
-      return <Widget>[CommonWidgets.nothing()];
+      return <Widget>[LinearProgressIndicator()];
     }
 
     //1. display category name large
@@ -38,6 +38,10 @@ class _ForumTabState extends State<ForumTab> {
           fontWeight: FontWeight.bold,
         ),
       ));
+
+      if (widget._categories[categoryIdx].areas == null) {
+        return <Widget>[LinearProgressIndicator()];
+      }
 
       for (int areaIdx = 0; areaIdx < widget._categories[categoryIdx].areas.length; areaIdx++) {
         widgets.add(ListTile(

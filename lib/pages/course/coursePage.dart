@@ -193,7 +193,8 @@ class CoursePage extends StatelessWidget {
           children: _buildListEntries(context, courses),
         ),
         onRefresh: () async {
-          Provider.of<GeneralCourseProvider>(context, listen: false).update();
+          courses.clear();
+          await Provider.of<GeneralCourseProvider>(context, listen: false).update();
           return Future<void>.value(null);
         },
       ),

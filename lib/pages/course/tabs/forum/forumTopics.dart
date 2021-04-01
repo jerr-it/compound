@@ -93,7 +93,7 @@ class _ForumTopicsViewerState extends State<ForumTopicsViewer> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<ForumProvider>(context, listen: false)
+          await Provider.of<ForumProvider>(context, listen: false)
               .updateTopics(widget._courseID, widget._categoryIdx, widget._areaIdx);
           return Future<void>.value(null);
         },

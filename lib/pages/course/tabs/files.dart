@@ -45,13 +45,13 @@ class _FilesTabState extends State<FilesTab> {
       widgets.add(ListTile(
         leading: Icon(Icons.folder),
         title: Text(subfolder.name),
-        onTap: () {
+        onTap: () async {
           List<int> subPath = <int>[];
           subPath.addAll(widget._subFolderPath);
           subPath.add(i);
 
           if (!Provider.of<FileProvider>(context, listen: false).initialized(widget._courseID, subPath)) {
-            Provider.of<FileProvider>(context, listen: false).update(widget._courseID, subPath);
+            await Provider.of<FileProvider>(context, listen: false).update(widget._courseID, subPath);
           }
 
           Navigator.push(
@@ -102,7 +102,7 @@ class _FilesTabState extends State<FilesTab> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<FileProvider>(context, listen: false).update(widget._courseID, widget._subFolderPath);
+          await Provider.of<FileProvider>(context, listen: false).update(widget._courseID, widget._subFolderPath);
           return Future<void>.value(null);
         },
       ),

@@ -105,7 +105,7 @@ class _MessagesPageState extends State<MessagesPage> {
           children: _buildMessageList(),
         ),
         onRefresh: () async {
-          Provider.of<MessageProvider>(context, listen: false).update();
+          await Provider.of<MessageProvider>(context, listen: false).update();
         },
       ),
       drawer: NavDrawer(),

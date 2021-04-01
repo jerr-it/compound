@@ -79,7 +79,7 @@ class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<ForumProvider>(context, listen: false)
+          await Provider.of<ForumProvider>(context, listen: false)
               .updateEntries(widget._courseID, widget._categoryIdx, widget._areaIdx, widget._topicIdx);
           return Future<void>.value(null);
         },
