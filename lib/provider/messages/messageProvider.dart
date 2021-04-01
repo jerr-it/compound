@@ -22,21 +22,24 @@ class MessageProvider extends ChangeNotifier {
 
   Future<void> update() async {
     Response res = await _client.httpGet("/user/$_userID/inbox");
-    Map<String, dynamic> data = jsonDecode(res.body)["collection"];
 
-    List<Message> messages = <Message>[];
-    await Future.forEach(data.keys, (messageIdUrl) async {
-      Map<String, dynamic> messageData = data[messageIdUrl];
+    try {
+      Map<String, dynamic> data = jsonDecode(res.body)["collection"];
 
-      String route = messageData["sender"].toString().split("api.php")[1];
-      res = await _client.httpGet(route);
-      Map<String, dynamic> senderData = jsonDecode(res.body);
+      List<Message> messages = <Message>[];
+      await Future.forEach(data.keys, (messageIdUrl) async {
+        Map<String, dynamic> messageData = data[messageIdUrl];
 
-      User sender = User.fromMap(senderData);
-      messages.add(Message.fromMap(messageData, sender));
-    });
+        String route = messageData["sender"].toString().split("api.php")[1];
+        res = await _client.httpGet(route);
+        Map<String, dynamic> senderData = jsonDecode(res.body);
 
-    _messages = messages;
+        User sender = User.fromMap(senderData);
+        messages.add(Message.fromMap(messageData, sender));
+      });
+
+      _messages = messages;
+    } catch (e) {}
 
     notifyListeners();
   }

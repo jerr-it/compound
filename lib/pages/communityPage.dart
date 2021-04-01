@@ -71,7 +71,9 @@ class _CommunityPageState extends State<CommunityPage> {
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             children: _buildOverview(),
           ),
-          onRefresh: () async {},
+          onRefresh: () async {
+            await Provider.of<BlubberProvider>(context).fetchOverview();
+          },
         ),
       ),
       drawer: NavDrawer(),

@@ -53,7 +53,7 @@ class NavDrawerHeader extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w300),
                 ),
                 Text(
-                  user.homepage,
+                  user.permissions,
                   style: TextStyle(fontWeight: FontWeight.w300),
                 )
               ],

@@ -81,6 +81,7 @@ class _LoginFormState extends State<LoginForm> {
                 if (statusCode != 200) {
                   //TODO help dialog to clarify error codes
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
+                  LoadingIndicator.dismiss(context);
                   return;
                 }
 

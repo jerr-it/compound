@@ -1,3 +1,4 @@
+import 'package:fludip/util/commonWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class _MessagesPageState extends State<MessagesPage> {
   List<Widget> _buildMessageList() {
     List<Widget> widgets = <Widget>[];
     if (widget._messages == null) {
-      return widgets;
+      return <Widget>[CommonWidgets.nothing()];
     }
 
     widget._messages.forEach((message) {
