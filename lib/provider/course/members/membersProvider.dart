@@ -36,12 +36,16 @@ class MembersProvider extends ChangeNotifier {
     String route = "/course/$courseID/members?status=$status";
     Response res = await _client.httpGet(route);
 
-    Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
-    List<User> users = <User>[];
-    decoded.forEach((userKey, userData) {
-      users.add(User.fromMap(userData));
-    });
+    try {
+      Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
+      List<User> users = <User>[];
+      decoded.forEach((userKey, userData) {
+        users.add(User.fromMap(userData["member"]));
+      });
 
-    return Future<List<User>>.value(users);
+      return Future<List<User>>.value(users);
+    } catch (e) {
+      return Future<List<User>>.value(<User>[]);
+    }
   }
 }

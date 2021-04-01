@@ -107,7 +107,7 @@ class _MembersTabState extends State<MembersTab> {
           ),
         ),
         onRefresh: () async {
-          Provider.of<MembersProvider>(context, listen: false).update(widget._courseID);
+          await Provider.of<MembersProvider>(context, listen: false).update(widget._courseID);
           return Future<void>.value(null);
         },
       ),

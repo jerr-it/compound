@@ -115,9 +115,9 @@ class CoursePage extends StatelessWidget {
                     icon: Icons.people,
                     caption: "Members",
                     color: Colors.green,
-                    onTap: () {
+                    onTap: () async {
                       if (!Provider.of<MembersProvider>(context, listen: false).initialized(course.courseID)) {
-                        Provider.of<MembersProvider>(context, listen: false).update(course.courseID);
+                        await Provider.of<MembersProvider>(context, listen: false).update(course.courseID);
                       }
 
                       Navigator.push(
