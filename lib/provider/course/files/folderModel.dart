@@ -80,11 +80,13 @@ class Folder {
       _isExpanded = false;
     }
 
-    _files = <File>[];
-    List<dynamic> fileRefs = data["file_refs"];
-    fileRefs.forEach((fileRef) {
-      File file = File.fromMap(fileRef);
-      _files.add(file);
-    });
+    if (data.containsKey("file_refs")) {
+      _files = <File>[];
+      List<dynamic> fileRefs = data["file_refs"];
+      fileRefs.forEach((fileRef) {
+        File file = File.fromMap(fileRef);
+        _files.add(file);
+      });
+    }
   }
 }

@@ -36,7 +36,7 @@ class FileProvider extends ChangeNotifier {
     _fileTree ??= <String, Folder>{};
 
     if (!_fileTree.containsKey(courseID)) {
-      Response res = await _client.httpGet("/$courseID/top_folder");
+      Response res = await _client.httpGet("/course/$courseID/top_folder");
 
       Folder topFolder = Folder.fromMap(jsonDecode(res.body));
 
