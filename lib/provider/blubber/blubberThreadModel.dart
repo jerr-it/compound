@@ -1,14 +1,25 @@
 import 'package:fludip/provider/blubber/blubberMessageModel.dart';
 
 class BlubberThread {
-  int _unseenCount;
+  String _id;
+  String _avatarUrl;
+  String _name;
+  int _timeStamp;
+
   List<BlubberMessage> _comments;
 
-  get unseenCount => this._unseenCount;
+  String get id => this._id;
+  String get avatarUrl => this._avatarUrl;
+  String get name => this._name;
+  int get timeStamp => this._timeStamp;
+
   List<BlubberMessage> get comments => this._comments;
-  set comments(List<BlubberMessage> value) => this._comments = value;
+  set comments(value) => this._comments = value;
 
   BlubberThread.fromMap(Map<String, dynamic> data) {
-    _unseenCount = data["unseen_comments"];
+    _id = data["thread_id"];
+    _avatarUrl = data["avatar"];
+    _name = data["name"];
+    _timeStamp = data["timestamp"];
   }
 }

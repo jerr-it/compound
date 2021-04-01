@@ -1,4 +1,5 @@
 import 'package:fludip/pages/community/blubberThreadViewer.dart';
+import 'package:fludip/provider/blubber/blubberThreadModel.dart';
 import 'package:fludip/provider/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 
 ///Community page = blubber page
 class CommunityPage extends StatefulWidget {
-  List<dynamic> _threads;
+  List<BlubberThread> _threads;
 
   @override
   _CommunityPageState createState() => _CommunityPageState();
@@ -22,17 +23,16 @@ class _CommunityPageState extends State<CommunityPage> {
     }
 
     widget._threads.forEach((thread) {
-      String avatarUrl = thread["avatar"];
       Widget leading;
-      if (avatarUrl.contains(".svg")) {
+      if (thread.avatarUrl.contains(".svg")) {
         leading = SvgPicture.network(
-          thread["avatar"],
+          thread.avatarUrl,
           width: 30,
           height: 30,
         );
       } else {
         leading = Image.network(
-          thread["avatar"],
+          thread.avatarUrl,
           width: 30,
           height: 30,
         );
@@ -40,14 +40,14 @@ class _CommunityPageState extends State<CommunityPage> {
 
       widgets.add(ListTile(
         leading: leading,
-        title: Text(thread["name"]),
-        subtitle: Text(StringUtil.fromUnixTime(thread["timestamp"] * 1000, "dd.MM.yyyy HH:mm")),
-        onTap: () {
-          if (!Provider.of<BlubberProvider>(context, listen: false).threadInitialized(thread["name"])) {
-            Provider.of<BlubberProvider>(context, listen: false).fetchThread(thread["name"]);
+        title: Text(thread.name),
+        subtitle: Text(StringUtil.fromUnixTime(thread.timeStamp * 1000, "dd.MM.yyyy HH:mm")),
+        onTap: () async {
+          if (!Provider.of<BlubberProvider>(context, listen: false).threadInitialized(thread.name)) {
+            await Provider.of<BlubberProvider>(context, listen: false).fetchThread(thread.name);
           }
 
-          Navigator.push(context, navRoute(BlubberThreadViewer(name: thread["name"])));
+          Navigator.push(context, navRoute(BlubberThreadViewer(name: thread.name)));
         },
       ));
 

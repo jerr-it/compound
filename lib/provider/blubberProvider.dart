@@ -1,75 +1,61 @@
 import 'dart:convert';
 
 import 'package:fludip/net/webClient.dart';
+import 'package:fludip/provider/blubber/blubberMessageModel.dart';
+import 'package:fludip/provider/blubber/blubberThreadModel.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 ///Maps threads to their comments
 ///Threads are identified by their name
-///|-:thread_name
-///  |-thread_posting{}
-///  |-context_info
-///  |-comments[]
-///  | |-[0]
-///  |   |-comment_id: "98fd43982..."
-///  |   |-thread_id: "89dj1398rr8r..."
-///  |   |-user_id: "89j398jfd8j2423..."
-///  |   |-external_contact: "0"
-///  |   |-content: "this is an example blubber message"
-///  |   |-network: ""
-///  |   |-chdate: 1247985137
-///  |   |-mkdate: 1209398754
-///  |   |-avatar: "https:..."
-///  |   |-user_name: "Testaccount Autor"
-///  |   |-user_username: "test_autor"
-///  |   |-class: "mine" (/"theirs")
-///  |   |-html: "<div..."
-///  |   |-writable: true
-///  |-more_up
-///  |-more_down
-///  |-unseen_comments: 0
 class BlubberProvider extends ChangeNotifier {
-  Map<String, dynamic> _data;
-  List<dynamic> _threads;
-
+  Map<String, BlubberThread> _threads;
   final WebClient _client = WebClient();
 
   bool initialized() {
-    return _data != null;
+    return _threads != null;
   }
 
   bool threadInitialized(String name) {
-    return _data[name] != null;
+    return _threads[name].comments != null;
   }
 
   Future<void> fetchOverview() async {
-    print("OVERVIEW");
+    _threads ??= <String, BlubberThread>{};
 
-    _data ??= <String, dynamic>{};
-    _threads ??= <dynamic>[];
+    Response res = await _client.httpGet("/blubber/threads");
+    List<dynamic> threadOverview = jsonDecode(res.body)["threads"];
 
-    var res = jsonDecode((await _client.httpGet("/blubber/threads")).body);
-    _threads = res["threads"];
+    threadOverview.forEach((threadData) {
+      BlubberThread thread = BlubberThread.fromMap(threadData);
+      _threads[threadData["name"]] = thread;
+    });
 
     notifyListeners();
   }
 
   Future<void> fetchThread(String name) async {
-    print("THREAD");
+    BlubberThread thread = _threads[name];
+    String threadID = thread.id;
 
-    var threadObject = _threads.firstWhere((thread) => thread["name"] == name);
-    String threadID = threadObject["thread_id"];
+    Response res = await _client.httpGet("/blubber/threads/$threadID");
+    Map<String, dynamic> decoded = jsonDecode(res.body);
+    List<dynamic> commentsList = decoded["comments"];
 
-    var threadContent = jsonDecode((await _client.httpGet("/blubber/threads/$threadID")).body);
-    _data[name] = threadContent;
+    List<BlubberMessage> messages = <BlubberMessage>[];
+    commentsList.forEach((commentData) {
+      messages.add(BlubberMessage.fromMap(commentData));
+    });
+    _threads[name].comments = messages;
 
     notifyListeners();
   }
 
-  List<dynamic> getThreads() {
-    return _threads;
+  List<BlubberThread> getThreads() {
+    return _threads.values.toList();
   }
 
-  Map<String, dynamic> getThread(String name) {
-    return _data[name];
+  BlubberThread getThread(String name) {
+    return _threads[name];
   }
 }
