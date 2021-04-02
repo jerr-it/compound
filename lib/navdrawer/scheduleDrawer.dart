@@ -1,3 +1,4 @@
+import 'package:fludip/pages/course/colorMapper.dart';
 import 'package:fludip/provider/calendar/calendarEntry.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
 import 'package:fludip/util/str.dart';
@@ -15,25 +16,16 @@ class ScheduleDrawer extends StatelessWidget {
   List<Widget> _buildEntryList(List<CalendarEntry> entries, DateTime today) {
     List<Widget> widgets = <Widget>[];
 
-    widgets.add(
-      DrawerHeader(
-        child: Header(today),
-        decoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-      ),
-    );
-
     entries.forEach((calendarEntry) {
       widgets.add(Container(
         margin: EdgeInsets.all(5),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: ColorMapper.convert(calendarEntry.color),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
@@ -88,34 +80,8 @@ class ScheduleDrawer extends StatelessWidget {
 
     return Drawer(
       child: ListView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.only(top: 20),
         children: _buildEntryList(entries, today),
-      ),
-    );
-  }
-}
-
-class Header extends StatelessWidget {
-  final DateTime _today;
-
-  Header(DateTime today) : _today = today;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          children: [
-            Text(
-              StringUtil.fromUnixTime(_today.millisecondsSinceEpoch, "EEEE, dd.MM.yyyy"),
-              style: TextStyle(fontSize: 18),
-            ),
-            Text(
-              StringUtil.fromUnixTime(_today.millisecondsSinceEpoch, "HH:mm"),
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
       ),
     );
   }

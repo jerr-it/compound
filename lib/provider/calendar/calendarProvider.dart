@@ -31,6 +31,11 @@ class CalendarProvider extends ChangeNotifier {
         entryMap.forEach((key, data) {
           entries.add(CalendarEntry.fromMap(data));
         });
+
+        entries.sort((a, b) {
+          return a.start - b.start;
+        });
+
         _calendarEntries.add(entries);
       } catch (e) {
         _calendarEntries.add(<CalendarEntry>[]);

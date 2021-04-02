@@ -5,7 +5,7 @@ class CalendarEntry {
   String _title;
   String _content;
 
-  String _color;
+  int _color;
 
   int get start => this._start;
   int get end => this._end;
@@ -13,7 +13,7 @@ class CalendarEntry {
   String get title => this._title;
   String get content => this._content;
 
-  String get color => this._color;
+  int get color => this._color;
 
   CalendarEntry.fromMap(Map<String, dynamic> data) {
     _start = data["start"];
@@ -22,6 +22,6 @@ class CalendarEntry {
     _title = data["title"];
     _content = data["content"];
 
-    _color = data["color"];
+    _color = int.parse(data["color"]);
   }
 }
