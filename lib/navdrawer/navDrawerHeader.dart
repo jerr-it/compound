@@ -19,16 +19,11 @@ class NavDrawerHeader extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  padding: EdgeInsets.zero,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(2.5),
-                  ),
-                  child: Image.network(
+                CircleAvatar(
+                  minRadius: 30,
+                  maxRadius: 30,
+                  foregroundImage: NetworkImage(
                     user.avatarUrlMedium,
-                    width: 40,
-                    height: 40,
                   ),
                 ),
                 Column(

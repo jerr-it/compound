@@ -27,10 +27,14 @@ class CalendarProvider extends ChangeNotifier {
 
     decoded.forEach((day, entryMap) {
       List<CalendarEntry> entries = <CalendarEntry>[];
-      entryMap.forEach((key, data) {
-        entries.add(CalendarEntry.fromMap(data));
-      });
-      _calendarEntries.add(entries);
+      try {
+        entryMap.forEach((key, data) {
+          entries.add(CalendarEntry.fromMap(data));
+        });
+        _calendarEntries.add(entries);
+      } catch (e) {
+        _calendarEntries.add(<CalendarEntry>[]);
+      }
     });
   }
 

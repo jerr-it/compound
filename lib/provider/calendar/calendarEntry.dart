@@ -7,13 +7,13 @@ class CalendarEntry {
 
   String _color;
 
-  get start => this._start;
-  get end => this._end;
+  int get start => this._start;
+  int get end => this._end;
 
-  get title => this._title;
-  get content => this._content;
+  String get title => this._title;
+  String get content => this._content;
 
-  get color => this._color;
+  String get color => this._color;
 
   CalendarEntry.fromMap(Map<String, dynamic> data) {
     _start = data["start"];

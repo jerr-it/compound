@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/startPage.dart';
+import 'package:fludip/provider/calendar/calendarProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
+import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:fludip/util/loadingIndicator.dart';
 
@@ -85,8 +87,12 @@ class _LoginFormState extends State<LoginForm> {
                   return;
                 }
 
-                Provider.of<UserProvider>(context, listen: false).fetch();
-                Provider.of<NewsProvider>(context, listen: false).update("global");
+                await Provider.of<UserProvider>(context, listen: false).fetch();
+                await Provider.of<NewsProvider>(context, listen: false).update("global");
+
+                User usr = Provider.of<UserProvider>(context, listen: false).getData();
+                Provider.of<CalendarProvider>(context, listen: false).setUserID(usr.userID);
+                await Provider.of<CalendarProvider>(context, listen: false).fetchCalendar();
 
                 LoadingIndicator.dismiss(context);
 
