@@ -29,7 +29,10 @@ class CommonWidgets {
           StringUtil.fromUnixTime(timeStamp, "dd.MM.yyyy HH:mm"),
         ),
         children: [
-          Text(body),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            child: Text(body),
+          ),
         ],
       ),
     );
