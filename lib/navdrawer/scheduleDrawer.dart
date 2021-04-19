@@ -76,7 +76,7 @@ class ScheduleDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime today = DateTime.now();
-    List<CalendarEntry> entries = Provider.of<CalendarProvider>(context).getEntries()[today.day];
+    List<CalendarEntry> entries = Provider.of<CalendarProvider>(context).getEntries()[today.weekday - 1];
 
     return Drawer(
       child: ListView(

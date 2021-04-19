@@ -44,6 +44,6 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   List<List<CalendarEntry>> getEntries() {
-    return _calendarEntries;
+    return _calendarEntries.reversed.toList();
   }
 }
