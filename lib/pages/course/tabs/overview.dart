@@ -1,4 +1,4 @@
-import 'package:fludip/pages/course/colorMapper.dart';
+import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/provider/news/newsModel.dart';
 import 'package:fludip/util/commonWidgets.dart';

@@ -1,4 +1,4 @@
-import 'package:fludip/pages/course/colorMapper.dart';
+import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/provider/calendar/calendarEntry.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
 import 'package:flutter/material.dart';
