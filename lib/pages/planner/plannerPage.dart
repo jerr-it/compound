@@ -1,3 +1,4 @@
+import 'package:fludip/pages/planner/scheduleView.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 
@@ -13,9 +14,7 @@ class _PlannerPageState extends State<PlannerPage> {
       appBar: AppBar(
         title: Text("Planer"),
       ),
-      body: Center(
-        child: Text("This is the planer page"),
-      ),
+      body: ScheduleViewer(),
       drawer: NavDrawer(),
     );
   }

@@ -1,11 +1,10 @@
 import 'package:fludip/pages/course/colorMapper.dart';
 import 'package:fludip/provider/calendar/calendarEntry.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
-import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ScheduleDrawer extends StatelessWidget {
+class ScheduleViewer extends StatelessWidget {
   ///Converts an int like 1430, representing clock time, to a string 14:30
   String _fromTime(int time) {
     var chars = time.toString().characters.toList();
@@ -78,7 +77,7 @@ class ScheduleDrawer extends StatelessWidget {
     DateTime today = DateTime.now();
     List<CalendarEntry> entries = Provider.of<CalendarProvider>(context).getEntries()[today.weekday - 1];
 
-    return Drawer(
+    return Container(
       child: ListView(
         padding: EdgeInsets.only(top: 20),
         children: _buildEntryList(entries, today),

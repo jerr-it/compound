@@ -1,4 +1,3 @@
-import 'package:fludip/navdrawer/scheduleDrawer.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/news/newsModel.dart';
 import 'package:fludip/util/commonWidgets.dart';
@@ -46,7 +45,6 @@ class _StartPageState extends State<StartPage> {
         },
       ),
       drawer: NavDrawer(),
-      endDrawer: ScheduleDrawer(),
     );
   }
 }
