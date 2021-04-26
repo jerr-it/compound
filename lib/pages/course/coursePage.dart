@@ -50,6 +50,10 @@ class GridButton extends StatelessWidget {
 }
 
 class CoursePage extends StatelessWidget {
+  final String userID;
+
+  CoursePage(String uID) : userID = uID;
+
   List<Widget> _buildListEntries(BuildContext context, List<Course> courses) {
     if (courses == null) {
       return <Widget>[CommonWidgets.nothing()];
@@ -59,7 +63,7 @@ class CoursePage extends StatelessWidget {
     courses.forEach((course) {
       Color color = ColorMapper.convert(course.group);
 
-      //TODO trailing: List of options for which new content appeared, for example a new file upload
+      //TODO: List of options for which new content appeared, for example a new file upload
       widgets.add(
         Container(
           decoration: BoxDecoration(border: Border(left: BorderSide(color: color, width: 7.5))),
@@ -182,20 +186,32 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Course> courses = Provider.of<GeneralCourseProvider>(context).courses();
+    Future<List<Course>> fCourses = Provider.of<GeneralCourseProvider>(context).update(userID);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Veranstaltungen"),
       ),
-      body: RefreshIndicator(
-        child: ListView(
-          children: _buildListEntries(context, courses),
-        ),
-        onRefresh: () async {
-          courses.clear();
-          await Provider.of<GeneralCourseProvider>(context, listen: false).update();
-          return Future<void>.value(null);
+      body: FutureBuilder(
+        future: fCourses,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              child: RefreshIndicator(
+                child: ListView(
+                  children: _buildListEntries(context, snapshot.data),
+                ),
+                onRefresh: () async {
+                  await Provider.of<GeneralCourseProvider>(context, listen: false).fetch(userID);
+                  return Future<void>.value(null);
+                },
+              ),
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
         },
       ),
       drawer: NavDrawer(),

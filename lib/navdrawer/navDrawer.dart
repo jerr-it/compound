@@ -75,14 +75,10 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.book_rounded),
             title: Text("Veranstaltungen"),
             onTap: () async {
-              if (!Provider.of<GeneralCourseProvider>(context, listen: false).initialized()) {
-                String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
-                Provider.of<GeneralCourseProvider>(context, listen: false).setUserID(userID);
-                Provider.of<GeneralCourseProvider>(context, listen: false).update();
-              }
+              String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
 
               Navigator.pop(context);
-              Navigator.of(context).push(navRoute(CoursePage()));
+              Navigator.of(context).push(navRoute(CoursePage(userID)));
             },
           ),
           ListTile(

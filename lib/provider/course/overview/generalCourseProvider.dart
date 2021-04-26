@@ -13,21 +13,28 @@ import 'package:fludip/provider/course/overview/semesterModel.dart';
 ///This provider provides the data for the courses themselves *and* the overview tab
 class GeneralCourseProvider extends ChangeNotifier {
   List<Course> _courses;
-  String _userID;
 
   final WebClient _client = WebClient();
-
-  void setUserID(String uID) {
-    _userID = uID;
-  }
 
   bool initialized() {
     return _courses != null;
   }
 
-  Future<void> update() async {
+  Future<List<Course>> update(String userID) async {
+    if (!initialized()) {
+      return fetch(userID);
+    }
+
+    return Future<List<Course>>.value(_courses);
+  }
+
+  Future<List<Course>> fetch(String userID) async {
     _courses ??= <Course>[];
-    String route = "/user/$_userID/courses";
+    if (_courses.isNotEmpty) {
+      _courses.clear();
+    }
+
+    String route = "/user/$userID/courses";
 
     Response res = await _client.httpGet(route);
     Map<String, dynamic> decoded = jsonDecode(res.body);
@@ -68,9 +75,6 @@ class GeneralCourseProvider extends ChangeNotifier {
     });
 
     notifyListeners();
-  }
-
-  List<Course> courses() {
-    return _courses;
+    return Future<List<Course>>.value(_courses);
   }
 }
