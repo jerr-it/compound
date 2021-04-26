@@ -21,9 +21,17 @@ class NewsProvider extends ChangeNotifier {
     return _newsMap.containsKey(courseID);
   }
 
-  Future<void> update(String courseID) async {
+  Future<List<News>> get(String courseID) async {
     _newsMap ??= new Map<String, List<News>>();
 
+    if (!initializedCourse(courseID)) {
+      return forceUpdate(courseID);
+    }
+
+    return Future<List<News>>.value(_newsMap[courseID]);
+  }
+
+  Future<List<News>> forceUpdate(String courseID) async {
     Response res;
     if (courseID == "global") {
       res = await _client.httpGet("/studip/news");
@@ -40,9 +48,6 @@ class NewsProvider extends ChangeNotifier {
     _newsMap[courseID] = news;
 
     notifyListeners();
-  }
-
-  List<News> get(String courseID) {
-    return _newsMap[courseID];
+    return Future<List<News>>.value(_newsMap[courseID]);
   }
 }

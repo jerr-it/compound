@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NavDrawerHeader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    //TODO rank?
-    User user = Provider.of<UserProvider>(context).getData();
-
+  Widget filledHeader(User user) {
     return Container(
       width: double.maxFinite,
       height: double.maxFinite,
@@ -56,6 +52,30 @@ class NavDrawerHeader extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget placeholderHeader() {
+    return Container(
+      width: double.maxFinite,
+      height: double.maxFinite,
+      child: Placeholder(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Future<User> user = Provider.of<UserProvider>(context).get();
+
+    return FutureBuilder(
+      future: user,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return filledHeader(snapshot.data);
+        } else {
+          return placeholderHeader();
+        }
+      },
     );
   }
 }

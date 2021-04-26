@@ -1,9 +1,9 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
-import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
+import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +64,7 @@ class NavDrawer extends StatelessWidget {
             onTap: () async {
               //Only do it once at the start to improve nav drawer performance
               if (!Provider.of<NewsProvider>(context, listen: false).initialized()) {
-                Provider.of<NewsProvider>(context, listen: false).update("global");
+                Provider.of<NewsProvider>(context, listen: false).get("global");
               }
 
               Navigator.pop(context);
@@ -75,18 +75,18 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.book_rounded),
             title: Text("Veranstaltungen"),
             onTap: () async {
-              String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
+              User user = await Provider.of<UserProvider>(context, listen: false).get();
 
               Navigator.pop(context);
-              Navigator.of(context).push(navRoute(CoursePage(userID)));
+              Navigator.of(context).push(navRoute(CoursePage(user.userID)));
             },
           ),
           ListTile(
             leading: Icon(Icons.mail),
             title: Text("Nachrichten"),
-            onTap: () {
+            onTap: () async {
               if (!Provider.of<MessageProvider>(context, listen: false).initialized()) {
-                String userID = Provider.of<UserProvider>(context, listen: false).getData().userID;
+                String userID = (await Provider.of<UserProvider>(context, listen: false).get()).userID;
                 Provider.of<MessageProvider>(context, listen: false).setUserID(userID);
                 Provider.of<MessageProvider>(context, listen: false).update();
               }

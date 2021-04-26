@@ -15,6 +15,7 @@ import 'provider/user/userProvider.dart';
 void main() => runApp(App());
 
 //TODO localisation
+//TODO darkmode ^^
 //TODO user settings:
 // 1. custom colors for courses
 // 2. (fingerprint?) unlock

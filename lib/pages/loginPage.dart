@@ -5,7 +5,6 @@ import 'package:fludip/provider/calendar/calendarProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
-import 'package:fludip/util/loadingIndicator.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webClient.dart';
@@ -74,8 +73,6 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             onTap: () {
-              LoadingIndicator.show(context, "Logging in...");
-
               var client = WebClient();
               client.setServer(server);
 
@@ -83,18 +80,10 @@ class _LoginFormState extends State<LoginForm> {
                 if (statusCode != 200) {
                   //TODO help dialog to clarify error codes
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
-                  LoadingIndicator.dismiss(context);
                   return;
                 }
 
-                await Provider.of<UserProvider>(context, listen: false).fetch();
-                await Provider.of<NewsProvider>(context, listen: false).update("global");
-
-                User usr = Provider.of<UserProvider>(context, listen: false).getData();
-                Provider.of<CalendarProvider>(context, listen: false).setUserID(usr.userID);
-                await Provider.of<CalendarProvider>(context, listen: false).fetchCalendar();
-
-                LoadingIndicator.dismiss(context);
+                await Provider.of<UserProvider>(context, listen: false).get();
 
                 Navigator.pushReplacement(context, navRoute(StartPage()));
               });

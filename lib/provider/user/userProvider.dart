@@ -10,16 +10,19 @@ class UserProvider extends ChangeNotifier {
   User _user;
   final WebClient _client = WebClient();
 
-  Future<void> fetch() async {
+  Future<User> get() async {
+    if (_user == null) {
+      return forceUpdate();
+    }
+    return Future<User>.value(_user);
+  }
+
+  Future<User> forceUpdate() async {
     var result = await _client.httpGet("/user");
     Map<String, dynamic> decoded = jsonDecode(result.body);
 
     _user = User.fromMap(decoded);
 
     notifyListeners();
-  }
-
-  User getData() {
-    return _user;
   }
 }

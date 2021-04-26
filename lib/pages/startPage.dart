@@ -13,8 +13,7 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   ///Convert data to widgets
-  List<Widget> _buildListEntries() {
-    List<News> announcements = Provider.of<NewsProvider>(context).get("global");
+  List<Widget> _buildListEntries(List<News> announcements) {
     List<Widget> widgets = <Widget>[];
     if (announcements == null) {
       return widgets;
@@ -31,17 +30,28 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
+    Future<List<News>> news = Provider.of<NewsProvider>(context).get("global");
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Start"),
       ),
-      body: RefreshIndicator(
-        child: ListView(
-          children: _buildListEntries(),
-        ),
-        onRefresh: () async {
-          Provider.of<NewsProvider>(context, listen: false).update("global");
-          return Future<void>.value(null);
+      body: FutureBuilder(
+        future: news,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return RefreshIndicator(
+                child: ListView(
+                  children: _buildListEntries(snapshot.data),
+                ),
+                onRefresh: () {
+                  return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global");
+                });
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
         },
       ),
       drawer: NavDrawer(),
