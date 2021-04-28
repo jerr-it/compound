@@ -9,19 +9,19 @@ import 'package:provider/provider.dart';
 
 ///TODO show user and time stamp
 class ForumEntriesViewer extends StatelessWidget {
-  final String pageTitle;
-  final Course course;
+  final String _pageTitle;
+  final Course _course;
 
-  final int categoryIdx;
-  final int areaIdx;
-  final int topicIdx;
+  final int _categoryIdx;
+  final int _areaIdx;
+  final int _topicIdx;
 
   ForumEntriesViewer({@required pageTitle, @required course, @required categoryIdx, @required areaIdx, @required topicIdx})
-      : pageTitle = pageTitle,
-        course = course,
-        categoryIdx = categoryIdx,
-        areaIdx = areaIdx,
-        topicIdx = topicIdx;
+      : _pageTitle = pageTitle,
+        _course = course,
+        _categoryIdx = categoryIdx,
+        _areaIdx = areaIdx,
+        _topicIdx = topicIdx;
 
   List<Widget> _buildEntryList(List<ForumEntry> entries) {
     List<Widget> widgets = <Widget>[];
@@ -43,16 +43,16 @@ class ForumEntriesViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<ForumEntry>> entries = Provider.of<ForumProvider>(context).getEntries(
-      course.courseID,
-      categoryIdx,
-      areaIdx,
-      topicIdx,
+      _course.courseID,
+      _categoryIdx,
+      _areaIdx,
+      _topicIdx,
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(pageTitle),
-        backgroundColor: ColorMapper.convert(course.group),
+        title: Text(_pageTitle),
+        backgroundColor: ColorMapper.convert(_course.group),
       ),
       body: FutureBuilder(
         future: entries,
@@ -67,7 +67,7 @@ class ForumEntriesViewer extends StatelessWidget {
               ),
               onRefresh: () async {
                 return Provider.of<ForumProvider>(context, listen: false)
-                    .forceUpdateEntries(course.courseID, categoryIdx, areaIdx, topicIdx);
+                    .forceUpdateEntries(_course.courseID, _categoryIdx, _areaIdx, _topicIdx);
               },
             );
           } else {

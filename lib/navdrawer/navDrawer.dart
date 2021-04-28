@@ -1,7 +1,6 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
-import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';

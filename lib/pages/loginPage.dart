@@ -1,9 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/startPage.dart';
-import 'package:fludip/provider/calendar/calendarProvider.dart';
-import 'package:fludip/provider/news/globalNewsProvider.dart';
-import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 
 import 'package:flutter/material.dart';

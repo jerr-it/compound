@@ -1,5 +1,4 @@
 import 'package:fludip/provider/course/overview/semesterModel.dart';
-import 'package:fludip/provider/news/newsModel.dart';
 
 class Course {
   String _courseID;
@@ -16,8 +15,6 @@ class Course {
 
   Semester _startSemester;
   Semester _endSemester;
-
-  List<News> _news;
 
   String get courseID => this._courseID;
 

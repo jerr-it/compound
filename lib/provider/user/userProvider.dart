@@ -24,5 +24,6 @@ class UserProvider extends ChangeNotifier {
     _user = User.fromMap(decoded);
 
     notifyListeners();
+    return Future<User>.value(_user);
   }
 }

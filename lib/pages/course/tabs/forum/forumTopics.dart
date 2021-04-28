@@ -10,17 +10,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ForumTopicsViewer extends StatelessWidget {
-  final String pageTitle;
-  final int categoryIdx;
-  final int areaIdx;
+  final String _pageTitle;
+  final int _categoryIdx;
+  final int _areaIdx;
 
-  final Course course;
+  final Course _course;
 
   ForumTopicsViewer({@required title, @required categoryIdx, @required areaIdx, @required course})
-      : pageTitle = title,
-        categoryIdx = categoryIdx,
-        areaIdx = areaIdx,
-        course = course;
+      : _pageTitle = title,
+        _categoryIdx = categoryIdx,
+        _areaIdx = areaIdx,
+        _course = course;
 
   List<Widget> _buildTopicList(BuildContext context, List<ForumTopic> topics) {
     List<Widget> widgets = <Widget>[];
@@ -43,9 +43,9 @@ class ForumTopicsViewer extends StatelessWidget {
             navRoute(
               ForumEntriesViewer(
                 pageTitle: title,
-                course: course,
-                categoryIdx: categoryIdx,
-                areaIdx: areaIdx,
+                course: _course,
+                categoryIdx: _categoryIdx,
+                areaIdx: _areaIdx,
                 topicIdx: topicIdx,
               ),
             ),
@@ -61,12 +61,13 @@ class ForumTopicsViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<ForumTopic>> topics = Provider.of<ForumProvider>(context).getTopics(course.courseID, categoryIdx, areaIdx);
+    Future<List<ForumTopic>> topics =
+        Provider.of<ForumProvider>(context).getTopics(_course.courseID, _categoryIdx, _areaIdx);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(pageTitle),
-        backgroundColor: ColorMapper.convert(course.group),
+        title: Text(_pageTitle),
+        backgroundColor: ColorMapper.convert(_course.group),
       ),
       body: FutureBuilder(
         future: topics,
@@ -81,7 +82,7 @@ class ForumTopicsViewer extends StatelessWidget {
               ),
               onRefresh: () async {
                 return Provider.of<ForumProvider>(context, listen: false)
-                    .forceUpdateTopics(course.courseID, categoryIdx, areaIdx);
+                    .forceUpdateTopics(_course.courseID, _categoryIdx, _areaIdx);
               },
             );
           } else {

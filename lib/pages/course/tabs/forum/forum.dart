@@ -9,9 +9,9 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ForumTab extends StatelessWidget {
-  final Course course;
+  final Course _course;
 
-  ForumTab({@required course}) : course = course;
+  ForumTab({@required course}) : _course = course;
 
   List<Widget> _buildCategoryList(BuildContext context, List<ForumCategory> categories) {
     List<Widget> widgets = <Widget>[];
@@ -42,7 +42,7 @@ class ForumTab extends StatelessWidget {
               navRoute(
                 ForumTopicsViewer(
                   title: categories[categoryIdx].areas[areaIdx].subject,
-                  course: course,
+                  course: _course,
                   categoryIdx: categoryIdx,
                   areaIdx: areaIdx,
                 ),
@@ -58,12 +58,12 @@ class ForumTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<ForumCategory>> categories = Provider.of<ForumProvider>(context).getCategories(course.courseID);
+    Future<List<ForumCategory>> categories = Provider.of<ForumProvider>(context).getCategories(_course.courseID);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Forum"),
-        backgroundColor: ColorMapper.convert(course.group),
+        backgroundColor: ColorMapper.convert(_course.group),
       ),
       body: FutureBuilder(
         future: categories,
@@ -77,7 +77,7 @@ class ForumTab extends StatelessWidget {
                 ),
               ),
               onRefresh: () async {
-                return Provider.of<ForumProvider>(context, listen: false).forceUpdateCategories(course.courseID);
+                return Provider.of<ForumProvider>(context, listen: false).forceUpdateCategories(_course.courseID);
               },
             );
           } else {

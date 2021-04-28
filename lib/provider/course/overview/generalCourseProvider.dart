@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:fludip/provider/news/newsModel.dart';
 import 'package:http/http.dart';
 
 import 'package:flutter/material.dart';
