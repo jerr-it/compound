@@ -24,15 +24,19 @@ class FileProvider extends ChangeNotifier {
     return current.isExpanded;
   }
 
-  Folder getFolder(String courseID, List<int> subFolderIndices) {
+  Future<Folder> get(String courseID, List<int> subFolderIndices) {
+    if (!initialized(courseID, subFolderIndices)) {
+      return forceUpdate(courseID, subFolderIndices);
+    }
+
     Folder current = _fileTree[courseID];
     for (int i = 0; i < subFolderIndices.length; i++) {
       current = current.subFolders[subFolderIndices[i]];
     }
-    return current;
+    return Future<Folder>.value(current);
   }
 
-  Future<void> update(String courseID, List<int> subFolderIndices) async {
+  Future<Folder> forceUpdate(String courseID, List<int> subFolderIndices) async {
     _fileTree ??= <String, Folder>{};
 
     if (!_fileTree.containsKey(courseID)) {
@@ -61,5 +65,6 @@ class FileProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+    return Future<Folder>.value(current);
   }
 }
