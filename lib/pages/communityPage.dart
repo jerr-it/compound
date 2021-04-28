@@ -1,28 +1,21 @@
 import 'package:fludip/pages/community/blubberThreadViewer.dart';
-import 'package:fludip/provider/blubber/blubberThreadModel.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
+import 'package:fludip/provider/blubber/blubberThreadModel.dart';
+import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-///Community page = blubber page
-class CommunityPage extends StatefulWidget {
-  List<BlubberThread> _threads;
-
-  @override
-  _CommunityPageState createState() => _CommunityPageState();
-}
-
-class _CommunityPageState extends State<CommunityPage> {
-  List<Widget> _buildOverview() {
+class CommunityPage extends StatelessWidget {
+  List<Widget> _buildOverview(BuildContext context, List<BlubberThread> threads) {
     List<Widget> widgets = <Widget>[];
-    if (widget._threads == null || widget._threads.isEmpty) {
-      return widgets;
+    if (threads.isEmpty) {
+      return <Widget>[CommonWidgets.nothing()];
     }
 
-    widget._threads.forEach((thread) {
+    threads.forEach((thread) {
       Widget leading;
       if (thread.avatarUrl.contains(".svg")) {
         leading = SvgPicture.network(
@@ -43,10 +36,6 @@ class _CommunityPageState extends State<CommunityPage> {
         title: Text(thread.name),
         subtitle: Text(StringUtil.fromUnixTime(thread.timeStamp * 1000, "dd.MM.yyyy HH:mm")),
         onTap: () async {
-          if (!Provider.of<BlubberProvider>(context, listen: false).threadInitialized(thread.name)) {
-            await Provider.of<BlubberProvider>(context, listen: false).fetchThread(thread.name);
-          }
-
           Navigator.push(context, navRoute(BlubberThreadViewer(name: thread.name)));
         },
       ));
@@ -59,22 +48,33 @@ class _CommunityPageState extends State<CommunityPage> {
 
   @override
   Widget build(BuildContext context) {
-    widget._threads = Provider.of<BlubberProvider>(context).getThreads();
+    Future<List<BlubberThread>> threads = Provider.of<BlubberProvider>(context).getOverview();
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Community"),
       ),
-      body: Center(
-        child: RefreshIndicator(
-          child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            children: _buildOverview(),
-          ),
-          onRefresh: () async {
-            await Provider.of<BlubberProvider>(context).fetchOverview();
-          },
-        ),
+      body: FutureBuilder(
+        future: threads,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Center(
+              child: RefreshIndicator(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  children: _buildOverview(context, snapshot.data),
+                ),
+                onRefresh: () {
+                  return Provider.of<BlubberProvider>(context).forceUpdateOverview();
+                },
+              ),
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
+        },
       ),
       drawer: NavDrawer(),
     );

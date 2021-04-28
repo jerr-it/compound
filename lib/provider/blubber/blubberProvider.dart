@@ -20,7 +20,15 @@ class BlubberProvider extends ChangeNotifier {
     return _threads[name] != null && _threads[name].comments != null;
   }
 
-  Future<void> fetchOverview() async {
+  Future<List<BlubberThread>> getOverview() {
+    if (!initialized()) {
+      return forceUpdateOverview();
+    }
+
+    return Future<List<BlubberThread>>.value(_threads.values.toList());
+  }
+
+  Future<List<BlubberThread>> forceUpdateOverview() async {
     _threads ??= <String, BlubberThread>{};
 
     Response res = await _client.httpGet("/blubber/threads");
@@ -32,12 +40,21 @@ class BlubberProvider extends ChangeNotifier {
     });
 
     notifyListeners();
+    return Future<List<BlubberThread>>.value(_threads.values.toList());
   }
 
-  Future<void> fetchThread(String name) async {
+  Future<BlubberThread> getThread(String name) {
+    if (!threadInitialized(name)) {
+      return forceUpdateThread(name);
+    }
+
+    return Future<BlubberThread>.value(_threads[name]);
+  }
+
+  Future<BlubberThread> forceUpdateThread(String name) async {
     BlubberThread thread = _threads[name];
     if (thread == null) {
-      return;
+      return Future<BlubberThread>.value(null);
     }
 
     String threadID = thread.id;
@@ -53,14 +70,7 @@ class BlubberProvider extends ChangeNotifier {
     _threads[name].comments = messages;
 
     notifyListeners();
-  }
-
-  List<BlubberThread> getThreads() {
-    return _threads.values.toList();
-  }
-
-  BlubberThread getThread(String name) {
-    return _threads[name];
+    return Future<BlubberThread>.value(_threads[name]);
   }
 
   void postMessage(String threadID, String message) {

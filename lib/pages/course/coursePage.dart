@@ -135,13 +135,8 @@ class CoursePage extends StatelessWidget {
                     color: Colors.amber,
                     onTap: () async {
                       String threadName = course.title;
-                      if (!Provider.of<BlubberProvider>(context, listen: false).initialized()) {
-                        await Provider.of<BlubberProvider>(context, listen: false).fetchOverview();
-                      }
-                      if (!Provider.of<BlubberProvider>(context, listen: false).threadInitialized(threadName)) {
-                        await Provider.of<BlubberProvider>(context, listen: false).fetchThread(threadName);
-                      }
 
+                      await Provider.of<BlubberProvider>(context, listen: false).getOverview();
                       Navigator.push(context, navRoute(BlubberThreadViewer(name: threadName)));
                     },
                   ),

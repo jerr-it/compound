@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BlubberThreadViewer extends StatefulWidget {
-  BlubberThread _thread;
-  String _threadName;
+  Future<BlubberThread> _thread;
+  final String _threadName;
   final TextEditingController _tController = TextEditingController();
 
   BlubberThreadViewer({@required name}) : _threadName = name;
@@ -26,7 +26,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
   void initState() {
     super.initState();
     timer = Timer.periodic(Duration(seconds: 15), (timer) {
-      Provider.of<BlubberProvider>(context, listen: false).fetchThread(widget._threadName);
+      Provider.of<BlubberProvider>(context, listen: false).forceUpdateThread(widget._threadName);
     });
   }
 
@@ -36,13 +36,10 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
     super.dispose();
   }
 
-  List<Widget> _buildChat() {
+  List<Widget> _buildChat(BlubberThread thread) {
     List<Widget> widgets = <Widget>[];
-    if (widget._thread == null) {
-      return widgets;
-    }
 
-    List<BlubberMessage> comments = widget._thread.comments;
+    List<BlubberMessage> comments = thread.comments;
     comments.forEach((comment) {
       widgets.add(
         Padding(
@@ -83,56 +80,73 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
   Widget build(BuildContext context) {
     widget._thread = Provider.of<BlubberProvider>(context).getThread(widget._threadName);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: widget._thread == null ? Text("Blubber") : Text(widget._thread.name),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              reverse: true,
-              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-              children: _buildChat(),
+    return FutureBuilder(
+      future: widget._thread,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(snapshot.data.name),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Colors.black12,
-            ),
-            child: Stack(
+            body: Column(
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.85,
-                  child: TextField(controller: widget._tController),
+                Expanded(
+                  child: ListView(
+                    reverse: true,
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    children: _buildChat(snapshot.data),
+                  ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
-                    child: IconButton(
-                      color: Colors.blue,
-                      icon: Icon(Icons.send),
-                      onPressed: () async {
-                        Provider.of<BlubberProvider>(context, listen: false).postMessage(
-                          widget._thread.id,
-                          widget._tController.text,
-                        );
+                Container(
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.black12,
+                  ),
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: TextField(controller: widget._tController),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.15,
+                          child: IconButton(
+                            color: Colors.blue,
+                            icon: Icon(Icons.send),
+                            onPressed: () async {
+                              Provider.of<BlubberProvider>(context, listen: false).postMessage(
+                                snapshot.data.id,
+                                widget._tController.text,
+                              );
 
-                        widget._tController.clear();
-                        Future.delayed(Duration(seconds: 1)).then((value) {
-                          Provider.of<BlubberProvider>(context, listen: false).fetchThread(widget._threadName);
-                        });
-                      },
-                    ),
+                              widget._tController.clear();
+                              Future.delayed(Duration(seconds: 1)).then((value) {
+                                return Provider.of<BlubberProvider>(context, listen: false)
+                                    .forceUpdateThread(widget._threadName);
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Blubber"),
+            ),
+            body: Container(
+              child: LinearProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 }
