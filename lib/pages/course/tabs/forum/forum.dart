@@ -7,6 +7,7 @@ import 'package:fludip/util/colorMapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ForumTab extends StatelessWidget {
   final Course _course;
@@ -62,7 +63,7 @@ class ForumTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Forum"),
+        title: Text("forum".tr()),
         backgroundColor: ColorMapper.convert(_course.group),
       ),
       body: FutureBuilder(

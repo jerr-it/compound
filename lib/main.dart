@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
@@ -12,7 +13,17 @@ import 'package:provider/provider.dart';
 
 import 'provider/user/userProvider.dart';
 
-void main() => runApp(App());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(EasyLocalization(
+    supportedLocales: [Locale("en", "GB"), Locale("de", "DE")],
+    path: "assets/translations",
+    fallbackLocale: Locale("en", "GB"),
+    child: App(),
+  ));
+}
 
 //TODO localisation
 //TODO darkmode ^^
@@ -36,6 +47,9 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CalendarProvider()),
       ],
       child: MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.deviceLocale,
         title: "Fludip",
         home: LoginPage(),
       ),

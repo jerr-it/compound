@@ -10,6 +10,8 @@ import 'package:fludip/util/popupDialog.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 
+import 'package:easy_localization/easy_localization.dart';
+
 class MessagesPage extends StatefulWidget {
   List<Message> _messages;
   final SlidableController slideController = SlidableController();
@@ -62,15 +64,15 @@ class _MessagesPageState extends State<MessagesPage> {
         ),
         secondaryActions: [
           IconSlideAction(
-            caption: "Delete",
+            caption: "delete".tr(),
             color: Colors.red,
             icon: Icons.delete,
             onTap: () {
               Popup.display(
                 context,
-                title: "Are you sure?",
-                optionA: "Confirm",
-                optionB: "Cancel",
+                title: "sure?".tr(),
+                optionA: "confirm".tr(),
+                optionB: "cancel".tr(),
                 optionAAction: () {
                   Provider.of<MessageProvider>(context, listen: false).deleteMessage(message.id);
                   setState(() {
@@ -98,7 +100,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nachrichten"),
+        title: Text("messages".tr()),
       ),
       body: FutureBuilder(
         future: messages,

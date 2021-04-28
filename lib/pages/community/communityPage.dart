@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CommunityPage extends StatelessWidget {
   List<Widget> _buildOverview(BuildContext context, List<BlubberThread> threads) {
@@ -52,7 +53,7 @@ class CommunityPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Community"),
+        title: Text("community".tr()),
       ),
       body: FutureBuilder(
         future: threads,

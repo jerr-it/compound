@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fludip/navdrawer/navDrawerHeader.dart';
 
-import 'package:fludip/pages/communityPage.dart';
+import 'package:fludip/pages/community/communityPage.dart';
 import 'package:fludip/pages/filesPage.dart';
 import 'package:fludip/pages/messages/messagesPage.dart';
 import 'package:fludip/pages/profilePage.dart';
@@ -17,6 +17,7 @@ import 'package:fludip/pages/searchPage.dart';
 import 'package:fludip/pages/toolsPage.dart';
 import 'package:fludip/pages/course/coursePage.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 //TODO maybe open profile via drawer header?
 
@@ -57,7 +58,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.home),
-            title: Text("Start"),
+            title: Text("start".tr()),
             onTap: () async {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(StartPage()));
@@ -65,7 +66,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.book_rounded),
-            title: Text("Veranstaltungen"),
+            title: Text("event".tr()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get();
 
@@ -75,7 +76,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.mail),
-            title: Text("Nachrichten"),
+            title: Text("messages".tr()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get();
 
@@ -85,7 +86,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.people),
-            title: Text("Community"),
+            title: Text("community".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(CommunityPage()));
@@ -93,7 +94,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.person),
-            title: Text("Profil"),
+            title: Text("profile".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(ProfilePage()));
@@ -101,7 +102,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.event),
-            title: Text("Planer"),
+            title: Text("planner".tr()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get();
 
@@ -111,7 +112,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.search),
-            title: Text("Suche"),
+            title: Text("search".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(SearchPage()));
@@ -119,7 +120,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.api),
-            title: Text("Tools"),
+            title: Text("tools".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(ToolsPage()));
@@ -127,7 +128,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.file_copy),
-            title: Text("Dateien"),
+            title: Text("files".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(FilePage()));
@@ -135,7 +136,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.announcement_outlined),
-            title: Text("Schwarzes Brett"),
+            title: Text("noticeBoard".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(BlackboardPage()));
@@ -144,14 +145,14 @@ class NavDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text("Settings"),
+            title: Text("settings".tr()),
             onTap: () {
               //Reroute to settings page
             },
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text("Logout"),
+            title: Text("logout".tr()),
             onTap: () {
               var client = WebClient();
               client.logout();

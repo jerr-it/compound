@@ -6,13 +6,14 @@ import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webClient.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("login".tr()),
       ),
       body: LoginForm(),
     );
@@ -99,7 +100,7 @@ class _LoginFormState extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(
-            "Choose your university",
+            "chooseUniversity".tr(),
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

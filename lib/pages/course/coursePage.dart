@@ -11,6 +11,7 @@ import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 //Convenience class to be used in grid view below
 class GridButton extends StatelessWidget {
@@ -88,7 +89,7 @@ class CoursePage extends StatelessWidget {
                 children: [
                   GridButton(
                     icon: Icons.new_releases_sharp,
-                    caption: "News",
+                    caption: "news".tr(),
                     color: Colors.white54,
                     onTap: () {
                       Navigator.push(context, navRoute(NewsTab(course: course)));
@@ -96,7 +97,7 @@ class CoursePage extends StatelessWidget {
                   ),
                   GridButton(
                     icon: Icons.forum,
-                    caption: "Forum",
+                    caption: "forum".tr(),
                     color: Colors.red,
                     onTap: () {
                       Navigator.push(
@@ -107,7 +108,7 @@ class CoursePage extends StatelessWidget {
                   ),
                   GridButton(
                     icon: Icons.people,
-                    caption: "Members",
+                    caption: "members".tr(),
                     color: Colors.green,
                     onTap: () {
                       Navigator.push(
@@ -118,7 +119,7 @@ class CoursePage extends StatelessWidget {
                   ),
                   GridButton(
                     icon: Icons.file_copy,
-                    caption: "Files",
+                    caption: "files".tr(),
                     color: Colors.purple,
                     onTap: () {
                       Navigator.push(
@@ -129,7 +130,7 @@ class CoursePage extends StatelessWidget {
                   ),
                   GridButton(
                     icon: Icons.chat,
-                    caption: "Blubber",
+                    caption: "blubber".tr(),
                     color: Colors.amber,
                     onTap: () async {
                       String threadName = course.title;
@@ -160,7 +161,7 @@ class CoursePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Veranstaltungen"),
+        title: Text("event".tr()),
       ),
       body: FutureBuilder(
         future: fCourses,

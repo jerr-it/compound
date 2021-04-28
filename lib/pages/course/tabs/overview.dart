@@ -7,6 +7,7 @@ import 'package:fludip/util/widgets/Announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NewsTab extends StatelessWidget {
   final Course course;
@@ -32,7 +33,7 @@ class NewsTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("News: " + course.title),
+        title: Text("news".tr() + ": " + course.title),
         backgroundColor: ColorMapper.convert(course.group),
       ),
       body: FutureBuilder(

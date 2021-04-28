@@ -5,6 +5,7 @@ import 'package:fludip/util/widgets/Announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class StartPage extends StatelessWidget {
   ///Convert data to widgets
@@ -29,7 +30,7 @@ class StartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Start"),
+        title: Text("start".tr()),
       ),
       body: FutureBuilder(
         future: news,

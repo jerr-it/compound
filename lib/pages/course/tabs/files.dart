@@ -7,6 +7,7 @@ import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FilesTab extends StatelessWidget {
   Course _course;
@@ -77,7 +78,7 @@ class FilesTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Files"),
+        title: Text("files".tr()),
         backgroundColor: ColorMapper.convert(_course.group),
       ),
       body: FutureBuilder(

@@ -7,6 +7,7 @@ import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BlubberThreadViewer extends StatefulWidget {
   Future<BlubberThread> _thread;
@@ -139,7 +140,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
         } else {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Blubber"),
+              title: Text("blubber".tr()),
             ),
             body: Container(
               child: LinearProgressIndicator(),
