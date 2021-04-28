@@ -13,6 +13,9 @@ import 'package:fludip/navdrawer/navDrawer.dart';
 class MessagesPage extends StatefulWidget {
   List<Message> _messages;
   final SlidableController slideController = SlidableController();
+  final String userID;
+
+  MessagesPage(String userid) : userID = userid;
 
   @override
   _MessagesPageState createState() => _MessagesPageState();
@@ -91,18 +94,30 @@ class _MessagesPageState extends State<MessagesPage> {
 
   @override
   Widget build(BuildContext context) {
-    widget._messages = Provider.of<MessageProvider>(context).get();
+    Future<List<Message>> messages = Provider.of<MessageProvider>(context).get(widget.userID);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Nachrichten"),
       ),
-      body: RefreshIndicator(
-        child: ListView(
-          children: _buildMessageList(),
-        ),
-        onRefresh: () async {
-          await Provider.of<MessageProvider>(context, listen: false).update();
+      body: FutureBuilder(
+        future: messages,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            widget._messages = snapshot.data;
+            return RefreshIndicator(
+              child: ListView(
+                children: _buildMessageList(),
+              ),
+              onRefresh: () async {
+                return Provider.of<MessageProvider>(context, listen: false).forceUpdate(widget.userID);
+              },
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
         },
       ),
       drawer: NavDrawer(),

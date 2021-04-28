@@ -10,18 +10,21 @@ import 'package:http/http.dart';
 class MessageProvider extends ChangeNotifier {
   final WebClient _client = WebClient();
   List<Message> _messages;
-  String _userID;
-
-  void setUserID(String id) {
-    _userID = id;
-  }
 
   bool initialized() {
     return _messages != null;
   }
 
-  Future<void> update() async {
-    Response res = await _client.httpGet("/user/$_userID/inbox");
+  Future<List<Message>> get(String userID) async {
+    if (!initialized()) {
+      return forceUpdate(userID);
+    }
+
+    return Future<List<Message>>.value(_messages);
+  }
+
+  Future<List<Message>> forceUpdate(String userID) async {
+    Response res = await _client.httpGet("/user/$userID/inbox");
 
     try {
       Map<String, dynamic> data = jsonDecode(res.body)["collection"];
@@ -42,10 +45,7 @@ class MessageProvider extends ChangeNotifier {
     } catch (e) {}
 
     notifyListeners();
-  }
-
-  List<Message> get() {
-    return _messages;
+    return Future<List<Message>>.value(_messages);
   }
 
   void markMessageRead(String msgID) {

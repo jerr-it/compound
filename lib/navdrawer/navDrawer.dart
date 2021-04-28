@@ -79,14 +79,10 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.mail),
             title: Text("Nachrichten"),
             onTap: () async {
-              if (!Provider.of<MessageProvider>(context, listen: false).initialized()) {
-                String userID = (await Provider.of<UserProvider>(context, listen: false).get()).userID;
-                Provider.of<MessageProvider>(context, listen: false).setUserID(userID);
-                Provider.of<MessageProvider>(context, listen: false).update();
-              }
+              User user = await Provider.of<UserProvider>(context, listen: false).get();
 
               Navigator.pop(context);
-              Navigator.of(context).push(navRoute(MessagesPage()));
+              Navigator.of(context).push(navRoute(MessagesPage(user.userID)));
             },
           ),
           ListTile(
