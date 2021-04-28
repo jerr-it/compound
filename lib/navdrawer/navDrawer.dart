@@ -62,11 +62,6 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text("Start"),
             onTap: () async {
-              //Only do it once at the start to improve nav drawer performance
-              if (!Provider.of<NewsProvider>(context, listen: false).initialized()) {
-                Provider.of<NewsProvider>(context, listen: false).get("global");
-              }
-
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(StartPage()));
             },

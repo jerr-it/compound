@@ -6,12 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:provider/provider.dart';
 
-class StartPage extends StatefulWidget {
-  @override
-  _StartPageState createState() => _StartPageState();
-}
-
-class _StartPageState extends State<StartPage> {
+class StartPage extends StatelessWidget {
   ///Convert data to widgets
   List<Widget> _buildListEntries(List<News> announcements) {
     List<Widget> widgets = <Widget>[];
