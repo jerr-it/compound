@@ -60,18 +60,7 @@ class GeneralCourseProvider extends ChangeNotifier {
       } catch (e) {
         end = Semester.empty();
       }
-
-      String courseID = courseData["course_id"];
-      String announcementsRoute = "/course/$courseID/news";
-      res = await _client.httpGet(announcementsRoute);
-
-      Map<String, dynamic> announcementsData = jsonDecode(res.body)["collection"];
-      List<News> news = <News>[];
-      announcementsData.forEach((announcementKey, announcement) {
-        news.add(News.fromMap(announcement));
-      });
-
-      _courses.add(Course.fromMap(courseData, start, end, news));
+      _courses.add(Course.fromMap(courseData, start, end));
     });
 
     notifyListeners();

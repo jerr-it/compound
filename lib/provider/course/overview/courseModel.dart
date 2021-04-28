@@ -34,10 +34,7 @@ class Course {
   Semester get startSemester => this._startSemester;
   Semester get endSemester => this._endSemester;
 
-  List<News> get news => this._news;
-  set news(value) => this._news = value;
-
-  Course.fromMap(Map<String, dynamic> data, Semester start, Semester end, List<News> news) {
+  Course.fromMap(Map<String, dynamic> data, Semester start, Semester end) {
     _courseID = data["course_id"];
 
     _title = data["title"];
@@ -52,7 +49,5 @@ class Course {
 
     _startSemester = start;
     _endSemester = end;
-
-    _news = news;
   }
 }

@@ -1,27 +1,23 @@
-import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/news/newsModel.dart';
+import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
-class NewsTab extends StatefulWidget {
-  final Course _course;
+class NewsTab extends StatelessWidget {
+  final Course course;
 
-  NewsTab({@required data}) : _course = data;
+  NewsTab({@required course}) : course = course;
 
-  @override
-  _NewsTabState createState() => _NewsTabState();
-}
-
-class _NewsTabState extends State<NewsTab> {
   ///Helper to get list of announcements from this course
-  List<Widget> _gatherAnnouncements() {
+  List<Widget> _gatherAnnouncements(List<News> news) {
     List<Widget> widgets = <Widget>[];
 
-    List<News> announcements = widget._course.news;
-    announcements.forEach((news) {
+    news.forEach((news) {
       String body = StringUtil.removeHTMLTags(news.body);
 
       widgets.add(CommonWidgets.announcement(news.topic, news.chdate, body));
@@ -32,19 +28,37 @@ class _NewsTabState extends State<NewsTab> {
 
   @override
   Widget build(BuildContext context) {
+    Future<List<News>> news = Provider.of<NewsProvider>(context).get(course.courseID);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("News: " + widget._course.title),
-        backgroundColor: ColorMapper.convert(widget._course.group),
+        title: Text("News: " + course.title),
+        backgroundColor: ColorMapper.convert(course.group),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black12),
-        ),
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          children: _gatherAnnouncements(),
-        ),
+      body: FutureBuilder(
+        future: news,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return RefreshIndicator(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                ),
+                child: ListView(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  children: _gatherAnnouncements(snapshot.data),
+                ),
+              ),
+              onRefresh: () async {
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate(course.courseID);
+              },
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }

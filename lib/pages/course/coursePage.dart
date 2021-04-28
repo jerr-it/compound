@@ -94,7 +94,7 @@ class CoursePage extends StatelessWidget {
                     caption: "News",
                     color: Colors.white54,
                     onTap: () {
-                      Navigator.push(context, navRoute(NewsTab(data: course)));
+                      Navigator.push(context, navRoute(NewsTab(course: course)));
                     },
                   ),
                   GridButton(
@@ -202,8 +202,7 @@ class CoursePage extends StatelessWidget {
                   children: _buildListEntries(context, snapshot.data),
                 ),
                 onRefresh: () async {
-                  await Provider.of<GeneralCourseProvider>(context, listen: false).forceUpdate(userID);
-                  return Future<void>.value(null);
+                  return Provider.of<GeneralCourseProvider>(context, listen: false).forceUpdate(userID);
                 },
               ),
             );
