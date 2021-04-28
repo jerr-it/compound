@@ -9,20 +9,22 @@ import 'package:http/http.dart';
 class CalendarProvider extends ChangeNotifier {
   List<List<CalendarEntry>> _calendarEntries;
   final WebClient _client = WebClient();
-  String _userID;
-
-  void setUserID(String userID) {
-    _userID = userID;
-  }
 
   bool initialized() {
     return _calendarEntries != null;
   }
 
-  Future<void> fetchCalendar() async {
+  Future<List<List<CalendarEntry>>> get(String userID) {
+    if (!initialized()) {
+      return forceUpdate(userID);
+    }
+    return Future<List<List<CalendarEntry>>>.value(_calendarEntries);
+  }
+
+  Future<List<List<CalendarEntry>>> forceUpdate(String userID) async {
     _calendarEntries ??= <List<CalendarEntry>>[];
 
-    Response res = await _client.httpGet("/user/$_userID/schedule");
+    Response res = await _client.httpGet("/user/$userID/schedule");
     Map<String, dynamic> decoded = jsonDecode(res.body);
 
     decoded.forEach((day, entryMap) {
@@ -41,9 +43,8 @@ class CalendarProvider extends ChangeNotifier {
         _calendarEntries.add(<CalendarEntry>[]);
       }
     });
-  }
 
-  List<List<CalendarEntry>> getEntries() {
-    return _calendarEntries.reversed.toList();
+    notifyListeners();
+    return Future<List<List<CalendarEntry>>>.value(_calendarEntries);
   }
 }

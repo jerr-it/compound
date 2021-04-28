@@ -1,7 +1,6 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/loginPage.dart';
-import 'package:fludip/provider/blubber/blubberProvider.dart';
-import 'package:fludip/provider/messages/messageProvider.dart';
+import 'package:fludip/pages/planner/scheduleView.dart';
 import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:fludip/navdrawer/navDrawerHeader.dart';
 import 'package:fludip/pages/communityPage.dart';
 import 'package:fludip/pages/filesPage.dart';
 import 'package:fludip/pages/messages/messagesPage.dart';
-import 'package:fludip/pages/planner/plannerPage.dart';
 import 'package:fludip/pages/profilePage.dart';
 import 'package:fludip/pages/blackboardPage.dart';
 import 'package:fludip/pages/startPage.dart';
@@ -104,9 +102,11 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.event),
             title: Text("Planer"),
-            onTap: () {
+            onTap: () async {
+              User user = await Provider.of<UserProvider>(context, listen: false).get();
+
               Navigator.pop(context);
-              Navigator.of(context).push(navRoute(PlannerPage()));
+              Navigator.of(context).push(navRoute(ScheduleViewer(user.userID)));
             },
           ),
           ListTile(

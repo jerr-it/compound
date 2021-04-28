@@ -1,3 +1,4 @@
+import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/provider/calendar/calendarEntry.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
@@ -5,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleViewer extends StatelessWidget {
+  final String userID;
+
+  ScheduleViewer(String userid) : userID = userid;
+
   ///Converts an int like 1430, representing clock time, to a string 14:30
   String _fromTime(int time) {
     var chars = time.toString().characters.toList();
@@ -75,13 +80,32 @@ class ScheduleViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime today = DateTime.now();
-    List<CalendarEntry> entries = Provider.of<CalendarProvider>(context).getEntries()[today.weekday - 1];
+    Future<List<List<CalendarEntry>>> entries = Provider.of<CalendarProvider>(context).get(userID);
 
-    return Container(
-      child: ListView(
-        padding: EdgeInsets.only(top: 20),
-        children: _buildEntryList(entries, today),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Planner"),
       ),
+      body: FutureBuilder(
+        future: entries,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return RefreshIndicator(
+              child: ListView(
+                children: _buildEntryList(snapshot.data[today.weekday - 1], today),
+              ),
+              onRefresh: () async {
+                return Provider.of<CalendarProvider>(context, listen: false).forceUpdate(userID);
+              },
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
+        },
+      ),
+      drawer: NavDrawer(),
     );
   }
 }
