@@ -1,8 +1,8 @@
 import 'package:fludip/pages/community/blubberThreadViewer.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/blubber/blubberThreadModel.dart';
-import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,7 +12,7 @@ class CommunityPage extends StatelessWidget {
   List<Widget> _buildOverview(BuildContext context, List<BlubberThread> threads) {
     List<Widget> widgets = <Widget>[];
     if (threads.isEmpty) {
-      return <Widget>[CommonWidgets.nothing()];
+      return <Widget>[Nothing()];
     }
 
     threads.forEach((thread) {

@@ -4,7 +4,7 @@ import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/files/folderModel.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/util/colorMapper.dart';
-import 'package:fludip/util/commonWidgets.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +65,7 @@ class FilesTab extends StatelessWidget {
     });
 
     if (widgets.isEmpty) {
-      widgets.add(CommonWidgets.nothing());
+      widgets.add(Nothing());
     }
 
     return widgets;

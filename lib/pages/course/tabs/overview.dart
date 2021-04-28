@@ -2,8 +2,8 @@ import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/news/newsModel.dart';
 import 'package:fludip/util/colorMapper.dart';
-import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
+import 'package:fludip/util/widgets/Announcement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class NewsTab extends StatelessWidget {
     news.forEach((news) {
       String body = StringUtil.removeHTMLTags(news.body);
 
-      widgets.add(CommonWidgets.announcement(news.topic, news.chdate, body));
+      widgets.add(Announcement(title: news.topic, time: news.chdate, body: body));
     });
 
     return widgets;

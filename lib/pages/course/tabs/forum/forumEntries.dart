@@ -2,8 +2,8 @@ import 'package:fludip/provider/course/forum/entryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/util/colorMapper.dart';
-import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class ForumEntriesViewer extends StatelessWidget {
   List<Widget> _buildEntryList(List<ForumEntry> entries) {
     List<Widget> widgets = <Widget>[];
     if (entries.isEmpty) {
-      return <Widget>[CommonWidgets.nothing()];
+      return <Widget>[Nothing()];
     }
 
     entries.forEach((entry) {
