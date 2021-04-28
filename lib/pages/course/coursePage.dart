@@ -102,16 +102,9 @@ class CoursePage extends StatelessWidget {
                     caption: "Forum",
                     color: Colors.red,
                     onTap: () async {
-                      if (!Provider.of<ForumProvider>(context, listen: false).initialized(course.courseID)) {
-                        await Provider.of<ForumProvider>(context, listen: false).updateCategories(course.courseID);
-                      }
-
                       Navigator.push(
                         context,
-                        navRoute(ForumTab(
-                          courseID: course.courseID,
-                          color: ColorMapper.convert(course.group),
-                        )),
+                        navRoute(ForumTab(course: course)),
                       );
                     },
                   ),

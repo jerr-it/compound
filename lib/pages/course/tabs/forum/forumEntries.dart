@@ -1,52 +1,35 @@
 import 'package:fludip/provider/course/forum/entryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
+import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/commonWidgets.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ForumEntriesViewer extends StatefulWidget {
-  String _pageTitle;
-  Color _courseColor;
-
-  String _courseID;
-  int _categoryIdx;
-  int _areaIdx;
-  int _topicIdx;
-
-  List<ForumEntry> _entries;
-
-  ForumEntriesViewer(
-      {@required pageTitle,
-      @required courseID,
-      @required categoryIdx,
-      @required areaIdx,
-      @required color,
-      @required topicIdx})
-      : _pageTitle = pageTitle,
-        _courseID = courseID,
-        _categoryIdx = categoryIdx,
-        _areaIdx = areaIdx,
-        _courseColor = color,
-        _topicIdx = topicIdx;
-
-  @override
-  _ForumEntriesViewerState createState() => _ForumEntriesViewerState();
-}
-
 ///TODO show user and time stamp
-class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
-  List<Widget> _buildEntryList() {
-    List<Widget> widgets = <Widget>[];
-    if (widget._entries == null) {
-      return widgets;
-    }
+class ForumEntriesViewer extends StatelessWidget {
+  final String pageTitle;
+  final Course course;
 
-    if (widget._entries.isEmpty) {
+  final int categoryIdx;
+  final int areaIdx;
+  final int topicIdx;
+
+  ForumEntriesViewer({@required pageTitle, @required course, @required categoryIdx, @required areaIdx, @required topicIdx})
+      : pageTitle = pageTitle,
+        course = course,
+        categoryIdx = categoryIdx,
+        areaIdx = areaIdx,
+        topicIdx = topicIdx;
+
+  List<Widget> _buildEntryList(List<ForumEntry> entries) {
+    List<Widget> widgets = <Widget>[];
+    if (entries.isEmpty) {
       return <Widget>[CommonWidgets.nothing()];
     }
 
-    widget._entries.forEach((entry) {
+    entries.forEach((entry) {
       widgets.add(ListTile(
         leading: Icon(Icons.person, size: 30),
         title: Text(StringUtil.removeHTMLTags(entry.content.replaceAll("\n", ""))),
@@ -59,29 +42,39 @@ class _ForumEntriesViewerState extends State<ForumEntriesViewer> {
 
   @override
   Widget build(BuildContext context) {
-    widget._entries = Provider.of<ForumProvider>(context).getEntries(
-      widget._courseID,
-      widget._categoryIdx,
-      widget._areaIdx,
-      widget._topicIdx,
+    Future<List<ForumEntry>> entries = Provider.of<ForumProvider>(context).getEntries(
+      course.courseID,
+      categoryIdx,
+      areaIdx,
+      topicIdx,
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget._pageTitle),
-        backgroundColor: widget._courseColor,
+        title: Text(pageTitle),
+        backgroundColor: ColorMapper.convert(course.group),
       ),
-      body: RefreshIndicator(
-        child: Container(
-          child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            children: _buildEntryList(),
-          ),
-        ),
-        onRefresh: () async {
-          await Provider.of<ForumProvider>(context, listen: false)
-              .updateEntries(widget._courseID, widget._categoryIdx, widget._areaIdx, widget._topicIdx);
-          return Future<void>.value(null);
+      body: FutureBuilder(
+        future: entries,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return RefreshIndicator(
+              child: Container(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  children: _buildEntryList(snapshot.data),
+                ),
+              ),
+              onRefresh: () async {
+                return Provider.of<ForumProvider>(context, listen: false)
+                    .forceUpdateEntries(course.courseID, categoryIdx, areaIdx, topicIdx);
+              },
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
         },
       ),
     );

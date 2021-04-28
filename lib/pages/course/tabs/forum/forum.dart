@@ -2,63 +2,49 @@ import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/course/tabs/forum/forumTopics.dart';
 import 'package:fludip/provider/course/forum/categoryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
+import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/util/colorMapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-class ForumTab extends StatefulWidget {
-  final String _courseID;
-  List<ForumCategory> _categories;
-  Color _courseColor;
+class ForumTab extends StatelessWidget {
+  final Course course;
 
-  ForumTab({@required courseID, @required color})
-      : _courseID = courseID,
-        _courseColor = color;
+  ForumTab({@required course}) : course = course;
 
-  @override
-  _ForumTabState createState() => _ForumTabState();
-}
-
-class _ForumTabState extends State<ForumTab> {
-  List<Widget> _buildCategoryList() {
+  List<Widget> _buildCategoryList(BuildContext context, List<ForumCategory> categories) {
     List<Widget> widgets = <Widget>[];
-
-    if (widget._categories == null) {
-      return <Widget>[LinearProgressIndicator()];
-    }
 
     //1. display category name large
     //2. display subtopics of category
-    for (int categoryIdx = 0; categoryIdx < widget._categories.length; categoryIdx++) {
+    for (int categoryIdx = 0; categoryIdx < categories.length; categoryIdx++) {
       widgets.add(Text(
-        widget._categories[categoryIdx].name,
+        categories[categoryIdx].name,
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
       ));
 
-      if (widget._categories[categoryIdx].areas == null) {
+      if (categories[categoryIdx].areas == null) {
         return <Widget>[LinearProgressIndicator()];
       }
 
-      for (int areaIdx = 0; areaIdx < widget._categories[categoryIdx].areas.length; areaIdx++) {
+      for (int areaIdx = 0; areaIdx < categories[categoryIdx].areas.length; areaIdx++) {
         widgets.add(ListTile(
           leading: Icon(Icons.topic, size: 30),
-          title: Text(widget._categories[categoryIdx].areas[areaIdx].subject),
-          subtitle: Text(widget._categories[categoryIdx].areas[areaIdx].content),
+          title: Text(categories[categoryIdx].areas[areaIdx].subject),
+          subtitle: Text(categories[categoryIdx].areas[areaIdx].content),
           onTap: () async {
-            await Provider.of<ForumProvider>(context, listen: false).updateTopics(widget._courseID, categoryIdx, areaIdx);
-
             Navigator.push(
               context,
               navRoute(
                 ForumTopicsViewer(
-                  pageTitle: widget._categories[categoryIdx].areas[areaIdx].subject,
-                  courseID: widget._courseID,
+                  title: categories[categoryIdx].areas[areaIdx].subject,
+                  course: course,
                   categoryIdx: categoryIdx,
                   areaIdx: areaIdx,
-                  color: widget._courseColor,
                 ),
               ),
             );
@@ -72,23 +58,33 @@ class _ForumTabState extends State<ForumTab> {
 
   @override
   Widget build(BuildContext context) {
-    widget._categories = Provider.of<ForumProvider>(context).getCategories(widget._courseID);
+    Future<List<ForumCategory>> categories = Provider.of<ForumProvider>(context).getCategories(course.courseID);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Forum"),
-        backgroundColor: widget._courseColor,
+        backgroundColor: ColorMapper.convert(course.group),
       ),
-      body: RefreshIndicator(
-        child: Container(
-          child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            children: _buildCategoryList(),
-          ),
-        ),
-        onRefresh: () async {
-          await Provider.of<ForumProvider>(context, listen: false).updateCategories(widget._courseID);
-          return Future<void>.value(null);
+      body: FutureBuilder(
+        future: categories,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return RefreshIndicator(
+              child: Container(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  children: _buildCategoryList(context, snapshot.data),
+                ),
+              ),
+              onRefresh: () async {
+                return Provider.of<ForumProvider>(context, listen: false).forceUpdateCategories(course.courseID);
+              },
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
         },
       ),
     );

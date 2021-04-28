@@ -24,11 +24,15 @@ class ForumProvider extends ChangeNotifier {
   ///Category                        ///
   ///--------------------------------///
 
-  List<ForumCategory> getCategories(String courseID) {
-    return _forums[courseID];
+  Future<List<ForumCategory>> getCategories(String courseID) {
+    if (!initialized(courseID)) {
+      return forceUpdateCategories(courseID);
+    }
+
+    return Future<List<ForumCategory>>.value(_forums[courseID]);
   }
 
-  Future<void> updateCategories(String courseID) async {
+  Future<List<ForumCategory>> forceUpdateCategories(String courseID) async {
     _forums ??= <String, List<ForumCategory>>{};
 
     List<ForumCategory> categories = <ForumCategory>[];
@@ -46,23 +50,28 @@ class ForumProvider extends ChangeNotifier {
       _forums[courseID] = categories;
 
       for (int i = 0; i < _forums[courseID].length; i++) {
-        await _updateAreas(courseID, i);
+        await forceUpdateAreas(courseID, i);
       }
     } catch (e) {}
 
     notifyListeners();
+    return Future<List<ForumCategory>>.value(_forums[courseID]);
   }
 
   ///--------------------------------///
   ///Area                            ///
   ///--------------------------------///
 
-  List<ForumArea> getAreas(String courseID, int categoryIdx) {
+  Future<List<ForumArea>> getAreas(String courseID, int categoryIdx) {
+    if (_forums[courseID][categoryIdx].areas == null) {
+      return forceUpdateAreas(courseID, categoryIdx);
+    }
+
     ForumCategory selectedCategory = _forums[courseID][categoryIdx];
-    return selectedCategory.areas;
+    return Future<List<ForumArea>>.value(selectedCategory.areas);
   }
 
-  Future<void> _updateAreas(String courseID, int categoryIdx) async {
+  Future<List<ForumArea>> forceUpdateAreas(String courseID, int categoryIdx) async {
     ForumCategory selectedCategory = _forums[courseID][categoryIdx];
 
     String categoryID = selectedCategory.categoryID;
@@ -79,18 +88,23 @@ class ForumProvider extends ChangeNotifier {
     _forums[courseID][categoryIdx].areas = areas;
 
     notifyListeners();
+    return Future<List<ForumArea>>.value(_forums[courseID][categoryIdx].areas);
   }
 
   ///--------------------------------///
   ///Topic                           ///
   ///--------------------------------///
 
-  List<ForumTopic> getTopics(String courseID, int categoryIdx, int areaIdx) {
+  Future<List<ForumTopic>> getTopics(String courseID, int categoryIdx, int areaIdx) {
+    if (_forums[courseID][categoryIdx].areas[areaIdx].topics == null) {
+      return forceUpdateTopics(courseID, categoryIdx, areaIdx);
+    }
+
     ForumArea selectedArea = _forums[courseID][categoryIdx].areas[areaIdx];
-    return selectedArea.topics;
+    return Future<List<ForumTopic>>.value(selectedArea.topics);
   }
 
-  Future<void> updateTopics(String courseID, int categoryIdx, int areaIdx) async {
+  Future<List<ForumTopic>> forceUpdateTopics(String courseID, int categoryIdx, int areaIdx) async {
     ForumArea selectedArea = _forums[courseID][categoryIdx].areas[areaIdx];
 
     String areaID = selectedArea.id;
@@ -107,18 +121,23 @@ class ForumProvider extends ChangeNotifier {
     _forums[courseID][categoryIdx].areas[areaIdx].topics = topics;
 
     notifyListeners();
+    return Future<List<ForumTopic>>.value(_forums[courseID][categoryIdx].areas[areaIdx].topics);
   }
 
   ///--------------------------------///
   ///Entry                           ///
   ///--------------------------------///
 
-  List<ForumEntry> getEntries(String courseID, int categoryIdx, int areaIdx, int topicIdx) {
+  Future<List<ForumEntry>> getEntries(String courseID, int categoryIdx, int areaIdx, int topicIdx) {
+    if (_forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx].entries == null) {
+      return forceUpdateEntries(courseID, categoryIdx, areaIdx, topicIdx);
+    }
+
     ForumTopic selectedTopic = _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx];
-    return selectedTopic.entries;
+    return Future<List<ForumEntry>>.value(selectedTopic.entries);
   }
 
-  Future<void> updateEntries(String courseID, int categoryIdx, int areaIdx, int topicIdx) async {
+  Future<List<ForumEntry>> forceUpdateEntries(String courseID, int categoryIdx, int areaIdx, int topicIdx) async {
     ForumTopic selectedTopic = _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx];
 
     String topicID = selectedTopic.id;
@@ -146,5 +165,6 @@ class ForumProvider extends ChangeNotifier {
     _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx].entries = entries;
 
     notifyListeners();
+    return Future<List<ForumEntry>>.value(_forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx].entries);
   }
 }
