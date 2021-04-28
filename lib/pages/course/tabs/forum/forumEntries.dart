@@ -52,7 +52,7 @@ class ForumEntriesViewer extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pageTitle),
-        backgroundColor: ColorMapper.convert(_course.group),
+        backgroundColor: _course.color,
       ),
       body: FutureBuilder(
         future: entries,

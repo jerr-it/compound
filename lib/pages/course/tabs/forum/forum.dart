@@ -64,7 +64,7 @@ class ForumTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("forum".tr()),
-        backgroundColor: ColorMapper.convert(_course.group),
+        backgroundColor: _course.color,
       ),
       body: FutureBuilder(
         future: categories,

@@ -1,4 +1,6 @@
 import 'package:fludip/provider/course/overview/semesterModel.dart';
+import 'package:fludip/util/colorMapper.dart';
+import 'package:flutter/material.dart';
 
 class Course {
   String _courseID;
@@ -8,7 +10,7 @@ class Course {
   String _description;
 
   String _type;
-  int _group;
+  Color _color;
   String _number;
 
   String _location;
@@ -23,7 +25,7 @@ class Course {
   String get description => this._description;
 
   String get type => this._type;
-  int get group => this._group;
+  Color get color => this._color;
   String get number => this._number;
 
   String get location => this._location;
@@ -39,7 +41,7 @@ class Course {
     _description = data["description"];
 
     _type = data["type"];
-    _group = data["group"];
+    _color = ColorMapper.convert(data["group"]);
     _number = data["number"];
 
     _location = data["location"];

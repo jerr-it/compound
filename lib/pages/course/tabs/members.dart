@@ -87,7 +87,7 @@ class MembersTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("members".tr()),
-        backgroundColor: ColorMapper.convert(_course.group),
+        backgroundColor: _course.color,
       ),
       body: FutureBuilder(
         future: members,

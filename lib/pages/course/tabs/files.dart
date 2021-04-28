@@ -79,7 +79,7 @@ class FilesTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("files".tr()),
-        backgroundColor: ColorMapper.convert(_course.group),
+        backgroundColor: _course.color,
       ),
       body: FutureBuilder(
         future: folder,

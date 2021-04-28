@@ -34,7 +34,7 @@ class NewsTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("news".tr() + ": " + course.title),
-        backgroundColor: ColorMapper.convert(course.group),
+        backgroundColor: course.color,
       ),
       body: FutureBuilder(
         future: news,

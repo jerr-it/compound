@@ -59,12 +59,10 @@ class CoursePage extends StatelessWidget {
 
     List<Widget> widgets = <Widget>[];
     courses.forEach((course) {
-      Color color = ColorMapper.convert(course.group);
-
       //TODO: List of options for which new content appeared, for example a new file upload
       widgets.add(
         Container(
-          decoration: BoxDecoration(border: Border(left: BorderSide(color: color, width: 7.5))),
+          decoration: BoxDecoration(border: Border(left: BorderSide(color: course.color, width: 7.5))),
           child: ExpansionTile(
             title: Container(
               child: Row(
