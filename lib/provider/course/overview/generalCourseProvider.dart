@@ -20,15 +20,15 @@ class GeneralCourseProvider extends ChangeNotifier {
     return _courses != null;
   }
 
-  Future<List<Course>> update(String userID) async {
+  Future<List<Course>> get(String userID) async {
     if (!initialized()) {
-      return fetch(userID);
+      return forceUpdate(userID);
     }
 
     return Future<List<Course>>.value(_courses);
   }
 
-  Future<List<Course>> fetch(String userID) async {
+  Future<List<Course>> forceUpdate(String userID) async {
     _courses ??= <Course>[];
     if (_courses.isNotEmpty) {
       _courses.clear();

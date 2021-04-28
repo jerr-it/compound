@@ -186,7 +186,7 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Course>> fCourses = Provider.of<GeneralCourseProvider>(context).update(userID);
+    Future<List<Course>> fCourses = Provider.of<GeneralCourseProvider>(context).get(userID);
 
     return Scaffold(
       appBar: AppBar(
@@ -202,7 +202,7 @@ class CoursePage extends StatelessWidget {
                   children: _buildListEntries(context, snapshot.data),
                 ),
                 onRefresh: () async {
-                  await Provider.of<GeneralCourseProvider>(context, listen: false).fetch(userID);
+                  await Provider.of<GeneralCourseProvider>(context, listen: false).forceUpdate(userID);
                   return Future<void>.value(null);
                 },
               ),
