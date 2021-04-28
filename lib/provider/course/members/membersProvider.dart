@@ -16,20 +16,24 @@ class MembersProvider extends ChangeNotifier {
     return _members != null && _members[courseID] != null;
   }
 
-  Members getMembers(String courseID) {
-    return _members[courseID];
+  Future<Members> get(String courseID) {
+    if (!initialized(courseID)) {
+      return forceUpdate(courseID);
+    }
+    return Future<Members>.value(_members[courseID]);
   }
 
-  Future<void> update(String courseID) async {
+  Future<Members> forceUpdate(String courseID) async {
     _members ??= <String, Members>{};
 
-    var lecturers = await _getUserList(courseID, "dozent");
-    var tutors = await _getUserList(courseID, "tutor");
-    var students = await _getUserList(courseID, "autor");
+    List<User> lecturers = await _getUserList(courseID, "dozent");
+    List<User> tutors = await _getUserList(courseID, "tutor");
+    List<User> students = await _getUserList(courseID, "autor");
 
     _members[courseID] = Members.from(lecturers, tutors, students);
 
     notifyListeners();
+    return Future<Members>.value(_members[courseID]);
   }
 
   Future<List<User>> _getUserList(String courseID, String status) async {

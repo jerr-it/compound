@@ -1,30 +1,19 @@
 import 'package:fludip/provider/course/members/memberModel.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
+import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/util/colorMapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MembersTab extends StatefulWidget {
-  String _courseID;
-  Color _color;
+class MembersTab extends StatelessWidget {
+  final Course _course;
 
-  Members _members;
+  MembersTab({@required course}) : _course = course;
 
-  MembersTab({@required courseID, @required color})
-      : _courseID = courseID,
-        _color = color;
-
-  @override
-  _MembersTabState createState() => _MembersTabState();
-}
-
-class _MembersTabState extends State<MembersTab> {
-  List<Widget> _buildMembersList() {
+  List<Widget> _buildMembersList(Members members) {
     List<Widget> widgets = <Widget>[];
-    if (widget._members == null) {
-      return widgets;
-    }
 
-    if (widget._members.lecturers.isNotEmpty) {
+    if (members.lecturers.isNotEmpty) {
       widgets.add(Text(
         "Lecturers",
         style: TextStyle(
@@ -33,7 +22,7 @@ class _MembersTabState extends State<MembersTab> {
         ),
       ));
 
-      widget._members.lecturers.forEach((lecturer) {
+      members.lecturers.forEach((lecturer) {
         widgets.add(ListTile(
           leading: Image.network(
             lecturer.avatarUrlNormal,
@@ -45,7 +34,7 @@ class _MembersTabState extends State<MembersTab> {
       });
     }
 
-    if (widget._members.tutors.isNotEmpty) {
+    if (members.tutors.isNotEmpty) {
       widgets.add(Text(
         "Tutors",
         style: TextStyle(
@@ -54,7 +43,7 @@ class _MembersTabState extends State<MembersTab> {
         ),
       ));
 
-      widget._members.tutors.forEach((tutor) {
+      members.tutors.forEach((tutor) {
         widgets.add(ListTile(
           leading: Image.network(
             tutor.avatarUrlNormal,
@@ -66,7 +55,7 @@ class _MembersTabState extends State<MembersTab> {
       });
     }
 
-    if (widget._members.studends.isNotEmpty) {
+    if (members.studends.isNotEmpty) {
       widgets.add(Text(
         "Students",
         style: TextStyle(
@@ -75,7 +64,7 @@ class _MembersTabState extends State<MembersTab> {
         ),
       ));
 
-      widget._members.studends.forEach((student) {
+      members.studends.forEach((student) {
         widgets.add(ListTile(
           leading: Image.network(
             student.avatarUrlNormal,
@@ -92,23 +81,33 @@ class _MembersTabState extends State<MembersTab> {
 
   @override
   Widget build(BuildContext context) {
-    widget._members = Provider.of<MembersProvider>(context).getMembers(widget._courseID);
+    Future<Members> members = Provider.of<MembersProvider>(context).get(_course.courseID);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Members"),
-        backgroundColor: widget._color,
+        backgroundColor: ColorMapper.convert(_course.group),
       ),
-      body: RefreshIndicator(
-        child: Container(
-          child: ListView(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            children: _buildMembersList(),
-          ),
-        ),
-        onRefresh: () async {
-          await Provider.of<MembersProvider>(context, listen: false).update(widget._courseID);
-          return Future<void>.value(null);
+      body: FutureBuilder(
+        future: members,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return RefreshIndicator(
+              child: Container(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  children: _buildMembersList(snapshot.data),
+                ),
+              ),
+              onRefresh: () async {
+                return Provider.of<MembersProvider>(context, listen: false).forceUpdate(_course.courseID);
+              },
+            );
+          } else {
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          }
         },
       ),
     );

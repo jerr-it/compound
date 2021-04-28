@@ -100,7 +100,7 @@ class CoursePage extends StatelessWidget {
                     icon: Icons.forum,
                     caption: "Forum",
                     color: Colors.red,
-                    onTap: () async {
+                    onTap: () {
                       Navigator.push(
                         context,
                         navRoute(ForumTab(course: course)),
@@ -111,17 +111,10 @@ class CoursePage extends StatelessWidget {
                     icon: Icons.people,
                     caption: "Members",
                     color: Colors.green,
-                    onTap: () async {
-                      if (!Provider.of<MembersProvider>(context, listen: false).initialized(course.courseID)) {
-                        await Provider.of<MembersProvider>(context, listen: false).update(course.courseID);
-                      }
-
+                    onTap: () {
                       Navigator.push(
                         context,
-                        navRoute(MembersTab(
-                          courseID: course.courseID,
-                          color: ColorMapper.convert(course.group),
-                        )),
+                        navRoute(MembersTab(course: course)),
                       );
                     },
                   ),
