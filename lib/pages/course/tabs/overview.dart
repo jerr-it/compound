@@ -1,9 +1,9 @@
 import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/news/newsModel.dart';
-import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Announcement.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -19,11 +19,7 @@ class NewsTab extends StatelessWidget {
     List<Widget> widgets = <Widget>[];
 
     if (news.isEmpty) {
-      widgets.add(Text(
-        "nothing_here".tr(),
-        textAlign: TextAlign.center,
-        style: TextStyle(fontWeight: FontWeight.w200),
-      ));
+      widgets.add(Nothing());
     }
 
     news.forEach((news) {
