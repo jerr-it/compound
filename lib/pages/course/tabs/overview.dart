@@ -18,6 +18,14 @@ class NewsTab extends StatelessWidget {
   List<Widget> _gatherAnnouncements(List<News> news) {
     List<Widget> widgets = <Widget>[];
 
+    if (news.isEmpty) {
+      widgets.add(Text(
+        "nothing_here".tr(),
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.w200),
+      ));
+    }
+
     news.forEach((news) {
       String body = StringUtil.removeHTMLTags(news.body);
 

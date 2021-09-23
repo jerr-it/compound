@@ -15,6 +15,14 @@ class StartPage extends StatelessWidget {
       return widgets;
     }
 
+    if (announcements.isEmpty) {
+      widgets.add(Text(
+        "nothing_here".tr(),
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.w200),
+      ));
+    }
+
     announcements.forEach((news) {
       String body = StringUtil.removeHTMLTags(news.body.toString());
 

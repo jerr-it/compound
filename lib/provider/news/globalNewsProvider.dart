@@ -40,10 +40,14 @@ class NewsProvider extends ChangeNotifier {
     }
 
     List<News> news = <News>[];
-    Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
-    decoded.forEach((newsIDUrl, data) {
-      news.add(News.fromMap(data));
-    });
+    try {
+      //In case there a no news, the response objects "collection" is an array for some reason, which makes this statement fail
+      Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
+
+      decoded.forEach((newsIDUrl, data) {
+        news.add(News.fromMap(data));
+      });
+    } catch (e) {}
 
     _newsMap[courseID] = news;
 
