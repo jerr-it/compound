@@ -2,6 +2,7 @@ import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/provider/calendar/calendarEntry.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -20,6 +21,10 @@ class ScheduleViewer extends StatelessWidget {
 
   List<Widget> _buildEntryList(List<CalendarEntry> entries, DateTime today) {
     List<Widget> widgets = <Widget>[];
+
+    if (entries.isEmpty) {
+      widgets.add(Nothing());
+    }
 
     entries.forEach((calendarEntry) {
       widgets.add(Container(
