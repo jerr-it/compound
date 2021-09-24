@@ -71,15 +71,16 @@ class _MessagesPageState extends State<MessagesPage> {
               Popup.display(
                 context,
                 title: "sure?".tr(),
-                optionA: "confirm".tr(),
-                optionB: "cancel".tr(),
-                optionAAction: () {
+                firstOption: "confirm".tr(),
+                firstOptionColor: Colors.red,
+                onFirstOption: () {
                   Provider.of<MessageProvider>(context, listen: false).deleteMessage(message.id);
                   setState(() {
                     widget._messages.remove(message);
                   });
                 },
-                optionBAction: () {},
+                secondOption: "cancel".tr(),
+                onSecondOption: () {},
               );
             },
           )

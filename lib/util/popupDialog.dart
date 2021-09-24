@@ -4,10 +4,12 @@ class Popup {
   static void display(
     BuildContext context, {
     @required String title,
-    @required String optionA,
-    @required String optionB,
-    @required Function optionAAction,
-    @required Function optionBAction,
+    @required String firstOption,
+    Color firstOptionColor = Colors.blue,
+    @required String secondOption,
+    Color secondOptionColor = Colors.blue,
+    @required Function onFirstOption,
+    @required Function onSecondOption,
   }) {
     AlertDialog dialog = AlertDialog(
       content: Container(
@@ -26,17 +28,19 @@ class Popup {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    optionAAction();
+                    onFirstOption();
                     Navigator.of(context).pop();
                   },
-                  child: Text(optionA),
+                  child: Text(firstOption),
+                  style: ElevatedButton.styleFrom(primary: firstOptionColor),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    optionBAction();
+                    onSecondOption();
                     Navigator.of(context).pop();
                   },
-                  child: Text(optionB),
+                  child: Text(secondOption),
+                  style: ElevatedButton.styleFrom(primary: secondOptionColor),
                 ),
               ],
             )
