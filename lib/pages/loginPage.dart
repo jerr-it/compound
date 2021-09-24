@@ -81,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
                   return;
                 }
 
-                await Provider.of<UserProvider>(context, listen: false).get();
+                await Provider.of<UserProvider>(context, listen: false).get("self");
 
                 Navigator.pushReplacement(context, navRoute(StartPage()));
               });

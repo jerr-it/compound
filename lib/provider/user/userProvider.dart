@@ -4,26 +4,34 @@ import 'package:flutter/material.dart';
 
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/user/userModel.dart';
+import 'package:http/http.dart';
 
-///Saves the logged in users data as returned by /users/me
+///Saves user data as requested by /user and /user/:user_id
 class UserProvider extends ChangeNotifier {
-  User _user;
+  Map<String, User> _users = new Map();
   final WebClient _client = WebClient();
 
-  Future<User> get() async {
-    if (_user == null) {
-      return forceUpdate();
+  Future<User> get(String userID) async {
+    if (!_users.containsKey(userID)) {
+      return forceUpdate(userID);
     }
-    return Future<User>.value(_user);
+    return Future<User>.value(_users[userID]);
   }
 
-  Future<User> forceUpdate() async {
-    var result = await _client.httpGet("/user", APIType.REST);
+  Future<User> forceUpdate(String userID) async {
+    Response result;
+    if (userID == "self") {
+      result = await _client.httpGet("/user", APIType.REST);
+    } else {
+      String queryStr = "/user/$userID";
+      result = await _client.httpGet(queryStr, APIType.REST);
+    }
+
     Map<String, dynamic> decoded = jsonDecode(result.body);
 
-    _user = User.fromMap(decoded);
+    _users[userID] = User.fromMap(decoded);
 
     notifyListeners();
-    return Future<User>.value(_user);
+    return Future<User>.value(_users[userID]);
   }
 }

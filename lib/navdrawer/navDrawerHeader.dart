@@ -65,7 +65,7 @@ class NavDrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<User> user = Provider.of<UserProvider>(context).get();
+    Future<User> user = Provider.of<UserProvider>(context).get("self");
 
     return FutureBuilder(
       future: user,

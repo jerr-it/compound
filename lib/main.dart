@@ -25,7 +25,6 @@ void main() async {
   ));
 }
 
-//TODO localisation
 //TODO darkmode ^^
 //TODO user settings:
 // 1. custom colors for courses

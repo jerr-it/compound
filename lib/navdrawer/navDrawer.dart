@@ -68,7 +68,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.book_rounded),
             title: Text("event".tr()),
             onTap: () async {
-              User user = await Provider.of<UserProvider>(context, listen: false).get();
+              User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(CoursePage(user.userID)));
@@ -78,7 +78,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.mail),
             title: Text("messages".tr()),
             onTap: () async {
-              User user = await Provider.of<UserProvider>(context, listen: false).get();
+              User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(MessagesPage(user.userID)));
@@ -104,7 +104,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.event),
             title: Text("planner".tr()),
             onTap: () async {
-              User user = await Provider.of<UserProvider>(context, listen: false).get();
+              User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(ScheduleViewer(user.userID)));
