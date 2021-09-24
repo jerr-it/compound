@@ -10,6 +10,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+const String REQUEST_TOKEN_URL = "/dispatch.php/api/oauth/request_token";
+const String ACCESS_TOKEN_URL = "/dispatch.php/api/oauth/access_token";
+const String AUTHORIZE_URL = "/dispatch.php/api/oauth/authorize";
+const String REST_API_URL = "/api.php";
+const String JSON_API_URL = "/jsonapi.php/v1";
+
 /// Server bundles information related to authentication and content pulling
 class Server {
   String _name;
@@ -21,12 +27,6 @@ class Server {
 
   String _webAddress;
 
-  String _requestTokenUrl;
-  String _accessTokenUrl;
-  String _authorizeUrl;
-  String _baseRestUrl;
-  String _baseJSONUrl;
-
   Server({
     @required name,
     @required logoURL,
@@ -34,22 +34,12 @@ class Server {
     @required consumerKey,
     @required consumerSecret,
     @required webAddress,
-    @required requestTokenUrl,
-    @required accessTokenUrl,
-    @required authorizeUrl,
-    @required baseRestUrl,
-    @required baseJSONUrl,
   })  : _name = name,
         _logoURL = logoURL,
         _color = color,
         _consumerKey = consumerKey,
         _consumerSecret = consumerSecret,
-        _webAddress = webAddress,
-        _requestTokenUrl = requestTokenUrl,
-        _accessTokenUrl = accessTokenUrl,
-        _authorizeUrl = authorizeUrl,
-        _baseRestUrl = baseRestUrl,
-        _baseJSONUrl = baseJSONUrl;
+        _webAddress = webAddress;
 
   String name() {
     return _name;
@@ -74,11 +64,6 @@ class Server {
       consumerKey: "f25655936896bdfa73c15d6b6cf50e670604a8832",
       consumerSecret: "650da6e031cae19289ff23f05f85fa80",
       webAddress: "http://192.168.122.235/studip",
-      requestTokenUrl: "/dispatch.php/api/oauth/request_token",
-      accessTokenUrl: "/dispatch.php/api/oauth/access_token",
-      authorizeUrl: "/dispatch.php/api/oauth/authorize",
-      baseRestUrl: "/api.php",
-      baseJSONUrl: "/jsonapi.php/v1",
     ),
     Server(
       name: "Universität ABC",
@@ -87,11 +72,6 @@ class Server {
       consumerKey: "",
       consumerSecret: "",
       webAddress: "",
-      requestTokenUrl: "",
-      accessTokenUrl: "",
-      authorizeUrl: "",
-      baseRestUrl: "",
-      baseJSONUrl: "",
     ),
     Server(
       name: "University of Example",
@@ -100,11 +80,6 @@ class Server {
       consumerKey: "",
       consumerSecret: "",
       webAddress: "",
-      requestTokenUrl: "",
-      accessTokenUrl: "",
-      authorizeUrl: "",
-      baseRestUrl: "",
-      baseJSONUrl: "",
     ),
   ];
 }
@@ -167,11 +142,8 @@ class WebClient {
 
   ///Performs OAuth1 authentication with the set server
   Future<int> authenticate() async {
-    var platform = new oauth1.Platform(
-        _server._webAddress + _server._requestTokenUrl,
-        _server._webAddress + _server._authorizeUrl,
-        _server._webAddress + _server._accessTokenUrl,
-        oauth1.SignatureMethods.hmacSha1);
+    var platform = new oauth1.Platform(_server._webAddress + REQUEST_TOKEN_URL, _server._webAddress + AUTHORIZE_URL,
+        _server._webAddress + ACCESS_TOKEN_URL, oauth1.SignatureMethods.hmacSha1);
 
     var clientCredentials = new oauth1.ClientCredentials(this._server._consumerKey, this._server._consumerSecret);
 
@@ -222,7 +194,7 @@ class WebClient {
   }
 
   String _constructBaseURL(APIType type) {
-    return _server._webAddress + (type == APIType.REST ? _server._baseRestUrl : _server._baseJSONUrl);
+    return _server._webAddress + (type == APIType.REST ? REST_API_URL : JSON_API_URL);
   }
 
   Future<Response> httpGet(
