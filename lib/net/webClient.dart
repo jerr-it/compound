@@ -78,7 +78,7 @@ class Server {
       accessTokenUrl: "/dispatch.php/api/oauth/access_token",
       authorizeUrl: "/dispatch.php/api/oauth/authorize",
       baseRestUrl: "/api.php",
-      baseJSONUrl: "/jsonapi.php/v1/",
+      baseJSONUrl: "/jsonapi.php/v1",
     ),
     Server(
       name: "Universität ABC",
@@ -189,17 +189,18 @@ class WebClient {
       _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, credentials);
 
       //Test if the loaded token actually works
-      var rest_probe = await _oauthClient.get(this._server._webAddress + this._server._baseRestUrl + "/discovery").timeout(
-        Duration(seconds: 5),
-        onTimeout: () {
-          return Response("{}", 900);
-        },
-      );
+      Response restProbe = await httpGet("/discovery", APIType.REST).timeout(Duration(seconds: 5), onTimeout: () async {
+        return Response("{}", 900);
+      });
+
+      Response jsonProbe = await httpGet("/discovery", APIType.JSON).timeout(Duration(seconds: 5), onTimeout: () async {
+        return Response("{}", 900);
+      });
 
       //Return if the connection was successfully tested, or a timeout occurred
       //In both cases we dont want to do a new oauth setup
-      if (rest_probe.statusCode == 200 || rest_probe.statusCode == 900) {
-        return Future<int>.value(rest_probe.statusCode);
+      if (restProbe.statusCode == 200 || restProbe.statusCode == 900) {
+        return Future<int>.value(restProbe.statusCode);
       }
     }
 
@@ -224,12 +225,20 @@ class WebClient {
     return _server._webAddress + (type == APIType.REST ? _server._baseRestUrl : _server._baseJSONUrl);
   }
 
-  Future<Response> httpGet(String route, APIType type, {Map<String, String> headers = const <String, String>{}}) {
+  Future<Response> httpGet(
+    String route,
+    APIType type, {
+    Map<String, String> headers = const <String, String>{},
+  }) {
     return _oauthClient.get(_constructBaseURL(type) + route, headers: headers);
   }
 
-  Future<Response> httpPost(String route, APIType type,
-      {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
+  Future<Response> httpPost(
+    String route,
+    APIType type, {
+    Map<String, String> headers = const <String, String>{},
+    dynamic body = "",
+  }) {
     return _oauthClient.post(
       _constructBaseURL(type) + route,
       headers: headers,
@@ -237,8 +246,12 @@ class WebClient {
     );
   }
 
-  Future<Response> httpPut(String route, APIType type,
-      {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
+  Future<Response> httpPut(
+    String route,
+    APIType type, {
+    Map<String, String> headers = const <String, String>{},
+    dynamic body = "",
+  }) {
     return _oauthClient.put(
       _constructBaseURL(type) + route,
       headers: headers,
@@ -246,7 +259,11 @@ class WebClient {
     );
   }
 
-  Future<Response> httpDelete(String route, APIType type, {Map<String, String> headers = const <String, String>{}}) {
+  Future<Response> httpDelete(
+    String route,
+    APIType type, {
+    Map<String, String> headers = const <String, String>{},
+  }) {
     return _oauthClient.delete(
       _constructBaseURL(type) + route,
       headers: headers,
