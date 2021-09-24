@@ -34,9 +34,9 @@ class NewsProvider extends ChangeNotifier {
   Future<List<News>> forceUpdate(String courseID) async {
     Response res;
     if (courseID == "global") {
-      res = await _client.httpGet("/studip/news");
+      res = await _client.httpGet("/studip/news", APIType.REST);
     } else {
-      res = await _client.httpGet("/course/$courseID/news");
+      res = await _client.httpGet("/course/$courseID/news", APIType.REST);
     }
 
     List<News> news = <News>[];

@@ -38,7 +38,7 @@ class MembersProvider extends ChangeNotifier {
 
   Future<List<User>> _getUserList(String courseID, String status) async {
     String route = "/course/$courseID/members?status=$status";
-    Response res = await _client.httpGet(route);
+    Response res = await _client.httpGet(route, APIType.REST);
 
     try {
       Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];

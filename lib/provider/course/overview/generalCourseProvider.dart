@@ -35,7 +35,7 @@ class GeneralCourseProvider extends ChangeNotifier {
 
     String route = "/user/$userID/courses";
 
-    Response res = await _client.httpGet(route);
+    Response res = await _client.httpGet(route, APIType.REST);
     Map<String, dynamic> decoded = jsonDecode(res.body);
     Map<String, dynamic> courseMap = decoded["collection"];
 
@@ -45,7 +45,7 @@ class GeneralCourseProvider extends ChangeNotifier {
       Semester start;
       try {
         String startSemesterRoute = courseData["start_semester"].toString().split("/api.php")[1];
-        Response res = await _client.httpGet(startSemesterRoute);
+        Response res = await _client.httpGet(startSemesterRoute, APIType.REST);
         start = Semester.fromMap(jsonDecode(res.body));
       } catch (e) {
         start = Semester.empty();
@@ -54,7 +54,7 @@ class GeneralCourseProvider extends ChangeNotifier {
       Semester end;
       try {
         String endSemesterRoute = courseData["end_semester"].toString().split("/api.php")[1];
-        res = await _client.httpGet(endSemesterRoute);
+        res = await _client.httpGet(endSemesterRoute, APIType.REST);
         end = Semester.fromMap(jsonDecode(res.body));
       } catch (e) {
         end = Semester.empty();

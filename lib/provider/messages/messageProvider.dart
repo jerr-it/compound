@@ -24,7 +24,7 @@ class MessageProvider extends ChangeNotifier {
   }
 
   Future<List<Message>> forceUpdate(String userID) async {
-    Response res = await _client.httpGet("/user/$userID/inbox");
+    Response res = await _client.httpGet("/user/$userID/inbox", APIType.REST);
 
     try {
       Map<String, dynamic> data = jsonDecode(res.body)["collection"];
@@ -34,7 +34,7 @@ class MessageProvider extends ChangeNotifier {
         Map<String, dynamic> messageData = data[messageIdUrl];
 
         String route = messageData["sender"].toString().split("api.php")[1];
-        res = await _client.httpGet(route);
+        res = await _client.httpGet(route, APIType.REST);
         Map<String, dynamic> senderData = jsonDecode(res.body);
 
         User sender = User.fromMap(senderData);
@@ -51,11 +51,12 @@ class MessageProvider extends ChangeNotifier {
   void markMessageRead(String msgID) {
     _client.httpPut(
       "/message/$msgID",
+      APIType.REST,
       body: <String, String>{"unread": "0"},
     );
   }
 
   void deleteMessage(String msgID) {
-    _client.httpDelete("/message/$msgID");
+    _client.httpDelete("/message/$msgID", APIType.REST);
   }
 }

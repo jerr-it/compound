@@ -24,7 +24,7 @@ class CalendarProvider extends ChangeNotifier {
   Future<List<List<CalendarEntry>>> forceUpdate(String userID) async {
     _calendarEntries ??= <List<CalendarEntry>>[];
 
-    Response res = await _client.httpGet("/user/$userID/schedule");
+    Response res = await _client.httpGet("/user/$userID/schedule", APIType.REST);
     Map<String, dynamic> decoded = jsonDecode(res.body);
 
     decoded.forEach((day, entryMap) {

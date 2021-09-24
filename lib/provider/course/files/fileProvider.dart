@@ -40,7 +40,7 @@ class FileProvider extends ChangeNotifier {
     _fileTree ??= <String, Folder>{};
 
     if (!_fileTree.containsKey(courseID)) {
-      Response res = await _client.httpGet("/course/$courseID/top_folder");
+      Response res = await _client.httpGet("/course/$courseID/top_folder", APIType.REST);
 
       Folder topFolder = Folder.fromMap(jsonDecode(res.body));
 
@@ -55,7 +55,7 @@ class FileProvider extends ChangeNotifier {
         String folderID = subFolder.id;
         String route = "/folder/$folderID";
 
-        Response res = await _client.httpGet(route);
+        Response res = await _client.httpGet(route, APIType.REST);
         Folder expandedSubfolder = Folder.fromMap(jsonDecode(res.body));
 
         current.subFolders[subFolderIndices[i]] = expandedSubfolder;

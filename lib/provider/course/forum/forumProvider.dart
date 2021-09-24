@@ -37,7 +37,7 @@ class ForumProvider extends ChangeNotifier {
 
     List<ForumCategory> categories = <ForumCategory>[];
 
-    Response res = await _client.httpGet("/course/$courseID/forum_categories");
+    Response res = await _client.httpGet("/course/$courseID/forum_categories", APIType.REST);
 
     try {
       Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
@@ -77,7 +77,7 @@ class ForumProvider extends ChangeNotifier {
     String categoryID = selectedCategory.categoryID;
     String route = "/forum_category/$categoryID/areas";
 
-    Response res = await _client.httpGet(route);
+    Response res = await _client.httpGet(route, APIType.REST);
     Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
 
     List<ForumArea> areas = <ForumArea>[];
@@ -110,7 +110,7 @@ class ForumProvider extends ChangeNotifier {
     String areaID = selectedArea.id;
     String route = "/forum_entry/$areaID";
 
-    Response res = await _client.httpGet(route);
+    Response res = await _client.httpGet(route, APIType.REST);
     List<dynamic> decoded = jsonDecode(res.body)["children"];
 
     List<ForumTopic> topics = <ForumTopic>[];
@@ -143,7 +143,7 @@ class ForumProvider extends ChangeNotifier {
     String topicID = selectedTopic.id;
     String route = "/forum_entry/$topicID";
 
-    Response res = await _client.httpGet(route);
+    Response res = await _client.httpGet(route, APIType.REST);
     List<dynamic> decoded = jsonDecode(res.body)["children"];
 
     List<ForumEntry> entries = <ForumEntry>[];

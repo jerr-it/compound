@@ -19,10 +19,13 @@ class Server {
   String _consumerKey;
   String _consumerSecret;
 
+  String _webAddress;
+
   String _requestTokenUrl;
   String _accessTokenUrl;
   String _authorizeUrl;
-  String _baseUrl;
+  String _baseRestUrl;
+  String _baseJSONUrl;
 
   Server({
     @required name,
@@ -30,19 +33,23 @@ class Server {
     @required color,
     @required consumerKey,
     @required consumerSecret,
+    @required webAddress,
     @required requestTokenUrl,
     @required accessTokenUrl,
     @required authorizeUrl,
-    @required baseUrl,
+    @required baseRestUrl,
+    @required baseJSONUrl,
   })  : _name = name,
         _logoURL = logoURL,
         _color = color,
         _consumerKey = consumerKey,
         _consumerSecret = consumerSecret,
+        _webAddress = webAddress,
         _requestTokenUrl = requestTokenUrl,
         _accessTokenUrl = accessTokenUrl,
         _authorizeUrl = authorizeUrl,
-        _baseUrl = baseUrl;
+        _baseRestUrl = baseRestUrl,
+        _baseJSONUrl = baseJSONUrl;
 
   String name() {
     return _name;
@@ -66,35 +73,43 @@ class Server {
       color: Colors.red,
       consumerKey: "f25655936896bdfa73c15d6b6cf50e670604a8832",
       consumerSecret: "650da6e031cae19289ff23f05f85fa80",
-      requestTokenUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/request_token",
-      accessTokenUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/access_token",
-      authorizeUrl: "http://192.168.122.235/studip/dispatch.php/api/oauth/authorize",
-      baseUrl: "http://192.168.122.235/studip/api.php",
+      webAddress: "http://192.168.122.235/studip",
+      requestTokenUrl: "/dispatch.php/api/oauth/request_token",
+      accessTokenUrl: "/dispatch.php/api/oauth/access_token",
+      authorizeUrl: "/dispatch.php/api/oauth/authorize",
+      baseRestUrl: "/api.php",
+      baseJSONUrl: "/jsonapi.php/v1/",
     ),
     Server(
       name: "Universität ABC",
       logoURL: "https://cdn.pixabay.com/photo/2016/07/28/11/06/university-1547551_960_720.png",
       color: Colors.lightBlue,
-      consumerKey: "abc123",
-      consumerSecret: "abc123",
-      requestTokenUrl: "abc123",
-      accessTokenUrl: "abc123",
-      authorizeUrl: "abc123",
-      baseUrl: "abc123",
+      consumerKey: "",
+      consumerSecret: "",
+      webAddress: "",
+      requestTokenUrl: "",
+      accessTokenUrl: "",
+      authorizeUrl: "",
+      baseRestUrl: "",
+      baseJSONUrl: "",
     ),
     Server(
       name: "University of Example",
       logoURL: "https://cdn.pixabay.com/photo/2017/02/01/09/55/arrow-2029273_960_720.png",
       color: Colors.purple,
-      consumerKey: "abc123",
-      consumerSecret: "abc123",
-      requestTokenUrl: "abc123",
-      accessTokenUrl: "abc123",
-      authorizeUrl: "abc123",
-      baseUrl: "abc123",
+      consumerKey: "",
+      consumerSecret: "",
+      webAddress: "",
+      requestTokenUrl: "",
+      accessTokenUrl: "",
+      authorizeUrl: "",
+      baseRestUrl: "",
+      baseJSONUrl: "",
     ),
   ];
 }
+
+enum APIType { REST, JSON }
 
 ///WebClient is the interface to the server
 ///Written as a singleton, there's always only going to be one of these
@@ -152,8 +167,11 @@ class WebClient {
 
   ///Performs OAuth1 authentication with the set server
   Future<int> authenticate() async {
-    var platform = new oauth1.Platform(this._server._requestTokenUrl, this._server._authorizeUrl,
-        this._server._accessTokenUrl, oauth1.SignatureMethods.hmacSha1);
+    var platform = new oauth1.Platform(
+        _server._webAddress + _server._requestTokenUrl,
+        _server._webAddress + _server._authorizeUrl,
+        _server._webAddress + _server._accessTokenUrl,
+        oauth1.SignatureMethods.hmacSha1);
 
     var clientCredentials = new oauth1.ClientCredentials(this._server._consumerKey, this._server._consumerSecret);
 
@@ -171,14 +189,17 @@ class WebClient {
       _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, credentials);
 
       //Test if the loaded token actually works
-      var probe = await _oauthClient.get(this._server._baseUrl + "/discovery").timeout(Duration(seconds: 5), onTimeout: () {
-        return Response("{}", 900);
-      });
+      var rest_probe = await _oauthClient.get(this._server._webAddress + this._server._baseRestUrl + "/discovery").timeout(
+        Duration(seconds: 5),
+        onTimeout: () {
+          return Response("{}", 900);
+        },
+      );
 
       //Return if the connection was successfully tested, or a timeout occurred
       //In both cases we dont want to do a new oauth setup
-      if (probe.statusCode == 200 || probe.statusCode == 900) {
-        return Future<int>.value(probe.statusCode);
+      if (rest_probe.statusCode == 200 || rest_probe.statusCode == 900) {
+        return Future<int>.value(rest_probe.statusCode);
       }
     }
 
@@ -199,29 +220,35 @@ class WebClient {
     return Future<int>.value(200);
   }
 
-  Future<Response> httpGet(String url, {Map<String, String> headers = const <String, String>{}}) {
-    return _oauthClient.get(_server._baseUrl + url, headers: headers);
+  String _constructBaseURL(APIType type) {
+    return _server._webAddress + (type == APIType.REST ? _server._baseRestUrl : _server._baseJSONUrl);
   }
 
-  Future<Response> httpPost(String url, {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
+  Future<Response> httpGet(String route, APIType type, {Map<String, String> headers = const <String, String>{}}) {
+    return _oauthClient.get(_constructBaseURL(type) + route, headers: headers);
+  }
+
+  Future<Response> httpPost(String route, APIType type,
+      {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
     return _oauthClient.post(
-      _server._baseUrl + url,
+      _constructBaseURL(type) + route,
       headers: headers,
       body: body,
     );
   }
 
-  Future<Response> httpPut(String url, {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
+  Future<Response> httpPut(String route, APIType type,
+      {Map<String, String> headers = const <String, String>{}, dynamic body = ""}) {
     return _oauthClient.put(
-      _server._baseUrl + url,
+      _constructBaseURL(type) + route,
       headers: headers,
       body: body,
     );
   }
 
-  Future<Response> httpDelete(String url, {Map<String, String> headers = const <String, String>{}}) {
+  Future<Response> httpDelete(String route, APIType type, {Map<String, String> headers = const <String, String>{}}) {
     return _oauthClient.delete(
-      _server._baseUrl + url,
+      _constructBaseURL(type) + route,
       headers: headers,
     );
   }

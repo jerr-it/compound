@@ -31,7 +31,7 @@ class BlubberProvider extends ChangeNotifier {
   Future<List<BlubberThread>> forceUpdateOverview() async {
     _threads ??= <String, BlubberThread>{};
 
-    Response res = await _client.httpGet("/blubber/threads");
+    Response res = await _client.httpGet("/blubber/threads", APIType.REST);
     List<dynamic> threadOverview = jsonDecode(res.body)["threads"];
 
     threadOverview.forEach((threadData) {
@@ -59,7 +59,7 @@ class BlubberProvider extends ChangeNotifier {
 
     String threadID = thread.id;
 
-    Response res = await _client.httpGet("/blubber/threads/$threadID");
+    Response res = await _client.httpGet("/blubber/threads/$threadID", APIType.REST);
     Map<String, dynamic> decoded = jsonDecode(res.body);
     List<dynamic> commentsList = decoded["comments"];
 
@@ -76,6 +76,7 @@ class BlubberProvider extends ChangeNotifier {
   void postMessage(String threadID, String message) {
     _client.httpPost(
       "/blubber/threads/$threadID/comments",
+      APIType.REST,
       body: <String, String>{"content": message},
     );
   }

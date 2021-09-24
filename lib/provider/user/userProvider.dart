@@ -18,7 +18,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<User> forceUpdate() async {
-    var result = await _client.httpGet("/user");
+    var result = await _client.httpGet("/user", APIType.REST);
     Map<String, dynamic> decoded = jsonDecode(result.body);
 
     _user = User.fromMap(decoded);
