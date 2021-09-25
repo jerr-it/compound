@@ -1,6 +1,9 @@
 import 'package:fludip/provider/course/forum/entryModel.dart';
+import 'package:fludip/provider/user/userModel.dart';
 
 class ForumTopic {
+  User _user;
+
   String _id;
 
   String _subject;
@@ -14,6 +17,9 @@ class ForumTopic {
   String _depth;
 
   List<ForumEntry> _entries;
+
+  User get user => this._user;
+  set user(User user) => this._user = user;
 
   String get id => this._id;
 

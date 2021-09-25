@@ -62,7 +62,7 @@ class ForumTopicsViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<ForumTopic>> topics =
-        Provider.of<ForumProvider>(context).getTopics(_course.courseID, _categoryIdx, _areaIdx);
+        Provider.of<ForumProvider>(context).getTopics(context, _course.courseID, _categoryIdx, _areaIdx);
 
     return Scaffold(
       appBar: AppBar(
@@ -82,7 +82,7 @@ class ForumTopicsViewer extends StatelessWidget {
               ),
               onRefresh: () async {
                 return Provider.of<ForumProvider>(context, listen: false)
-                    .forceUpdateTopics(_course.courseID, _categoryIdx, _areaIdx);
+                    .forceUpdateTopics(context, _course.courseID, _categoryIdx, _areaIdx);
               },
             );
           } else {

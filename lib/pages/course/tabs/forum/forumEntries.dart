@@ -1,7 +1,6 @@
 import 'package:fludip/provider/course/forum/entryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +29,46 @@ class ForumEntriesViewer extends StatelessWidget {
     }
 
     entries.forEach((entry) {
-      widgets.add(ListTile(
-        leading: Icon(Icons.person, size: 30),
-        title: Text(StringUtil.removeHTMLTags(entry.content.replaceAll("\n", ""))),
+      widgets.add(Row(
+        children: [
+          Flexible(
+            flex: 3,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  minRadius: 10,
+                  maxRadius: 20,
+                  backgroundImage: NetworkImage(entry.user.avatarUrlMedium),
+                ),
+                Text(
+                  entry.user.formattedName,
+                  style: TextStyle(fontWeight: FontWeight.w300),
+                  textAlign: TextAlign.center,
+                )
+              ],
+            ),
+          ),
+          VerticalDivider(),
+          Flexible(
+            flex: 9,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  StringUtil.removeHTMLTags(entry.content.replaceAll("\n", "")),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    StringUtil.fromUnixTime(entry.mkdate, "dd.MM.yyyy HH:mm"),
+                    style: TextStyle(fontWeight: FontWeight.w200),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ));
       widgets.add(Divider());
     });
@@ -43,6 +79,7 @@ class ForumEntriesViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<ForumEntry>> entries = Provider.of<ForumProvider>(context).getEntries(
+      context,
       _course.courseID,
       _categoryIdx,
       _areaIdx,
@@ -67,7 +104,7 @@ class ForumEntriesViewer extends StatelessWidget {
               ),
               onRefresh: () async {
                 return Provider.of<ForumProvider>(context, listen: false)
-                    .forceUpdateEntries(_course.courseID, _categoryIdx, _areaIdx, _topicIdx);
+                    .forceUpdateEntries(context, _course.courseID, _categoryIdx, _areaIdx, _topicIdx);
               },
             );
           } else {

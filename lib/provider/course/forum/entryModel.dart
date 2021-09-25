@@ -1,4 +1,8 @@
+import 'package:fludip/provider/user/userModel.dart';
+
 class ForumEntry {
+  User _user;
+
   String _subject;
   String _content;
   String _contentHTML;
@@ -8,6 +12,9 @@ class ForumEntry {
 
   String _anonymous;
   String _depth;
+
+  User get user => this._user;
+  set user(User user) => this._user = user;
 
   String get subject => this._subject;
   String get content => this._content;

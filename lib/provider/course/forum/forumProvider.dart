@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -8,6 +9,7 @@ import 'package:fludip/provider/course/forum/categoryModel.dart';
 import 'package:fludip/provider/course/forum/entryModel.dart';
 import 'package:fludip/provider/course/forum/topicModel.dart';
 import 'package:fludip/net/webClient.dart';
+import 'package:provider/provider.dart';
 
 ///Provides forum data for all the users courses.
 ///They are identified by their course ID.
@@ -95,16 +97,16 @@ class ForumProvider extends ChangeNotifier {
   ///Topic                           ///
   ///--------------------------------///
 
-  Future<List<ForumTopic>> getTopics(String courseID, int categoryIdx, int areaIdx) {
+  Future<List<ForumTopic>> getTopics(BuildContext context, String courseID, int categoryIdx, int areaIdx) {
     if (_forums[courseID][categoryIdx].areas[areaIdx].topics == null) {
-      return forceUpdateTopics(courseID, categoryIdx, areaIdx);
+      return forceUpdateTopics(context, courseID, categoryIdx, areaIdx);
     }
 
     ForumArea selectedArea = _forums[courseID][categoryIdx].areas[areaIdx];
     return Future<List<ForumTopic>>.value(selectedArea.topics);
   }
 
-  Future<List<ForumTopic>> forceUpdateTopics(String courseID, int categoryIdx, int areaIdx) async {
+  Future<List<ForumTopic>> forceUpdateTopics(BuildContext context, String courseID, int categoryIdx, int areaIdx) async {
     ForumArea selectedArea = _forums[courseID][categoryIdx].areas[areaIdx];
 
     String areaID = selectedArea.id;
@@ -114,8 +116,11 @@ class ForumProvider extends ChangeNotifier {
     List<dynamic> decoded = jsonDecode(res.body)["children"];
 
     List<ForumTopic> topics = <ForumTopic>[];
-    decoded.forEach((topicData) {
+    decoded.forEach((topicData) async {
       topics.add(ForumTopic.fromMap(topicData));
+
+      String userID = topicData["user"].toString().split("/").last;
+      topics.last.user = await Provider.of<UserProvider>(context, listen: false).get(userID);
     });
 
     _forums[courseID][categoryIdx].areas[areaIdx].topics = topics;
@@ -128,16 +133,17 @@ class ForumProvider extends ChangeNotifier {
   ///Entry                           ///
   ///--------------------------------///
 
-  Future<List<ForumEntry>> getEntries(String courseID, int categoryIdx, int areaIdx, int topicIdx) {
+  Future<List<ForumEntry>> getEntries(BuildContext context, String courseID, int categoryIdx, int areaIdx, int topicIdx) {
     if (_forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx].entries == null) {
-      return forceUpdateEntries(courseID, categoryIdx, areaIdx, topicIdx);
+      return forceUpdateEntries(context, courseID, categoryIdx, areaIdx, topicIdx);
     }
 
     ForumTopic selectedTopic = _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx];
     return Future<List<ForumEntry>>.value(selectedTopic.entries);
   }
 
-  Future<List<ForumEntry>> forceUpdateEntries(String courseID, int categoryIdx, int areaIdx, int topicIdx) async {
+  Future<List<ForumEntry>> forceUpdateEntries(
+      BuildContext context, String courseID, int categoryIdx, int areaIdx, int topicIdx) async {
     ForumTopic selectedTopic = _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx];
 
     String topicID = selectedTopic.id;
@@ -157,9 +163,12 @@ class ForumProvider extends ChangeNotifier {
       "anonymous": selectedTopic.anonymous,
       "depth": selectedTopic.depth,
     }));
+    entries.last.user = await Provider.of<UserProvider>(context, listen: false).get(selectedTopic.user.userID);
 
-    decoded.forEach((entryData) {
+    decoded.forEach((entryData) async {
       entries.add(ForumEntry.fromMap(entryData));
+      String userID = entryData["user"].toString().split("/").last;
+      entries.last.user = await Provider.of<UserProvider>(context, listen: false).get(userID);
     });
 
     _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx].entries = entries;
