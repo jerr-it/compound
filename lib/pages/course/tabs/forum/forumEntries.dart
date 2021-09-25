@@ -60,7 +60,7 @@ class ForumEntriesViewer extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    StringUtil.fromUnixTime(entry.mkdate, "dd.MM.yyyy HH:mm"),
+                    StringUtil.fromUnixTime(entry.mkdate * 1000, "dd.MM.yyyy HH:mm"),
                     style: TextStyle(fontWeight: FontWeight.w200),
                     textAlign: TextAlign.right,
                   ),
