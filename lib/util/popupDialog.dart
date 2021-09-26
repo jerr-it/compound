@@ -4,6 +4,8 @@ class Popup {
   static void display(
     BuildContext context, {
     @required String title,
+    Widget leading,
+    String subtitle,
     @required String firstOption,
     Color firstOptionColor = Colors.blue,
     @required String secondOption,
@@ -16,10 +18,22 @@ class Popup {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                leading,
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
+                ),
+              ],
+            ),
             Text(
-              title,
+              subtitle,
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 16,
               ),
             ),
             Divider(),

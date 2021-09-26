@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'dart:io';
-
 import 'package:fludip/net/credentials.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -22,6 +20,8 @@ class WebClient {
 
   Server _server;
   Credentials _credentials;
+
+  get server => this._server;
 
   set server(Server server) => this._server = server;
 

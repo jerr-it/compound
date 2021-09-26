@@ -4,6 +4,7 @@ import 'package:fludip/pages/login/UniversityDropDown.dart';
 import 'package:fludip/pages/login/loginPage.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/provider/user/userProvider.dart';
+import 'package:fludip/util/popupDialog.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webClient.dart';
@@ -65,27 +66,41 @@ class _UniversitySelectStateState extends State<UniversitySelectState> {
                     var client = WebClient();
                     client.server = uDropdown.value;
 
-                    var storage = new FlutterSecureStorage();
-                    var username = await storage.read(key: "username");
-                    var password = await storage.read(key: "password");
+                    if (Uri.parse(client.server.webAddress).scheme != "https") {
+                      Popup.display(
+                        context,
+                        title: "warning".tr(),
+                        leading: Icon(Icons.warning_sharp),
+                        subtitle: "https-info".tr(),
+                        firstOption: "confirm".tr(),
+                        firstOptionColor: Colors.red,
+                        secondOption: "cancel".tr(),
+                        onFirstOption: () async {
+                          var storage = new FlutterSecureStorage();
+                          var username = await storage.read(key: "username");
+                          var password = await storage.read(key: "password");
 
-                    if (username == null || password == null) {
-                      Navigator.push(context, navRoute(LoginPage()));
-                      return;
+                          if (username == null || password == null) {
+                            Navigator.push(context, navRoute(LoginPage()));
+                            return;
+                          }
+
+                          client.authenticate(username, password).then((statusCode) async {
+                            if (statusCode != 200) {
+                              //TODO help dialog to clarify error codes
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
+                              return;
+                            }
+
+                            await Provider.of<UserProvider>(context, listen: false).get("self");
+
+                            Navigator.pushReplacement(context, navRoute(StartPage()));
+                          });
+                        },
+                        onSecondOption: () {},
+                      );
                     }
-
-                    client.authenticate(username, password).then((statusCode) async {
-                      if (statusCode != 200) {
-                        //TODO help dialog to clarify error codes
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text("Something went wrong [$statusCode]")));
-                        return;
-                      }
-
-                      await Provider.of<UserProvider>(context, listen: false).get("self");
-
-                      Navigator.pushReplacement(context, navRoute(StartPage()));
-                    });
                   },
                 )
               ],

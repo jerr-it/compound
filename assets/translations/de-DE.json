@@ -24,5 +24,7 @@
     "lecturers": "Dozenten",
     "tutors": "Tutoren",
     "students": "Studenten",
-    "nothing_here": "Nichts zu sehen"
+    "nothing_here": "Nichts zu sehen",
+    "warning": "Warnung",
+    "https-info": "Der gewählte Server verwendet eine unsichere Verbindung, Ihre Nutzerdaten könnten gefährdet werden!"
 }
