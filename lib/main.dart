@@ -8,7 +8,7 @@ import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:fludip/pages/login/loginPage.dart';
+import 'package:fludip/pages/login/universitySelectPage.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/user/userProvider.dart';
@@ -50,7 +50,7 @@ class App extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.deviceLocale,
         title: "Fludip",
-        home: LoginPage(),
+        home: UniversitySelectPage(),
       ),
     );
   }

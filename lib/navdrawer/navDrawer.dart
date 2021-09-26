@@ -1,5 +1,5 @@
 import 'package:fludip/net/webClient.dart';
-import 'package:fludip/pages/login/loginPage.dart';
+import 'package:fludip/pages/login/universitySelectPage.dart';
 import 'package:fludip/pages/planner/scheduleView.dart';
 import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
@@ -158,7 +158,7 @@ class NavDrawer extends StatelessWidget {
               client.logout();
 
               Navigator.of(context).popUntil((route) => route.isFirst);
-              Navigator.pushReplacement(context, navRoute(LoginPage()));
+              Navigator.pushReplacement(context, navRoute(UniversitySelectPage()));
             },
           ),
         ],

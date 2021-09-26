@@ -1,4 +1,4 @@
-import 'package:fludip/net/webClient.dart';
+import 'package:fludip/net/server.dart';
 import 'package:flutter/material.dart';
 
 class UniversityDropdown extends StatefulWidget {
@@ -16,7 +16,7 @@ class _UniversityDropdownState extends State<UniversityDropdown> {
     return Column(
       children: [
         Image.network(
-          this.widget.value.logoURL(),
+          this.widget.value.logoURL,
           width: MediaQuery.of(context).size.width / 3,
         ),
         DropdownButton<Server>(
@@ -24,7 +24,7 @@ class _UniversityDropdownState extends State<UniversityDropdown> {
             return DropdownMenuItem<Server>(
                 value: server,
                 child: Text(
-                  server.name(),
+                  server.name,
                   style: TextStyle(color: Colors.black),
                 ));
           }).toList(),
