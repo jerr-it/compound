@@ -197,12 +197,23 @@ class WebClient {
     return _server._webAddress + (type == APIType.REST ? REST_API_URL : JSON_API_URL);
   }
 
+  //JSON api requires an additional header field
+  Map<String, String> _adjustHeader(APIType type, Map<String, String> headers) {
+    if (type == APIType.JSON) {
+      var newHeader = Map.of(headers);
+      newHeader["Content-Type"] = "application/vnd.api+json";
+
+      return newHeader;
+    }
+    return headers;
+  }
+
   Future<Response> httpGet(
     String route,
     APIType type, {
     Map<String, String> headers = const <String, String>{},
   }) {
-    return _oauthClient.get(_constructBaseURL(type) + route, headers: headers);
+    return _oauthClient.get(_constructBaseURL(type) + route, headers: _adjustHeader(type, headers));
   }
 
   Future<Response> httpPost(
@@ -213,7 +224,7 @@ class WebClient {
   }) {
     return _oauthClient.post(
       _constructBaseURL(type) + route,
-      headers: headers,
+      headers: _adjustHeader(type, headers),
       body: body,
     );
   }
@@ -226,7 +237,7 @@ class WebClient {
   }) {
     return _oauthClient.put(
       _constructBaseURL(type) + route,
-      headers: headers,
+      headers: _adjustHeader(type, headers),
       body: body,
     );
   }
@@ -238,7 +249,7 @@ class WebClient {
   }) {
     return _oauthClient.delete(
       _constructBaseURL(type) + route,
-      headers: headers,
+      headers: _adjustHeader(type, headers),
     );
   }
 }

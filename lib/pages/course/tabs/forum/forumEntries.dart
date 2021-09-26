@@ -1,12 +1,15 @@
+import 'dart:convert';
+
+import 'package:fludip/pages/course/tabs/forum/forumReply.dart';
 import 'package:fludip/provider/course/forum/entryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
-///TODO show user and time stamp
 class ForumEntriesViewer extends StatelessWidget {
   final String _pageTitle;
   final Course _course;
@@ -113,6 +116,17 @@ class ForumEntriesViewer extends StatelessWidget {
             );
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          String reply = await Navigator.push(context, MaterialPageRoute(builder: (context) => ForumReplyScreen()));
+          Response response = await Provider.of<ForumProvider>(context, listen: false)
+              .sendReply(_course.courseID, _categoryIdx, _areaIdx, _topicIdx, reply);
+          var body = jsonDecode(response.body);
+          //TODO check for error
+        },
+        tooltip: "Write reply",
+        child: Icon(Icons.reply),
       ),
     );
   }

@@ -176,4 +176,21 @@ class ForumProvider extends ChangeNotifier {
     notifyListeners();
     return Future<List<ForumEntry>>.value(_forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx].entries);
   }
+
+  Future<Response> sendReply(String courseID, int categoryIdx, int areaIdx, int topicIdx, String reply) {
+    ForumTopic selectedTopic = _forums[courseID][categoryIdx].areas[areaIdx].topics[topicIdx];
+    String route = "/forum-entries/" + selectedTopic.id + "/entries";
+
+    Map<String, dynamic> body = <String, dynamic>{
+      "data": <String, dynamic>{
+        "type": "forum-entries",
+        "attributes": <String, String>{
+          "title": "",
+          "content": reply,
+        },
+      },
+    };
+
+    return _client.httpPost(route, APIType.JSON, body: jsonEncode(body));
+  }
 }
