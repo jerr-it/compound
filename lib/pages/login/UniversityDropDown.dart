@@ -35,7 +35,7 @@ class _UniversityDropdownState extends State<UniversityDropdown> {
           style: TextStyle(color: Colors.black),
           underline: Container(
             height: 2,
-            color: Colors.white,
+            color: Colors.black,
           ),
           onChanged: (Server newValue) {
             setState(() {

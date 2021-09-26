@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
         title: Text("login".tr()),
       ),
       body: Container(
-        decoration: BoxDecoration(color: Color.fromARGB(255, 21, 26, 45)),
+        decoration: BoxDecoration(color: Colors.white12),
         child: SizedBox(
           width: double.maxFinite,
           child: Column(
@@ -33,38 +33,38 @@ class LoginPage extends StatelessWidget {
                       controller: usernameController,
                       decoration: InputDecoration(
                         hintText: "Username",
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: TextStyle(color: Colors.black26),
                         icon: Icon(
                           Icons.person,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2),
+                          borderSide: BorderSide(color: Colors.black38, width: 2),
                         ),
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white30, width: 2),
+                          borderSide: BorderSide(color: Colors.black12, width: 2),
                         ),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     TextFormField(
                       controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: "Password",
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: TextStyle(color: Colors.black26),
                         icon: Icon(
                           Icons.password_sharp,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2),
+                          borderSide: BorderSide(color: Colors.black38, width: 2),
                         ),
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white30, width: 2),
+                          borderSide: BorderSide(color: Colors.black12, width: 2),
                         ),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     ElevatedButton(
                       child: Text("login".tr()),

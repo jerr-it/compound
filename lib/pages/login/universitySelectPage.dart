@@ -43,7 +43,7 @@ class _UniversitySelectStateState extends State<UniversitySelectState> {
     UniversityDropdown uDropdown = UniversityDropdown();
 
     return Container(
-      decoration: BoxDecoration(color: Color.fromARGB(255, 21, 26, 45)),
+      decoration: BoxDecoration(color: Colors.white12),
       child: SizedBox(
         width: double.maxFinite,
         child: Column(
@@ -52,7 +52,6 @@ class _UniversitySelectStateState extends State<UniversitySelectState> {
             Text(
               "chooseUniversity".tr(),
               style: TextStyle(
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
