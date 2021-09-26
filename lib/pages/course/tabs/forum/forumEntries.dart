@@ -120,10 +120,16 @@ class ForumEntriesViewer extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           String reply = await Navigator.push(context, MaterialPageRoute(builder: (context) => ForumReplyScreen()));
-          Response response = await Provider.of<ForumProvider>(context, listen: false)
-              .sendReply(_course.courseID, _categoryIdx, _areaIdx, _topicIdx, reply);
-          var body = jsonDecode(response.body);
-          //TODO check for error
+          if (reply == null) {
+            return;
+          }
+
+          try {
+            Response response = await Provider.of<ForumProvider>(context, listen: false)
+                .sendReply(_course.courseID, _categoryIdx, _areaIdx, _topicIdx, reply);
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+          }
         },
         tooltip: "Write reply",
         child: Icon(Icons.reply),

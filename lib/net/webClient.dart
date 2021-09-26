@@ -19,6 +19,7 @@ class WebClient {
   }
 
   Server _server;
+  http.Client _httpClient;
   Credentials _credentials;
 
   get server => this._server;
@@ -35,11 +36,14 @@ class WebClient {
     var storage = new FlutterSecureStorage();
     await storage.delete(key: "username");
     await storage.delete(key: "password");
+
+    _httpClient.close();
   }
 
   ///Performs OAuth1 authentication with the set server
   Future<int> authenticate(String username, String password) async {
     _credentials = new Credentials(username, password);
+    _httpClient = new http.Client();
 
     //Probe both REST and JSON api
 
@@ -75,7 +79,7 @@ class WebClient {
     APIType type, {
     Map<String, String> headers = const <String, String>{},
   }) {
-    return http.get(
+    return _httpClient.get(
       Uri.parse(_constructBaseURL(type) + route),
       headers: _adjustHeader(type, headers),
     );
@@ -87,7 +91,7 @@ class WebClient {
     Map<String, String> headers = const <String, String>{},
     dynamic body = "",
   }) {
-    return http.post(
+    return _httpClient.post(
       Uri.parse(_constructBaseURL(type) + route),
       headers: _adjustHeader(type, headers),
       body: body,
@@ -100,7 +104,7 @@ class WebClient {
     Map<String, String> headers = const <String, String>{},
     dynamic body = "",
   }) {
-    return http.put(
+    return _httpClient.put(
       Uri.parse(_constructBaseURL(type) + route),
       headers: _adjustHeader(type, headers),
       body: body,
@@ -112,7 +116,7 @@ class WebClient {
     APIType type, {
     Map<String, String> headers = const <String, String>{},
   }) {
-    return http.delete(
+    return _httpClient.delete(
       Uri.parse(_constructBaseURL(type) + route),
       headers: _adjustHeader(type, headers),
     );

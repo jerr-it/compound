@@ -10,9 +10,11 @@ class ForumReplyScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: TextButton(
-          child: Icon(Icons.arrow_back),
-          onPressed: () {},
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context, null);
+          },
         ),
         title: Text("reply".tr()),
       ),

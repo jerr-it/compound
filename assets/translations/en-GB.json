@@ -26,5 +26,6 @@
     "students": "Students",
     "nothing_here": "Nothing here",
     "warning": "Warning",
-    "https-info": "The selected server uses an unsecured connection, your user data might be at risk!"
+    "https-info": "The selected server uses an unsecured connection, your user data might be at risk!",
+    "reply": "Reply"
 }
