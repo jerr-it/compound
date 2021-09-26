@@ -14,7 +14,6 @@ import 'package:fludip/pages/profilePage.dart';
 import 'package:fludip/pages/blackboardPage.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/pages/searchPage.dart';
-import 'package:fludip/pages/toolsPage.dart';
 import 'package:fludip/pages/course/coursePage.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -116,14 +115,6 @@ class NavDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(SearchPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.api),
-            title: Text("tools".tr()),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(ToolsPage()));
             },
           ),
           ListTile(
