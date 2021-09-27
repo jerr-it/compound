@@ -27,6 +27,14 @@ class GeneralCourseProvider extends ChangeNotifier {
     return Future<List<Course>>.value(_courses);
   }
 
+  String getLogo(String courseID) {
+    return _client.server.webAddress + "/pictures/course/" + courseID + "_medium.png";
+  }
+
+  String getEmptyLogo() {
+    return _client.server.webAddress + "/pictures/course/nobody_medium.png";
+  }
+
   Future<List<Course>> forceUpdate(String userID) async {
     _courses ??= <Course>[];
     if (_courses.isNotEmpty) {

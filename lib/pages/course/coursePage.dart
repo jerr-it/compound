@@ -1,4 +1,4 @@
-import 'package:fludip/util/colorMapper.dart';
+import 'package:fludip/provider/course/overview/semesterModel.dart';
 import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
 import 'package:fludip/pages/course/tabs/members.dart';
@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
+import 'package:transparent_image/transparent_image.dart';
 
 //Convenience class to be used in grid view below
 class GridButton extends StatelessWidget {
@@ -53,12 +55,36 @@ class CoursePage extends StatelessWidget {
   CoursePage(String uID) : userID = uID;
 
   List<Widget> _buildListEntries(BuildContext context, List<Course> courses) {
-    if (courses == null) {
+    if (courses == null || courses.isEmpty) {
       return <Widget>[Nothing()];
     }
 
     List<Widget> widgets = <Widget>[];
+
+    Semester current = courses.first.startSemester;
+    widgets.add(Text(
+      current.title,
+      style: TextStyle(fontWeight: FontWeight.w300),
+      textAlign: TextAlign.center,
+    ));
+
     courses.forEach((course) {
+      if (course.startSemester.semesterID != current.semesterID) {
+        widgets.add(Text(
+          course.startSemester.title,
+          style: TextStyle(fontWeight: FontWeight.w300),
+          textAlign: TextAlign.center,
+        ));
+        current = course.startSemester;
+      }
+
+      //Ugly, but https://github.com/flutter/flutter/issues/81931 is still open
+      //This means we have to check in advance if the url is a valid image resource
+      //since it doesn't appear possible to handle the error somehow
+      //Both wrapping in try-catch and using the errorBuilder don't work
+      String url = Provider.of<GeneralCourseProvider>(context, listen: false).getLogo(course.courseID);
+      var response = http.get(url);
+
       //TODO: List of options for which new content appeared, for example a new file upload
       widgets.add(
         Container(
@@ -67,7 +93,29 @@ class CoursePage extends StatelessWidget {
             title: Container(
               child: Row(
                 children: [
-                  FlutterLogo(size: 32),
+                  FutureBuilder(
+                    future: response,
+                    builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data.statusCode == 200) {
+                          return FadeInImage(
+                            placeholder: MemoryImage(kTransparentImage),
+                            image: MemoryImage(snapshot.data.bodyBytes),
+                            width: 32,
+                            height: 32,
+                          );
+                        }
+                        return FadeInImage(
+                          placeholder: MemoryImage(kTransparentImage),
+                          image: NetworkImage(Provider.of<GeneralCourseProvider>(context, listen: false).getEmptyLogo()),
+                          width: 32,
+                          height: 32,
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  ),
+                  VerticalDivider(),
                   Flexible(
                     child: Text(
                       course.title,
@@ -143,11 +191,6 @@ class CoursePage extends StatelessWidget {
           ),
         ),
       );
-
-      widgets.add(Divider(
-        height: 0.25,
-        thickness: 0.5,
-      ));
     });
 
     return widgets;

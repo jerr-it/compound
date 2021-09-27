@@ -30,6 +30,7 @@ dependencies:
   flutter_svg: ^0.19.3
   bubble: ^1.2.1
   easy_localization: ^3.0.0
+  transparent_image: ^2.0.0
   flutter:
     sdk: flutter
 
