@@ -82,7 +82,7 @@ class CoursePage extends StatelessWidget {
       //This means we have to check in advance if the url is a valid image resource
       //since it doesn't appear possible to handle the error somehow
       //Both wrapping in try-catch and using the errorBuilder don't work
-      String url = Provider.of<GeneralCourseProvider>(context, listen: false).getLogo(course.courseID);
+      String url = Provider.of<CourseProvider>(context, listen: false).getLogo(course.courseID);
       var response = http.get(url);
 
       //TODO: List of options for which new content appeared, for example a new file upload
@@ -107,7 +107,7 @@ class CoursePage extends StatelessWidget {
                         }
                         return FadeInImage(
                           placeholder: MemoryImage(kTransparentImage),
-                          image: NetworkImage(Provider.of<GeneralCourseProvider>(context, listen: false).getEmptyLogo()),
+                          image: NetworkImage(Provider.of<CourseProvider>(context, listen: false).getEmptyLogo()),
                           width: 32,
                           height: 32,
                         );
@@ -198,7 +198,7 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Course>> fCourses = Provider.of<GeneralCourseProvider>(context).get(userID);
+    Future<List<Course>> fCourses = Provider.of<CourseProvider>(context).get(userID);
 
     return Scaffold(
       appBar: AppBar(
@@ -214,7 +214,7 @@ class CoursePage extends StatelessWidget {
                   children: _buildListEntries(context, snapshot.data),
                 ),
                 onRefresh: () async {
-                  return Provider.of<GeneralCourseProvider>(context, listen: false).forceUpdate(userID);
+                  return Provider.of<CourseProvider>(context, listen: false).forceUpdate(userID);
                 },
               ),
             );

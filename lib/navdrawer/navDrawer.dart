@@ -56,7 +56,7 @@ void _resetProviderCache(BuildContext context) {
   Provider.of<ForumProvider>(context, listen: false).resetCache();
 
   Provider.of<MembersProvider>(context, listen: false).resetCache();
-  Provider.of<GeneralCourseProvider>(context, listen: false).resetCache();
+  Provider.of<CourseProvider>(context, listen: false).resetCache();
   Provider.of<MessageProvider>(context, listen: false).resetCache();
   Provider.of<NewsProvider>(context, listen: false).resetCache();
 

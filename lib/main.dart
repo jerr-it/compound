@@ -37,7 +37,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => NewsProvider()),
-        ChangeNotifierProvider(create: (_) => GeneralCourseProvider()),
+        ChangeNotifierProvider(create: (_) => CourseProvider()),
         ChangeNotifierProvider(create: (_) => ForumProvider()),
         ChangeNotifierProvider(create: (_) => MembersProvider()),
         ChangeNotifierProvider(create: (_) => FileProvider()),

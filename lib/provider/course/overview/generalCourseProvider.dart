@@ -10,7 +10,7 @@ import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/provider/course/overview/semesterModel.dart';
 
 ///This provider provides the data for the courses themselves *and* the overview tab
-class GeneralCourseProvider extends ChangeNotifier {
+class CourseProvider extends ChangeNotifier {
   List<Course> _courses;
 
   final WebClient _client = WebClient();
