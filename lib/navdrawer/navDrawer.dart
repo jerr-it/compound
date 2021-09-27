@@ -11,7 +11,6 @@ import 'package:fludip/pages/community/communityPage.dart';
 import 'package:fludip/pages/filesPage.dart';
 import 'package:fludip/pages/messages/messagesPage.dart';
 import 'package:fludip/pages/profilePage.dart';
-import 'package:fludip/pages/blackboardPage.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/pages/searchPage.dart';
 import 'package:fludip/pages/course/coursePage.dart';
@@ -123,14 +122,6 @@ class NavDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(FilePage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.announcement_outlined),
-            title: Text("noticeBoard".tr()),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(navRoute(BlackboardPage()));
             },
           ),
           Divider(),
