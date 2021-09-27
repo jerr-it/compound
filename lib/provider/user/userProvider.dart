@@ -34,4 +34,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
     return Future<User>.value(_users[userID]);
   }
+
+  void resetCache() {
+    _users = new Map();
+  }
 }

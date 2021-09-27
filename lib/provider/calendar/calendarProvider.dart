@@ -47,4 +47,8 @@ class CalendarProvider extends ChangeNotifier {
     notifyListeners();
     return Future<List<List<CalendarEntry>>>.value(_calendarEntries);
   }
+
+  void resetCache() {
+    _calendarEntries = null;
+  }
 }

@@ -80,4 +80,8 @@ class BlubberProvider extends ChangeNotifier {
       body: <String, String>{"content": message},
     );
   }
+
+  void resetCache() {
+    _threads = null;
+  }
 }

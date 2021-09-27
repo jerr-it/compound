@@ -52,4 +52,8 @@ class MembersProvider extends ChangeNotifier {
       return Future<List<User>>.value(<User>[]);
     }
   }
+
+  void resetCache() {
+    _members = null;
+  }
 }

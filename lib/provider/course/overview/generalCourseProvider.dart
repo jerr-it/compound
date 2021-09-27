@@ -65,4 +65,8 @@ class GeneralCourseProvider extends ChangeNotifier {
     notifyListeners();
     return Future<List<Course>>.value(_courses);
   }
+
+  void resetCache() {
+    _courses = null;
+  }
 }

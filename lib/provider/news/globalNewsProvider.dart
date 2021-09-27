@@ -54,4 +54,8 @@ class NewsProvider extends ChangeNotifier {
     notifyListeners();
     return Future<List<News>>.value(_newsMap[courseID]);
   }
+
+  void resetCache() {
+    _newsMap = null;
+  }
 }

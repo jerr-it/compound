@@ -67,4 +67,8 @@ class FileProvider extends ChangeNotifier {
     notifyListeners();
     return Future<Folder>.value(current);
   }
+
+  void resetCache() {
+    _fileTree = null;
+  }
 }

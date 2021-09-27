@@ -59,4 +59,8 @@ class MessageProvider extends ChangeNotifier {
   void deleteMessage(String msgID) {
     _client.httpDelete("/message/$msgID", APIType.REST);
   }
+
+  void resetCache() {
+    _messages = null;
+  }
 }

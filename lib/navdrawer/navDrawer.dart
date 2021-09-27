@@ -1,6 +1,14 @@
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/login/universitySelectPage.dart';
 import 'package:fludip/pages/planner/scheduleView.dart';
+import 'package:fludip/provider/blubber/blubberProvider.dart';
+import 'package:fludip/provider/calendar/calendarProvider.dart';
+import 'package:fludip/provider/course/files/fileProvider.dart';
+import 'package:fludip/provider/course/forum/forumProvider.dart';
+import 'package:fludip/provider/course/members/membersProvider.dart';
+import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
+import 'package:fludip/provider/messages/messageProvider.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +47,20 @@ Route navRoute(Widget page) {
       );
     },
   );
+}
+
+void _resetProviderCache(BuildContext context) {
+  Provider.of<BlubberProvider>(context, listen: false).resetCache();
+  Provider.of<CalendarProvider>(context, listen: false).resetCache();
+  Provider.of<FileProvider>(context, listen: false).resetCache();
+  Provider.of<ForumProvider>(context, listen: false).resetCache();
+
+  Provider.of<MembersProvider>(context, listen: false).resetCache();
+  Provider.of<GeneralCourseProvider>(context, listen: false).resetCache();
+  Provider.of<MessageProvider>(context, listen: false).resetCache();
+  Provider.of<NewsProvider>(context, listen: false).resetCache();
+
+  Provider.of<UserProvider>(context, listen: false).resetCache();
 }
 
 class NavDrawer extends StatelessWidget {
@@ -138,6 +160,8 @@ class NavDrawer extends StatelessWidget {
             onTap: () {
               var client = WebClient();
               client.logout();
+
+              _resetProviderCache(context);
 
               Navigator.of(context).popUntil((route) => route.isFirst);
               Navigator.pushReplacement(context, navRoute(UniversitySelectPage()));

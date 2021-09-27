@@ -193,4 +193,8 @@ class ForumProvider extends ChangeNotifier {
 
     return _client.httpPost(route, APIType.JSON, body: jsonEncode(body));
   }
+
+  void resetCache() {
+    _forums = null;
+  }
 }
