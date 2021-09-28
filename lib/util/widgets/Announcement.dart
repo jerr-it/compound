@@ -20,14 +20,14 @@ class Announcement extends StatelessWidget {
           Icons.announcement,
           size: 36,
         ),
-        title: Text(_title),
+        title: Text(_title.trim()),
         subtitle: Text(
           StringUtil.fromUnixTime(_timeStamp, "dd.MM.yyyy HH:mm"),
         ),
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            child: Text(_body),
+            child: Text(_body.trim()),
           ),
         ],
       ),
