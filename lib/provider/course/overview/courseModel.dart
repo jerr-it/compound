@@ -2,6 +2,13 @@ import 'package:fludip/provider/course/overview/semesterModel.dart';
 import 'package:fludip/util/colorMapper.dart';
 import 'package:flutter/material.dart';
 
+enum CourseType { Lecture, StudyGroup }
+
+final CourseMapper = const {
+  "1": CourseType.Lecture,
+  "99": CourseType.StudyGroup,
+};
+
 class Course {
   String _courseID;
 
@@ -9,7 +16,7 @@ class Course {
   String _subtitle;
   String _description;
 
-  String _type;
+  CourseType _type;
   Color _color;
   String _number;
 
@@ -24,7 +31,7 @@ class Course {
   String get subtitle => this._subtitle;
   String get description => this._description;
 
-  String get type => this._type;
+  CourseType get type => this._type;
   Color get color => this._color;
   String get number => this._number;
 
@@ -40,7 +47,7 @@ class Course {
     _subtitle = data["subtitle"];
     _description = data["description"];
 
-    _type = data["type"];
+    _type = CourseMapper[data["type"]];
     _color = ColorMapper.convert(data["group"]);
     _number = data["number"];
 

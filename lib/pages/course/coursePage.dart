@@ -110,7 +110,7 @@ class CoursePage extends StatelessWidget {
                         }
                         return FadeInImage(
                           placeholder: MemoryImage(kTransparentImage),
-                          image: NetworkImage(Provider.of<CourseProvider>(context, listen: false).getEmptyLogo()),
+                          image: NetworkImage(Provider.of<CourseProvider>(context, listen: false).getEmptyLogo(course.type)),
                           width: 32,
                           height: 32,
                         );
