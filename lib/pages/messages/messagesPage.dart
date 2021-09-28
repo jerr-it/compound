@@ -1,6 +1,7 @@
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fludip/pages/messages/messageViewer.dart';
@@ -39,15 +40,15 @@ class _MessagesPageState extends State<MessagesPage> {
           leading: Icon(Icons.mail, size: 30),
           title: Text(
             message.subject,
-            style: TextStyle(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
+            style: GoogleFonts.montserrat(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
           ),
           subtitle: Text(
             message.sender.formattedName,
-            style: TextStyle(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
+            style: GoogleFonts.montserrat(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
           ),
           trailing: Text(
             StringUtil.fromUnixTime(message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
-            style: TextStyle(
+            style: GoogleFonts.montserrat(
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -71,6 +72,8 @@ class _MessagesPageState extends State<MessagesPage> {
               Popup.display(
                 context,
                 title: "sure?".tr(),
+                subtitle: "permanent".tr(),
+                leading: Icon(Icons.warning_sharp),
                 firstOption: "confirm".tr(),
                 firstOptionColor: Colors.red,
                 onFirstOption: () {
@@ -101,7 +104,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("messages".tr()),
+        title: Text("messages".tr(), style: GoogleFonts.montserrat()),
       ),
       body: FutureBuilder(
         future: messages,

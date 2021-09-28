@@ -22,6 +22,7 @@ import 'package:fludip/pages/profilePage.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/pages/searchPage.dart';
 import 'package:fludip/pages/course/coursePage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -78,7 +79,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.home),
-            title: Text("start".tr()),
+            title: Text("start".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(StartPage()));
@@ -86,7 +87,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.book_rounded),
-            title: Text("event".tr()),
+            title: Text("event".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
@@ -96,7 +97,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.mail),
-            title: Text("messages".tr()),
+            title: Text("messages".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
@@ -106,7 +107,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.people),
-            title: Text("community".tr()),
+            title: Text("community".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(CommunityPage()));
@@ -114,7 +115,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.person),
-            title: Text("profile".tr()),
+            title: Text("profile".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(ProfilePage()));
@@ -122,7 +123,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.event),
-            title: Text("planner".tr()),
+            title: Text("planner".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
@@ -132,7 +133,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.search),
-            title: Text("search".tr()),
+            title: Text("search".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(SearchPage()));
@@ -140,7 +141,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.file_copy),
-            title: Text("files".tr()),
+            title: Text("files".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(FilePage()));
@@ -149,14 +150,14 @@ class NavDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text("settings".tr()),
+            title: Text("settings".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               //Reroute to settings page
             },
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text("logout".tr()),
+            title: Text("logout".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               var client = WebClient();
               client.logout();

@@ -1,8 +1,8 @@
 import 'package:fludip/provider/course/members/memberModel.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/util/colorMapper.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -17,7 +17,7 @@ class MembersTab extends StatelessWidget {
     if (members.lecturers.isNotEmpty) {
       widgets.add(Text(
         "lecturers".tr(),
-        style: TextStyle(
+        style: GoogleFonts.montserrat(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -30,7 +30,7 @@ class MembersTab extends StatelessWidget {
             width: 30,
             height: 30,
           ),
-          title: Text(lecturer.formattedName),
+          title: Text(lecturer.formattedName, style: GoogleFonts.montserrat()),
         ));
       });
     }
@@ -38,7 +38,7 @@ class MembersTab extends StatelessWidget {
     if (members.tutors.isNotEmpty) {
       widgets.add(Text(
         "tutors".tr(),
-        style: TextStyle(
+        style: GoogleFonts.montserrat(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -51,7 +51,7 @@ class MembersTab extends StatelessWidget {
             width: 30,
             height: 30,
           ),
-          title: Text(tutor.formattedName),
+          title: Text(tutor.formattedName, style: GoogleFonts.montserrat()),
         ));
       });
     }
@@ -59,7 +59,7 @@ class MembersTab extends StatelessWidget {
     if (members.studends.isNotEmpty) {
       widgets.add(Text(
         "students".tr(),
-        style: TextStyle(
+        style: GoogleFonts.montserrat(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -72,7 +72,7 @@ class MembersTab extends StatelessWidget {
             width: 30,
             height: 30,
           ),
-          title: Text(student.formattedName),
+          title: Text(student.formattedName, style: GoogleFonts.montserrat()),
         ));
       });
     }
@@ -86,7 +86,7 @@ class MembersTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("members".tr()),
+        title: Text("members".tr(), style: GoogleFonts.montserrat()),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(

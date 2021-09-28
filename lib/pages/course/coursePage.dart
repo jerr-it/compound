@@ -10,6 +10,7 @@ import 'package:fludip/provider/course/overview/courseProvider.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
@@ -39,7 +40,10 @@ class GridButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(_icon),
-              Text(_caption),
+              Text(
+                _caption,
+                style: GoogleFonts.montserrat(),
+              ),
             ],
           ),
         ),
@@ -67,7 +71,7 @@ class CoursePage extends StatelessWidget {
     Semester current = courses.first.startSemester;
     widgets.add(Text(
       current.title,
-      style: TextStyle(fontWeight: FontWeight.w300),
+      style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
       textAlign: TextAlign.center,
     ));
 
@@ -75,7 +79,7 @@ class CoursePage extends StatelessWidget {
       if (course.startSemester.semesterID != current.semesterID) {
         widgets.add(Text(
           course.startSemester.title,
-          style: TextStyle(fontWeight: FontWeight.w300),
+          style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
           textAlign: TextAlign.center,
         ));
         current = course.startSemester;
@@ -86,7 +90,7 @@ class CoursePage extends StatelessWidget {
       //since it doesn't appear possible to handle the error somehow
       //Both wrapping in try-catch and using the errorBuilder don't work
       String url = Provider.of<CourseProvider>(context, listen: false).getLogo(course.courseID);
-      var response = http.get(url);
+      var response = http.get(Uri.parse(url));
 
       //TODO: List of options for which new content appeared, for example a new file upload
       widgets.add(
@@ -123,6 +127,7 @@ class CoursePage extends StatelessWidget {
                     child: Text(
                       course.title,
                       overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.montserrat(),
                     ),
                   ),
                 ],
@@ -213,7 +218,7 @@ class CoursePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("event".tr()),
+        title: Text("event".tr(), style: GoogleFonts.montserrat()),
       ),
       body: FutureBuilder(
         future: fCourses,

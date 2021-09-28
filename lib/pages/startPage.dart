@@ -5,6 +5,7 @@ import 'package:fludip/util/widgets/Announcement.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -35,7 +36,7 @@ class StartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("start".tr()),
+        title: Text("start".tr(), style: GoogleFonts.montserrat()),
       ),
       body: FutureBuilder(
         future: news,

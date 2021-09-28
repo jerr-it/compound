@@ -1,6 +1,7 @@
 import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class NavDrawerHeader extends StatelessWidget {
@@ -26,11 +27,11 @@ class NavDrawerHeader extends StatelessWidget {
                   children: [
                     Text(
                       user.formattedName,
-                      style: TextStyle(fontSize: 16),
+                      style: GoogleFonts.montserrat(fontSize: 16),
                     ),
                     Text(
                       user.userName,
-                      style: TextStyle(fontSize: 16),
+                      style: GoogleFonts.montserrat(fontSize: 16),
                     )
                   ],
                 ),
@@ -41,11 +42,11 @@ class NavDrawerHeader extends StatelessWidget {
               children: [
                 Text(
                   user.email,
-                  style: TextStyle(fontWeight: FontWeight.w300),
+                  style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
                 ),
                 Text(
                   user.permissions,
-                  style: TextStyle(fontWeight: FontWeight.w300),
+                  style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
                 )
               ],
             ),

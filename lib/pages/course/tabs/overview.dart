@@ -6,6 +6,7 @@ import 'package:fludip/util/widgets/Announcement.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -37,7 +38,7 @@ class NewsTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("news".tr() + ": " + course.title),
+        title: Text("news".tr() + ": " + course.title, style: GoogleFonts.montserrat()),
         backgroundColor: course.color,
       ),
       body: FutureBuilder(

@@ -1,6 +1,7 @@
 import 'package:fludip/provider/messages/messageModel.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MessageViewer extends StatelessWidget {
   final Message _message;
@@ -21,10 +22,10 @@ class MessageViewer extends StatelessWidget {
                 width: 30,
                 height: 30,
               ),
-              title: Text(_message.sender.email),
+              title: Text(_message.sender.email, style: GoogleFonts.montserrat()),
               subtitle: Text(
                 StringUtil.fromUnixTime(_message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
-                style: TextStyle(
+                style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w300,
                 ),
               ),
@@ -32,13 +33,14 @@ class MessageViewer extends StatelessWidget {
             Divider(),
             Text(
               _message.subject,
-              style: TextStyle(
+              style: GoogleFonts.montserrat(
                 fontSize: 28,
                 fontWeight: FontWeight.normal,
               ),
             ),
             Text(
               StringUtil.removeHTMLTags(_message.content),
+              style: GoogleFonts.montserrat(),
             ),
           ],
         ),

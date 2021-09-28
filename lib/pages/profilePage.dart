@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil"),
+        title: Text("Profil", style: GoogleFonts.montserrat()),
       ),
       body: Center(
         child: Text("This is the profil page"),

@@ -7,8 +7,10 @@ import 'package:fludip/provider/course/overview/courseProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/pages/login/universitySelectPage.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/user/userProvider.dart';
@@ -16,6 +18,11 @@ import 'provider/user/userProvider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('google_fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
 
   runApp(EasyLocalization(
     supportedLocales: [Locale("en", "GB"), Locale("de", "DE")],

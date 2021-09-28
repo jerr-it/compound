@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../str.dart';
 
@@ -20,14 +21,21 @@ class Announcement extends StatelessWidget {
           Icons.announcement,
           size: 36,
         ),
-        title: Text(_title.trim()),
+        title: Text(
+          _title.trim(),
+          style: GoogleFonts.montserrat(),
+        ),
         subtitle: Text(
           StringUtil.fromUnixTime(_timeStamp, "dd.MM.yyyy HH:mm"),
+          style: GoogleFonts.montserrat(),
         ),
         children: [
           Container(
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            child: Text(_body.trim()),
+            child: Text(
+              _body.trim(),
+              style: GoogleFonts.montserrat(),
+            ),
           ),
         ],
       ),

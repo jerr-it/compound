@@ -1,4 +1,6 @@
+import 'package:fludip/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Popup {
   static void display(
@@ -24,18 +26,11 @@ class Popup {
                 leading,
                 Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 22,
-                  ),
+                  style: GoogleFonts.montserrat(fontSize: 22),
                 ),
               ],
             ),
-            Text(
-              subtitle,
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
+            Text(subtitle, style: GoogleFonts.montserrat(fontSize: 16)),
             Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -46,7 +41,7 @@ class Popup {
                     Navigator.of(context).pop();
                   },
                   child: Text(firstOption),
-                  style: ElevatedButton.styleFrom(primary: firstOptionColor),
+                  style: RAISED_BUTTON_STYLE(Colors.red),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -54,7 +49,7 @@ class Popup {
                     Navigator.of(context).pop();
                   },
                   child: Text(secondOption),
-                  style: ElevatedButton.styleFrom(primary: secondOptionColor),
+                  style: RAISED_BUTTON_STYLE(Colors.blue),
                 ),
               ],
             )

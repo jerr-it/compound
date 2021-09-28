@@ -6,6 +6,7 @@ import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -37,7 +38,7 @@ class FilesTab extends StatelessWidget {
 
       widgets.add(ListTile(
         leading: Icon(Icons.folder),
-        title: Text(subfolder.name),
+        title: Text(subfolder.name, style: GoogleFonts.montserrat()),
         onTap: () async {
           List<int> subPath = <int>[];
           subPath.addAll(_subFolderPath);
@@ -58,7 +59,7 @@ class FilesTab extends StatelessWidget {
     fileRefs.forEach((fileRef) {
       widgets.add(ListTile(
         leading: Icon(Icons.file_copy),
-        title: Text(fileRef.name),
+        title: Text(fileRef.name, style: GoogleFonts.montserrat()),
         onTap: () {
           //TODO download file
         },
@@ -78,7 +79,7 @@ class FilesTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("files".tr()),
+        title: Text("files".tr(), style: GoogleFonts.montserrat()),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(

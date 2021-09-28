@@ -2,10 +2,12 @@ import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/provider/user/userProvider.dart';
+import 'package:fludip/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
@@ -16,7 +18,10 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("login".tr()),
+        title: Text(
+          "login".tr(),
+          style: GoogleFonts.montserrat(),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(color: Colors.white12),
@@ -33,7 +38,7 @@ class LoginPage extends StatelessWidget {
                       controller: usernameController,
                       decoration: InputDecoration(
                         hintText: "Username",
-                        hintStyle: TextStyle(color: Colors.black26),
+                        hintStyle: GoogleFonts.montserrat(color: Colors.black26),
                         icon: Icon(
                           Icons.person,
                           color: Colors.black,
@@ -45,14 +50,14 @@ class LoginPage extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.black12, width: 2),
                         ),
                       ),
-                      style: TextStyle(color: Colors.black),
+                      style: GoogleFonts.montserrat(),
                     ),
                     TextFormField(
                       controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: "Password",
-                        hintStyle: TextStyle(color: Colors.black26),
+                        hintStyle: GoogleFonts.montserrat(color: Colors.black26),
                         icon: Icon(
                           Icons.password_sharp,
                           color: Colors.black,
@@ -64,10 +69,11 @@ class LoginPage extends StatelessWidget {
                           borderSide: BorderSide(color: Colors.black12, width: 2),
                         ),
                       ),
-                      style: TextStyle(color: Colors.black),
+                      style: GoogleFonts.montserrat(),
                     ),
                     ElevatedButton(
-                      child: Text("login".tr()),
+                      child: Text("login".tr(), style: GoogleFonts.montserrat()),
+                      style: RAISED_BUTTON_STYLE(Colors.blue),
                       onPressed: () async {
                         var client = WebClient();
 

@@ -7,6 +7,7 @@ import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ForumTopicsViewer extends StatelessWidget {
@@ -35,8 +36,8 @@ class ForumTopicsViewer extends StatelessWidget {
 
       widgets.add(ListTile(
         leading: Icon(Icons.forum, size: 30),
-        title: Text(title),
-        subtitle: Text(subtitle),
+        title: Text(title, style: GoogleFonts.montserrat()),
+        subtitle: Text(subtitle, style: GoogleFonts.montserrat()),
         onTap: () async {
           Navigator.push(
             context,
@@ -66,7 +67,7 @@ class ForumTopicsViewer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageTitle),
+        title: Text(_pageTitle, style: GoogleFonts.montserrat()),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(
@@ -92,8 +93,6 @@ class ForumTopicsViewer extends StatelessWidget {
           }
         },
       ),
-      /*
-      body: */
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class ForumEntriesViewer extends StatelessWidget {
                 ),
                 Text(
                   entry.user.formattedName,
-                  style: TextStyle(fontWeight: FontWeight.w300),
+                  style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
                   textAlign: TextAlign.center,
                 )
               ],
@@ -59,12 +60,13 @@ class ForumEntriesViewer extends StatelessWidget {
               children: [
                 Text(
                   StringUtil.removeHTMLTags(entry.content.replaceAll("\n", "")),
+                  style: GoogleFonts.montserrat(),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                     StringUtil.fromUnixTime(entry.mkdate * 1000, "dd.MM.yyyy HH:mm"),
-                    style: TextStyle(fontWeight: FontWeight.w200),
+                    style: GoogleFonts.montserrat(fontWeight: FontWeight.w200),
                     textAlign: TextAlign.right,
                   ),
                 ),
@@ -91,7 +93,7 @@ class ForumEntriesViewer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageTitle),
+        title: Text(_pageTitle, style: GoogleFonts.montserrat()),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(

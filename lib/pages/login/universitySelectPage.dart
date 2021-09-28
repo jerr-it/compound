@@ -5,6 +5,8 @@ import 'package:fludip/pages/login/loginPage.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:fludip/util/popupDialog.dart';
+import 'package:fludip/util/widgets/styles.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fludip/net/webClient.dart';
@@ -17,7 +19,10 @@ class UniversitySelectPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("login".tr()),
+        title: Text(
+          "login".tr(),
+          style: GoogleFonts.montserrat(),
+        ),
       ),
       body: UniversitySelectState(),
     );
@@ -49,18 +54,15 @@ class _UniversitySelectStateState extends State<UniversitySelectState> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              "chooseUniversity".tr(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
             Column(
               children: [
                 uDropdown,
                 ElevatedButton(
-                  child: Text("login".tr()),
+                  child: Text(
+                    "login".tr(),
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  style: RAISED_BUTTON_STYLE(Colors.blue),
                   onPressed: () async {
                     var client = WebClient();
                     client.server = uDropdown.value;

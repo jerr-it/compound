@@ -1,6 +1,5 @@
 {
     "login": "Login",
-    "chooseUniversity": "Choose your university",
     "start": "Start",
     "event": "Courses",
     "messages": "Messages",
@@ -28,5 +27,6 @@
     "warning": "Warning",
     "https-info": "The selected server uses an unsecured connection, your user data might be at risk!",
     "reply": "Reply",
-    "blubber-not-enabled": "Blubber isn't enabled for this course"
+    "blubber-not-enabled": "Blubber isn't enabled for this course",
+    "permanent": "The message will be fully deleted"
 }
