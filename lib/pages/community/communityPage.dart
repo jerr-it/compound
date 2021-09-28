@@ -17,6 +17,9 @@ class CommunityPage extends StatelessWidget {
     }
 
     threads.forEach((thread) {
+      if (thread.avatarUrl == null) {
+        return;
+      }
       Widget leading;
       if (thread.avatarUrl.contains(".svg")) {
         leading = SvgPicture.network(

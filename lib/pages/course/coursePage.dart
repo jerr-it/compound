@@ -6,7 +6,7 @@ import 'package:fludip/pages/course/tabs/overview.dart';
 import 'package:fludip/pages/community/blubberThreadViewer.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/provider/course/overview/generalCourseProvider.dart';
+import 'package:fludip/provider/course/overview/courseProvider.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';

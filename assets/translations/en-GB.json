@@ -27,5 +27,6 @@
     "nothing_here": "Nothing here",
     "warning": "Warning",
     "https-info": "The selected server uses an unsecured connection, your user data might be at risk!",
-    "reply": "Reply"
+    "reply": "Reply",
+    "blubber-not-enabled": "Blubber isn't enabled for this course"
 }

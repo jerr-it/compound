@@ -27,5 +27,6 @@
     "nothing_here": "Nichts zu sehen",
     "warning": "Warnung",
     "https-info": "Der gewählte Server verwendet eine unsichere Verbindung, Ihre Nutzerdaten könnten gefährdet werden!",
-    "reply": "Antwort"
+    "reply": "Antwort",
+    "blubber-not-enabled": "Blubber ist für diesen Kurs nicht aktiviert"
 }

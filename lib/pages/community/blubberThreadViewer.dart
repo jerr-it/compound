@@ -5,7 +5,6 @@ import 'package:fludip/provider/blubber/blubberMessageModel.dart';
 import 'package:fludip/provider/blubber/blubberThreadModel.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
-import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -86,7 +85,8 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
       future: widget._thread,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data.comments.isEmpty) {
+          var bThread = snapshot.data as BlubberThread;
+          if (bThread.id == null) {
             return Scaffold(
               appBar: AppBar(
                 title: Text(snapshot.data.name),
@@ -97,7 +97,16 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
                   },
                 ),
               ),
-              body: Nothing(),
+              body: Center(
+                heightFactor: 2,
+                child: Text(
+                  "blubber-not-enabled".tr(),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w200,
+                  ),
+                ),
+              ),
             );
           }
 
