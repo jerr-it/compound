@@ -60,6 +60,9 @@ class CoursePage extends StatelessWidget {
     }
 
     List<Widget> widgets = <Widget>[];
+    courses.sort((a, b) {
+      return b.startSemester.begin - a.startSemester.begin;
+    });
 
     Semester current = courses.first.startSemester;
     widgets.add(Text(
