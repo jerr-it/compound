@@ -2,10 +2,37 @@ import 'package:fludip/provider/course/overview/semesterModel.dart';
 import 'package:fludip/util/colorMapper.dart';
 import 'package:flutter/material.dart';
 
-enum CourseType { Lecture, StudyGroup }
+enum CourseType {
+  Lecture,
+  Seminar,
+  Exercise,
+  PracticalTraining,
+  Colloquium,
+  ResearchGroup,
+  TeachingMisc,
+  Committee,
+  ProjectGroup,
+  SeminarMisc,
+  CultureForum,
+  CourseBoard,
+  CommunityMisc,
+  StudyGroup,
+}
 
 final CourseMapper = const {
   "1": CourseType.Lecture,
+  "2": CourseType.Seminar,
+  "3": CourseType.Exercise,
+  "4": CourseType.PracticalTraining,
+  "5": CourseType.Colloquium,
+  "6": CourseType.ResearchGroup,
+  "7": CourseType.TeachingMisc,
+  "8": CourseType.Committee,
+  "9": CourseType.ProjectGroup,
+  "10": CourseType.SeminarMisc,
+  "11": CourseType.CultureForum,
+  "12": CourseType.CourseBoard,
+  "13": CourseType.CommunityMisc,
   "99": CourseType.StudyGroup,
 };
 

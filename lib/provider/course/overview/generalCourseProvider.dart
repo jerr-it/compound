@@ -31,10 +31,11 @@ class CourseProvider extends ChangeNotifier {
     return _client.server.webAddress + "/pictures/course/" + courseID + "_medium.png";
   }
 
+  //TODO maybe add different images for each type of course
   String getEmptyLogo(CourseType type) {
     return _client.server.webAddress +
         "/pictures/course/" +
-        (type == CourseType.Lecture ? "nobody_medium.png" : "studygroup_medium.png");
+        (type == CourseType.StudyGroup ? "studygroup_medium.png" : "nobody_medium.png");
   }
 
   Future<List<Course>> forceUpdate(String userID) async {
