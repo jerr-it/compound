@@ -54,7 +54,8 @@ class BlubberProvider extends ChangeNotifier {
   Future<BlubberThread> forceUpdateThread(String name) async {
     BlubberThread thread = _threads[name];
     if (thread == null) {
-      return Future<BlubberThread>.value(null);
+      _threads[name] = BlubberThread.empty(name);
+      return Future<BlubberThread>.value(_threads[name]);
     }
 
     String threadID = thread.id;

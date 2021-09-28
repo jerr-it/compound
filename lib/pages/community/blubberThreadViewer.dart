@@ -5,6 +5,7 @@ import 'package:fludip/provider/blubber/blubberMessageModel.dart';
 import 'package:fludip/provider/blubber/blubberThreadModel.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/util/str.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -85,6 +86,21 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
       future: widget._thread,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data.comments.isEmpty) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(snapshot.data.name),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              body: Nothing(),
+            );
+          }
+
           return Scaffold(
             appBar: AppBar(
               title: Text(snapshot.data.name),

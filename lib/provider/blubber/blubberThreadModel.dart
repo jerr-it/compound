@@ -22,4 +22,9 @@ class BlubberThread {
     _name = data["name"];
     _timeStamp = data["timestamp"];
   }
+
+  BlubberThread.empty(String name) {
+    _name = name;
+    _comments = <BlubberMessage>[];
+  }
 }
