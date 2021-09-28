@@ -4,6 +4,7 @@ import 'package:bubble/bubble.dart';
 import 'package:fludip/provider/blubber/blubberMessageModel.dart';
 import 'package:fludip/provider/blubber/blubberThreadModel.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
+import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +12,13 @@ import 'package:easy_localization/easy_localization.dart';
 
 class BlubberThreadViewer extends StatefulWidget {
   Future<BlubberThread> _thread;
+  final Course _course;
   final String _threadName;
   final TextEditingController _tController = TextEditingController();
 
-  BlubberThreadViewer({@required name}) : _threadName = name;
+  BlubberThreadViewer({@required name, course})
+      : _threadName = name,
+        _course = course;
 
   @override
   _BlubberThreadViewerState createState() => _BlubberThreadViewerState();
@@ -96,6 +100,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
                     Navigator.pop(context);
                   },
                 ),
+                backgroundColor: this.widget._course != null ? this.widget._course.color : Colors.blue,
               ),
               body: Center(
                 heightFactor: 2,
@@ -113,6 +118,13 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
           return Scaffold(
             appBar: AppBar(
               title: Text(snapshot.data.name),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              backgroundColor: this.widget._course != null ? this.widget._course.color : Colors.blue,
             ),
             body: Column(
               children: [
@@ -166,6 +178,13 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
           return Scaffold(
             appBar: AppBar(
               title: Text("blubber".tr()),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              backgroundColor: this.widget._course != null ? this.widget._course.color : Colors.blue,
             ),
             body: Container(
               child: LinearProgressIndicator(),

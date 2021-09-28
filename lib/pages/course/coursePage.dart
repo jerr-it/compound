@@ -185,7 +185,15 @@ class CoursePage extends StatelessWidget {
                       String threadName = course.title;
 
                       await Provider.of<BlubberProvider>(context, listen: false).getOverview();
-                      Navigator.push(context, navRoute(BlubberThreadViewer(name: threadName)));
+                      Navigator.push(
+                        context,
+                        navRoute(
+                          BlubberThreadViewer(
+                            name: threadName,
+                            course: course,
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ],
