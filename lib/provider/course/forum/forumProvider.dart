@@ -54,7 +54,9 @@ class ForumProvider extends ChangeNotifier {
       for (int i = 0; i < _forums[courseID].length; i++) {
         await forceUpdateAreas(courseID, i);
       }
-    } catch (e) {}
+    } catch (e) {
+      _forums[courseID] = <ForumCategory>[];
+    }
 
     notifyListeners();
     return Future<List<ForumCategory>>.value(_forums[courseID]);

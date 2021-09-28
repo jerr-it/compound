@@ -3,7 +3,7 @@ import 'package:fludip/pages/course/tabs/forum/forumTopics.dart';
 import 'package:fludip/provider/course/forum/categoryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/util/colorMapper.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +17,10 @@ class ForumTab extends StatelessWidget {
   List<Widget> _buildCategoryList(BuildContext context, List<ForumCategory> categories) {
     List<Widget> widgets = <Widget>[];
 
+    if (categories.isEmpty) {
+      return <Widget>[Nothing()];
+    }
+
     //1. display category name large
     //2. display subtopics of category
     for (int categoryIdx = 0; categoryIdx < categories.length; categoryIdx++) {
@@ -29,7 +33,7 @@ class ForumTab extends StatelessWidget {
       ));
 
       if (categories[categoryIdx].areas == null) {
-        return <Widget>[LinearProgressIndicator()];
+        return <Widget>[Nothing()];
       }
 
       for (int areaIdx = 0; areaIdx < categories[categoryIdx].areas.length; areaIdx++) {
