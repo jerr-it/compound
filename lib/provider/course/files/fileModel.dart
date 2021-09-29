@@ -22,28 +22,28 @@ class File {
 
   String _url;
 
-  get name => this._name;
-  get description => this._description;
+  String get name => this._name;
+  String get description => this._description;
 
-  get fileID => this._fileID;
-  get folderID => this._folderID;
-  get userID => this._userID;
+  String get fileID => this._fileID;
+  String get folderID => this._folderID;
+  String get userID => this._userID;
 
-  get downloadCount => this._downloadCount;
-  get termsOfUse => this._termsOfUse;
+  int get downloadCount => this._downloadCount;
+  String get termsOfUse => this._termsOfUse;
 
-  get mkdate => this._mkdate;
-  get chdate => this._chdate;
-  get size => this._size;
-  get mimeType => this._mimeType;
-  get storage => this._storage;
+  int get mkdate => this._mkdate;
+  int get chdate => this._chdate;
+  int get size => this._size;
+  String get mimeType => this._mimeType;
+  String get storage => this._storage;
 
-  get isReadable => this._isReadable;
-  get isDownloadable => this._isDownloadable;
-  get isEditable => this._isEditable;
-  get isWritable => this._isWritable;
+  bool get isReadable => this._isReadable;
+  bool get isDownloadable => this._isDownloadable;
+  bool get isEditable => this._isEditable;
+  bool get isWritable => this._isWritable;
 
-  get url => this._url;
+  String get url => this._url;
 
   File.fromMap(Map<String, dynamic> data) {
     _name = data["name"];

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:fludip/pages/messages/messageViewer.dart';
 import 'package:fludip/provider/messages/messageModel.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
-import 'package:fludip/util/popupDialog.dart';
+import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 
@@ -69,7 +69,7 @@ class _MessagesPageState extends State<MessagesPage> {
             color: Colors.red,
             icon: Icons.delete,
             onTap: () {
-              Popup.display(
+              ConfirmDialog.display(
                 context,
                 title: "sure?".tr(),
                 subtitle: "permanent".tr(),

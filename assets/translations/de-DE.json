@@ -28,5 +28,11 @@
     "https-info": "Der gewählte Server verwendet eine unsichere Verbindung, Ihre Nutzerdaten könnten gefährdet werden!",
     "reply": "Antwort",
     "blubber-not-enabled": "Blubber ist für diesen Kurs nicht aktiviert",
-    "permanent": "Die Nachricht wird endgültig gelöscht"
+    "permanent": "Die Nachricht wird endgültig gelöscht",
+    "no-permission": "Berechtigung",
+    "no-permission-body": "Ohne die Erlaubnis den Speicher deines Geräts zu benutzen kannst du keine Dateien herunterladen",
+    "ok": "Ok",
+    "download": "Herunterladen",
+    "close": "Schließen",
+    "open": "Öffnen"
 }

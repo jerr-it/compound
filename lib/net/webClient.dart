@@ -22,7 +22,8 @@ class WebClient {
   http.Client _httpClient;
   Credentials _credentials;
 
-  get server => this._server;
+  Server get server => this._server;
+  Credentials get credentials => this._credentials;
 
   set server(Server server) => this._server = server;
 

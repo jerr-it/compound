@@ -4,7 +4,7 @@ import 'package:fludip/pages/login/UniversityDropDown.dart';
 import 'package:fludip/pages/login/loginPage.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/provider/user/userProvider.dart';
-import 'package:fludip/util/popupDialog.dart';
+import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/widgets/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -68,7 +68,7 @@ class _UniversitySelectStateState extends State<UniversitySelectState> {
                     client.server = uDropdown.value;
 
                     if (Uri.parse(client.server.webAddress).scheme != "https") {
-                      Popup.display(
+                      ConfirmDialog.display(
                         context,
                         title: "warning".tr(),
                         leading: Icon(Icons.warning_sharp),

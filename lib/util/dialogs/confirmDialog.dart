@@ -2,7 +2,7 @@ import 'package:fludip/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Popup {
+class ConfirmDialog {
   static void display(
     BuildContext context, {
     @required String title,
@@ -21,7 +21,7 @@ class Popup {
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 leading,
                 Text(

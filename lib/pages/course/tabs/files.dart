@@ -3,9 +3,13 @@ import 'package:fludip/provider/course/files/fileModel.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/files/folderModel.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/util/dialogs/confirmDialog.dart';
+import 'package:fludip/util/dialogs/fileDialog.dart';
+import 'package:fludip/util/dialogs/infoDialog.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -59,8 +63,26 @@ class FilesTab extends StatelessWidget {
       widgets.add(ListTile(
         leading: Icon(Icons.file_copy),
         title: Text(fileRef.name, style: GoogleFonts.montserrat()),
-        onTap: () {
-          //TODO download file
+        onTap: () async {
+          //TODO Show file dialog
+          var storagePerm = await Permission.storage.request();
+
+          if (!storagePerm.isGranted) {
+            ConfirmDialog.display(
+              context,
+              title: "no-permission".tr(),
+              leading: Icon(Icons.warning_sharp),
+              subtitle: "no-permission-body".tr(),
+              firstOption: "ok".tr(),
+              secondOption: "settings".tr(),
+              onFirstOption: () {},
+              onSecondOption: () {
+                openAppSettings();
+              },
+            );
+            return;
+          }
+          FileDialog.display(context, file: fileRef);
         },
       ));
     });

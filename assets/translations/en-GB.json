@@ -28,5 +28,11 @@
     "https-info": "The selected server uses an unsecured connection, your user data might be at risk!",
     "reply": "Reply",
     "blubber-not-enabled": "Blubber isn't enabled for this course",
-    "permanent": "The message will be fully deleted"
+    "permanent": "The message will be fully deleted",
+    "no-permission": "Permission",
+    "no-permission-body": "Without granting access to the storage you won't be able to download files",
+    "ok": "Ok",
+    "download": "Download",
+    "close": "Close",
+    "open": "Open"
 }

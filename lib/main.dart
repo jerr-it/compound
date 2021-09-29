@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:fludip/pages/login/universitySelectPage.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import 'provider/user/userProvider.dart';
 
 void main() async {
