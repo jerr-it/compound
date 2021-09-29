@@ -3,7 +3,6 @@ import 'package:fludip/pages/course/tabs/forum/forumEntries.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/forum/topicModel.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';

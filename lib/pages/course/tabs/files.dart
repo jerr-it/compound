@@ -3,7 +3,6 @@ import 'package:fludip/provider/course/files/fileModel.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/files/folderModel.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/util/colorMapper.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
