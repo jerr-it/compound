@@ -15,13 +15,15 @@ class FileDownload extends ChangeNotifier {
 
   FileDownload(File file) : this._targetFile = file;
 
-  Future<bool> start(Function(bool success, dynamic error) then) async {
+  void start(Function(bool success, dynamic error) then) async {
     _progress = null;
     notifyListeners();
 
-    String url = _client.server.webAddress + "/sendfile.php?file_id=" + _targetFile.fileID;
+    String url = _client.server.webAddress + "/api.php/file/" + _targetFile.fileID + "/download";
+
     Request request = Request("GET", Uri.parse(url));
     request.headers["Authorization"] = "Basic " + _client.credentials.encodeB64();
+
     StreamedResponse streamedResponse = await Client().send(request);
 
     int contentLength = streamedResponse.contentLength;
@@ -32,7 +34,6 @@ class FileDownload extends ChangeNotifier {
     List<int> bytes = [];
     io.Directory fileLocation = await getApplicationDocumentsDirectory();
     String path = fileLocation.path + "/" + _targetFile.fileID + _targetFile.name;
-    io.File storedFile = io.File(path);
 
     streamedResponse.stream.listen((List<int> newBytes) {
       bytes.addAll(newBytes);
@@ -41,6 +42,8 @@ class FileDownload extends ChangeNotifier {
     }, onDone: () async {
       _progress = 0;
       notifyListeners();
+
+      io.File storedFile = io.File(path);
       await storedFile.writeAsBytes(bytes);
       then(true, null);
     }, onError: (e) {

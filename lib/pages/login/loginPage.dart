@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     ElevatedButton(
                       child: Text("login".tr(), style: GoogleFonts.montserrat()),
-                      style: RAISED_BUTTON_STYLE(Colors.blue),
+                      style: RAISED_TEXT_BUTTON_STYLE(Colors.blue),
                       onPressed: () async {
                         var client = WebClient();
 

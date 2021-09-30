@@ -49,7 +49,7 @@ class File {
     _name = data["name"];
     _description = data["description"];
 
-    _fileID = data["file_id"];
+    _fileID = data["id"];
     _folderID = data["folder_id"];
     _userID = data["user_id"];
 

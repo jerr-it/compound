@@ -62,7 +62,7 @@ class _UniversitySelectStateState extends State<UniversitySelectState> {
                     "login".tr(),
                     style: GoogleFonts.montserrat(),
                   ),
-                  style: RAISED_BUTTON_STYLE(Colors.blue),
+                  style: RAISED_TEXT_BUTTON_STYLE(Colors.blue),
                   onPressed: () async {
                     var client = WebClient();
                     client.server = uDropdown.value;

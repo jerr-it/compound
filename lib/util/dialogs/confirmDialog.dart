@@ -41,7 +41,7 @@ class ConfirmDialog {
                     Navigator.of(context).pop();
                   },
                   child: Text(firstOption),
-                  style: RAISED_BUTTON_STYLE(Colors.red),
+                  style: RAISED_TEXT_BUTTON_STYLE(Colors.red),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -49,7 +49,7 @@ class ConfirmDialog {
                     Navigator.of(context).pop();
                   },
                   child: Text(secondOption),
-                  style: RAISED_BUTTON_STYLE(Colors.blue),
+                  style: RAISED_TEXT_BUTTON_STYLE(Colors.blue),
                 ),
               ],
             )

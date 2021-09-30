@@ -36,10 +36,9 @@ class FileWidget extends StatefulWidget {
 
   File _file;
   String _path;
-  bool _isDownloading = false;
-  bool _failed = false;
-  bool _done = false;
-  dynamic _error;
+
+  bool _filePresent = false;
+  bool _activeDownload = false;
 
   @override
   _FileWidgetState createState() => _FileWidgetState();
@@ -58,10 +57,118 @@ class _FileWidgetState extends State<FileWidget> {
     this.widget._path = fileLocation.path + "/" + this.widget._file.fileID + this.widget._file.name;
     if (await io.File(this.widget._path).exists()) {
       setState(() {
-        this.widget._done = true;
-        this.widget._failed = false;
+        this.widget._filePresent = true;
       });
     }
+  }
+
+  List<Widget> _buildControlButtons(FileDownload downloader) {
+    List<Widget> buttons = <Widget>[];
+
+    if (this.widget._filePresent) {
+      //Delete Button + Open Button + Close Button
+      buttons.add(ElevatedButton(
+        onPressed: () {
+          try {
+            io.File(this.widget._path).delete();
+            setState(() {
+              this.widget._filePresent = false;
+              this.widget._activeDownload = false;
+            });
+          } catch (error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  error.toString(),
+                  style: GoogleFonts.montserrat(),
+                ),
+              ),
+            );
+          }
+        },
+        child: Icon(Icons.delete),
+        style: RAISED_ICON_BUTTON_STYLE(Colors.red),
+      ));
+
+      buttons.add(ElevatedButton(
+        onPressed: () {
+          OpenFile.open(this.widget._path);
+        },
+        child: Icon(Icons.open_in_new),
+        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+      ));
+
+      buttons.add(ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: Icon(Icons.close),
+        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+      ));
+    } else {
+      if (this.widget._activeDownload) {
+        //Progress Indicator + Close Button
+        buttons.add(ElevatedButton(
+          onPressed: () {},
+          child: CircularProgressIndicator(
+            value: downloader.progress,
+            color: Colors.white,
+          ),
+          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        ));
+
+        buttons.add(ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(Icons.close),
+          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        ));
+      } else {
+        //Download Button + Close Button
+        buttons.add(ElevatedButton(
+          onPressed: () {
+            setState(() {
+              this.widget._activeDownload = true;
+              downloader.start((success, error) {
+                if (success) {
+                  setState(() {
+                    this.widget._activeDownload = false;
+                    this.widget._filePresent = true;
+                  });
+                } else {
+                  setState(() {
+                    this.widget._activeDownload = false;
+                    this.widget._filePresent = false;
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          error.toString(),
+                          style: GoogleFonts.montserrat(),
+                        ),
+                      ),
+                    );
+                  });
+                }
+              });
+            });
+          },
+          child: Icon(Icons.download_sharp),
+          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        ));
+
+        buttons.add(ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(Icons.close),
+          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        ));
+      }
+    }
+
+    return buttons;
   }
 
   @override
@@ -75,37 +182,6 @@ class _FileWidgetState extends State<FileWidget> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Opacity(
-                      opacity: this.widget._isDownloading ? 1.0 : 0.0,
-                      child: LinearProgressIndicator(
-                        value: downloader.progress,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    Opacity(
-                      opacity: this.widget._failed ? 1.0 : 0.0,
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.error,
-                            color: Colors.red,
-                          ),
-                          Text(this.widget._error.toString(), style: GoogleFonts.montserrat()),
-                        ],
-                      ),
-                    ),
-                    Opacity(
-                      opacity: this.widget._done && !this.widget._failed ? 1.0 : 0.0,
-                      child: Icon(
-                        Icons.download_done,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ],
-                ),
                 Text(
                   this.widget._file.name,
                   style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
@@ -119,46 +195,7 @@ class _FileWidgetState extends State<FileWidget> {
                 Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        //Dont download a file we already have
-                        if (this.widget._done) {
-                          //Open file using default program
-                          OpenFile.open(this.widget._path);
-                          return;
-                        }
-
-                        setState(() {
-                          this.widget._isDownloading = true;
-                        });
-
-                        downloader.start((bool success, dynamic error) {
-                          if (success) {
-                            setState(() {
-                              this.widget._failed = true;
-                              this.widget._error = error;
-                            });
-                          }
-                          setState(() {
-                            this.widget._done = true;
-                          });
-                        });
-                      },
-                      style: RAISED_BUTTON_STYLE(Colors.blue),
-                      child: Text(
-                        this.widget._done ? "open".tr() : "download".tr(),
-                        style: GoogleFonts.montserrat(),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: RAISED_BUTTON_STYLE(Colors.blue),
-                      child: Text("close".tr(), style: GoogleFonts.montserrat()),
-                    ),
-                  ],
+                  children: _buildControlButtons(downloader),
                 ),
               ],
             ),
