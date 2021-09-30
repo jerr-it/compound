@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 
+import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/course/files/fileModel.dart';
 import 'package:fludip/util/dialogs/fileDownload.dart';
 import 'package:fludip/util/str.dart';
@@ -10,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:open_file/open_file.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FileInfoRow extends StatelessWidget {
   FileInfoRow(String property, String value)
@@ -64,6 +66,41 @@ class _FileWidgetState extends State<FileWidget> {
 
   List<Widget> _buildControlButtons(FileDownload downloader) {
     List<Widget> buttons = <Widget>[];
+
+    if (this.widget._file.url != null) {
+      //Open Button + Close Button
+      buttons.add(ElevatedButton(
+        onPressed: () async {
+          WebClient client = WebClient();
+          String base = client.server.webAddress.replaceAll("/studip", "");
+          String link = base + this.widget._file.url;
+
+          if (await canLaunch(link)) {
+            launch(link);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "Can't start browser",
+                  style: GoogleFonts.montserrat(),
+                ),
+              ),
+            );
+          }
+        },
+        child: Icon(Icons.open_in_new),
+        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+      ));
+
+      buttons.add(ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: Icon(Icons.close),
+        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+      ));
+      return buttons;
+    }
 
     if (this.widget._filePresent) {
       //Delete Button + Open Button + Close Button
