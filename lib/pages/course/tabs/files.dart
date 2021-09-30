@@ -6,6 +6,7 @@ import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/dialogs/fileDialog.dart';
 import 'package:fludip/util/dialogs/infoDialog.dart';
+import 'package:fludip/util/mimeTypeMapper.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +62,7 @@ class FilesTab extends StatelessWidget {
     List<File> fileRefs = currentFolder.files;
     fileRefs.forEach((fileRef) {
       widgets.add(ListTile(
-        leading: Icon(Icons.file_copy),
+        leading: fileRef.url != null ? Icon(Icons.link_sharp) : MIME_TO_ICON(fileRef.mimeType),
         title: Text(fileRef.name, style: GoogleFonts.montserrat()),
         onTap: () async {
           //TODO Show file dialog

@@ -35,6 +35,7 @@ dependencies:
   permission_handler: any
   path_provider: any
   open_file: any
+  flutter_icons: any
   flutter:
     sdk: flutter
 
