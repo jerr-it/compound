@@ -34,5 +34,10 @@
     "ok": "Ok",
     "download": "Download",
     "close": "Close",
-    "open": "Open"
+    "open": "Open",
+    "size": "Size",
+    "downloads": "Downloads",
+    "created": "Created",
+    "changed": "Changed",
+    "terms-of-use": "License"
 }

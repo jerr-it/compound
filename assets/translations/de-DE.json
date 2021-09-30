@@ -34,5 +34,10 @@
     "ok": "Ok",
     "download": "Herunterladen",
     "close": "Schließen",
-    "open": "Öffnen"
+    "open": "Öffnen",
+    "size": "Größe",
+    "downloads": "Heruntergeladen",
+    "created": "Erstellt",
+    "changed": "Geändert",
+    "terms-of-use": "Lizenz"
 }

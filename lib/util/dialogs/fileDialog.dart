@@ -23,11 +23,29 @@ class FileInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(_property, style: GoogleFonts.montserrat()),
-        Text(_value, style: GoogleFonts.montserrat()),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              _property,
+              style: GoogleFonts.montserrat(),
+              overflow: TextOverflow.clip,
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              _value,
+              style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
+              overflow: TextOverflow.clip,
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -224,7 +242,7 @@ class _FileWidgetState extends State<FileWidget> {
                   style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
                 ),
                 Divider(),
-                FileInfoRow("size".tr(), this.widget._file.size.toString() + " B"),
+                FileInfoRow("size".tr(), formatBytes(this.widget._file.size, 2)),
                 FileInfoRow("downloads".tr(), this.widget._file.downloadCount.toString()),
                 FileInfoRow("created".tr(), StringUtil.fromUnixTime(this.widget._file.mkdate * 1000, "dd.MM.yyyy HH:mm")),
                 FileInfoRow("changed".tr(), StringUtil.fromUnixTime(this.widget._file.chdate * 1000, "dd.MM.yyyy HH:mm")),
