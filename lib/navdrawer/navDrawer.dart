@@ -21,7 +21,7 @@ import 'package:fludip/pages/messages/messagesPage.dart';
 import 'package:fludip/pages/profilePage.dart';
 import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/pages/searchPage.dart';
-import 'package:fludip/pages/course/coursePage.dart';
+import 'package:fludip/pages/course/page/coursePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
