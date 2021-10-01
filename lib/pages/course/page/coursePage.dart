@@ -24,12 +24,8 @@ class CoursePage extends StatelessWidget {
 
     List<Widget> widgets = <Widget>[];
 
-    int now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    courses.sort((a, b) {
-      return (b.endSemester != null ? b.endSemester.end : now) - (a.endSemester != null ? a.endSemester.end : now);
-    });
-
-    Semester current = courses.first.startSemester;
+    Semester current =
+        Provider.of<SemesterProvider>(context, listen: false).get(SemesterFilter(FilterType.CURRENT, null)).first;
     widgets.add(Text(
       current.title,
       style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
@@ -42,7 +38,7 @@ class CoursePage extends StatelessWidget {
             Provider.of<SemesterProvider>(context, listen: false).get(SemesterFilter(FilterType.CURRENT, null)).first;
       }
 
-      if (course.endSemester.semesterID != current.semesterID) {
+      if (course.endSemester.semesterID != current.semesterID ?? null) {
         widgets.add(Text(
           course.endSemester.title,
           style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
@@ -84,7 +80,7 @@ class CoursePage extends StatelessWidget {
                   children: _buildListEntries(context, snapshot.data),
                 ),
                 onRefresh: () async {
-                  return Provider.of<CourseProvider>(context, listen: false).forceUpdate(context, userID, semesters);
+                  Provider.of<CourseProvider>(context, listen: false).forceUpdate(context, userID, semesters);
                 },
               ),
             );

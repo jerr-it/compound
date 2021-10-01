@@ -14,20 +14,42 @@ import 'package:provider/provider.dart';
 
 ///This provider provides the data for the courses themselves *and* the overview tab
 class CourseProvider extends ChangeNotifier {
-  List<Course> _courses;
+  Map<Semester, List<Course>> _courses;
 
   final WebClient _client = WebClient();
 
-  bool initialized() {
-    return _courses != null;
+  //Returns a list of semesters that haven't been initialised yet
+  //This way we only initialise the ones we don't already have data of
+  List<Semester> initialized(List<Semester> semesters) {
+    if (_courses == null) {
+      return semesters;
+    }
+
+    List<Semester> uninitialised = <Semester>[];
+    for (Semester sem in semesters) {
+      if (!_courses.containsKey(sem)) {
+        uninitialised.add(sem);
+      }
+    }
+    return uninitialised;
   }
 
   Future<List<Course>> get(BuildContext context, String userID, List<Semester> semesters) async {
-    if (!initialized()) {
-      return forceUpdate(context, userID, semesters);
+    List<Semester> uninitialised = initialized(semesters);
+    if (uninitialised.isNotEmpty) {
+      forceUpdate(context, userID, uninitialised);
     }
 
-    return Future<List<Course>>.value(_courses);
+    //Filter courses by the given list of semesters
+    List<Course> courses = <Course>[];
+    semesters.forEach((semester) {
+      for (Course course in _courses[semester]) {
+        if (!courses.contains(course)) {
+          courses.add(course);
+        }
+      }
+    });
+    return Future<List<Course>>.value(courses);
   }
 
   String getLogo(String courseID) {
@@ -41,11 +63,8 @@ class CourseProvider extends ChangeNotifier {
         (type == CourseType.StudyGroup ? "studygroup_medium.png" : "nobody_medium.png");
   }
 
-  Future<List<Course>> forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
-    _courses ??= <Course>[];
-    if (_courses.isNotEmpty) {
-      _courses.clear();
-    }
+  void forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
+    _courses ??= <Semester, List<Course>>{};
 
     await Future.forEach(semesters, (Semester semester) async {
       String route = "/user/$userID/courses?semester=" + semester.semesterID;
@@ -66,14 +85,16 @@ class CourseProvider extends ChangeNotifier {
         Semester end = Provider.of<SemesterProvider>(context, listen: false).get(efilter).first;
 
         Course course = Course.fromMap(courseData, start, end);
-        if (!_courses.contains(course)) {
-          _courses.add(course);
+
+        if (!_courses.containsKey(semester)) {
+          _courses[semester] = <Course>[];
         }
+
+        _courses[semester].add(course);
       });
     });
 
     notifyListeners();
-    return Future<List<Course>>.value(_courses);
   }
 
   void resetCache() {
