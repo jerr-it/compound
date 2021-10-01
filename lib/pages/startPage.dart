@@ -1,3 +1,4 @@
+import 'package:fludip/provider/course/semester/semesterProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/news/newsModel.dart';
 import 'package:fludip/util/str.dart';
@@ -33,6 +34,7 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<List<News>> news = Provider.of<NewsProvider>(context).get("global");
+    Provider.of<SemesterProvider>(context, listen: false).init();
 
     return Scaffold(
       appBar: AppBar(

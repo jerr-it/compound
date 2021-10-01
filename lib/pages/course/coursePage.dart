@@ -1,4 +1,5 @@
-import 'package:fludip/provider/course/overview/semesterModel.dart';
+import 'package:fludip/provider/course/semester/semesterFilter.dart';
+import 'package:fludip/provider/course/semester/semesterModel.dart';
 import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
 import 'package:fludip/pages/course/tabs/members.dart';
@@ -7,6 +8,7 @@ import 'package:fludip/pages/community/blubberThreadViewer.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
 import 'package:fludip/provider/course/overview/courseProvider.dart';
+import 'package:fludip/provider/course/semester/semesterProvider.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
@@ -64,8 +66,10 @@ class CoursePage extends StatelessWidget {
     }
 
     List<Widget> widgets = <Widget>[];
+
+    int now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     courses.sort((a, b) {
-      return b.startSemester.begin - a.startSemester.begin;
+      return (b.endSemester != null ? b.endSemester.end : now) - (a.endSemester != null ? a.endSemester.end : now);
     });
 
     Semester current = courses.first.startSemester;
@@ -76,13 +80,18 @@ class CoursePage extends StatelessWidget {
     ));
 
     courses.forEach((course) {
-      if (course.startSemester.semesterID != current.semesterID) {
+      if (course.endSemester == null) {
+        course.endSemester =
+            Provider.of<SemesterProvider>(context, listen: false).get(SemesterFilter(FilterType.CURRENT, null)).first;
+      }
+
+      if (course.endSemester.semesterID != current.semesterID) {
         widgets.add(Text(
-          course.startSemester.title,
+          course.endSemester.title,
           style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
           textAlign: TextAlign.center,
         ));
-        current = course.startSemester;
+        current = course.endSemester;
       }
 
       //Ugly, but https://github.com/flutter/flutter/issues/81931 is still open
@@ -214,7 +223,9 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Course>> fCourses = Provider.of<CourseProvider>(context).get(userID);
+    SemesterFilter filter = SemesterFilter(FilterType.CURRENT, null);
+    List<Semester> semesters = Provider.of<SemesterProvider>(context, listen: false).get(filter);
+    Future<List<Course>> fCourses = Provider.of<CourseProvider>(context).get(context, userID, semesters);
 
     return Scaffold(
       appBar: AppBar(
@@ -230,7 +241,7 @@ class CoursePage extends StatelessWidget {
                   children: _buildListEntries(context, snapshot.data),
                 ),
                 onRefresh: () async {
-                  return Provider.of<CourseProvider>(context, listen: false).forceUpdate(userID);
+                  return Provider.of<CourseProvider>(context, listen: false).forceUpdate(context, userID, semesters);
                 },
               ),
             );

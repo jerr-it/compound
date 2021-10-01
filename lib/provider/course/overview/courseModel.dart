@@ -1,4 +1,4 @@
-import 'package:fludip/provider/course/overview/semesterModel.dart';
+import 'package:fludip/provider/course/semester/semesterModel.dart';
 import 'package:fludip/util/colorMapper.dart';
 import 'package:flutter/material.dart';
 
@@ -66,6 +66,8 @@ class Course {
 
   Semester get startSemester => this._startSemester;
   Semester get endSemester => this._endSemester;
+
+  set endSemester(Semester semester) => this._endSemester = semester;
 
   Course.fromMap(Map<String, dynamic> data, Semester start, Semester end) {
     _courseID = data["course_id"];

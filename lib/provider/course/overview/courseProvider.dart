@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:fludip/provider/course/semester/semesterFilter.dart';
+import 'package:fludip/provider/course/semester/semesterProvider.dart';
 import 'package:http/http.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/provider/course/overview/semesterModel.dart';
+import 'package:fludip/provider/course/semester/semesterModel.dart';
+import 'package:provider/provider.dart';
 
 ///This provider provides the data for the courses themselves *and* the overview tab
 class CourseProvider extends ChangeNotifier {
@@ -19,9 +22,9 @@ class CourseProvider extends ChangeNotifier {
     return _courses != null;
   }
 
-  Future<List<Course>> get(String userID) async {
+  Future<List<Course>> get(BuildContext context, String userID, List<Semester> semesters) async {
     if (!initialized()) {
-      return forceUpdate(userID);
+      return forceUpdate(context, userID, semesters);
     }
 
     return Future<List<Course>>.value(_courses);
@@ -38,39 +41,32 @@ class CourseProvider extends ChangeNotifier {
         (type == CourseType.StudyGroup ? "studygroup_medium.png" : "nobody_medium.png");
   }
 
-  Future<List<Course>> forceUpdate(String userID) async {
+  Future<List<Course>> forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
     _courses ??= <Course>[];
     if (_courses.isNotEmpty) {
       _courses.clear();
     }
 
-    String route = "/user/$userID/courses";
+    await Future.forEach(semesters, (Semester semester) async {
+      String route = "/user/$userID/courses?semester=" + semester.semesterID;
 
-    Response res = await _client.httpGet(route, APIType.REST);
-    Map<String, dynamic> decoded = jsonDecode(res.body);
-    Map<String, dynamic> courseMap = decoded["collection"];
+      Response res = await _client.httpGet(route, APIType.REST);
+      Map<String, dynamic> decoded = jsonDecode(res.body);
+      Map<String, dynamic> courseMap = decoded["collection"];
 
-    await Future.forEach(courseMap.keys, (courseKey) async {
-      Map<String, dynamic> courseData = courseMap[courseKey];
+      await Future.forEach(courseMap.keys, (courseKey) async {
+        Map<String, dynamic> courseData = courseMap[courseKey];
 
-      Semester start;
-      try {
-        String startSemesterRoute = courseData["start_semester"].toString().split("/api.php")[1];
-        Response res = await _client.httpGet(startSemesterRoute, APIType.REST);
-        start = Semester.fromMap(jsonDecode(res.body));
-      } catch (e) {
-        start = Semester.empty();
-      }
+        String startSemesterID = courseData["start_semester"].toString().split("/").last;
+        SemesterFilter sfilter = SemesterFilter(FilterType.SPECIFIC, startSemesterID);
+        Semester start = Provider.of<SemesterProvider>(context, listen: false).get(sfilter).first;
 
-      Semester end;
-      try {
-        String endSemesterRoute = courseData["end_semester"].toString().split("/api.php")[1];
-        res = await _client.httpGet(endSemesterRoute, APIType.REST);
-        end = Semester.fromMap(jsonDecode(res.body));
-      } catch (e) {
-        end = Semester.empty();
-      }
-      _courses.add(Course.fromMap(courseData, start, end));
+        String endSemesterID = courseData["end_semester"].toString().split("/").last;
+        SemesterFilter efilter = SemesterFilter(FilterType.SPECIFIC, endSemesterID);
+        Semester end = Provider.of<SemesterProvider>(context, listen: false).get(efilter).first;
+
+        _courses.add(Course.fromMap(courseData, start, end));
+      });
     });
 
     notifyListeners();
