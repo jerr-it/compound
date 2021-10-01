@@ -223,7 +223,7 @@ class CoursePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SemesterFilter filter = SemesterFilter(FilterType.CURRENT, null);
+    SemesterFilter filter = SemesterFilter(FilterType.LAST_CURRENT, null);
     List<Semester> semesters = Provider.of<SemesterProvider>(context, listen: false).get(filter);
     Future<List<Course>> fCourses = Provider.of<CourseProvider>(context).get(context, userID, semesters);
 

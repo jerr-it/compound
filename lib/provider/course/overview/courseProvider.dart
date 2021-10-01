@@ -65,7 +65,10 @@ class CourseProvider extends ChangeNotifier {
         SemesterFilter efilter = SemesterFilter(FilterType.SPECIFIC, endSemesterID);
         Semester end = Provider.of<SemesterProvider>(context, listen: false).get(efilter).first;
 
-        _courses.add(Course.fromMap(courseData, start, end));
+        Course course = Course.fromMap(courseData, start, end);
+        if (!_courses.contains(course)) {
+          _courses.add(course);
+        }
       });
     });
 

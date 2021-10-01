@@ -85,4 +85,12 @@ class Course {
     _startSemester = start;
     _endSemester = end;
   }
+
+  @override
+  bool operator ==(other) {
+    return (other is Course) && this.courseID == other.courseID;
+  }
+
+  @override
+  int get hashCode => this.courseID.hashCode;
 }

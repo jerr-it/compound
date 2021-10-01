@@ -49,6 +49,10 @@ class SemesterProvider extends ChangeNotifier {
   }
 
   void init() async {
+    if (initialized()) {
+      return;
+    }
+
     _semesters ??= <Semester>[];
     if (_semesters.isNotEmpty) {
       _semesters.clear();
