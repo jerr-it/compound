@@ -28,7 +28,7 @@ class CoursePage extends StatefulWidget {
 class _CoursePageState extends State<CoursePage> {
   @override
   void initState() {
-    this.widget.filter = Provider.of<SemesterProvider>(this.widget._ctx, listen: false).filterOptions.first;
+    this.widget.filter = Provider.of<SemesterProvider>(this.widget._ctx, listen: false).filterOptions[1];
     super.initState();
   }
 
@@ -126,7 +126,8 @@ class _CoursePageState extends State<CoursePage> {
                   children: _buildListEntries(context, snapshot.data),
                 ),
                 onRefresh: () async {
-                  Provider.of<CourseProvider>(context, listen: false).forceUpdate(context, this.widget._userID, semesters);
+                  return Provider.of<CourseProvider>(context, listen: false)
+                      .forceUpdate(context, this.widget._userID, semesters);
                 },
               ),
             );

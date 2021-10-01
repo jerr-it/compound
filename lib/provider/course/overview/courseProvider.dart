@@ -71,6 +71,8 @@ class CourseProvider extends ChangeNotifier {
         return;
       }
 
+      _courses.remove(semester);
+
       String route = "/user/$userID/courses?semester=" + semester.semesterID;
 
       Response res = await _client.httpGet(route, APIType.REST);

@@ -39,13 +39,9 @@ class FileProvider extends ChangeNotifier {
   Future<Folder> forceUpdate(String courseID, List<int> subFolderIndices) async {
     _fileTree ??= <String, Folder>{};
 
-    if (!_fileTree.containsKey(courseID)) {
-      Response res = await _client.httpGet("/course/$courseID/top_folder", APIType.REST);
-
-      Folder topFolder = Folder.fromMap(jsonDecode(res.body));
-
-      _fileTree[courseID] = topFolder;
-    }
+    Response res = await _client.httpGet("/course/$courseID/top_folder", APIType.REST);
+    Folder topFolder = Folder.fromMap(jsonDecode(res.body));
+    _fileTree[courseID] = topFolder;
 
     Folder current = _fileTree[courseID];
     for (int i = 0; i < subFolderIndices.length; i++) {
