@@ -39,5 +39,10 @@
     "downloads": "Heruntergeladen",
     "created": "Erstellt",
     "changed": "Geändert",
-    "terms-of-use": "Lizenz"
+    "terms-of-use": "Lizenz",
+    "FilterType.ALL": "Alle",
+    "FilterType.CURRENT": "Dieses",
+    "FilterType.CURRENT_NEXT": "Dieses und nächstes",
+    "FilterType.LAST_CURRENT": "Letztes und dieses",
+    "FilterType.LAST_CURRENT_NEXT": "Letztes, dieses und nächstes"
 }

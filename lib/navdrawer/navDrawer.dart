@@ -92,7 +92,7 @@ class NavDrawer extends StatelessWidget {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
               Navigator.pop(context);
-              Navigator.of(context).push(navRoute(CoursePage(user.userID)));
+              Navigator.of(context).push(navRoute(CoursePage(context, user.userID)));
             },
           ),
           ListTile(

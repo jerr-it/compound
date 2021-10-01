@@ -67,6 +67,10 @@ class CourseProvider extends ChangeNotifier {
     _courses ??= <Semester, List<Course>>{};
 
     await Future.forEach(semesters, (Semester semester) async {
+      if (semester == null) {
+        return;
+      }
+
       String route = "/user/$userID/courses?semester=" + semester.semesterID;
 
       Response res = await _client.httpGet(route, APIType.REST);

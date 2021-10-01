@@ -13,6 +13,10 @@ class SemesterProvider extends ChangeNotifier {
   Semester _next;
   Semester _last;
 
+  List<SemesterFilter> _filterOptions;
+
+  List<SemesterFilter> get filterOptions => _filterOptions;
+
   final WebClient _client = WebClient();
 
   bool initialized() {
@@ -21,6 +25,7 @@ class SemesterProvider extends ChangeNotifier {
 
   List<Semester> get(SemesterFilter filter) {
     List<Semester> sems = <Semester>[];
+
     switch (filter.type) {
       case FilterType.CURRENT:
         sems.add(_current);
@@ -73,6 +78,7 @@ class SemesterProvider extends ChangeNotifier {
     });
 
     _determineCurrentLastNext();
+    _generateFilterOptions();
   }
 
   void _determineCurrentLastNext() {
@@ -102,5 +108,19 @@ class SemesterProvider extends ChangeNotifier {
     } catch (e) {
       _last = null;
     }
+  }
+
+  void _generateFilterOptions() {
+    _filterOptions = <SemesterFilter>[
+      SemesterFilter(FilterType.ALL, null),
+      SemesterFilter(FilterType.CURRENT, null),
+      SemesterFilter(FilterType.CURRENT_NEXT, null),
+      SemesterFilter(FilterType.LAST_CURRENT, null),
+      SemesterFilter(FilterType.LAST_CURRENT_NEXT, null),
+    ];
+
+    _semesters.forEach((semester) {
+      _filterOptions.add(SemesterFilter(FilterType.SPECIFIC, semester.semesterID));
+    });
   }
 }
