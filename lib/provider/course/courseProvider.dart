@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/course/semester/semesterModel.dart';
 import 'package:provider/provider.dart';
 

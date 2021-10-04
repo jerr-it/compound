@@ -2,7 +2,7 @@ import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/course/tabs/forum/forumTopics.dart';
 import 'package:fludip/provider/course/forum/categoryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
-import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

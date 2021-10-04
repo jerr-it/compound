@@ -1,8 +1,8 @@
 import 'package:fludip/pages/course/page/courseListTile.dart';
 import 'package:fludip/provider/course/semester/semesterFilter.dart';
 import 'package:fludip/provider/course/semester/semesterModel.dart';
-import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/provider/course/overview/courseProvider.dart';
+import 'package:fludip/provider/course/courseModel.dart';
+import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';

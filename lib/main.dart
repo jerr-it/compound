@@ -3,7 +3,7 @@ import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
-import 'package:fludip/provider/course/overview/courseProvider.dart';
+import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';

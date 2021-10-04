@@ -4,10 +4,10 @@ import 'package:fludip/pages/course/page/gridButton.dart';
 import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
 import 'package:fludip/pages/course/tabs/members.dart';
-import 'package:fludip/pages/course/tabs/overview.dart';
+import 'package:fludip/pages/course/tabs/info.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
-import 'package:fludip/provider/course/overview/courseModel.dart';
-import 'package:fludip/provider/course/overview/courseProvider.dart';
+import 'package:fludip/provider/course/courseModel.dart';
+import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -78,7 +78,7 @@ class CourseListTile extends StatelessWidget {
                 caption: "news".tr(),
                 color: Colors.white54,
                 onTap: () {
-                  Navigator.push(context, navRoute(NewsTab(course: _course)));
+                  Navigator.push(context, navRoute(InfoTab(course: _course)));
                 },
               ),
               GridButton(

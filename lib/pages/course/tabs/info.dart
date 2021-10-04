@@ -1,4 +1,4 @@
-import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/news/newsModel.dart';
 import 'package:fludip/util/str.dart';
@@ -10,10 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class NewsTab extends StatelessWidget {
+class InfoTab extends StatelessWidget {
   final Course course;
 
-  NewsTab({@required course}) : course = course;
+  InfoTab({@required course}) : course = course;
 
   ///Helper to get list of announcements from this course
   List<Widget> _gatherAnnouncements(List<News> news) {

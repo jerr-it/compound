@@ -2,7 +2,7 @@ import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/provider/course/files/fileModel.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/files/folderModel.dart';
-import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/dialogs/fileDialog.dart';
 import 'package:fludip/util/dialogs/infoDialog.dart';

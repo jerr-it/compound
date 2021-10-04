@@ -1,6 +1,6 @@
 import 'package:fludip/provider/course/members/memberModel.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
-import 'package:fludip/provider/course/overview/courseModel.dart';
+import 'package:fludip/provider/course/courseModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
