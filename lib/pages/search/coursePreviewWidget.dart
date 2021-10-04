@@ -1,3 +1,4 @@
+import 'package:fludip/pages/course/tabs/info.dart';
 import 'package:fludip/provider/course/coursePreviewModel.dart';
 import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:flutter/material.dart';
@@ -60,54 +61,12 @@ class CoursePreviewWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [Text("number".tr(), style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text(_coursePreview.number ?? "", style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [Text("subtitle".tr(), style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text(_coursePreview.subtitle ?? "", style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [Text("description".tr(), style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text(_coursePreview.description ?? "", style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [Text("location".tr(), style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text(_coursePreview.location ?? "", style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [Text("start".tr(), style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text(_coursePreview.startSemester.title ?? "", style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [Text("end".tr(), style: GoogleFonts.montserrat())],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Text(_coursePreview.endSemester?.title ?? "unlimited".tr(), style: GoogleFonts.montserrat())],
-                ),
+                InfoLineWidget("number".tr(), _coursePreview.number ?? ""),
+                InfoLineWidget("subtitle".tr(), _coursePreview.subtitle ?? ""),
+                InfoLineWidget("description".tr(), _coursePreview.description ?? ""),
+                InfoLineWidget("location".tr(), _coursePreview.location ?? ""),
+                InfoLineWidget("start".tr(), _coursePreview.startSemester.title ?? ""),
+                InfoLineWidget("end".tr(), _coursePreview.endSemester?.title ?? "unlimited"),
               ],
             ),
           ),

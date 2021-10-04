@@ -51,5 +51,6 @@
     "location": "Location",
     "end": "End",
     "announcements": "Announcements",
-    "info": "Info"
+    "info": "Info",
+    "search-text": "Search for course, lecturer etc..."
 }
