@@ -44,5 +44,12 @@
     "FilterType.CURRENT": "Dieses",
     "FilterType.CURRENT_NEXT": "Dieses und nächstes",
     "FilterType.LAST_CURRENT": "Letztes und dieses",
-    "FilterType.LAST_CURRENT_NEXT": "Letztes, dieses und nächstes"
+    "FilterType.LAST_CURRENT_NEXT": "Letztes, dieses und nächstes",
+    "subtitle": "Untertitle",
+    "number": "Nummer",
+    "description": "Beschreibung",
+    "location": "Ort",
+    "end": "Ende",
+    "announcements": "Ankündigung",
+    "info": "Info"
 }
