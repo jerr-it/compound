@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:fludip/provider/course/coursePreviewModel.dart';
 import 'package:fludip/provider/course/semester/semesterFilter.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
 import 'package:http/http.dart';
@@ -98,9 +99,49 @@ class CourseProvider extends ChangeNotifier {
 
         _courses[semester].add(course);
       });
+
+      int now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      _courses[semester].sort((Course a, Course b) {
+        return (b.endSemester?.begin ?? now) - (a.endSemester?.begin ?? now);
+      });
     });
 
     notifyListeners();
+  }
+
+  Future<List<CoursePreview>> searchFor(BuildContext context, String searchStr) async {
+    List<CoursePreview> courses = <CoursePreview>[];
+    if (searchStr == null || searchStr.isEmpty) {
+      return courses;
+    }
+
+    Response response = await _client.httpGet("/courses", APIType.JSON, urlParams: <String, dynamic>{
+      "filter[q]": searchStr,
+      "filter[fields]": "all" //TODO add filter options http://jsonapi.elan-ev.de/?shell#schema-quot-course-memberships-quot
+    });
+
+    List<dynamic> decodedCourses = jsonDecode(response.body)["data"];
+
+    decodedCourses.forEach((entry) {
+      Map<String, dynamic> coursePreviewData = entry as Map<String, dynamic>;
+
+      String startSemesterID = coursePreviewData["relationships"]["start-semester"]["data"]["id"];
+      SemesterFilter sfilter = SemesterFilter(FilterType.SPECIFIC, startSemesterID);
+      Semester start = Provider.of<SemesterProvider>(context, listen: false).get(sfilter).first;
+
+      if (coursePreviewData["relationships"]["end-semester"] != null) {
+        String endSemesterID = coursePreviewData["relationships"]["end-semester"]["data"]["id"];
+        SemesterFilter efilter = SemesterFilter(FilterType.SPECIFIC, endSemesterID);
+        Semester end = Provider.of<SemesterProvider>(context, listen: false).get(efilter).first;
+
+        courses.add(CoursePreview.fromData(coursePreviewData, start, end));
+      } else {
+        courses.add(CoursePreview.fromData(coursePreviewData, start, null));
+      }
+    });
+
+    notifyListeners();
+    return Future<List<CoursePreview>>.value(courses);
   }
 
   void resetCache() {

@@ -79,9 +79,10 @@ class WebClient {
     String route,
     APIType type, {
     Map<String, String> headers = const <String, String>{},
+    Map<String, dynamic> urlParams = const <String, String>{},
   }) {
     return _httpClient.get(
-      Uri.parse(_constructBaseURL(type) + route),
+      Uri.parse(_constructBaseURL(type) + route).replace(queryParameters: urlParams),
       headers: _adjustHeader(type, headers),
     );
   }

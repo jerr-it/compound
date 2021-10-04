@@ -56,8 +56,8 @@ class InfoTab extends StatelessWidget {
   List<Widget> _gatherInfo() {
     List<Widget> widgets = <Widget>[];
 
-    widgets.add(InfoLineWidget("subtitle".tr(), course.subtitle));
     widgets.add(InfoLineWidget("number".tr(), course.number));
+    widgets.add(InfoLineWidget("subtitle".tr(), course.subtitle));
     widgets.add(InfoLineWidget("description".tr(), course.description));
     widgets.add(InfoLineWidget("location".tr(), course.location));
     widgets.add(InfoLineWidget("start".tr(), course.startSemester.title));
