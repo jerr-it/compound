@@ -20,16 +20,16 @@ class WebClient {
 
   Server _server;
   http.Client _httpClient;
-  Credentials _credentials;
+  String _sessionCookie;
 
   Server get server => this._server;
-  Credentials get credentials => this._credentials;
+  String get sessionCookie => this._sessionCookie;
 
   set server(Server server) => this._server = server;
 
   ///Returns true if authentication is completed
   bool isAuthenticated() {
-    return _credentials != null;
+    return _sessionCookie != null;
   }
 
   ///Deletes credentials from storage and reroutes to the login page
@@ -43,15 +43,17 @@ class WebClient {
 
   ///Performs OAuth1 authentication with the set server
   Future<int> authenticate(String username, String password) async {
-    _credentials = new Credentials(username, password);
+    Credentials credentials = new Credentials(username, password);
     _httpClient = new http.Client();
 
     //Probe both REST and JSON api
 
-    var restResponse = await httpGet("/discovery", APIType.REST);
+    var restResponse = await httpGet("/discovery", APIType.REST, headers: {"Authorization": "Basic " + credentials.encoded});
     if (restResponse.statusCode != 200) {
       return restResponse.statusCode;
     }
+
+    _sessionCookie = restResponse.headers["set-cookie"];
 
     var jsonResponse = await httpGet("/discovery", APIType.JSON);
     return Future<int>.value(jsonResponse.statusCode);
@@ -65,7 +67,10 @@ class WebClient {
   Map<String, String> _adjustHeader(APIType type, Map<String, String> headers) {
     //Apply authentication to header
     var newHeader = Map.of(headers);
-    newHeader["Authorization"] = "Basic " + _credentials.encodeB64();
+
+    if (_sessionCookie != null) {
+      newHeader["Cookie"] = _sessionCookie;
+    }
 
     //Apply correct content type in case of JSON api
     if (type == APIType.JSON) {

@@ -1,17 +1,11 @@
 import 'dart:convert';
 
 class Credentials {
-  String _username;
-  String _password;
+  String _encoded;
 
-  String get username => this._username;
-  String get password => this._password;
+  String get encoded => _encoded;
 
-  Credentials(String username, String password)
-      : _username = username,
-        _password = password;
-
-  String encodeB64() {
-    return base64.encode(utf8.encode("$_username:$_password"));
+  Credentials(String username, String password) {
+    _encoded = base64.encode(utf8.encode("$username:$password"));
   }
 }

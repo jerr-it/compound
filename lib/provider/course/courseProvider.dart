@@ -74,9 +74,9 @@ class CourseProvider extends ChangeNotifier {
 
       _courses.remove(semester);
 
-      String route = "/user/$userID/courses?semester=" + semester.semesterID;
+      String route = "/user/$userID/courses";
 
-      Response res = await _client.httpGet(route, APIType.REST);
+      Response res = await _client.httpGet(route, APIType.REST, urlParams: {"semester": semester.semesterID});
       Map<String, dynamic> decoded = jsonDecode(res.body);
       Map<String, dynamic> courseMap = decoded["collection"];
 
