@@ -100,9 +100,8 @@ class CourseProvider extends ChangeNotifier {
         _courses[semester].add(course);
       });
 
-      int now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       _courses[semester].sort((Course a, Course b) {
-        return (b.endSemester?.begin ?? now) - (a.endSemester?.begin ?? now);
+        return a.color.value - b.color.value;
       });
     });
 
