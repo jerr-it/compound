@@ -70,7 +70,14 @@ class CoursePreviewWidget extends StatelessWidget {
               ],
             ),
           ),
-          ElevatedButton(onPressed: () {}, child: Icon(FontAwesome.sign_in))
+          ElevatedButton(
+            onPressed: () async {
+              http.Response response =
+                  await Provider.of<CourseProvider>(context, listen: false).signup(_coursePreview.courseID);
+              print(response);
+            },
+            child: Icon(FontAwesome.sign_in),
+          )
         ],
       ),
     );

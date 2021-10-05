@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:fludip/provider/course/coursePreviewModel.dart';
 import 'package:fludip/provider/course/semester/semesterFilter.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 
@@ -76,7 +76,7 @@ class CourseProvider extends ChangeNotifier {
 
       String route = "/user/$userID/courses";
 
-      Response res = await _client.httpGet(route, APIType.REST, urlParams: {"semester": semester.semesterID});
+      http.Response res = await _client.httpGet(route, APIType.REST, urlParams: {"semester": semester.semesterID});
       Map<String, dynamic> decoded = jsonDecode(res.body);
       Map<String, dynamic> courseMap = decoded["collection"];
 
@@ -115,7 +115,7 @@ class CourseProvider extends ChangeNotifier {
       return courses;
     }
 
-    Response response = await _client.httpGet("/courses", APIType.JSON, urlParams: <String, dynamic>{
+    http.Response response = await _client.httpGet("/courses", APIType.JSON, urlParams: <String, dynamic>{
       "filter[q]": searchStr,
       "filter[fields]": "all" //TODO add filter options http://jsonapi.elan-ev.de/?shell#schema-quot-course-memberships-quot
     });
@@ -142,6 +142,30 @@ class CourseProvider extends ChangeNotifier {
 
     notifyListeners();
     return Future<List<CoursePreview>>.value(courses);
+  }
+
+  Future<http.Response> signup(String courseID) async {
+    //There doesn't seem to be a route in REST or JSON for signing up for a course
+    //So this 'imitates' the action done in a browser
+
+    //Extract the security token from the html page
+    http.Response res =
+        await http.get(Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"), headers: {
+      "Cookie": _client.sessionCookie,
+    });
+    String tag = "<input type=\"hidden\" name=\"security_token\" value=\"";
+    int start = res.body.indexOf(tag) + tag.length;
+    int end = res.body.indexOf(">", start) - 1;
+
+    String securityToken = res.body.substring(start, end);
+
+    return http.post(Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"), headers: {
+      "Cookie": _client.sessionCookie,
+    }, body: {
+      "apply": "1",
+      "security_token": securityToken,
+      "yes": "",
+    });
   }
 
   void resetCache() {
