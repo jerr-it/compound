@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/community/blubberThreadViewer.dart';
 import 'package:fludip/pages/course/page/gridButton.dart';
 import 'package:fludip/pages/course/tabs/files.dart';
 import 'package:fludip/pages/course/tabs/forum/forum.dart';
-import 'package:fludip/pages/course/tabs/members.dart';
 import 'package:fludip/pages/course/tabs/info.dart';
+import 'package:fludip/pages/course/tabs/members.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/course/courseProvider.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 //TODO: List of options for which new content appeared, for example a new file upload
 class CourseListTile extends StatelessWidget {

@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/news/newsModel.dart';
@@ -5,10 +7,8 @@ import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Announcement.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
-import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class StartPage extends StatelessWidget {
   ///Convert data to widgets

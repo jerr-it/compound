@@ -1,30 +1,28 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:fludip/navdrawer/navDrawerHeader.dart';
 import 'package:fludip/net/webClient.dart';
+import 'package:fludip/pages/community/communityPage.dart';
+import 'package:fludip/pages/course/page/coursePage.dart';
+import 'package:fludip/pages/filesPage.dart';
 import 'package:fludip/pages/login/universitySelectPage.dart';
+import 'package:fludip/pages/messages/messagesPage.dart';
 import 'package:fludip/pages/planner/scheduleView.dart';
+import 'package:fludip/pages/profilePage.dart';
+import 'package:fludip/pages/search/searchPage.dart';
+import 'package:fludip/pages/startPage.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
+import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
-import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:fludip/provider/user/userModel.dart';
 import 'package:fludip/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fludip/navdrawer/navDrawerHeader.dart';
-
-import 'package:fludip/pages/community/communityPage.dart';
-import 'package:fludip/pages/filesPage.dart';
-import 'package:fludip/pages/messages/messagesPage.dart';
-import 'package:fludip/pages/profilePage.dart';
-import 'package:fludip/pages/startPage.dart';
-import 'package:fludip/pages/search/searchPage.dart';
-import 'package:fludip/pages/course/page/coursePage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 //TODO maybe open profile via drawer header?
 

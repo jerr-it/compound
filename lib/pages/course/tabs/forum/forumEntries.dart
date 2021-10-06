@@ -1,7 +1,7 @@
 import 'package:fludip/pages/course/tabs/forum/forumReply.dart';
+import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/course/forum/entryModel.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
-import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/util/str.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';

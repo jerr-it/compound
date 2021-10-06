@@ -1,18 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/course/files/fileModel.dart';
 import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/files/folderModel.dart';
-import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/dialogs/fileDialog.dart';
-import 'package:fludip/util/dialogs/infoDialog.dart';
 import 'package:fludip/util/mimeTypeMapper.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class FilesTab extends StatelessWidget {
   Course _course;

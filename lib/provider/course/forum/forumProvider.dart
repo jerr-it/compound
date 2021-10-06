@@ -1,14 +1,13 @@
 import 'dart:convert';
 
-import 'package:fludip/provider/user/userProvider.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-
+import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/course/forum/areaModel.dart';
 import 'package:fludip/provider/course/forum/categoryModel.dart';
 import 'package:fludip/provider/course/forum/entryModel.dart';
 import 'package:fludip/provider/course/forum/topicModel.dart';
-import 'package:fludip/net/webClient.dart';
+import 'package:fludip/provider/user/userProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 ///Provides forum data for all the users courses.

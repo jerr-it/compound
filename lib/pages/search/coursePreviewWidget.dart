@@ -1,13 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fludip/pages/course/tabs/info.dart';
 import 'package:fludip/provider/course/coursePreviewModel.dart';
 import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class CoursePreviewWidget extends StatelessWidget {
   CoursePreviewWidget(CoursePreview preview) : _coursePreview = preview;

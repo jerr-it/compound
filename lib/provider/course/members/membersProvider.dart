@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/provider/course/members/memberModel.dart';
 import 'package:fludip/provider/user/userModel.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 ///Maps course ids to member lists
 class MembersProvider extends ChangeNotifier {

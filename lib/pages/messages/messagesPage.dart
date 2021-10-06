@@ -1,17 +1,15 @@
-import 'package:fludip/util/widgets/Nothing.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:fludip/pages/messages/messageViewer.dart';
 import 'package:fludip/provider/messages/messageModel.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
 import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/str.dart';
-import 'package:fludip/navdrawer/navDrawer.dart';
-
-import 'package:easy_localization/easy_localization.dart';
+import 'package:fludip/util/widgets/Nothing.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class MessagesPage extends StatefulWidget {
   List<Message> _messages;
