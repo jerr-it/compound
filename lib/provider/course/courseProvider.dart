@@ -180,7 +180,6 @@ class CourseProvider extends ChangeNotifier {
       }
     });
 
-    notifyListeners();
     return Future<List<CoursePreview>>.value(courses);
   }
 

@@ -67,7 +67,8 @@ class _SearchPageState extends State<SearchPage> {
     //TODO filter support here as well (See courseProvider 'searchFor' method)
     List<Semester> semesters =
         Provider.of<SemesterProvider>(context, listen: false).get(SemesterFilter(FilterType.ALL, null));
-    Future<List<Course>> courses = Provider.of<CourseProvider>(context).get(context, this.widget._userID, semesters);
+    Future<List<Course>> courses =
+        Provider.of<CourseProvider>(context, listen: false).get(context, this.widget._userID, semesters);
 
     return Scaffold(
       appBar: AppBar(
