@@ -101,7 +101,7 @@ class CourseProvider extends ChangeNotifier {
       });
 
       _courses[semester].sort((Course a, Course b) {
-        return a.color.value - b.color.value;
+        return (a.color.value - b.color.value) + (b.number.compareTo(a.number));
       });
     });
 
