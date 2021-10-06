@@ -134,9 +134,11 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.search),
             title: Text("search".tr(), style: GoogleFonts.montserrat()),
-            onTap: () {
+            onTap: () async {
+              User user = await Provider.of<UserProvider>(context, listen: false).get("self");
+
               Navigator.pop(context);
-              Navigator.of(context).push(navRoute(SearchPage()));
+              Navigator.of(context).push(navRoute(SearchPage(user.userID)));
             },
           ),
           ListTile(
