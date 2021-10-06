@@ -12,7 +12,7 @@
     "noticeBoard": "Schwarzes Brett",
     "settings": "Einstellungen",
     "logout": "Ausloggen",
-    "news": "Neuigkeiten",
+    "news": "Informationen",
     "forum": "Forum",
     "members": "Teilnehmer",
     "blubber": "Blubber",
@@ -52,5 +52,11 @@
     "end": "Ende",
     "announcements": "Ankündigung",
     "info": "Info",
-    "search-text": "Suche nach Vorlesung, Dozent etc..."
+    "search-text": "Suche nach Vorlesung, Dozent etc...",
+    "join-course": "Sind Sie sicher, dass Sie {course} beitreten wollen?",
+    "leave-course": "Sind Sie sicher, dass Sie {course} verlassen wollen?",
+    "join-success": "Sie sind {course} beigetreten",
+    "join-fail": "Fehler beim Beitritt!",
+    "leave-success": "Sie haben {course} verlassen",
+    "leave-fail": "Failed to leave!"
 }

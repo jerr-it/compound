@@ -71,7 +71,7 @@ class _CoursePageState extends State<CoursePage> {
           ConfirmDialog.display(
             context,
             title: "sure?".tr(),
-            subtitle: "leave-course".tr(),
+            subtitle: "leave-course".tr(namedArgs: {"course": course.title}),
             leading: Icon(Icons.warning_sharp),
             firstOption: "confirm".tr(),
             secondOption: "cancel".tr(),
@@ -84,7 +84,7 @@ class _CoursePageState extends State<CoursePage> {
                     .forceUpdate(context, user.userID, <Semester>[course.endSemester]);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
-                    "leave-success".tr(),
+                    "leave-success".tr(namedArgs: {"course": course.title}),
                     style: GoogleFonts.montserrat(),
                   ),
                 ));

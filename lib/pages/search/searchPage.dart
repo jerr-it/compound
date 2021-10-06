@@ -45,7 +45,8 @@ class _SearchPageState extends State<SearchPage> {
                       ConfirmDialog.display(
                         context,
                         title: "sure?".tr(),
-                        subtitle: "join-course".tr(),
+                        leading: Icon(Icons.warning_sharp),
+                        subtitle: "join-course".tr(namedArgs: {"course": preview.title}),
                         firstOption: "confirm".tr(),
                         secondOption: "cancel".tr(),
                         onFirstOption: () async {
@@ -59,7 +60,7 @@ class _SearchPageState extends State<SearchPage> {
 
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                "join-success".tr(),
+                                "join-success".tr(namedArgs: {"course": preview.title}),
                                 style: GoogleFonts.montserrat(),
                               ),
                             ));

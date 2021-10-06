@@ -12,7 +12,7 @@
     "noticeBoard": "Noticeboard",
     "settings": "Settings",
     "logout": "Logout",
-    "news": "News",
+    "news": "Information",
     "forum": "Forum",
     "members": "Members",
     "blubber": "Blubber",
@@ -52,5 +52,11 @@
     "end": "End",
     "announcements": "Announcements",
     "info": "Info",
-    "search-text": "Search for course, lecturer etc..."
+    "search-text": "Search for course, lecturer etc...",
+    "join-course": "Are you sure you want to join {course}",
+    "leave-course": "Are you sure you want to leave {course}",
+    "join-success": "You joined {course}",
+    "join-fail": "Failed to join!",
+    "leave-success": "You left {course}",
+    "leave-fail": "Failed to leave!"
 }
