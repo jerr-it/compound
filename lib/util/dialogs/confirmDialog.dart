@@ -6,8 +6,8 @@ class ConfirmDialog {
   static void display(
     BuildContext context, {
     @required String title,
-    Widget leading,
-    String subtitle,
+    Widget leading = const Text(""),
+    String subtitle = "",
     @required String firstOption,
     Color firstOptionColor = Colors.blue,
     @required String secondOption,

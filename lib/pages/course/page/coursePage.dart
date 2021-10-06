@@ -4,11 +4,14 @@ import 'package:fludip/provider/course/semester/semesterModel.dart';
 import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
+import 'package:fludip/provider/user/userModel.dart';
+import 'package:fludip/provider/user/userProvider.dart';
 import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -73,7 +76,26 @@ class _CoursePageState extends State<CoursePage> {
             firstOption: "confirm".tr(),
             secondOption: "cancel".tr(),
             onFirstOption: () async {
-              await Provider.of<CourseProvider>(context, listen: false).signout(course.courseID);
+              Response response = await Provider.of<CourseProvider>(context, listen: false).signout(course.courseID);
+              if (response.statusCode == 302) {
+                //Force update the course provider to reflect the course change
+                User user = await Provider.of<UserProvider>(context, listen: false).get("self");
+                Provider.of<CourseProvider>(context, listen: false)
+                    .forceUpdate(context, user.userID, <Semester>[course.endSemester]);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "leave-success".tr(),
+                    style: GoogleFonts.montserrat(),
+                  ),
+                ));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "leave-fail".tr(),
+                    style: GoogleFonts.montserrat(),
+                  ),
+                ));
+              }
             },
             onSecondOption: () {},
           );

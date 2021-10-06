@@ -5,6 +5,9 @@ import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/course/semester/semesterFilter.dart';
 import 'package:fludip/provider/course/semester/semesterModel.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
+import 'package:fludip/provider/user/userModel.dart';
+import 'package:fludip/provider/user/userProvider.dart';
+import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
@@ -13,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage(String userID) : _userID = userID;
@@ -37,10 +41,39 @@ class _SearchPageState extends State<SearchPage> {
           signedUpCourses.firstWhere((sCourse) => sCourse.courseID == preview.courseID, orElse: () => null) == null
               ? Container(
                   child: ElevatedButton(
-                    onPressed: () async {
-                      http.Response response =
-                          await Provider.of<CourseProvider>(context, listen: false).signup(preview.courseID);
-                      print(response);
+                    onPressed: () {
+                      ConfirmDialog.display(
+                        context,
+                        title: "sure?".tr(),
+                        subtitle: "join-course".tr(),
+                        firstOption: "confirm".tr(),
+                        secondOption: "cancel".tr(),
+                        onFirstOption: () async {
+                          http.Response response =
+                              await Provider.of<CourseProvider>(context, listen: false).signup(preview.courseID);
+                          if (response.statusCode == 302) {
+                            //Force update the course provider to reflect the new course
+                            User user = await Provider.of<UserProvider>(context, listen: false).get("self");
+                            Provider.of<CourseProvider>(context, listen: false)
+                                .forceUpdate(context, user.userID, <Semester>[preview.endSemester]);
+
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                "join-success".tr(),
+                                style: GoogleFonts.montserrat(),
+                              ),
+                            ));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                "join-fail".tr(),
+                                style: GoogleFonts.montserrat(),
+                              ),
+                            ));
+                          }
+                        },
+                        onSecondOption: () {},
+                      );
                     },
                     style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
                     child: Icon(FontAwesome.sign_in),
@@ -67,8 +100,7 @@ class _SearchPageState extends State<SearchPage> {
     //TODO filter support here as well (See courseProvider 'searchFor' method)
     List<Semester> semesters =
         Provider.of<SemesterProvider>(context, listen: false).get(SemesterFilter(FilterType.ALL, null));
-    Future<List<Course>> courses =
-        Provider.of<CourseProvider>(context, listen: false).get(context, this.widget._userID, semesters);
+    Future<List<Course>> courses = Provider.of<CourseProvider>(context).get(context, this.widget._userID, semesters);
 
     return Scaffold(
       appBar: AppBar(
@@ -117,7 +149,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
                 FutureBuilder(
-                  future: Provider.of<CourseProvider>(context, listen: false).searchFor(context, this.widget._searchTerm),
+                  future: Provider.of<CourseProvider>(context).searchFor(context, this.widget._searchTerm),
                   builder: (BuildContext context, AsyncSnapshot<List<CoursePreview>> previewSnapshot) {
                     if (previewSnapshot.hasData) {
                       return Expanded(
