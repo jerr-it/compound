@@ -38,7 +38,7 @@ class CourseProvider extends ChangeNotifier {
   Future<List<Course>> get(BuildContext context, String userID, List<Semester> semesters) async {
     List<Semester> uninitialised = initialized(semesters);
     if (uninitialised.isNotEmpty) {
-      forceUpdate(context, userID, uninitialised);
+      await forceUpdate(context, userID, uninitialised);
     }
 
     //Filter courses by the given list of semesters
@@ -64,7 +64,7 @@ class CourseProvider extends ChangeNotifier {
         (type == CourseType.StudyGroup ? "studygroup_medium.png" : "nobody_medium.png");
   }
 
-  void forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
+  Future<void> forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
     _courses ??= <Semester, List<Course>>{};
 
     await Future.forEach(semesters, (Semester semester) async {
