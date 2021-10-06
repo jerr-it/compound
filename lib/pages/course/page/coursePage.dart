@@ -11,7 +11,6 @@ import 'package:fludip/navdrawer/navDrawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:http/http.dart' as http;
 
 class CoursePage extends StatefulWidget {
   CoursePage(BuildContext ctx, String uID)
@@ -63,15 +62,8 @@ class _CoursePageState extends State<CoursePage> {
         current = course.endSemester;
       }
 
-      //Ugly, but https://github.com/flutter/flutter/issues/81931 is still open
-      //This means we have to check in advance if the url is a valid image resource
-      //since it doesn't appear possible to handle the error somehow
-      //Both wrapping in try-catch and using the errorBuilder don't work
-      String url = Provider.of<CourseProvider>(context, listen: false).getLogo(course.courseID);
-      var response = http.get(Uri.parse(url));
-
       widgets.add(InkWell(
-        child: CourseListTile(course, response),
+        child: CourseListTile(course),
         onLongPress: () {
           ConfirmDialog.display(
             context,

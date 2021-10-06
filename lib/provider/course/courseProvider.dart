@@ -15,9 +15,20 @@ import 'package:provider/provider.dart';
 
 ///This provider provides the data for the courses themselves *and* the overview tab
 class CourseProvider extends ChangeNotifier {
+  final WebClient _client = WebClient();
+
+  //Stores all courses, grouped by semester
   Map<Semester, List<Course>> _courses;
 
-  final WebClient _client = WebClient();
+  //Caches image data of course images (To reduce traffic)
+  //Prebuilt packages like cached_network_image exist
+  //but at the time of making this don't really meet the needs
+  //mainly due to broken error handling in case of urls that don't point to an image
+  //https://github.com/flutter/flutter/issues/81931
+  MemoryImage _genericCourseImage;
+  MemoryImage _genericStudyGroupImage;
+  //CourseID -> Image
+  Map<String, MemoryImage> _courseImages;
 
   //Returns a list of semesters that haven't been initialised yet
   //This way we only initialise the ones we don't already have data of
@@ -36,6 +47,16 @@ class CourseProvider extends ChangeNotifier {
   }
 
   Future<List<Course>> get(BuildContext context, String userID, List<Semester> semesters) async {
+    if (_courseImages == null) {
+      _courseImages = <String, MemoryImage>{};
+
+      http.Response res = await http.get(Uri.parse(getEmptyLogo(CourseType.Lecture)));
+      _genericCourseImage = MemoryImage(res.bodyBytes);
+
+      res = await http.get(Uri.parse(getEmptyLogo(CourseType.StudyGroup)));
+      _genericStudyGroupImage = MemoryImage(res.bodyBytes);
+    }
+
     List<Semester> uninitialised = initialized(semesters);
     if (uninitialised.isNotEmpty) {
       await forceUpdate(context, userID, uninitialised);
@@ -53,6 +74,23 @@ class CourseProvider extends ChangeNotifier {
     return Future<List<Course>>.value(courses);
   }
 
+  //Returns a given courses image
+  //Uses the internal cache if possible
+  Future<MemoryImage> getImage(String courseID, CourseType type) async {
+    if (_courseImages.containsKey(courseID)) {
+      return _courseImages[courseID];
+    }
+
+    http.Response res = await http.get(Uri.parse(getLogo(courseID)));
+    if (res.statusCode == 200) {
+      MemoryImage img = MemoryImage(res.bodyBytes);
+      _courseImages[courseID] = img;
+      return img;
+    }
+
+    return (type == CourseType.StudyGroup ? _genericStudyGroupImage : _genericCourseImage);
+  }
+
   String getLogo(String courseID) {
     return _client.server.webAddress + "/pictures/course/" + courseID + "_medium.png";
   }
@@ -64,6 +102,7 @@ class CourseProvider extends ChangeNotifier {
         (type == CourseType.StudyGroup ? "studygroup_medium.png" : "nobody_medium.png");
   }
 
+  //Forces the CourseProvider to update all courses of the given semesters
   Future<void> forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
     _courses ??= <Semester, List<Course>>{};
 
@@ -108,6 +147,8 @@ class CourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //Used by the search page
+  //Searches all studip courses for matches
   Future<List<CoursePreview>> searchFor(BuildContext context, String searchStr) async {
     List<CoursePreview> courses = <CoursePreview>[];
     if (searchStr == null || searchStr.isEmpty) {
@@ -143,6 +184,7 @@ class CourseProvider extends ChangeNotifier {
     return Future<List<CoursePreview>>.value(courses);
   }
 
+  //Signs the user up for a course
   Future<http.Response> signup(String courseID) async {
     //There doesn't seem to be a route in REST or JSON for signing up for a course
     //So this 'imitates' the action done in a browser
@@ -169,6 +211,7 @@ class CourseProvider extends ChangeNotifier {
     });
   }
 
+  //Signs the user out of a given course
   Future<http.Response> signout(String courseID) async {
     //There doesn't seem to be a route in REST or JSON for siging out of a course either
     //So this 'imitates' the action done in a browser

@@ -10,12 +10,9 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class CoursePreviewWidget extends StatelessWidget {
-  CoursePreviewWidget(CoursePreview preview, Future<http.Response> response)
-      : _coursePreview = preview,
-        _response = response;
+  CoursePreviewWidget(CoursePreview preview) : _coursePreview = preview;
 
   final CoursePreview _coursePreview;
-  final Future<http.Response> _response;
 
   @override
   Widget build(BuildContext context) {
@@ -24,23 +21,14 @@ class CoursePreviewWidget extends StatelessWidget {
         title: Row(
           children: [
             FutureBuilder(
-              future: _response,
-              builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
+              future:
+                  Provider.of<CourseProvider>(context, listen: false).getImage(_coursePreview.courseID, _coursePreview.type),
+              builder: (BuildContext context, AsyncSnapshot<MemoryImage> snapshot) {
                 if (snapshot.hasData) {
-                  if (snapshot.data.statusCode == 200) {
-                    return FadeInImage(
-                      placeholder: MemoryImage(kTransparentImage),
-                      image: MemoryImage(snapshot.data.bodyBytes),
-                      width: 32,
-                      height: 32,
-                    );
-                  }
                   return FadeInImage(
                     placeholder: MemoryImage(kTransparentImage),
-                    image:
-                        NetworkImage(Provider.of<CourseProvider>(context, listen: false).getEmptyLogo(_coursePreview.type)),
+                    image: snapshot.data,
                     width: 32,
-                    height: 32,
                   );
                 }
                 return CircularProgressIndicator();

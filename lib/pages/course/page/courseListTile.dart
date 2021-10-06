@@ -10,19 +10,15 @@ import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 //TODO: List of options for which new content appeared, for example a new file upload
 class CourseListTile extends StatelessWidget {
-  CourseListTile(Course course, Future<http.Response> response)
-      : _response = response,
-        _course = course;
+  CourseListTile(Course course) : _course = course;
 
   Course _course;
-  Future<http.Response> _response;
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +29,13 @@ class CourseListTile extends StatelessWidget {
           child: Row(
             children: [
               FutureBuilder(
-                future: _response,
-                builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
+                future: Provider.of<CourseProvider>(context, listen: false).getImage(_course.courseID, _course.type),
+                builder: (BuildContext context, AsyncSnapshot<MemoryImage> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.statusCode == 200) {
-                      return FadeInImage(
-                        placeholder: MemoryImage(kTransparentImage),
-                        image: MemoryImage(snapshot.data.bodyBytes),
-                        width: 32,
-                        height: 32,
-                      );
-                    }
                     return FadeInImage(
                       placeholder: MemoryImage(kTransparentImage),
-                      image: NetworkImage(Provider.of<CourseProvider>(context, listen: false).getEmptyLogo(_course.type)),
+                      image: snapshot.data,
                       width: 32,
-                      height: 32,
                     );
                   }
                   return CircularProgressIndicator();

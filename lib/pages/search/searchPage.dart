@@ -31,12 +31,9 @@ class _SearchPageState extends State<SearchPage> {
     List<Widget> widgets = <Widget>[];
 
     courses.forEach((CoursePreview preview) {
-      String url = Provider.of<CourseProvider>(context, listen: false).getLogo(preview.courseID);
-      Future<http.Response> response = http.get(Uri.parse(url));
-
       widgets.add(Row(
         children: [
-          Expanded(child: CoursePreviewWidget(preview, response)),
+          Expanded(child: CoursePreviewWidget(preview)),
           signedUpCourses.firstWhere((sCourse) => sCourse.courseID == preview.courseID, orElse: () => null) == null
               ? Container(
                   child: ElevatedButton(
