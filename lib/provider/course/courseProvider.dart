@@ -148,10 +148,12 @@ class CourseProvider extends ChangeNotifier {
     //So this 'imitates' the action done in a browser
 
     //Extract the security token from the html page
-    http.Response res =
-        await http.get(Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"), headers: {
-      "Cookie": _client.sessionCookie,
-    });
+    http.Response res = await http.get(
+      Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"),
+      headers: {
+        "Cookie": _client.sessionCookie,
+      },
+    );
     String tag = "<input type=\"hidden\" name=\"security_token\" value=\"";
     int start = res.body.indexOf(tag) + tag.length;
     int end = res.body.indexOf(">", start) - 1;
@@ -164,6 +166,39 @@ class CourseProvider extends ChangeNotifier {
       "apply": "1",
       "security_token": securityToken,
       "yes": "",
+    });
+  }
+
+  Future<http.Response> signout(String courseID) async {
+    //There doesn't seem to be a route in REST or JSON for siging out of a course either
+    //So this 'imitates' the action done in a browser
+
+    //Extract the security token and studip ticket(?) from the html page
+    http.Response res = await http.get(
+      Uri.parse(_client.server.webAddress + "/dispatch.php/my_courses/decline/$courseID?cmd=suppose_to_kill"),
+      headers: {
+        "Cookie": _client.sessionCookie,
+      },
+    );
+
+    String secTag = "<input type=\"hidden\" name=\"security_token\" value=\"";
+    int secStart = res.body.indexOf(secTag) + secTag.length;
+    int secEnd = res.body.indexOf(">", secStart) - 1;
+
+    String securityToken = res.body.substring(secStart, secEnd);
+
+    String ticketTag = "<input type=\"hidden\" name=\"studipticket\" value=\"";
+    int ticketStart = res.body.indexOf(ticketTag) + ticketTag.length;
+    int ticketEnd = res.body.indexOf(">", ticketStart) - 1;
+
+    String studipTicket = res.body.substring(ticketStart, ticketEnd);
+
+    return http.post(Uri.parse(_client.server.webAddress + "/dispatch.php/my_courses/decline/$courseID"), headers: {
+      "Cookie": _client.sessionCookie,
+    }, body: {
+      "security_token": securityToken,
+      "cmd": "kill",
+      "studipticket": studipTicket,
     });
   }
 

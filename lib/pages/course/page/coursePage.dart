@@ -4,6 +4,7 @@ import 'package:fludip/provider/course/semester/semesterModel.dart';
 import 'package:fludip/provider/course/courseModel.dart';
 import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
+import 'package:fludip/util/dialogs/confirmDialog.dart';
 import 'package:fludip/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:fludip/navdrawer/navDrawer.dart';
@@ -69,7 +70,23 @@ class _CoursePageState extends State<CoursePage> {
       String url = Provider.of<CourseProvider>(context, listen: false).getLogo(course.courseID);
       var response = http.get(Uri.parse(url));
 
-      widgets.add(CourseListTile(course, response));
+      widgets.add(InkWell(
+        child: CourseListTile(course, response),
+        onLongPress: () {
+          ConfirmDialog.display(
+            context,
+            title: "sure?".tr(),
+            subtitle: "leave-course".tr(),
+            leading: Icon(Icons.warning_sharp),
+            firstOption: "confirm".tr(),
+            secondOption: "cancel".tr(),
+            onFirstOption: () async {
+              await Provider.of<CourseProvider>(context, listen: false).signout(course.courseID);
+            },
+            onSecondOption: () {},
+          );
+        },
+      ));
     });
 
     return widgets;
