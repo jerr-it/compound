@@ -1,18 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fludip/net/savedServers.dart';
+import 'package:fludip/pages/login/serverSelectPage.dart';
 import 'package:fludip/provider/blubber/blubberProvider.dart';
 import 'package:fludip/provider/calendar/calendarProvider.dart';
+import 'package:fludip/provider/course/courseProvider.dart';
+import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/course/forum/forumProvider.dart';
 import 'package:fludip/provider/course/members/membersProvider.dart';
-import 'package:fludip/provider/course/courseProvider.dart';
 import 'package:fludip/provider/course/semester/semesterProvider.dart';
-import 'package:fludip/provider/news/globalNewsProvider.dart';
-import 'package:fludip/provider/course/files/fileProvider.dart';
 import 'package:fludip/provider/messages/messageProvider.dart';
+import 'package:fludip/provider/news/globalNewsProvider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fludip/pages/login/universitySelectPage.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 import 'provider/user/userProvider.dart';
 
 void main() async {
@@ -23,6 +25,8 @@ void main() async {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
+
+  await SavedServers().init();
 
   runApp(EasyLocalization(
     supportedLocales: [Locale("en", "GB"), Locale("de", "DE")],
@@ -58,7 +62,7 @@ class App extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.deviceLocale,
         title: "Fludip",
-        home: UniversitySelectPage(),
+        home: ServerSelectPage(),
       ),
     );
   }

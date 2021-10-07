@@ -58,5 +58,15 @@
     "join-success": "Sie sind {course} beigetreten",
     "join-fail": "Fehler beim Beitritt!",
     "leave-success": "Sie haben {course} verlassen",
-    "leave-fail": "Failed to leave!"
+    "leave-fail": "Failed to leave!",
+    "password": "Passwort",
+    "username": "Benutzername",
+    "auth-error": "Fehler bei der Anmeldung! [errorCode]",
+    "no-servers": "Fügen Sie mit dem Knopf unten einen neuen Server hinzu.",
+    "add-server": "Neuer Server",
+    "name": "Name",
+    "url": "URL",
+    "give-server-info": "Geben Sie Ihre Server Angaben ein. Falls Sie unsicher sind, was Sie tun sollen, können Sie unten auf den Hilfe-Knopf drücken.",
+    "give-server-credentials": "Geben Sie Ihre Nutzerdaten ein.",
+    "remove": "Entfernen"
 }

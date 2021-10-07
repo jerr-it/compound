@@ -58,5 +58,15 @@
     "join-success": "You joined {course}",
     "join-fail": "Failed to join!",
     "leave-success": "You left {course}",
-    "leave-fail": "Failed to leave!"
+    "leave-fail": "Failed to leave!",
+    "password": "Password",
+    "username": "Username",
+    "auth-error": "Failed to log in! [errorCode]",
+    "no-servers": "Add a new server/university by pressing the button down below.",
+    "add-server": "New server",
+    "name": "Name",
+    "url": "URL",
+    "give-server-info": "Enter your server information down below. If you're unsure what to do, press the help button down below.",
+    "give-server-credentials": "Enter your login information.",
+    "remove": "Remove"
 }

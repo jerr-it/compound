@@ -4,7 +4,7 @@ import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/community/communityPage.dart';
 import 'package:fludip/pages/course/page/coursePage.dart';
 import 'package:fludip/pages/filesPage.dart';
-import 'package:fludip/pages/login/universitySelectPage.dart';
+import 'package:fludip/pages/login/serverSelectPage.dart';
 import 'package:fludip/pages/messages/messagesPage.dart';
 import 'package:fludip/pages/planner/scheduleView.dart';
 import 'package:fludip/pages/profilePage.dart';
@@ -165,7 +165,7 @@ class NavDrawer extends StatelessWidget {
               _resetProviderCache(context);
 
               Navigator.of(context).popUntil((route) => route.isFirst);
-              Navigator.pushReplacement(context, navRoute(UniversitySelectPage()));
+              Navigator.pushReplacement(context, navRoute(ServerSelectPage()));
             },
           ),
         ],
