@@ -69,5 +69,6 @@
     "url": "URL",
     "give-server-info": "Geben Sie Ihre Server Angaben ein. Falls Sie unsicher sind, was Sie tun sollen, können Sie unten auf den Hilfe-Knopf drücken.",
     "give-server-credentials": "Geben Sie Ihre Nutzerdaten ein.",
-    "remove": "Entfernen"
+    "remove": "Entfernen",
+    "about": "Über"
 }

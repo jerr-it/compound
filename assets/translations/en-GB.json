@@ -69,5 +69,6 @@
     "url": "URL",
     "give-server-info": "Enter your server information down below. If you're unsure what to do, press the help button down below.",
     "give-server-credentials": "Enter your login information.",
-    "remove": "Remove"
+    "remove": "Remove",
+    "about": "About"
 }
