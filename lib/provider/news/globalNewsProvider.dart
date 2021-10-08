@@ -5,6 +5,22 @@ import 'package:fludip/provider/news/newsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+// Fludip - Mobile StudIP client
+// Copyright (C) 2021 Jerrit Gläsker
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 ///Keeps all news organized in a map
 ///The key to each is the route by which they were retrieved
 ///'global' is a special key, its associated with the route "/studip/news"
