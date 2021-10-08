@@ -61,7 +61,7 @@
     "leave-fail": "Failed to leave!",
     "password": "Passwort",
     "username": "Benutzername",
-    "auth-error": "Fehler bei der Anmeldung! [errorCode]",
+    "auth-error": "Fehler bei der Anmeldung! {errorCode}",
     "no-servers": "Fügen Sie mit dem Knopf unten einen neuen Server hinzu.",
     "add-server": "Neuer Server",
     "name": "Name",

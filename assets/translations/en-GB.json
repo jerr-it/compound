@@ -61,7 +61,7 @@
     "leave-fail": "Failed to leave!",
     "password": "Password",
     "username": "Username",
-    "auth-error": "Failed to log in! [errorCode]",
+    "auth-error": "Failed to log in! {statusCode}",
     "no-servers": "Add a new server/university by pressing the button down below.",
     "add-server": "New server",
     "name": "Name",

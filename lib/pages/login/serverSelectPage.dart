@@ -5,7 +5,9 @@ import 'package:fludip/net/server.dart';
 import 'package:fludip/net/webClient.dart';
 import 'package:fludip/pages/login/addServerPage.dart';
 import 'package:fludip/pages/login/credentialsPage.dart';
+import 'package:fludip/pages/startPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -45,9 +47,35 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
                         entry.webAddress,
                         style: GoogleFonts.montserrat(),
                       ),
-                      onTap: () {
-                        WebClient().server = entry;
-                        Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
+                      onTap: () async {
+                        var client = WebClient();
+                        client.server = entry;
+
+                        var storage = new FlutterSecureStorage();
+                        var username = await storage.read(key: "username");
+                        var password = await storage.read(key: "password");
+
+                        if (username == null || password == null) {
+                          Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
+                          return;
+                        }
+
+                        int statusCode = await client.authenticate(username, password);
+                        if (statusCode != 200) {
+                          if (statusCode == 401) {
+                            Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
+                            return;
+                          }
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              "auth-error".tr(namedArgs: {"statusCode": statusCode.toString()}),
+                              style: GoogleFonts.montserrat(),
+                            ),
+                          ));
+                          return;
+                        }
+
+                        Navigator.of(context).push(navRoute(StartPage()));
                       },
                     ),
                     secondaryActions: [
