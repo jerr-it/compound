@@ -54,6 +54,8 @@ class WebClient {
     await storage.delete(key: "username");
     await storage.delete(key: "password");
 
+    _sessionCookie = null;
+
     _httpClient.close();
   }
 
