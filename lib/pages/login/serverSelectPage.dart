@@ -36,6 +36,37 @@ class ServerSelectPage extends StatefulWidget {
 }
 
 class _ServerSelectPageState extends State<ServerSelectPage> {
+  void login(BuildContext context, Server entry) async {
+    var client = WebClient();
+    client.server = entry;
+
+    var storage = new FlutterSecureStorage();
+    var username = await storage.read(key: "username");
+    var password = await storage.read(key: "password");
+
+    if (username == null || password == null) {
+      Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
+      return;
+    }
+
+    int statusCode = await client.authenticate(username, password);
+    if (statusCode != 200) {
+      if (statusCode == 401) {
+        Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "auth-error".tr(namedArgs: {"statusCode": statusCode.toString()}),
+          style: GoogleFonts.montserrat(),
+        ),
+      ));
+      return;
+    }
+
+    Navigator.of(context).push(navRoute(StartPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,35 +94,37 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
                         entry.webAddress,
                         style: GoogleFonts.montserrat(),
                       ),
-                      onTap: () async {
-                        var client = WebClient();
-                        client.server = entry;
-
-                        var storage = new FlutterSecureStorage();
-                        var username = await storage.read(key: "username");
-                        var password = await storage.read(key: "password");
-
-                        if (username == null || password == null) {
-                          Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
-                          return;
-                        }
-
-                        int statusCode = await client.authenticate(username, password);
-                        if (statusCode != 200) {
-                          if (statusCode == 401) {
-                            Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
-                            return;
-                          }
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                              "auth-error".tr(namedArgs: {"statusCode": statusCode.toString()}),
-                              style: GoogleFonts.montserrat(),
+                      trailing: entry.secure
+                          ? TextButton(
+                              onPressed: () {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                    "secure-con".tr(),
+                                    style: GoogleFonts.montserrat(),
+                                  ),
+                                ));
+                              },
+                              child: Icon(
+                                Icons.lock,
+                                color: Colors.green,
+                              ),
+                            )
+                          : TextButton(
+                              onPressed: () {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                    "insecure-con".tr(),
+                                    style: GoogleFonts.montserrat(),
+                                  ),
+                                ));
+                              },
+                              child: Icon(
+                                Icons.lock_open,
+                                color: Colors.red,
+                              ),
                             ),
-                          ));
-                          return;
-                        }
-
-                        Navigator.of(context).push(navRoute(StartPage()));
+                      onTap: () async {
+                        login(context, entry);
                       },
                     ),
                     secondaryActions: [

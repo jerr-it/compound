@@ -80,23 +80,26 @@ class AddServerPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 15),
-                  child: Row(children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        //TODO display help
-                      },
-                      child: Icon(Icons.help),
-                      style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Server server = new Server(name: _nameController.text, webAddress: _urlController.text);
-                        Navigator.pop(context, server);
-                      },
-                      child: Icon(Icons.check),
-                      style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
-                    ),
-                  ]),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          //TODO display help
+                        },
+                        child: Icon(Icons.help),
+                        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Server server = new Server(name: _nameController.text, webAddress: _urlController.text);
+                          Navigator.pop(context, server);
+                        },
+                        child: Icon(Icons.check),
+                        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             )

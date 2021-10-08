@@ -23,25 +23,32 @@ const String JSON_API_URL = "/jsonapi.php/v1";
 class Server {
   String _name;
   String _webAddress;
+  bool _secure;
 
   Server({
     @required name,
     @required webAddress,
-  })  : _name = name,
-        _webAddress = webAddress;
+  }) {
+    _name = name;
+    _webAddress = webAddress;
+    _secure = Uri.parse(webAddress).scheme == "https";
+  }
 
   String get name => this._name;
   String get webAddress => this._webAddress;
+  bool get secure => this._secure;
 
   Map<String, dynamic> toJson() {
     return {
       "name": _name,
       "webAdress": _webAddress,
+      "secure": _secure,
     };
   }
 
   Server.fromJson(Map<String, dynamic> data) {
     _name = data["name"];
     _webAddress = data["webAdress"];
+    _secure = data["secure"];
   }
 }
