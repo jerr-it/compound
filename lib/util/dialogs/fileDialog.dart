@@ -1,11 +1,11 @@
 import 'dart:io' as io;
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/files/fileModel.dart';
-import 'package:fludip/util/dialogs/fileDownload.dart';
-import 'package:fludip/util/str.dart';
-import 'package:fludip/util/widgets/styles.dart';
+import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/course/files/fileModel.dart';
+import 'package:compound/util/dialogs/fileDownload.dart';
+import 'package:compound/util/str.dart';
+import 'package:compound/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';

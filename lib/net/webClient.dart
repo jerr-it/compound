@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fludip/net/credentials.dart';
+import 'package:compound/net/credentials.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 

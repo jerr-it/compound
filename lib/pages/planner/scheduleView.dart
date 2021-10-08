@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:fludip/provider/calendar/calendarEntry.dart';
-import 'package:fludip/provider/calendar/calendarProvider.dart';
-import 'package:fludip/util/colorMapper.dart';
-import 'package:fludip/util/widgets/Nothing.dart';
+import 'package:compound/navdrawer/navDrawer.dart';
+import 'package:compound/provider/calendar/calendarEntry.dart';
+import 'package:compound/provider/calendar/calendarProvider.dart';
+import 'package:compound/util/colorMapper.dart';
+import 'package:compound/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
 import 'dart:io' as io;
 
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/files/fileModel.dart';
+import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/course/files/fileModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';

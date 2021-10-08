@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:fludip/net/savedServers.dart';
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/pages/startPage.dart';
-import 'package:fludip/provider/user/userProvider.dart';
-import 'package:fludip/util/widgets/styles.dart';
+import 'package:compound/navdrawer/navDrawer.dart';
+import 'package:compound/net/savedServers.dart';
+import 'package:compound/net/webClient.dart';
+import 'package:compound/pages/startPage.dart';
+import 'package:compound/provider/user/userProvider.dart';
+import 'package:compound/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';

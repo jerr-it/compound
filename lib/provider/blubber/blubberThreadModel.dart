@@ -1,4 +1,4 @@
-import 'package:fludip/provider/blubber/blubberMessageModel.dart';
+import 'package:compound/provider/blubber/blubberMessageModel.dart';
 
 // Fludip - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker

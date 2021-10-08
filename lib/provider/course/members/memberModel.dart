@@ -1,4 +1,4 @@
-import 'package:fludip/provider/user/userModel.dart';
+import 'package:compound/provider/user/userModel.dart';
 
 // Fludip - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker

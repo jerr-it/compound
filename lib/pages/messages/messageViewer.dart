@@ -1,5 +1,5 @@
-import 'package:fludip/provider/messages/messageModel.dart';
-import 'package:fludip/util/str.dart';
+import 'package:compound/provider/messages/messageModel.dart';
+import 'package:compound/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

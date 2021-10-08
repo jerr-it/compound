@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/semester/semesterFilter.dart';
-import 'package:fludip/provider/course/semester/semesterModel.dart';
+import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/course/semester/semesterFilter.dart';
+import 'package:compound/provider/course/semester/semesterModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 

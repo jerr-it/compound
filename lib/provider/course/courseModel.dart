@@ -1,5 +1,5 @@
-import 'package:fludip/provider/course/semester/semesterModel.dart';
-import 'package:fludip/util/colorMapper.dart';
+import 'package:compound/provider/course/semester/semesterModel.dart';
+import 'package:compound/util/colorMapper.dart';
 import 'package:flutter/material.dart';
 
 // Fludip - Mobile StudIP client

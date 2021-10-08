@@ -1,10 +1,10 @@
-import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:fludip/pages/course/tabs/forum/forumEntries.dart';
-import 'package:fludip/provider/course/courseModel.dart';
-import 'package:fludip/provider/course/forum/forumProvider.dart';
-import 'package:fludip/provider/course/forum/topicModel.dart';
-import 'package:fludip/util/str.dart';
-import 'package:fludip/util/widgets/Nothing.dart';
+import 'package:compound/navdrawer/navDrawer.dart';
+import 'package:compound/pages/course/tabs/forum/forumEntries.dart';
+import 'package:compound/provider/course/courseModel.dart';
+import 'package:compound/provider/course/forum/forumProvider.dart';
+import 'package:compound/provider/course/forum/topicModel.dart';
+import 'package:compound/util/str.dart';
+import 'package:compound/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

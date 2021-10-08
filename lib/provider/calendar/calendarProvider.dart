@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/calendar/calendarEntry.dart';
+import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/calendar/calendarEntry.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 

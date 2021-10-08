@@ -1,4 +1,4 @@
-import 'package:fludip/util/widgets/styles.dart';
+import 'package:compound/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

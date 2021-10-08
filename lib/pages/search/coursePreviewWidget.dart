@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fludip/pages/course/tabs/info.dart';
-import 'package:fludip/provider/course/coursePreviewModel.dart';
-import 'package:fludip/provider/course/courseProvider.dart';
+import 'package:compound/pages/course/tabs/info.dart';
+import 'package:compound/provider/course/coursePreviewModel.dart';
+import 'package:compound/provider/course/courseProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

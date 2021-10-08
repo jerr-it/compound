@@ -1,7 +1,7 @@
 //A course you haven't yet signed up for
 //Used for the search page
-import 'package:fludip/provider/course/courseModel.dart';
-import 'package:fludip/provider/course/semester/semesterModel.dart';
+import 'package:compound/provider/course/courseModel.dart';
+import 'package:compound/provider/course/semester/semesterModel.dart';
 
 // Fludip - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker

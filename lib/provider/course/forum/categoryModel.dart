@@ -1,4 +1,4 @@
-import 'package:fludip/provider/course/forum/areaModel.dart';
+import 'package:compound/provider/course/forum/areaModel.dart';
 
 // Fludip - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker

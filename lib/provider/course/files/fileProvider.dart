@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/course/files/folderModel.dart';
+import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/course/files/folderModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 

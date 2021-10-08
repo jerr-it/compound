@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fludip/navdrawer/navDrawer.dart';
-import 'package:fludip/pages/community/blubberThreadViewer.dart';
-import 'package:fludip/provider/blubber/blubberProvider.dart';
-import 'package:fludip/provider/blubber/blubberThreadModel.dart';
-import 'package:fludip/util/str.dart';
-import 'package:fludip/util/widgets/Nothing.dart';
+import 'package:compound/navdrawer/navDrawer.dart';
+import 'package:compound/pages/community/blubberThreadViewer.dart';
+import 'package:compound/provider/blubber/blubberProvider.dart';
+import 'package:compound/provider/blubber/blubberThreadModel.dart';
+import 'package:compound/util/str.dart';
+import 'package:compound/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

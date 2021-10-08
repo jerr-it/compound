@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fludip/net/server.dart';
+import 'package:compound/net/server.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // Fludip - Mobile StudIP client

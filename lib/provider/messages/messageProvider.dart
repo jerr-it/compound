@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:fludip/net/webClient.dart';
-import 'package:fludip/provider/messages/messageModel.dart';
-import 'package:fludip/provider/user/userModel.dart';
+import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/messages/messageModel.dart';
+import 'package:compound/provider/user/userModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 

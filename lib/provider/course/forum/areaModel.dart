@@ -1,4 +1,4 @@
-import 'package:fludip/provider/course/forum/topicModel.dart';
+import 'package:compound/provider/course/forum/topicModel.dart';
 
 // Fludip - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker

@@ -1,5 +1,5 @@
-import 'package:fludip/provider/user/userModel.dart';
-import 'package:fludip/provider/user/userProvider.dart';
+import 'package:compound/provider/user/userModel.dart';
+import 'package:compound/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

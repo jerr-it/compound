@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fludip/net/server.dart';
-import 'package:fludip/util/widgets/styles.dart';
+import 'package:compound/net/server.dart';
+import 'package:compound/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

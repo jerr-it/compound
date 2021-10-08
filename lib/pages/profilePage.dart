@@ -1,4 +1,4 @@
-import 'package:fludip/navdrawer/navDrawer.dart';
+import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
