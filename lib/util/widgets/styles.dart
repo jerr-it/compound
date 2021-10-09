@@ -16,19 +16,10 @@ import 'package:flutter/material.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-final Function RAISED_TEXT_BUTTON_STYLE = (Color primaryColor) {
-  return ElevatedButton.styleFrom(
-    minimumSize: Size(88, 36),
-    padding: EdgeInsets.symmetric(horizontal: 16),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(80)),
-    ),
-  );
-};
-
-final Function RAISED_ICON_BUTTON_STYLE = (Color primaryColor) {
+final Function raisedIconButtonStyle = (BuildContext context, {Color color}) {
   return ElevatedButton.styleFrom(
     minimumSize: Size(1, 36),
+    primary: color ?? Theme.of(context).colorScheme.primary,
     padding: EdgeInsets.symmetric(horizontal: 16),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(80)),

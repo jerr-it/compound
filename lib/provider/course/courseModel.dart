@@ -35,7 +35,7 @@ enum CourseType {
   StudyGroup,
 }
 
-final CourseMapper = const {
+final courseMapper = const {
   "1": CourseType.Lecture,
   "2": CourseType.Seminar,
   "3": CourseType.Exercise,
@@ -92,7 +92,7 @@ class Course {
     _subtitle = data["subtitle"];
     _description = data["description"];
 
-    _type = CourseMapper[data["type"]];
+    _type = courseMapper[data["type"]];
     _color = ColorMapper.convert(data["group"]);
     _number = data["number"];
 

@@ -30,7 +30,6 @@ import 'package:provider/provider.dart';
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class ServerSelectPage extends StatefulWidget {
-  Server server;
   final SlidableController slideController = SlidableController();
 
   @override

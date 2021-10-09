@@ -28,7 +28,6 @@ import 'package:provider/provider.dart';
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class MessagesPage extends StatefulWidget {
-  List<Message> _messages;
   final SlidableController slideController = SlidableController();
   final String userID;
 
@@ -39,13 +38,15 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
+  List<Message> _messages;
+
   List<Widget> _buildMessageList() {
     List<Widget> widgets = <Widget>[];
-    if (widget._messages == null) {
+    if (_messages == null) {
       return <Widget>[Nothing()];
     }
 
-    widget._messages.forEach((message) {
+    _messages.forEach((message) {
       widgets.add(Slidable(
         controller: widget.slideController,
         actionPane: SlidableStrechActionPane(),
@@ -88,15 +89,15 @@ class _MessagesPageState extends State<MessagesPage> {
                 title: "sure?".tr(),
                 subtitle: "permanent".tr(),
                 leading: Icon(Icons.warning_sharp),
-                firstOption: "confirm".tr(),
+                firstOptionIcon: Icon(Icons.delete),
                 firstOptionColor: Colors.red,
                 onFirstOption: () {
                   Provider.of<MessageProvider>(context, listen: false).deleteMessage(message.id);
                   setState(() {
-                    widget._messages.remove(message);
+                    _messages.remove(message);
                   });
                 },
-                secondOption: "cancel".tr(),
+                secondOptionIcon: Icon(Icons.close),
                 onSecondOption: () {},
               );
             },
@@ -124,7 +125,7 @@ class _MessagesPageState extends State<MessagesPage> {
         future: messages,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            widget._messages = snapshot.data;
+            _messages = snapshot.data;
             return RefreshIndicator(
               child: ListView(
                 children: _buildMessageList(),

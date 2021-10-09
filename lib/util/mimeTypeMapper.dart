@@ -17,7 +17,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-final Map DIRECT_MATCH = <String, Icon>{
+final Map directMatch = <String, Icon>{
   "application/vnd.ms-excel": Icon(FontAwesome5.file_excel),
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": Icon(FontAwesome5.file_excel),
   "application/msword": Icon(FontAwesome5.file_word),
@@ -37,9 +37,9 @@ final Map DIRECT_MATCH = <String, Icon>{
 };
 
 //https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-final Function MIME_TO_ICON = (String mime) {
-  DIRECT_MATCH.forEach((mime_type, icon) {
-    if (mime == mime_type) {
+final Function mimeToIcon = (String mime) {
+  directMatch.forEach((mimeType, icon) {
+    if (mime == mimeType) {
       return icon;
     }
   });

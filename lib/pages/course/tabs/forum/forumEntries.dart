@@ -6,7 +6,6 @@ import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 // Fludip - Mobile StudIP client
@@ -141,7 +140,7 @@ class ForumEntriesViewer extends StatelessWidget {
           }
 
           try {
-            Response response = await Provider.of<ForumProvider>(context, listen: false)
+            await Provider.of<ForumProvider>(context, listen: false)
                 .sendReply(_course.courseID, _categoryIdx, _areaIdx, _topicIdx, reply);
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));

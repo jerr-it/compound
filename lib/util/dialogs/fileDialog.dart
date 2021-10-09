@@ -1,11 +1,11 @@
 import 'dart:io' as io;
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/net/webClient.dart';
 import 'package:compound/provider/course/files/fileModel.dart';
 import 'package:compound/util/dialogs/fileDownload.dart';
 import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';
@@ -34,8 +34,8 @@ class FileInfoRow extends StatelessWidget {
       : _property = property,
         _value = value;
 
-  String _property;
-  String _value;
+  final String _property;
+  final String _value;
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +70,17 @@ class FileInfoRow extends StatelessWidget {
 class FileWidget extends StatefulWidget {
   FileWidget(File file) : this._file = file;
 
-  File _file;
-  String _path;
-
-  bool _filePresent = false;
-  bool _activeDownload = false;
+  final File _file;
 
   @override
   _FileWidgetState createState() => _FileWidgetState();
 }
 
 class _FileWidgetState extends State<FileWidget> {
+  bool _filePresent = false;
+  bool _activeDownload = false;
+  String _path;
+
   @override
   void initState() {
     init();
@@ -90,10 +90,10 @@ class _FileWidgetState extends State<FileWidget> {
 
   void init() async {
     io.Directory fileLocation = await getApplicationDocumentsDirectory();
-    this.widget._path = fileLocation.path + "/" + this.widget._file.fileID + this.widget._file.name;
-    if (await io.File(this.widget._path).exists()) {
+    _path = fileLocation.path + "/" + this.widget._file.fileID + this.widget._file.name;
+    if (await io.File(_path).exists()) {
       setState(() {
-        this.widget._filePresent = true;
+        _filePresent = true;
       });
     }
   }
@@ -123,7 +123,7 @@ class _FileWidgetState extends State<FileWidget> {
           }
         },
         child: Icon(Icons.open_in_new),
-        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        style: raisedIconButtonStyle(context),
       ));
 
       buttons.add(ElevatedButton(
@@ -131,20 +131,20 @@ class _FileWidgetState extends State<FileWidget> {
           Navigator.of(context).pop();
         },
         child: Icon(Icons.close),
-        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        style: raisedIconButtonStyle(context),
       ));
       return buttons;
     }
 
-    if (this.widget._filePresent) {
+    if (_filePresent) {
       //Delete Button + Open Button + Close Button
       buttons.add(ElevatedButton(
         onPressed: () {
           try {
-            io.File(this.widget._path).delete();
+            io.File(_path).delete();
             setState(() {
-              this.widget._filePresent = false;
-              this.widget._activeDownload = false;
+              _filePresent = false;
+              _activeDownload = false;
             });
           } catch (error) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -158,15 +158,15 @@ class _FileWidgetState extends State<FileWidget> {
           }
         },
         child: Icon(Icons.delete),
-        style: RAISED_ICON_BUTTON_STYLE(Colors.red),
+        style: raisedIconButtonStyle(context, color: Colors.red),
       ));
 
       buttons.add(ElevatedButton(
         onPressed: () {
-          OpenFile.open(this.widget._path);
+          OpenFile.open(_path);
         },
         child: Icon(Icons.open_in_new),
-        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        style: raisedIconButtonStyle(context),
       ));
 
       buttons.add(ElevatedButton(
@@ -174,10 +174,10 @@ class _FileWidgetState extends State<FileWidget> {
           Navigator.of(context).pop();
         },
         child: Icon(Icons.close),
-        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+        style: raisedIconButtonStyle(context),
       ));
     } else {
-      if (this.widget._activeDownload) {
+      if (_activeDownload) {
         //Progress Indicator + Close Button
         buttons.add(ElevatedButton(
           onPressed: () {},
@@ -185,7 +185,7 @@ class _FileWidgetState extends State<FileWidget> {
             value: downloader.progress,
             color: Colors.white,
           ),
-          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+          style: raisedIconButtonStyle(context),
         ));
 
         buttons.add(ElevatedButton(
@@ -193,24 +193,24 @@ class _FileWidgetState extends State<FileWidget> {
             Navigator.of(context).pop();
           },
           child: Icon(Icons.close),
-          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+          style: raisedIconButtonStyle(context),
         ));
       } else {
         //Download Button + Close Button
         buttons.add(ElevatedButton(
           onPressed: () {
             setState(() {
-              this.widget._activeDownload = true;
+              _activeDownload = true;
               downloader.start((success, error) {
                 if (success) {
                   setState(() {
-                    this.widget._activeDownload = false;
-                    this.widget._filePresent = true;
+                    _activeDownload = false;
+                    _filePresent = true;
                   });
                 } else {
                   setState(() {
-                    this.widget._activeDownload = false;
-                    this.widget._filePresent = false;
+                    _activeDownload = false;
+                    _filePresent = false;
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -226,7 +226,7 @@ class _FileWidgetState extends State<FileWidget> {
             });
           },
           child: Icon(Icons.download_sharp),
-          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+          style: raisedIconButtonStyle(context),
         ));
 
         buttons.add(ElevatedButton(
@@ -234,7 +234,7 @@ class _FileWidgetState extends State<FileWidget> {
             Navigator.of(context).pop();
           },
           child: Icon(Icons.close),
-          style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+          style: raisedIconButtonStyle(context),
         ));
       }
     }

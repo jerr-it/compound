@@ -55,7 +55,7 @@ class CoursePreview {
     _subtitle = data["attributes"]["subtitle"];
     _description = data["attributes"]["description"];
 
-    _type = CourseMapper[data["attributes"]["course-type"].toString()];
+    _type = courseMapper[data["attributes"]["course-type"].toString()];
     _location = data["attributes"]["location"];
 
     _startSemester = start;

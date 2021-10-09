@@ -109,7 +109,7 @@ class CredentialsPage extends StatelessWidget {
                     ));
                   },
                   child: Icon(Icons.login),
-                  style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+                  style: raisedIconButtonStyle(context),
                 ),
               ],
             )

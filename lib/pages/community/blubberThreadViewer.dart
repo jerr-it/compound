@@ -27,7 +27,6 @@ import 'package:provider/provider.dart';
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class BlubberThreadViewer extends StatefulWidget {
-  Future<BlubberThread> _thread;
   final Course _course;
   final String _threadName;
   final TextEditingController _tController = TextEditingController();
@@ -42,6 +41,7 @@ class BlubberThreadViewer extends StatefulWidget {
 
 class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
   Timer timer;
+  Future<BlubberThread> _thread;
 
   @override
   void initState() {
@@ -99,10 +99,10 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
 
   @override
   Widget build(BuildContext context) {
-    widget._thread = Provider.of<BlubberProvider>(context).getThread(widget._threadName);
+    _thread = Provider.of<BlubberProvider>(context).getThread(widget._threadName);
 
     return FutureBuilder(
-      future: widget._thread,
+      future: _thread,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var bThread = snapshot.data as BlubberThread;

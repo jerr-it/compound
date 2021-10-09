@@ -36,8 +36,6 @@ import 'package:provider/provider.dart';
 class SearchPage extends StatefulWidget {
   SearchPage(String userID) : _userID = userID;
 
-  String _searchTerm;
-
   final TextEditingController _controller = new TextEditingController();
   final String _userID;
 
@@ -46,6 +44,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  String _searchTerm;
+
   List<Widget> _buildSearchResults(BuildContext context, List<CoursePreview> courses, List<Course> signedUpCourses) {
     List<Widget> widgets = <Widget>[];
 
@@ -62,8 +62,8 @@ class _SearchPageState extends State<SearchPage> {
                         title: "sure?".tr(),
                         leading: Icon(Icons.warning_sharp),
                         subtitle: "join-course".tr(namedArgs: {"course": preview.title}),
-                        firstOption: "confirm".tr(),
-                        secondOption: "cancel".tr(),
+                        firstOptionIcon: Icon(FontAwesome.sign_in),
+                        secondOptionIcon: Icon(Icons.close),
                         onFirstOption: () async {
                           http.Response response =
                               await Provider.of<CourseProvider>(context, listen: false).signup(preview.courseID);
@@ -91,7 +91,7 @@ class _SearchPageState extends State<SearchPage> {
                         onSecondOption: () {},
                       );
                     },
-                    style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+                    style: raisedIconButtonStyle(context),
                     child: Icon(FontAwesome.sign_in),
                   ),
                   padding: EdgeInsets.only(right: 5),
@@ -100,7 +100,7 @@ class _SearchPageState extends State<SearchPage> {
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Icon(Icons.check, color: Colors.white),
-                    style: RAISED_ICON_BUTTON_STYLE(Colors.green),
+                    style: raisedIconButtonStyle(context, color: Colors.green),
                   ),
                   padding: EdgeInsets.only(right: 5),
                 ),
@@ -148,24 +148,24 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         onSubmitted: (_) {
                           setState(() {
-                            this.widget._searchTerm = this.widget._controller.text;
+                            _searchTerm = this.widget._controller.text;
                           });
                         },
                       ),
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            this.widget._searchTerm = this.widget._controller.text;
+                            _searchTerm = this.widget._controller.text;
                           });
                         },
                         child: Icon(Icons.search),
-                        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+                        style: raisedIconButtonStyle(context),
                       ),
                     ],
                   ),
                 ),
                 FutureBuilder(
-                  future: Provider.of<CourseProvider>(context).searchFor(context, this.widget._searchTerm),
+                  future: Provider.of<CourseProvider>(context).searchFor(context, _searchTerm),
                   builder: (BuildContext context, AsyncSnapshot<List<CoursePreview>> previewSnapshot) {
                     if (previewSnapshot.hasData) {
                       return Expanded(

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/pages/course/page/courseListTile.dart';
 import 'package:compound/provider/course/courseModel.dart';
@@ -10,6 +9,7 @@ import 'package:compound/provider/user/userModel.dart';
 import 'package:compound/provider/user/userProvider.dart';
 import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:compound/util/widgets/Nothing.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
@@ -36,18 +36,19 @@ class CoursePage extends StatefulWidget {
       : _userID = uID,
         _ctx = ctx;
 
-  BuildContext _ctx;
-  String _userID;
-  SemesterFilter filter;
+  final BuildContext _ctx;
+  final String _userID;
 
   @override
   _CoursePageState createState() => _CoursePageState();
 }
 
 class _CoursePageState extends State<CoursePage> {
+  SemesterFilter filter;
+
   @override
   void initState() {
-    this.widget.filter = Provider.of<SemesterProvider>(this.widget._ctx, listen: false).filterOptions[1];
+    filter = Provider.of<SemesterProvider>(this.widget._ctx, listen: false).filterOptions[1];
     super.initState();
   }
 
@@ -89,8 +90,9 @@ class _CoursePageState extends State<CoursePage> {
             title: "sure?".tr(),
             subtitle: "leave-course".tr(namedArgs: {"course": course.title}),
             leading: Icon(Icons.warning_sharp),
-            firstOption: "confirm".tr(),
-            secondOption: "cancel".tr(),
+            firstOptionIcon: Icon(Icons.check),
+            firstOptionColor: Colors.red,
+            secondOptionIcon: Icon(Icons.close),
             onFirstOption: () async {
               Response response = await Provider.of<CourseProvider>(context, listen: false).signout(course.courseID);
               if (response.statusCode == 302) {
@@ -124,7 +126,7 @@ class _CoursePageState extends State<CoursePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Semester> semesters = Provider.of<SemesterProvider>(context, listen: false).get(this.widget.filter);
+    List<Semester> semesters = Provider.of<SemesterProvider>(context, listen: false).get(filter);
     semesters.removeWhere((element) => element == null); //Next semester might not exist (yet) and therefore will be null
     Future<List<Course>> fCourses = Provider.of<CourseProvider>(context).get(context, this.widget._userID, semesters);
 
@@ -147,7 +149,7 @@ class _CoursePageState extends State<CoursePage> {
                 );
               },
             ).toList(),
-            value: this.widget.filter,
+            value: filter,
             icon: Icon(Icons.arrow_downward),
             iconSize: 24,
             style: GoogleFonts.montserrat(),
@@ -157,7 +159,7 @@ class _CoursePageState extends State<CoursePage> {
             ),
             onChanged: (SemesterFilter newFilter) {
               setState(() {
-                this.widget.filter = newFilter;
+                filter = newFilter;
               });
             },
           ),

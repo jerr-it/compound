@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/provider/course/files/fileModel.dart';
@@ -8,6 +7,7 @@ import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:compound/util/dialogs/fileDialog.dart';
 import 'package:compound/util/mimeTypeMapper.dart';
 import 'package:compound/util/widgets/Nothing.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,8 +30,8 @@ import 'package:provider/provider.dart';
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class FilesTab extends StatelessWidget {
-  Course _course;
-  List<int> _subFolderPath;
+  final Course _course;
+  final List<int> _subFolderPath;
 
   FilesTab({@required course, @required path})
       : _course = course,
@@ -77,7 +77,7 @@ class FilesTab extends StatelessWidget {
     List<File> fileRefs = currentFolder.files;
     fileRefs.forEach((fileRef) {
       widgets.add(ListTile(
-        leading: fileRef.url != null ? Icon(Icons.link_sharp) : MIME_TO_ICON(fileRef.mimeType),
+        leading: fileRef.url != null ? Icon(Icons.link_sharp) : mimeToIcon(fileRef.mimeType),
         title: Text(fileRef.name, style: GoogleFonts.montserrat()),
         onTap: () async {
           //TODO Show file dialog
@@ -89,12 +89,12 @@ class FilesTab extends StatelessWidget {
               title: "no-permission".tr(),
               leading: Icon(Icons.warning_sharp),
               subtitle: "no-permission-body".tr(),
-              firstOption: "ok".tr(),
-              secondOption: "settings".tr(),
-              onFirstOption: () {},
-              onSecondOption: () {
+              firstOptionIcon: Icon(Icons.settings),
+              secondOptionIcon: Icon(Icons.close),
+              onFirstOption: () {
                 openAppSettings();
               },
+              onSecondOption: () {},
             );
             return;
           }

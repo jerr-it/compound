@@ -88,7 +88,7 @@ class AddServerPage extends StatelessWidget {
                           //TODO display help
                         },
                         child: Icon(Icons.help),
-                        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+                        style: raisedIconButtonStyle(context),
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -96,7 +96,7 @@ class AddServerPage extends StatelessWidget {
                           Navigator.pop(context, server);
                         },
                         child: Icon(Icons.check),
-                        style: RAISED_ICON_BUTTON_STYLE(Colors.blue),
+                        style: raisedIconButtonStyle(context),
                       ),
                     ],
                   ),

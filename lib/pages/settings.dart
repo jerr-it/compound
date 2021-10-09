@@ -5,17 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
-  String _themeKey;
-
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  String _themeKey;
+
   @override
   Widget build(BuildContext context) {
-    if (this.widget._themeKey == null) {
-      this.widget._themeKey = Provider.of<ThemeController>(context, listen: false).key;
+    if (_themeKey == null) {
+      _themeKey = Provider.of<ThemeController>(context, listen: false).key;
     }
 
     return Scaffold(
@@ -38,11 +38,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   );
                 }).toList(),
                 icon: Icon(Icons.arrow_downward),
-                value: this.widget._themeKey,
+                value: _themeKey,
                 onChanged: (String newValue) {
                   setState(() {
-                    this.widget._themeKey = newValue;
-                    Provider.of<ThemeController>(context, listen: false).setTheme(this.widget._themeKey);
+                    _themeKey = newValue;
+                    Provider.of<ThemeController>(context, listen: false).setTheme(_themeKey);
                   });
                 },
               ),

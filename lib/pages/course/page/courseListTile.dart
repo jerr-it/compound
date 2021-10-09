@@ -34,7 +34,7 @@ import 'package:transparent_image/transparent_image.dart';
 class CourseListTile extends StatelessWidget {
   CourseListTile(Course course) : _course = course;
 
-  Course _course;
+  final Course _course;
 
   @override
   Widget build(BuildContext context) {
