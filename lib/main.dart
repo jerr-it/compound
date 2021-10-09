@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 
 import 'provider/user/userProvider.dart';
 
-// Fludip - Mobile StudIP client
+// Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
 
 // This program is free software: you can redistribute it and/or modify
@@ -83,7 +83,7 @@ class App extends StatelessWidget {
               supportedLocales: context.supportedLocales,
               locale: context.deviceLocale,
               theme: themeController.theme,
-              title: "Fludip",
+              title: "Compound",
               home: ServerSelectPage(),
             ),
           );

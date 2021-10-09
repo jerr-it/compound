@@ -13,7 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-// Fludip - Mobile StudIP client
+// Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
 
 // This program is free software: you can redistribute it and/or modify
@@ -80,7 +80,6 @@ class FilesTab extends StatelessWidget {
         leading: fileRef.url != null ? Icon(Icons.link_sharp) : mimeToIcon(fileRef.mimeType),
         title: Text(fileRef.name, style: GoogleFonts.montserrat()),
         onTap: () async {
-          //TODO Show file dialog
           var storagePerm = await Permission.storage.request();
 
           if (!storagePerm.isGranted) {

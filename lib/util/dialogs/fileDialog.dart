@@ -13,7 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// Fludip - Mobile StudIP client
+// Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
 
 // This program is free software: you can redistribute it and/or modify

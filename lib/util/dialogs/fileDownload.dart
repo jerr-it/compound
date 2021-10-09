@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
 
-// Fludip - Mobile StudIP client
+// Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
 
 // This program is free software: you can redistribute it and/or modify

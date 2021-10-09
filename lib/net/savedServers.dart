@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:compound/net/server.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-// Fludip - Mobile StudIP client
+// Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
 
 // This program is free software: you can redistribute it and/or modify

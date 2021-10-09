@@ -1,7 +1,7 @@
 import 'package:compound/provider/course/forum/entryModel.dart';
 import 'package:compound/provider/user/userModel.dart';
 
-// Fludip - Mobile StudIP client
+// Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
 
 // This program is free software: you can redistribute it and/or modify
