@@ -36,6 +36,7 @@ dependencies:
   path_provider: ^2.0.5
   open_file: ^3.2.1
   flutter_icons: ^1.1.0
+  shared_preferences: ^2.0.8
   flutter:
     sdk: flutter
 
@@ -74,6 +75,7 @@ flutter:
   assets:
     - assets/translations/
     - google_fonts/
+    - banner.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/pages/messages/messageViewer.dart';
 import 'package:compound/provider/messages/messageModel.dart';
@@ -6,6 +5,7 @@ import 'package:compound/provider/messages/messageProvider.dart';
 import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/Nothing.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,7 +51,7 @@ class _MessagesPageState extends State<MessagesPage> {
         actionPane: SlidableStrechActionPane(),
         actionExtentRatio: 1 / 5,
         child: ListTile(
-          leading: Icon(Icons.mail, size: 30),
+          leading: Icon(Icons.mail, size: 30, color: Theme.of(context).hintColor),
           title: Text(
             message.subject,
             style: GoogleFonts.montserrat(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),

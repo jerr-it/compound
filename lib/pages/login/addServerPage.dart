@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/net/server.dart';
 import 'package:compound/util/widgets/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -48,16 +48,16 @@ class AddServerPage extends StatelessWidget {
                   controller: _nameController,
                   decoration: InputDecoration(
                     hintText: "name".tr(),
-                    hintStyle: GoogleFonts.montserrat(color: Colors.black26),
+                    hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.school,
                       color: Colors.black,
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black38, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black12, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                   ),
                 ),
@@ -65,16 +65,16 @@ class AddServerPage extends StatelessWidget {
                   controller: _urlController,
                   decoration: InputDecoration(
                     hintText: "url".tr(),
-                    hintStyle: GoogleFonts.montserrat(color: Colors.black26),
+                    hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.link,
                       color: Colors.black,
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black38, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black12, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                   ),
                 ),

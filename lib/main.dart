@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/net/savedServers.dart';
 import 'package:compound/pages/login/serverSelectPage.dart';
 import 'package:compound/provider/blubber/blubberProvider.dart';
@@ -10,6 +9,8 @@ import 'package:compound/provider/course/members/membersProvider.dart';
 import 'package:compound/provider/course/semester/semesterProvider.dart';
 import 'package:compound/provider/messages/messageProvider.dart';
 import 'package:compound/provider/news/globalNewsProvider.dart';
+import 'package:compound/provider/themes/themeProvider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,7 +53,6 @@ void main() async {
   ));
 }
 
-//TODO darkmode ^^
 //TODO user settings:
 // 1. custom colors for courses
 // 2. (fingerprint?) unlock
@@ -60,25 +60,34 @@ void main() async {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => SemesterProvider()),
-        ChangeNotifierProvider(create: (_) => NewsProvider()),
-        ChangeNotifierProvider(create: (_) => CourseProvider()),
-        ChangeNotifierProvider(create: (_) => ForumProvider()),
-        ChangeNotifierProvider(create: (_) => MembersProvider()),
-        ChangeNotifierProvider(create: (_) => FileProvider()),
-        ChangeNotifierProvider(create: (_) => MessageProvider()),
-        ChangeNotifierProvider(create: (_) => BlubberProvider()),
-        ChangeNotifierProvider(create: (_) => CalendarProvider()),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.deviceLocale,
-        title: "Fludip",
-        home: ServerSelectPage(),
+    return ChangeNotifierProvider(
+      create: (_) => ThemeController(),
+      child: Consumer(
+        builder: (BuildContext context, ThemeController themeController, Widget child) {
+          themeController.init();
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => UserProvider()),
+              ChangeNotifierProvider(create: (_) => SemesterProvider()),
+              ChangeNotifierProvider(create: (_) => NewsProvider()),
+              ChangeNotifierProvider(create: (_) => CourseProvider()),
+              ChangeNotifierProvider(create: (_) => ForumProvider()),
+              ChangeNotifierProvider(create: (_) => MembersProvider()),
+              ChangeNotifierProvider(create: (_) => FileProvider()),
+              ChangeNotifierProvider(create: (_) => MessageProvider()),
+              ChangeNotifierProvider(create: (_) => BlubberProvider()),
+              ChangeNotifierProvider(create: (_) => CalendarProvider()),
+            ],
+            child: MaterialApp(
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.deviceLocale,
+              theme: themeController.theme,
+              title: "Fludip",
+              home: ServerSelectPage(),
+            ),
+          );
+        },
       ),
     );
   }

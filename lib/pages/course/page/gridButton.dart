@@ -33,17 +33,20 @@ class GridButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: _color,
+      color: Color((_color.value + Theme.of(context).canvasColor.value) ~/ 2),
       child: InkWell(
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(_icon),
+              Icon(
+                _icon,
+                color: Colors.black87,
+              ),
               Text(
                 _caption,
-                style: GoogleFonts.montserrat(),
+                style: GoogleFonts.montserrat(color: Colors.black87),
               ),
             ],
           ),

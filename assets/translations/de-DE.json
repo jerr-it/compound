@@ -12,7 +12,7 @@
     "noticeBoard": "Schwarzes Brett",
     "settings": "Einstellungen",
     "logout": "Ausloggen",
-    "news": "Informationen",
+    "news": "Info",
     "forum": "Forum",
     "members": "Teilnehmer",
     "blubber": "Blubber",
@@ -70,5 +70,8 @@
     "give-server-info": "Geben Sie Ihre Server Angaben ein. Falls Sie unsicher sind, was Sie tun sollen, können Sie unten auf den Hilfe-Knopf drücken.",
     "give-server-credentials": "Geben Sie Ihre Nutzerdaten ein.",
     "remove": "Entfernen",
-    "about": "Über"
+    "about": "Über",
+    "theme": "Farbwahl",
+    "dark": "Dunkel",
+    "light": "Hell"
 }

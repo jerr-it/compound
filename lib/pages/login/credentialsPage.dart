@@ -1,10 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/net/savedServers.dart';
 import 'package:compound/net/webClient.dart';
 import 'package:compound/pages/startPage.dart';
 import 'package:compound/provider/user/userProvider.dart';
 import 'package:compound/util/widgets/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,16 +57,16 @@ class CredentialsPage extends StatelessWidget {
                   controller: _usernameController,
                   decoration: InputDecoration(
                     hintText: "username".tr(),
-                    hintStyle: GoogleFonts.montserrat(color: Colors.black26),
+                    hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.person,
                       color: Colors.black,
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black38, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black12, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                   ),
                 ),
@@ -75,16 +75,16 @@ class CredentialsPage extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: "password".tr(),
-                    hintStyle: GoogleFonts.montserrat(color: Colors.black26),
+                    hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.password,
                       color: Colors.black,
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black38, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                     enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black12, width: 2),
+                      borderSide: BorderSide(width: 2),
                     ),
                   ),
                 ),

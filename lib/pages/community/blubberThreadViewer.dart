@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:bubble/bubble.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/provider/blubber/blubberMessageModel.dart';
 import 'package:compound/provider/blubber/blubberProvider.dart';
 import 'package:compound/provider/blubber/blubberThreadModel.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/util/str.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +68,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
           child: Bubble(
             alignment: comment.isMine ? Alignment.topRight : Alignment.bottomLeft,
             nip: comment.isMine ? BubbleNip.rightTop : BubbleNip.leftBottom,
-            color: comment.isMine ? Colors.lightGreen : Colors.white30,
+            color: comment.isMine ? Theme.of(context).colorScheme.secondary : Theme.of(context).dialogBackgroundColor,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: comment.isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -116,7 +116,6 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
                     Navigator.pop(context);
                   },
                 ),
-                backgroundColor: this.widget._course != null ? this.widget._course.color : Colors.blue,
               ),
               body: Center(
                 heightFactor: 2,
@@ -140,7 +139,8 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
                   Navigator.pop(context);
                 },
               ),
-              backgroundColor: this.widget._course != null ? this.widget._course.color : Colors.blue,
+              backgroundColor:
+                  this.widget._course != null ? this.widget._course.color : Theme.of(context).colorScheme.primary,
             ),
             body: Column(
               children: [

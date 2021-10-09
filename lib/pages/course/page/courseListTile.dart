@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/pages/community/blubberThreadViewer.dart';
 import 'package:compound/pages/course/page/gridButton.dart';
@@ -9,6 +8,7 @@ import 'package:compound/pages/course/tabs/members.dart';
 import 'package:compound/provider/blubber/blubberProvider.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/provider/course/courseProvider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -79,7 +79,7 @@ class CourseListTile extends StatelessWidget {
               GridButton(
                 icon: Icons.new_releases_sharp,
                 caption: "news".tr(),
-                color: Colors.white54,
+                color: Colors.cyan,
                 onTap: () {
                   Navigator.push(context, navRoute(InfoTab(course: _course)));
                 },
@@ -87,7 +87,7 @@ class CourseListTile extends StatelessWidget {
               GridButton(
                 icon: Icons.forum,
                 caption: "forum".tr(),
-                color: Colors.red,
+                color: Colors.deepOrange,
                 onTap: () {
                   Navigator.push(
                     context,
@@ -109,7 +109,7 @@ class CourseListTile extends StatelessWidget {
               GridButton(
                 icon: Icons.file_copy,
                 caption: "files".tr(),
-                color: Colors.purple,
+                color: Colors.blue,
                 onTap: () {
                   Navigator.push(
                     context,

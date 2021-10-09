@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/net/savedServers.dart';
 import 'package:compound/net/server.dart';
@@ -7,6 +6,7 @@ import 'package:compound/pages/login/addServerPage.dart';
 import 'package:compound/pages/login/credentialsPage.dart';
 import 'package:compound/pages/startPage.dart';
 import 'package:compound/provider/user/userProvider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -77,9 +77,9 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "login".tr(),
-          style: GoogleFonts.montserrat(),
+        title: Image(
+          height: 50,
+          image: AssetImage("banner.png"),
         ),
       ),
       body: Container(

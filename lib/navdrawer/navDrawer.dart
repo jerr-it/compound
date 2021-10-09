@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:compound/navdrawer/navDrawerHeader.dart';
 import 'package:compound/net/webClient.dart';
 import 'package:compound/pages/community/communityPage.dart';
@@ -9,6 +8,7 @@ import 'package:compound/pages/messages/messagesPage.dart';
 import 'package:compound/pages/planner/scheduleView.dart';
 import 'package:compound/pages/profilePage.dart';
 import 'package:compound/pages/search/searchPage.dart';
+import 'package:compound/pages/settings.dart';
 import 'package:compound/pages/startPage.dart';
 import 'package:compound/provider/blubber/blubberProvider.dart';
 import 'package:compound/provider/calendar/calendarProvider.dart';
@@ -20,6 +20,7 @@ import 'package:compound/provider/messages/messageProvider.dart';
 import 'package:compound/provider/news/globalNewsProvider.dart';
 import 'package:compound/provider/user/userModel.dart';
 import 'package:compound/provider/user/userProvider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -88,11 +89,11 @@ class NavDrawer extends StatelessWidget {
           DrawerHeader(
             child: NavDrawerHeader(),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           ListTile(
-            leading: Icon(Icons.home),
+            leading: Icon(Icons.home, color: Theme.of(context).hintColor),
             title: Text("start".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               Navigator.pop(context);
@@ -100,7 +101,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.book_rounded),
+            leading: Icon(Icons.book_rounded, color: Theme.of(context).hintColor),
             title: Text("event".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
@@ -110,7 +111,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.mail),
+            leading: Icon(Icons.mail, color: Theme.of(context).hintColor),
             title: Text("messages".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
@@ -120,7 +121,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.people),
+            leading: Icon(Icons.people, color: Theme.of(context).hintColor),
             title: Text("community".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               Navigator.pop(context);
@@ -128,7 +129,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.person),
+            leading: Icon(Icons.person, color: Theme.of(context).hintColor),
             title: Text("profile".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               Navigator.pop(context);
@@ -136,7 +137,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.event),
+            leading: Icon(Icons.event, color: Theme.of(context).hintColor),
             title: Text("planner".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
@@ -146,7 +147,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.search),
+            leading: Icon(Icons.search, color: Theme.of(context).hintColor),
             title: Text("search".tr(), style: GoogleFonts.montserrat()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
@@ -156,7 +157,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.file_copy),
+            leading: Icon(Icons.file_copy, color: Theme.of(context).hintColor),
             title: Text("files".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               Navigator.pop(context);
@@ -165,14 +166,16 @@ class NavDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading: Icon(Icons.settings, color: Theme.of(context).hintColor),
             title: Text("settings".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               //Reroute to settings page
+              Navigator.pop(context);
+              Navigator.of(context).push(navRoute(SettingsPage()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout),
+            leading: Icon(Icons.logout, color: Theme.of(context).hintColor),
             title: Text("logout".tr(), style: GoogleFonts.montserrat()),
             onTap: () {
               var client = WebClient();
@@ -190,7 +193,7 @@ class NavDrawer extends StatelessWidget {
               "about".tr(),
               style: GoogleFonts.montserrat(),
             ),
-            icon: Icon(Icons.text_fields),
+            icon: Icon(Icons.text_fields, color: Theme.of(context).hintColor),
             applicationVersion: "1.0.0",
             applicationLegalese: "Released under the GNU General Public License version 3",
           ),

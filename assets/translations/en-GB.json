@@ -12,7 +12,7 @@
     "noticeBoard": "Noticeboard",
     "settings": "Settings",
     "logout": "Logout",
-    "news": "Information",
+    "news": "Info",
     "forum": "Forum",
     "members": "Members",
     "blubber": "Blubber",
@@ -70,5 +70,8 @@
     "give-server-info": "Enter your server information down below. If you're unsure what to do, press the help button down below.",
     "give-server-credentials": "Enter your login information.",
     "remove": "Remove",
-    "about": "About"
+    "about": "About",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light"
 }
