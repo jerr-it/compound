@@ -51,7 +51,7 @@ class AddServerPage extends StatelessWidget {
                     hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.school,
-                      color: Colors.black,
+                      color: Theme.of(context).hintColor,
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(width: 2),
@@ -68,7 +68,7 @@ class AddServerPage extends StatelessWidget {
                     hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.link,
-                      color: Colors.black,
+                      color: Theme.of(context).hintColor,
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(width: 2),

@@ -1,2 +1,2 @@
-![compound-banner](/assets/banner.png)
+![compound-banner](/banner.png)
 ## Mobile StudIP client app

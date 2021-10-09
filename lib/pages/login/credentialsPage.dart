@@ -60,7 +60,7 @@ class CredentialsPage extends StatelessWidget {
                     hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color: Theme.of(context).hintColor,
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(width: 2),
@@ -78,7 +78,7 @@ class CredentialsPage extends StatelessWidget {
                     hintStyle: GoogleFonts.montserrat(),
                     icon: Icon(
                       Icons.password,
-                      color: Colors.black,
+                      color: Theme.of(context).hintColor,
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(width: 2),

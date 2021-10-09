@@ -79,7 +79,7 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
       appBar: AppBar(
         title: Image(
           height: 50,
-          image: AssetImage("banner.png"),
+          image: AssetImage("banner_transparent.png"),
         ),
       ),
       body: Container(
