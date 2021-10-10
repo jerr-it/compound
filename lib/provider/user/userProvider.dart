@@ -22,6 +22,7 @@ import 'package:http/http.dart';
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ///Saves user data as requested by /user and /user/:user_id
+///"self" is a special 'id' for retrieving the user thats logged in
 class UserProvider extends ChangeNotifier {
   Map<String, User> _users = new Map();
   final WebClient _client = WebClient();

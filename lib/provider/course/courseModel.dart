@@ -52,6 +52,7 @@ final courseMapper = const {
   "99": CourseType.StudyGroup,
 };
 
+///Abstracts a StudIP course
 class Course {
   String _courseID;
 

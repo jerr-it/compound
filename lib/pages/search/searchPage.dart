@@ -33,6 +33,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Search all StudIP courses for the ones the user
 class SearchPage extends StatefulWidget {
   SearchPage(String userID) : _userID = userID;
 

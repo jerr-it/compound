@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 const String REST_API_URL = "/api.php";
 const String JSON_API_URL = "/jsonapi.php/v1";
 
-/// Server bundles information related to authentication and content pulling
+/// Server bundles information related to authentication and content retrieval
 class Server {
   String _name;
   String _webAddress;
@@ -38,6 +38,7 @@ class Server {
   String get webAddress => this._webAddress;
   bool get secure => this._secure;
 
+  ///Needed for jsonEncode to work
   Map<String, dynamic> toJson() {
     return {
       "name": _name,
@@ -46,6 +47,7 @@ class Server {
     };
   }
 
+  ///Needed for jsonDecode to work
   Server.fromJson(Map<String, dynamic> data) {
     _name = data["name"];
     _webAddress = data["webAdress"];

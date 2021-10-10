@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Abstracts StudIP news data
 class News {
   String _topic;
   String _body;

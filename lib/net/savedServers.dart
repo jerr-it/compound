@@ -19,6 +19,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Stores the StudIP instances the user enters on the first page
 class SavedServers {
   static final SavedServers _savedServers = SavedServers._internal();
   SavedServers._internal();
@@ -30,6 +31,8 @@ class SavedServers {
   List<Server> _entries;
   List<Server> get entries => this._entries;
 
+  ///Initialise the list.
+  ///Async because it needs to retrieve already entered servers from the device storage.
   Future<void> init() async {
     var storage = new FlutterSecureStorage();
     String res = await storage.read(key: "saved_servers");
@@ -43,6 +46,7 @@ class SavedServers {
     _entries = decoded.map((e) => Server.fromJson(e)).toList();
   }
 
+  ///Saves all entered StudIP instances securely
   Future<void> save() async {
     var storage = new FlutterSecureStorage();
     String str = jsonEncode(_entries);

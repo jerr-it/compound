@@ -23,6 +23,7 @@ import 'package:http/http.dart';
 
 ///Provides the users schedule
 class CalendarProvider extends ChangeNotifier {
+  //One List<CalendarEntry> per day
   List<List<CalendarEntry>> _calendarEntries;
   final WebClient _client = WebClient();
 
@@ -30,6 +31,8 @@ class CalendarProvider extends ChangeNotifier {
     return _calendarEntries != null;
   }
 
+  ///Retrieve the users([userID]) schedule.
+  ///Uses cache if available.
   Future<List<List<CalendarEntry>>> get(String userID) {
     if (!initialized()) {
       return forceUpdate(userID);
@@ -37,6 +40,7 @@ class CalendarProvider extends ChangeNotifier {
     return Future<List<List<CalendarEntry>>>.value(_calendarEntries);
   }
 
+  ///Force updating the schedule
   Future<List<List<CalendarEntry>>> forceUpdate(String userID) async {
     _calendarEntries ??= <List<CalendarEntry>>[];
 
@@ -64,6 +68,7 @@ class CalendarProvider extends ChangeNotifier {
     return Future<List<List<CalendarEntry>>>.value(_calendarEntries);
   }
 
+  ///Resets providers internal storage. Used when the user logs out.
   void resetCache() {
     _calendarEntries = null;
   }

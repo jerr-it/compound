@@ -24,6 +24,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays the entries of a forum topic
 class ForumEntriesViewer extends StatelessWidget {
   final String _pageTitle;
   final Course _course;

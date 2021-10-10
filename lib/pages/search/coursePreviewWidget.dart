@@ -23,6 +23,7 @@ import 'package:transparent_image/transparent_image.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays a course search result as a list entry
 class CoursePreviewWidget extends StatelessWidget {
   CoursePreviewWidget(CoursePreview preview) : _coursePreview = preview;
 

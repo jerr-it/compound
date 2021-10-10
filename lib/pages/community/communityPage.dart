@@ -25,6 +25,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays all available blubber threads
 class CommunityPage extends StatelessWidget {
   List<Widget> _buildOverview(BuildContext context, List<BlubberThread> threads) {
     List<Widget> widgets = <Widget>[];

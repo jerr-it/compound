@@ -88,8 +88,8 @@ class CourseProvider extends ChangeNotifier {
     return Future<List<Course>>.value(courses);
   }
 
-  //Returns a given courses image
-  //Uses the internal cache if possible
+  ///Returns a given courses image.
+  ///Uses the internal cache if possible.
   Future<MemoryImage> getImage(String courseID, CourseType type) async {
     if (_courseImages.containsKey(courseID)) {
       return _courseImages[courseID];
@@ -105,6 +105,7 @@ class CourseProvider extends ChangeNotifier {
     return (type == CourseType.StudyGroup ? _genericStudyGroupImage : _genericCourseImage);
   }
 
+  ///Returns the url of a courses icon
   String getLogo(String courseID) {
     return _client.server.webAddress + "/pictures/course/" + courseID + "_medium.png";
   }
@@ -116,7 +117,7 @@ class CourseProvider extends ChangeNotifier {
         (type == CourseType.StudyGroup ? "studygroup_medium.png" : "nobody_medium.png");
   }
 
-  //Forces the CourseProvider to update all courses of the given semesters
+  ///Forces the CourseProvider to update all courses of the given semesters
   Future<void> forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
     _courses ??= <Semester, List<Course>>{};
 
@@ -161,8 +162,8 @@ class CourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //Used by the search page
-  //Searches all studip courses for matches
+  ///Used by the search page.
+  ///Searches all studip courses for matches.
   Future<List<CoursePreview>> searchFor(BuildContext context, String searchStr) async {
     List<CoursePreview> courses = <CoursePreview>[];
     if (searchStr == null || searchStr.isEmpty) {
@@ -197,11 +198,10 @@ class CourseProvider extends ChangeNotifier {
     return Future<List<CoursePreview>>.value(courses);
   }
 
-  //Signs the user up for a course
+  ///Signs the user up for a course.
+  ///There doesn't seem to be a route in REST or JSON for signing up for a course.
+  ///So this 'imitates' the action done in a browser.
   Future<http.Response> signup(String courseID) async {
-    //There doesn't seem to be a route in REST or JSON for signing up for a course
-    //So this 'imitates' the action done in a browser
-
     //Extract the security token from the html page
     http.Response res = await http.get(
       Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"),
@@ -224,11 +224,10 @@ class CourseProvider extends ChangeNotifier {
     });
   }
 
-  //Signs the user out of a given course
+  ///Signs the user out of a given course
+  ///There doesn't seem to be a route in REST or JSON for siging out of a course either.
+  ///So this 'imitates' the action done in a browser.
   Future<http.Response> signout(String courseID) async {
-    //There doesn't seem to be a route in REST or JSON for siging out of a course either
-    //So this 'imitates' the action done in a browser
-
     //Extract the security token and studip ticket(?) from the html page
     http.Response res = await http.get(
       Uri.parse(_client.server.webAddress + "/dispatch.php/my_courses/decline/$courseID?cmd=suppose_to_kill"),

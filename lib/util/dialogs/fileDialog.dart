@@ -67,6 +67,7 @@ class FileInfoRow extends StatelessWidget {
   }
 }
 
+///Displays information about a file and download/delete options
 class FileWidget extends StatefulWidget {
   FileWidget(File file) : this._file = file;
 

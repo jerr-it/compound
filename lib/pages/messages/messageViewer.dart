@@ -19,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///View the contents of a message
 class MessageViewer extends StatelessWidget {
   final Message _message;
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+///Tints a given color brighter
 Color lighten(Color color, double factor) {
   int red = ((color.red.toDouble()) * (1.0 + factor)).round();
   int green = ((color.green.toDouble()) * (1.0 + factor)).round();
@@ -9,6 +10,7 @@ Color lighten(Color color, double factor) {
   return Color.fromRGBO(red, green, blue, 1.0);
 }
 
+///Tints a given color darker
 Color darken(Color color, double factor) {
   int red = ((color.red.toDouble()) * (1.0 - factor)).round();
   int green = ((color.green.toDouble()) * (1.0 - factor)).round();
@@ -17,6 +19,7 @@ Color darken(Color color, double factor) {
   return Color.fromRGBO(red, green, blue, 1.0);
 }
 
+///Generates a theme color palette based on a primary [color]
 MaterialColor generate(Color color) {
   return MaterialColor(color.value, {
     50: lighten(color, 0.5),
@@ -32,6 +35,7 @@ MaterialColor generate(Color color) {
   });
 }
 
+///Manages themes and swapping them
 class ThemeController extends ChangeNotifier {
   static Map<String, ThemeData> presets = <String, ThemeData>{
     "dark": ThemeData.dark().copyWith(

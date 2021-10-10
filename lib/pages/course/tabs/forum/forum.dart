@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays forum categories and areas of a given course
 class ForumTab extends StatelessWidget {
   final Course _course;
 

@@ -18,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Screen used to write a reply in a forum
 class ForumReplyScreen extends StatelessWidget {
   const ForumReplyScreen({Key key}) : super(key: key);
 

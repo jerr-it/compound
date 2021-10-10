@@ -36,6 +36,8 @@ class BlubberProvider extends ChangeNotifier {
     return _threads[name] != null && _threads[name].comments != null;
   }
 
+  ///Fetches all available blubber threads.
+  ///Uses cache if possible.
   Future<List<BlubberThread>> getOverview() {
     if (!initialized()) {
       return forceUpdateOverview();
@@ -44,6 +46,8 @@ class BlubberProvider extends ChangeNotifier {
     return Future<List<BlubberThread>>.value(_threads.values.toList());
   }
 
+  ///Forces blubber thread overview update.
+  ///Overwrites cache with new data.
   Future<List<BlubberThread>> forceUpdateOverview() async {
     _threads ??= <String, BlubberThread>{};
 
@@ -59,6 +63,8 @@ class BlubberProvider extends ChangeNotifier {
     return Future<List<BlubberThread>>.value(_threads.values.toList());
   }
 
+  ///Get a specific blubber thread([name]).
+  ///Uses cache if available.
   Future<BlubberThread> getThread(String name) {
     if (!threadInitialized(name)) {
       return forceUpdateThread(name);
@@ -67,6 +73,8 @@ class BlubberProvider extends ChangeNotifier {
     return Future<BlubberThread>.value(_threads[name]);
   }
 
+  ///Forces an update of a specific thread([name]).
+  ///Updates cache.
   Future<BlubberThread> forceUpdateThread(String name) async {
     BlubberThread thread = _threads[name];
     if (thread == null) {
@@ -90,6 +98,7 @@ class BlubberProvider extends ChangeNotifier {
     return Future<BlubberThread>.value(_threads[name]);
   }
 
+  ///Post a user [message] to [threadID].
   void postMessage(String threadID, String message) {
     _client.httpPost(
       "/blubber/threads/$threadID/comments",
@@ -98,6 +107,8 @@ class BlubberProvider extends ChangeNotifier {
     );
   }
 
+  ///Resets the providers internal storage.
+  ///Used when the user logs out.
   void resetCache() {
     _threads = null;
   }

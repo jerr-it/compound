@@ -22,6 +22,7 @@ import 'package:http/http.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Provides semester data
 class SemesterProvider extends ChangeNotifier {
   List<Semester> _semesters;
 
@@ -39,6 +40,7 @@ class SemesterProvider extends ChangeNotifier {
     return _semesters != null;
   }
 
+  ///Retrieve a semester based on a given [filter]
   List<Semester> get(SemesterFilter filter) {
     List<Semester> sems = <Semester>[];
 
@@ -97,6 +99,7 @@ class SemesterProvider extends ChangeNotifier {
     _generateFilterOptions();
   }
 
+  ///Sets the current, next and last semesters
   void _determineCurrentLastNext() {
     if (!initialized()) {
       init();
@@ -126,6 +129,7 @@ class SemesterProvider extends ChangeNotifier {
     }
   }
 
+  ///Generates all possible filter options
   void _generateFilterOptions() {
     _filterOptions = <SemesterFilter>[
       SemesterFilter(FilterType.ALL, null),

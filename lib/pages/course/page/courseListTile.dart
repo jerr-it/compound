@@ -31,6 +31,8 @@ import 'package:transparent_image/transparent_image.dart';
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //TODO: List of options for which new content appeared, for example a new file upload
+
+///Displays a course as a list tile widget
 class CourseListTile extends StatelessWidget {
   CourseListTile(Course course) : _course = course;
 

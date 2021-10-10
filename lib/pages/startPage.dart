@@ -1,7 +1,7 @@
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/provider/course/semester/semesterProvider.dart';
-import 'package:compound/provider/news/globalNewsProvider.dart';
 import 'package:compound/provider/news/newsModel.dart';
+import 'package:compound/provider/news/newsProvider.dart';
 import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/Announcement.dart';
 import 'package:compound/util/widgets/Nothing.dart';
@@ -26,6 +26,8 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Page you reach once you log in.
+///Displays global StudIP news
 class StartPage extends StatelessWidget {
   ///Convert data to widgets
   List<Widget> _buildListEntries(List<News> announcements) {

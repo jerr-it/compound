@@ -31,6 +31,7 @@ class MembersProvider extends ChangeNotifier {
     return _members != null && _members[courseID] != null;
   }
 
+  ///Retrieves a memberlist of a given course
   Future<Members> get(String courseID) {
     if (!initialized(courseID)) {
       return forceUpdate(courseID);
@@ -38,6 +39,7 @@ class MembersProvider extends ChangeNotifier {
     return Future<Members>.value(_members[courseID]);
   }
 
+  ///Force an update to a courses member list
   Future<Members> forceUpdate(String courseID) async {
     _members ??= <String, Members>{};
 
@@ -51,6 +53,7 @@ class MembersProvider extends ChangeNotifier {
     return Future<Members>.value(_members[courseID]);
   }
 
+  ///Retrieve a courses user list, [status] can be "dozent"/"tutor"/"autor"
   Future<List<User>> _getUserList(String courseID, String status) async {
     String route = "/course/$courseID/members";
     Response res = await _client.httpGet(route, APIType.REST, urlParams: {"status": status});

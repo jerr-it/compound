@@ -17,7 +17,7 @@ import 'package:compound/provider/course/files/fileProvider.dart';
 import 'package:compound/provider/course/forum/forumProvider.dart';
 import 'package:compound/provider/course/members/membersProvider.dart';
 import 'package:compound/provider/messages/messageProvider.dart';
-import 'package:compound/provider/news/globalNewsProvider.dart';
+import 'package:compound/provider/news/newsProvider.dart';
 import 'package:compound/provider/user/userModel.dart';
 import 'package:compound/provider/user/userProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -43,7 +43,7 @@ import 'package:provider/provider.dart';
 
 //TODO maybe open profile via drawer header?
 
-//Animation between pages
+///Animation between pages
 Route navRoute(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
@@ -65,6 +65,7 @@ Route navRoute(Widget page) {
   );
 }
 
+///Resets all providers
 void _resetProviderCache(BuildContext context) {
   Provider.of<BlubberProvider>(context, listen: false).resetCache();
   Provider.of<CalendarProvider>(context, listen: false).resetCache();
@@ -79,6 +80,8 @@ void _resetProviderCache(BuildContext context) {
   Provider.of<UserProvider>(context, listen: false).resetCache();
 }
 
+///Main drawer widget
+///Should be the default
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

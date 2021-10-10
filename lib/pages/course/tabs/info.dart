@@ -1,6 +1,6 @@
 import 'package:compound/provider/course/courseModel.dart';
-import 'package:compound/provider/news/globalNewsProvider.dart';
 import 'package:compound/provider/news/newsModel.dart';
+import 'package:compound/provider/news/newsProvider.dart';
 import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/Announcement.dart';
 import 'package:compound/util/widgets/Nothing.dart';
@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays general info about a course
 class InfoLineWidget extends StatelessWidget {
   InfoLineWidget(String key, String value)
       : _key = key,

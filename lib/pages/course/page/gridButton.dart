@@ -18,6 +18,8 @@ import 'package:google_fonts/google_fonts.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Rectangular colored button with caption and icon.
+///Used for course tabs.
 class GridButton extends StatelessWidget {
   final IconData _icon;
   final String _caption;

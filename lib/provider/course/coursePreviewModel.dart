@@ -19,6 +19,8 @@ import 'package:compound/provider/course/semester/semesterModel.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Used by the search page
+///Essantially a reduced [Course]
 class CoursePreview {
   String _courseID;
   String _number;

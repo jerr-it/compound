@@ -16,6 +16,7 @@ import 'dart:convert';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Used for easy encoding of username/password pairs for authentication
 class Credentials {
   String _encoded;
 

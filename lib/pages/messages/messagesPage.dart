@@ -27,6 +27,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays the users inbox
 class MessagesPage extends StatefulWidget {
   final SlidableController slideController = SlidableController();
   final String userID;

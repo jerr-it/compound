@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:bubble/bubble.dart';
+import 'package:compound/pages/community/blubberMessageBubble.dart';
 import 'package:compound/provider/blubber/blubberMessageModel.dart';
 import 'package:compound/provider/blubber/blubberProvider.dart';
 import 'package:compound/provider/blubber/blubberThreadModel.dart';
 import 'package:compound/provider/course/courseModel.dart';
-import 'package:compound/util/str.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +25,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays a given Blubber thread
 class BlubberThreadViewer extends StatefulWidget {
   final Course _course;
   final String _threadName;
@@ -57,41 +57,13 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
     super.dispose();
   }
 
+  ///Populates the listview with the threads comments
   List<Widget> _buildChat(BlubberThread thread) {
     List<Widget> widgets = <Widget>[];
 
     List<BlubberMessage> comments = thread.comments;
     comments.forEach((comment) {
-      widgets.add(
-        Padding(
-          padding: EdgeInsets.all(5),
-          child: Bubble(
-            alignment: comment.isMine ? Alignment.topRight : Alignment.bottomLeft,
-            nip: comment.isMine ? BubbleNip.rightTop : BubbleNip.leftBottom,
-            color: comment.isMine ? Theme.of(context).colorScheme.secondary : Theme.of(context).dialogBackgroundColor,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: comment.isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      comment.userName,
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
-                    ),
-                    Text(
-                      ", " + StringUtil.fromUnixTime(comment.chdate * 1000, "HH:mm"),
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
-                    ),
-                  ],
-                ),
-                Text(comment.content),
-              ],
-            ),
-          ),
-        ),
-      );
+      widgets.add(BlubberMessageBubble(comment));
     });
 
     return widgets;

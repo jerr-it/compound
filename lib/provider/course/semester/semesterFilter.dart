@@ -23,6 +23,7 @@ enum FilterType {
   SPECIFIC,
 }
 
+///Used to filter the course page
 class SemesterFilter {
   FilterType _type;
   String _id; //Only used when type == SPECIFIC

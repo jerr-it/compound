@@ -16,6 +16,7 @@ import 'package:compound/provider/course/files/fileModel.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Abstracts a StudIP data area folder
 class Folder {
   String _name;
   String _description;

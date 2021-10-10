@@ -22,6 +22,8 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///List of members of a course.
+///Grouped by lecturer, tutor and student
 class MembersTab extends StatelessWidget {
   final Course _course;
 

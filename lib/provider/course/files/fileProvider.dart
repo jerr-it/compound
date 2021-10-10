@@ -27,6 +27,8 @@ class FileProvider extends ChangeNotifier {
   Map<String, Folder> _fileTree;
   final WebClient _client = WebClient();
 
+  ///Checks if a courses filetree is initialized.
+  ///[subFolderIndices] is a list of indices of the courses subfolders used to traverse the tree
   bool initialized(String courseID, List<int> subFolderIndices) {
     if (_fileTree == null || _fileTree[courseID] == null) {
       return false;
@@ -39,6 +41,7 @@ class FileProvider extends ChangeNotifier {
     return current.isExpanded;
   }
 
+  ///Retrieve a folder from the tree.
   Future<Folder> get(String courseID, List<int> subFolderIndices) {
     if (!initialized(courseID, subFolderIndices)) {
       return forceUpdate(courseID, subFolderIndices);
@@ -51,6 +54,7 @@ class FileProvider extends ChangeNotifier {
     return Future<Folder>.value(current);
   }
 
+  //Force an update on a folder in the tree
   Future<Folder> forceUpdate(String courseID, List<int> subFolderIndices) async {
     _fileTree ??= <String, Folder>{};
 

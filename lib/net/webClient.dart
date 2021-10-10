@@ -26,6 +26,7 @@ enum APIType { REST, JSON }
 
 ///WebClient is the interface to the server
 ///Written as a singleton, there's always only going to be one of these
+///Uses StudIP-Session-Cookies to authenticate with the server
 class WebClient {
   static final WebClient _client = WebClient._internal();
   WebClient._internal();
@@ -59,7 +60,7 @@ class WebClient {
     _httpClient.close();
   }
 
-  ///Performs OAuth1 authentication with the set server
+  ///Performs first time authentication with the server
   Future<int> authenticate(String username, String password) async {
     Credentials credentials = new Credentials(username, password);
     _httpClient = new http.Client();
@@ -77,6 +78,7 @@ class WebClient {
     return Future<int>.value(jsonResponse.statusCode);
   }
 
+  ///Constructs the base url for requests depending on what type of API we're using (JSON/REST)
   String _constructBaseURL(APIType type) {
     return _server.webAddress + (type == APIType.REST ? REST_API_URL : JSON_API_URL);
   }
@@ -98,6 +100,7 @@ class WebClient {
     return newHeader;
   }
 
+  ///Wraps http get requests so that authentication is added
   Future<http.Response> httpGet(
     String route,
     APIType type, {
@@ -110,6 +113,7 @@ class WebClient {
     );
   }
 
+  ///Wraps http post requests so that authentication is added
   Future<http.Response> httpPost(
     String route,
     APIType type, {
@@ -123,6 +127,7 @@ class WebClient {
     );
   }
 
+  ///Wraps http put requests so that authentication is added
   Future<http.Response> httpPut(
     String route,
     APIType type, {
@@ -136,6 +141,7 @@ class WebClient {
     );
   }
 
+  ///Wraps http delete requests so that authentication is added
   Future<http.Response> httpDelete(
     String route,
     APIType type, {

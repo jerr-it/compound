@@ -19,6 +19,7 @@ import '../str.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Displays an announcement
 class Announcement extends StatelessWidget {
   final String _title;
   final int _timeStamp;

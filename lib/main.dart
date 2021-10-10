@@ -8,7 +8,7 @@ import 'package:compound/provider/course/forum/forumProvider.dart';
 import 'package:compound/provider/course/members/membersProvider.dart';
 import 'package:compound/provider/course/semester/semesterProvider.dart';
 import 'package:compound/provider/messages/messageProvider.dart';
-import 'package:compound/provider/news/globalNewsProvider.dart';
+import 'package:compound/provider/news/newsProvider.dart';
 import 'package:compound/provider/themes/themeProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';

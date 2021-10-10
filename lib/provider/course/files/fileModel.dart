@@ -16,6 +16,7 @@ import 'dart:math';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Formats a size given in [bytes] into a more compact format with [decimals] places after the comma
 String formatBytes(int bytes, int decimals) {
   if (bytes <= 0) return "0 B";
   const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
@@ -23,6 +24,7 @@ String formatBytes(int bytes, int decimals) {
   return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + ' ' + suffixes[i];
 }
 
+///Abstracts a StudIP file
 class File {
   String _name;
   String _description;

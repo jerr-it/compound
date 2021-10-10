@@ -22,6 +22,7 @@ import 'package:path_provider/path_provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Manages downloading a file and showing its download progress
 class FileDownload extends ChangeNotifier {
   File _targetFile;
   WebClient _client = WebClient();

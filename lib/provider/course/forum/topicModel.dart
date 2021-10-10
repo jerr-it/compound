@@ -17,6 +17,7 @@ import 'package:compound/provider/user/userModel.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Abstracts a StudIP forum topic
 class ForumTopic {
   User _user;
 

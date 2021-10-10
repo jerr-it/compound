@@ -64,6 +64,7 @@ class MessageProvider extends ChangeNotifier {
     return Future<List<Message>>.value(_messages);
   }
 
+  ///Marks a given message as read
   void markMessageRead(String msgID) {
     _client.httpPut(
       "/message/$msgID",
@@ -72,6 +73,7 @@ class MessageProvider extends ChangeNotifier {
     );
   }
 
+  ///Deletes a given message forever
   void deleteMessage(String msgID) {
     _client.httpDelete("/message/$msgID", APIType.REST);
   }

@@ -20,6 +20,7 @@ import 'package:google_fonts/google_fonts.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Page to add another StudIP instances to the start screen
 class AddServerPage extends StatelessWidget {
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _urlController = new TextEditingController();

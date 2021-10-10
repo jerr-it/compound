@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+///Page to enter user credentials for login
 class CredentialsPage extends StatelessWidget {
   CredentialsPage(String name) : serverName = name;
 
