@@ -99,6 +99,7 @@ class _MessagesPageState extends State<MessagesPage> {
                   });
                 },
                 secondOptionIcon: Icon(Icons.close),
+                secondOptionColor: Theme.of(context).colorScheme.primary,
                 onSecondOption: () {},
               );
             },
