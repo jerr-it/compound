@@ -37,7 +37,7 @@ class ScheduleViewer extends StatelessWidget {
     return chars.join();
   }
 
-  List<Widget> _buildEntryList(List<CalendarEntry> entries, DateTime today) {
+  List<Widget> _buildEntryList(BuildContext context, List<CalendarEntry> entries, DateTime today) {
     List<Widget> widgets = <Widget>[];
 
     if (entries.isEmpty) {
@@ -46,53 +46,48 @@ class ScheduleViewer extends StatelessWidget {
 
     entries.forEach((calendarEntry) {
       widgets.add(Container(
-        margin: EdgeInsets.all(5),
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: ColorMapper.convert(calendarEntry.color),
-          borderRadius: BorderRadius.circular(20),
-        ),
+        padding: EdgeInsets.only(left: 10, top: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                Container(
-                  child: Text(
+            Container(
+              width: MediaQuery.of(context).size.width / 5,
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  border: Border(right: BorderSide(color: ColorMapper.convert(calendarEntry.color), width: 5))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
                     _fromTime(calendarEntry.start),
-                    style: GoogleFonts.montserrat(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: GoogleFonts.montserrat(fontSize: 24),
                   ),
-                  decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
+                  Text(
+                    _fromTime(calendarEntry.end),
+                    style: GoogleFonts.montserrat(fontSize: 18),
                   ),
-                ),
-                Text(
-                  _fromTime(calendarEntry.end),
-                  style: GoogleFonts.montserrat(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Column(
-              children: [
-                Text(
-                  calendarEntry.title,
-                  style: GoogleFonts.montserrat(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            Container(
+              padding: EdgeInsets.all(5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    calendarEntry.title,
+                    style: GoogleFonts.montserrat(fontSize: 24),
+                    textAlign: TextAlign.left,
                   ),
-                ),
-                Text(
-                  calendarEntry.content,
-                  style: GoogleFonts.montserrat(fontWeight: FontWeight.w500),
-                )
-              ],
-            )
+                  Text(
+                    calendarEntry.content,
+                    style: GoogleFonts.montserrat(fontSize: 14),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ));
@@ -116,10 +111,10 @@ class ScheduleViewer extends StatelessWidget {
           if (snapshot.hasData) {
             return RefreshIndicator(
               child: ListView(
-                children: _buildEntryList(snapshot.data[today.weekday - 1], today),
+                children: _buildEntryList(context, snapshot.data[today.weekday - 1], today),
               ),
               onRefresh: () async {
-                return Provider.of<CalendarProvider>(context, listen: false).forceUpdate(userID);
+                return await Provider.of<CalendarProvider>(context, listen: false).forceUpdate(userID);
               },
             );
           } else {

@@ -64,7 +64,9 @@ class _SearchPageState extends State<SearchPage> {
                         leading: Icon(Icons.warning_sharp),
                         subtitle: "join-course".tr(namedArgs: {"course": preview.title}),
                         firstOptionIcon: Icon(FontAwesome.sign_in),
+                        firstOptionColor: Theme.of(context).colorScheme.primary,
                         secondOptionIcon: Icon(Icons.close),
+                        secondOptionColor: Theme.of(context).colorScheme.primary,
                         onFirstOption: () async {
                           http.Response response =
                               await Provider.of<CourseProvider>(context, listen: false).signup(preview.courseID);
