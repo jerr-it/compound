@@ -39,9 +39,8 @@ class FileDownload extends ChangeNotifier {
     String url = _client.server.webAddress + "/api.php/file/" + _targetFile.fileID + "/download";
 
     Request request = Request("GET", Uri.parse(url));
-    request.headers["Cookie"] = _client.sessionCookie;
 
-    StreamedResponse streamedResponse = await Client().send(request);
+    StreamedResponse streamedResponse = await WebClient().internal.send(request);
 
     int contentLength = streamedResponse.contentLength;
 

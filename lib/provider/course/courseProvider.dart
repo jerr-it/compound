@@ -172,7 +172,7 @@ class CourseProvider extends ChangeNotifier {
 
     http.Response response = await _client.httpGet("/courses", APIType.JSON, urlParams: <String, dynamic>{
       "filter[q]": searchStr,
-      "filter[fields]": "all" //TODO add filter options http://jsonapi.elan-ev.de/?shell#schema-quot-course-memberships-quot
+      "filter[fields]": "all", //TODO add filter options http://jsonapi.elan-ev.de/?shell#schema-quot-course-memberships-quot
     });
 
     List<dynamic> decodedCourses = jsonDecode(response.body)["data"];
@@ -203,25 +203,26 @@ class CourseProvider extends ChangeNotifier {
   ///So this 'imitates' the action done in a browser.
   Future<http.Response> signup(String courseID) async {
     //Extract the security token from the html page
-    http.Response res = await http.get(
+    http.Response res = await WebClient().internal.get(
       Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"),
-      headers: {
-        "Cookie": _client.sessionCookie,
-      },
+      headers: <String, String>{"Cookie": WebClient().sessionCookie},
     );
+
     String tag = "<input type=\"hidden\" name=\"security_token\" value=\"";
     int start = res.body.indexOf(tag) + tag.length;
     int end = res.body.indexOf(">", start) - 1;
 
     String securityToken = res.body.substring(start, end);
 
-    return http.post(Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"), headers: {
-      "Cookie": _client.sessionCookie,
-    }, body: {
-      "apply": "1",
-      "security_token": securityToken,
-      "yes": "",
-    });
+    return WebClient().internal.post(
+      Uri.parse(_client.server.webAddress + "/dispatch.php/course/enrolment/apply/$courseID"),
+      headers: <String, String>{"Cookie": WebClient().sessionCookie},
+      body: {
+        "apply": "1",
+        "security_token": securityToken,
+        "yes": "",
+      },
+    );
   }
 
   ///Signs the user out of a given course
@@ -229,11 +230,9 @@ class CourseProvider extends ChangeNotifier {
   ///So this 'imitates' the action done in a browser.
   Future<http.Response> signout(String courseID) async {
     //Extract the security token and studip ticket(?) from the html page
-    http.Response res = await http.get(
+    http.Response res = await WebClient().internal.get(
       Uri.parse(_client.server.webAddress + "/dispatch.php/my_courses/decline/$courseID?cmd=suppose_to_kill"),
-      headers: {
-        "Cookie": _client.sessionCookie,
-      },
+      headers: <String, String>{"Cookie": WebClient().sessionCookie},
     );
 
     String secTag = "<input type=\"hidden\" name=\"security_token\" value=\"";
@@ -248,13 +247,15 @@ class CourseProvider extends ChangeNotifier {
 
     String studipTicket = res.body.substring(ticketStart, ticketEnd);
 
-    return http.post(Uri.parse(_client.server.webAddress + "/dispatch.php/my_courses/decline/$courseID"), headers: {
-      "Cookie": _client.sessionCookie,
-    }, body: {
-      "security_token": securityToken,
-      "cmd": "kill",
-      "studipticket": studipTicket,
-    });
+    return WebClient().internal.post(
+      Uri.parse(_client.server.webAddress + "/dispatch.php/my_courses/decline/$courseID"),
+      headers: <String, String>{"Cookie": WebClient().sessionCookie},
+      body: {
+        "security_token": securityToken,
+        "cmd": "kill",
+        "studipticket": studipTicket,
+      },
+    );
   }
 
   void resetCache() {

@@ -1,4 +1,3 @@
-import 'package:compound/net/savedServers.dart';
 import 'package:compound/pages/login/serverSelectPage.dart';
 import 'package:compound/provider/blubber/blubberProvider.dart';
 import 'package:compound/provider/calendar/calendarProvider.dart';
@@ -42,8 +41,6 @@ void main() async {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
-
-  await SavedServers().init();
 
   runApp(EasyLocalization(
     supportedLocales: [Locale("en", "GB"), Locale("de", "DE")],

@@ -18,39 +18,45 @@ import 'package:flutter/material.dart';
 
 const String REST_API_URL = "/api.php";
 const String JSON_API_URL = "/jsonapi.php/v1";
+const String REQUEST_TOKEN_URL = "/dispatch.php/api/oauth/request_token";
+const String ACCESS_TOKEN_URL = "/dispatch.php/api/oauth/access_token";
+const String AUTHORIZE_URL = "/dispatch.php/api/oauth/authorize";
 
 /// Server bundles information related to authentication and content retrieval
 class Server {
   String _name;
   String _webAddress;
-  bool _secure;
+  String _consumerKey;
+  String _consumerSecret;
 
   Server({
     @required name,
     @required webAddress,
+    @required consumerKey,
+    @required consumerSecret,
   }) {
     _name = name;
     _webAddress = webAddress;
-    _secure = Uri.parse(webAddress).scheme == "https";
+    _consumerKey = consumerKey;
+    _consumerSecret = consumerSecret;
   }
 
   String get name => this._name;
   String get webAddress => this._webAddress;
-  bool get secure => this._secure;
 
-  ///Needed for jsonEncode to work
-  Map<String, dynamic> toJson() {
-    return {
-      "name": _name,
-      "webAdress": _webAddress,
-      "secure": _secure,
-    };
-  }
+  String get consumerKey => this._consumerKey;
+  String get consumerSecret => this._consumerSecret;
 
-  ///Needed for jsonDecode to work
-  Server.fromJson(Map<String, dynamic> data) {
-    _name = data["name"];
-    _webAddress = data["webAdress"];
-    _secure = data["secure"];
-  }
+  String get requestTokenUrl => this.webAddress + REQUEST_TOKEN_URL;
+  String get accessTokenUrl => this.webAddress + ACCESS_TOKEN_URL;
+  String get authorizeUrl => this.webAddress + AUTHORIZE_URL;
+
+  static List<Server> instances = [
+    Server(
+      name: "localhost",
+      webAddress: "http://192.168.122.235/studip",
+      consumerKey: "bf0922a1dd225c66f4eaf2530e9982a9061698ac2",
+      consumerSecret: "6f1b93176b783f82ddc3d465b8e1ea9c",
+    )
+  ];
 }

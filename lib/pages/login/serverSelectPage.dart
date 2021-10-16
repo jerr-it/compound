@@ -1,17 +1,11 @@
 import 'package:compound/navdrawer/navDrawer.dart';
-import 'package:compound/net/savedServers.dart';
 import 'package:compound/net/server.dart';
 import 'package:compound/net/webClient.dart';
-import 'package:compound/pages/login/addServerPage.dart';
-import 'package:compound/pages/login/credentialsPage.dart';
 import 'package:compound/pages/startPage.dart';
-import 'package:compound/provider/user/userProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -42,25 +36,8 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
     var client = WebClient();
     client.server = entry;
 
-    var storage = new FlutterSecureStorage();
-    var username = await storage.read(key: "username");
-    var password = await storage.read(key: "password");
-
-    if (username == null || password == null) {
-      Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
-      return;
-    }
-
-    int statusCode = await client.authenticate(username, password);
+    int statusCode = await client.authenticate();
     if (statusCode != 200) {
-      await SavedServers().save();
-
-      await Provider.of<UserProvider>(context, listen: false).get("self");
-
-      if (statusCode == 401) {
-        Navigator.of(context).push(navRoute(CredentialsPage(entry.name)));
-        return;
-      }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           "auth-error".tr(namedArgs: {"statusCode": statusCode.toString()}),
@@ -84,92 +61,23 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        child: SavedServers().entries.isNotEmpty
-            ? ListView(
-                children: SavedServers().entries.map((Server entry) {
-                  return Slidable(
-                    controller: this.widget.slideController,
-                    actionPane: SlidableStrechActionPane(),
-                    actionExtentRatio: 1 / 5,
-                    child: ListTile(
-                      title: Text(
-                        entry.name,
-                        style: GoogleFonts.montserrat(),
-                      ),
-                      subtitle: Text(
-                        entry.webAddress,
-                        style: GoogleFonts.montserrat(),
-                      ),
-                      trailing: entry.secure
-                          ? TextButton(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                    "secure-con".tr(),
-                                    style: GoogleFonts.montserrat(),
-                                  ),
-                                ));
-                              },
-                              child: Icon(
-                                Icons.lock,
-                                color: Colors.green,
-                              ),
-                            )
-                          : TextButton(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                    "insecure-con".tr(),
-                                    style: GoogleFonts.montserrat(),
-                                  ),
-                                ));
-                              },
-                              child: Icon(
-                                Icons.lock_open,
-                                color: Colors.red,
-                              ),
-                            ),
-                      onTap: () async {
-                        login(context, entry);
-                      },
-                    ),
-                    secondaryActions: [
-                      IconSlideAction(
-                        caption: "remove".tr(),
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () {
-                          setState(() {
-                            SavedServers().entries.remove(entry);
-                            SavedServers().save();
-                          });
-                        },
-                      )
-                    ],
-                  );
-                }).toList(),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "no-servers".tr(),
-                    style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+        child: ListView(
+          children: Server.instances.map((Server entry) {
+            return ListTile(
+              title: Text(
+                entry.name,
+                style: GoogleFonts.montserrat(),
               ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {
-          var server = await Navigator.of(context).push(navRoute(AddServerPage()));
-          if (server != null) {
-            setState(() {
-              SavedServers().entries.add(server);
-            });
-          }
-        },
+              subtitle: Text(
+                entry.webAddress,
+                style: GoogleFonts.montserrat(),
+              ),
+              onTap: () async {
+                login(context, entry);
+              },
+            );
+          }).toList(),
+        ),
       ),
     );
   }
