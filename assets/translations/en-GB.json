@@ -74,5 +74,12 @@
     "theme": "Theme",
     "dark": "Dark",
     "light": "Light",
-    "signin-in": "Signing in..."
+    "signin-in": "Signing in...",
+    "monday":"Mo",
+    "tuesday":"Tu",
+    "wednesday": "We",
+    "thursday":"Th",
+    "friday":"Fr",
+    "saturday":"Sa",
+    "sunday":"Su"
 }

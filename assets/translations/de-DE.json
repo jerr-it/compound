@@ -74,5 +74,12 @@
     "theme": "Farbwahl",
     "dark": "Dunkel",
     "light": "Hell",
-    "signing-in": "Anmelden..."
+    "signing-in": "Anmelden...",
+    "monday":"Mo",
+    "tuesday":"Di",
+    "wednesday": "Mi",
+    "thursday":"Do",
+    "friday":"Fr",
+    "saturday":"Sa",
+    "sunday":"So"
 }

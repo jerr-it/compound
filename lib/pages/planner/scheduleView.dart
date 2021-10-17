@@ -24,11 +24,11 @@ import 'package:provider/provider.dart';
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-///Display the users schedule
-class ScheduleViewer extends StatelessWidget {
-  final String userID;
+const Weekdays = <String>["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
+class ScheduleViewer extends StatelessWidget {
   ScheduleViewer(String userid) : userID = userid;
+  final String userID;
 
   ///Converts an int like 1430, representing clock time, to a string 14:30
   String _fromTime(int time) {
@@ -37,7 +37,7 @@ class ScheduleViewer extends StatelessWidget {
     return chars.join();
   }
 
-  List<Widget> _buildEntryList(BuildContext context, List<CalendarEntry> entries, DateTime today) {
+  List<Widget> _buildEntryList(BuildContext context, List<CalendarEntry> entries) {
     List<Widget> widgets = <Widget>[];
 
     if (entries.isEmpty) {
@@ -46,7 +46,7 @@ class ScheduleViewer extends StatelessWidget {
 
     entries.forEach((calendarEntry) {
       widgets.add(Container(
-        padding: EdgeInsets.only(left: 10, top: 10),
+        padding: EdgeInsets.only(top: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -69,23 +69,28 @@ class ScheduleViewer extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    calendarEntry.title,
-                    style: GoogleFonts.montserrat(fontSize: 24),
-                    textAlign: TextAlign.left,
-                  ),
-                  Text(
-                    calendarEntry.content,
-                    style: GoogleFonts.montserrat(fontSize: 14),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      calendarEntry.title,
+                      style: GoogleFonts.montserrat(fontSize: 24),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      calendarEntry.content,
+                      style: GoogleFonts.montserrat(fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -96,35 +101,63 @@ class ScheduleViewer extends StatelessWidget {
     return widgets;
   }
 
+  List<Widget> _buildTabHeads() {
+    List<Widget> widgets = <Widget>[];
+
+    Weekdays.forEach((String day) {
+      widgets.add(Tab(
+        text: day.tr(),
+      ));
+    });
+
+    return widgets;
+  }
+
+  List<Widget> _buildTabBodies(BuildContext context, List<List<CalendarEntry>> entries) {
+    List<Widget> widgets = <Widget>[];
+
+    entries.forEach((List<CalendarEntry> entrySet) {
+      Widget tabBody = Container(
+        padding: EdgeInsets.all(5),
+        child: ListView(
+          children: _buildEntryList(context, entrySet),
+        ),
+      );
+
+      widgets.add(tabBody);
+    });
+
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
-    DateTime today = DateTime.now();
     Future<List<List<CalendarEntry>>> entries = Provider.of<CalendarProvider>(context).get(userID);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("planner".tr(), style: GoogleFonts.montserrat()),
+    return DefaultTabController(
+      length: 7,
+      initialIndex: DateTime.now().weekday - 1,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("planner".tr(), style: GoogleFonts.montserrat()),
+          bottom: TabBar(
+            tabs: _buildTabHeads(),
+          ),
+        ),
+        body: FutureBuilder(
+          future: entries,
+          builder: (BuildContext context, AsyncSnapshot<List<List<CalendarEntry>>> snapshot) {
+            if (snapshot.hasData) {
+              return TabBarView(
+                children: _buildTabBodies(context, snapshot.data.reversed.toList()),
+              );
+            } else {
+              return LinearProgressIndicator();
+            }
+          },
+        ),
+        drawer: NavDrawer(),
       ),
-      body: FutureBuilder(
-        future: entries,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return RefreshIndicator(
-              child: ListView(
-                children: _buildEntryList(context, snapshot.data[today.weekday - 1], today),
-              ),
-              onRefresh: () async {
-                return await Provider.of<CalendarProvider>(context, listen: false).forceUpdate(userID);
-              },
-            );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
-            );
-          }
-        },
-      ),
-      drawer: NavDrawer(),
     );
   }
 }
