@@ -60,8 +60,6 @@ class CommunityPage extends StatelessWidget {
           Navigator.push(context, navRoute(BlubberThreadViewer(name: thread.name)));
         },
       ));
-
-      widgets.add(Divider());
     });
 
     return widgets;

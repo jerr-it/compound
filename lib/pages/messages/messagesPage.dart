@@ -106,10 +106,6 @@ class _MessagesPageState extends State<MessagesPage> {
           )
         ],
       ));
-
-      widgets.add(Divider(
-        height: 5,
-      ));
     });
 
     return widgets;

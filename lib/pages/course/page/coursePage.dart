@@ -11,6 +11,7 @@ import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,7 @@ class CoursePage extends StatefulWidget {
 
   final BuildContext _ctx;
   final String _userID;
+  final SlidableController _slideController = new SlidableController();
 
   @override
   _CoursePageState createState() => _CoursePageState();
@@ -83,43 +85,7 @@ class _CoursePageState extends State<CoursePage> {
         current = course.endSemester;
       }
 
-      widgets.add(InkWell(
-        child: CourseListTile(course),
-        onLongPress: () {
-          ConfirmDialog.display(
-            context,
-            title: "sure?".tr(),
-            subtitle: "leave-course".tr(namedArgs: {"course": course.title}),
-            leading: Icon(Icons.warning_sharp),
-            firstOptionIcon: Icon(Icons.check),
-            firstOptionColor: Colors.red,
-            secondOptionIcon: Icon(Icons.close),
-            onFirstOption: () async {
-              Response response = await Provider.of<CourseProvider>(context, listen: false).signout(course.courseID);
-              if (response.statusCode == 302) {
-                //Force update the course provider to reflect the course change
-                User user = await Provider.of<UserProvider>(context, listen: false).get("self");
-                Provider.of<CourseProvider>(context, listen: false)
-                    .forceUpdate(context, user.userID, <Semester>[course.endSemester]);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    "leave-success".tr(namedArgs: {"course": course.title}),
-                    style: GoogleFonts.montserrat(),
-                  ),
-                ));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    "leave-fail".tr(),
-                    style: GoogleFonts.montserrat(),
-                  ),
-                ));
-              }
-            },
-            onSecondOption: () {},
-          );
-        },
-      ));
+      widgets.add(CourseListTile(this.widget._slideController, course));
     });
 
     return widgets;
