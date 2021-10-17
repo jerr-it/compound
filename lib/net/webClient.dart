@@ -105,7 +105,7 @@ class WebClient {
     _oauthClient = new oauth1.Client(platform.signatureMethod, clientCredentials, res.credentials);
 
     http.Response probe = await httpGet("/discovery", APIType.REST);
-    _sessionCookie = probe.headers["set-cookie"];
+    _sessionCookie = probe.request.headers["Cookie"];
 
     return Future<int>.value(200);
   }
