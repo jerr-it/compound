@@ -68,28 +68,38 @@ class _SearchPageState extends State<SearchPage> {
                         secondOptionIcon: Icon(Icons.close),
                         secondOptionColor: Theme.of(context).colorScheme.primary,
                         onFirstOption: () async {
-                          http.Response response =
-                              await Provider.of<CourseProvider>(context, listen: false).signup(preview.courseID);
-                          if (response.statusCode == 302) {
-                            //Force update the course provider to reflect the new course
-                            User user = await Provider.of<UserProvider>(context, listen: false).get("self");
-                            Provider.of<CourseProvider>(context, listen: false)
-                                .forceUpdate(context, user.userID, <Semester>[preview.endSemester]);
-
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                "join-success".tr(namedArgs: {"course": preview.title}),
-                                style: GoogleFonts.montserrat(),
-                              ),
-                            ));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                "join-fail".tr(),
-                                style: GoogleFonts.montserrat(),
-                              ),
-                            ));
-                          }
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: FutureBuilder(
+                              future: Provider.of<CourseProvider>(context, listen: false).signup(preview.courseID),
+                              builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
+                                if (snapshot.hasData) {
+                                  if (snapshot.data.statusCode == 302) {
+                                    //Force update the course provider to reflect the new course
+                                    Provider.of<UserProvider>(context, listen: false).get("self").then((User user) {
+                                      Provider.of<CourseProvider>(context, listen: false)
+                                          .forceUpdate(context, user.userID, <Semester>[preview.endSemester]);
+                                    });
+                                    return Text(
+                                      "join-success".tr(namedArgs: {"course": preview.title}),
+                                      style: GoogleFonts.montserrat(),
+                                    );
+                                  }
+                                  return Text(
+                                    "join-fail".tr(),
+                                    style: GoogleFonts.montserrat(),
+                                  );
+                                } else {
+                                  return Row(children: [
+                                    Container(
+                                      padding: EdgeInsets.all(5),
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    Text("signing-in".tr(), style: GoogleFonts.montserrat()),
+                                  ]);
+                                }
+                              },
+                            ),
+                          ));
                         },
                         onSecondOption: () {},
                       );
