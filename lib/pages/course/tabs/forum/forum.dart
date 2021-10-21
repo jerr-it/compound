@@ -103,11 +103,20 @@ class ForumTab extends StatelessWidget {
                 return Provider.of<ForumProvider>(context, listen: false).forceUpdateCategories(_course.courseID);
               },
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () async {
+                return Provider.of<ForumProvider>(context, listen: false).forceUpdateCategories(_course.courseID);
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
     );

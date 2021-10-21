@@ -126,11 +126,21 @@ class ForumEntriesViewer extends StatelessWidget {
                     .forceUpdateEntries(context, _course.courseID, _categoryIdx, _areaIdx, _topicIdx);
               },
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () async {
+                return Provider.of<ForumProvider>(context, listen: false)
+                    .forceUpdateEntries(context, _course.courseID, _categoryIdx, _areaIdx, _topicIdx);
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/net/server.dart';
 import 'package:compound/net/webClient.dart';
 import 'package:compound/pages/startPage.dart';
+import 'package:compound/util/dialogs/InfoBar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -36,14 +39,22 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
     var client = WebClient();
     client.server = entry;
 
-    int statusCode = await client.authenticate();
+    int statusCode = -1;
+    try {
+      statusCode = await client.authenticate();
+    } on HttpException catch (e) {
+      showInfo(context, "http-exception".tr(namedArgs: {"error-str": e.toString()}));
+      return;
+    } on SocketException catch (e) {
+      showInfo(context, "socket-exception".tr(namedArgs: {"error-str": e.toString()}));
+      return;
+    } on FormatException catch (e) {
+      showInfo(context, "format-exception".tr(namedArgs: {"error-str": e.toString()}));
+      return;
+    }
+
     if (statusCode != 200) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          "auth-error".tr(namedArgs: {"statusCode": statusCode.toString()}),
-          style: GoogleFonts.montserrat(),
-        ),
-      ));
+      showInfo(context, "auth-error".tr(namedArgs: {"statusCode": statusCode.toString()}));
       return;
     }
 

@@ -111,26 +111,30 @@ class WebClient {
   }
 
   Future<Stream<String>> _localCallbackServer() async {
-    final StreamController<String> onCode = new StreamController();
-    String callbackPage = await rootBundle.loadString("assets/callbackPage.html");
+    try {
+      final StreamController<String> onCode = new StreamController();
+      String callbackPage = await rootBundle.loadString("assets/callbackPage.html");
 
-    HttpServer server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
+      HttpServer server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
 
-    server.listen((HttpRequest request) async {
-      final String code = request.uri.queryParameters["oauth_verifier"];
+      server.listen((HttpRequest request) async {
+        final String code = request.uri.queryParameters["oauth_verifier"];
 
-      request.response
-        ..statusCode = 200
-        ..headers.set("Content-Type", ContentType.html.mimeType)
-        ..write(callbackPage);
+        request.response
+          ..statusCode = 200
+          ..headers.set("Content-Type", ContentType.html.mimeType)
+          ..write(callbackPage);
 
-      await request.response.close();
-      await server.close(force: true);
-      onCode.add(code);
-      await onCode.close();
-    });
+        await request.response.close();
+        await server.close(force: true);
+        onCode.add(code);
+        await onCode.close();
+      });
 
-    return onCode.stream;
+      return onCode.stream;
+    } catch (e) {
+      return Future.error("Can't start local server: " + e.toString());
+    }
   }
 
   ///Constructs the base url for requests depending on what type of API we're using (JSON/REST)

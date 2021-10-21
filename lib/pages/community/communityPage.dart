@@ -88,11 +88,20 @@ class CommunityPage extends StatelessWidget {
                 },
               ),
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () {
+                return Provider.of<BlubberProvider>(context).forceUpdateOverview();
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
       drawer: NavDrawer(),

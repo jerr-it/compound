@@ -81,5 +81,8 @@
     "thursday":"Do",
     "friday":"Fr",
     "saturday":"Sa",
-    "sunday":"So"
+    "sunday":"So",
+    "http-exception": "HTTP Fehler: {error-str}",
+    "socket-exception": "Socket Fehler: {error-str}",
+    "format-exception": "Ungültiges Format: {error-str}"
 }

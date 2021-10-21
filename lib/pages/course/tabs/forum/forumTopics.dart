@@ -102,11 +102,21 @@ class ForumTopicsViewer extends StatelessWidget {
                     .forceUpdateTopics(context, _course.courseID, _categoryIdx, _areaIdx);
               },
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () async {
+                return Provider.of<ForumProvider>(context, listen: false)
+                    .forceUpdateTopics(context, _course.courseID, _categoryIdx, _areaIdx);
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
     );

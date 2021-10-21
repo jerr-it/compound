@@ -5,15 +5,11 @@ import 'package:compound/provider/course/courseProvider.dart';
 import 'package:compound/provider/course/semester/semesterFilter.dart';
 import 'package:compound/provider/course/semester/semesterModel.dart';
 import 'package:compound/provider/course/semester/semesterProvider.dart';
-import 'package:compound/provider/user/userModel.dart';
-import 'package:compound/provider/user/userProvider.dart';
-import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -147,11 +143,21 @@ class _CoursePageState extends State<CoursePage> {
                 },
               ),
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () async {
+                return Provider.of<CourseProvider>(context, listen: false)
+                    .forceUpdate(context, this.widget._userID, semesters);
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
       drawer: NavDrawer(),

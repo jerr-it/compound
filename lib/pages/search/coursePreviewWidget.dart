@@ -46,6 +46,9 @@ class CoursePreviewWidget extends StatelessWidget {
                     width: 32,
                   );
                 }
+                if (snapshot.hasError) {
+                  return ErrorWidget(snapshot.error.toString());
+                }
                 return CircularProgressIndicator();
               },
             ),

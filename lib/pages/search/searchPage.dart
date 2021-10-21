@@ -88,15 +88,19 @@ class _SearchPageState extends State<SearchPage> {
                                     "join-fail".tr(),
                                     style: GoogleFonts.montserrat(),
                                   );
-                                } else {
-                                  return Row(children: [
-                                    Container(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    Text("signing-in".tr(), style: GoogleFonts.montserrat()),
-                                  ]);
                                 }
+
+                                if (snapshot.hasError) {
+                                  return ErrorWidget(snapshot.error.toString());
+                                }
+
+                                return Row(children: [
+                                  Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  Text("signing-in".tr(), style: GoogleFonts.montserrat()),
+                                ]);
                               },
                             ),
                           ));

@@ -132,11 +132,20 @@ class _MessagesPageState extends State<MessagesPage> {
                 return Provider.of<MessageProvider>(context, listen: false).forceUpdate(widget.userID);
               },
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () async {
+                return Provider.of<MessageProvider>(context, listen: false).forceUpdate(widget.userID);
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
       drawer: NavDrawer(),

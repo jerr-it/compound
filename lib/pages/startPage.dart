@@ -63,17 +63,25 @@ class StartPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return RefreshIndicator(
-                child: ListView(
-                  children: _buildListEntries(snapshot.data),
-                ),
-                onRefresh: () {
-                  return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global");
-                });
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+              child: ListView(
+                children: _buildListEntries(snapshot.data),
+              ),
+              onRefresh: () {
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global");
+              },
             );
           }
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () {
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global");
+              },
+            );
+          }
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
       drawer: NavDrawer(),

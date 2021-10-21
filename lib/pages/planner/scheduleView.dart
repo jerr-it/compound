@@ -151,9 +151,13 @@ class ScheduleViewer extends StatelessWidget {
               return TabBarView(
                 children: _buildTabBodies(context, snapshot.data.reversed.toList()),
               );
-            } else {
-              return LinearProgressIndicator();
             }
+
+            if (snapshot.hasError) {
+              return ErrorWidget(snapshot.error.toString());
+            }
+
+            return LinearProgressIndicator();
           },
         ),
         drawer: NavDrawer(),

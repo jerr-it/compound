@@ -122,11 +122,20 @@ class MembersTab extends StatelessWidget {
                 return Provider.of<MembersProvider>(context, listen: false).forceUpdate(_course.courseID);
               },
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () async {
+                return Provider.of<MembersProvider>(context, listen: false).forceUpdate(_course.courseID);
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
     );

@@ -128,11 +128,20 @@ class InfoTab extends StatelessWidget {
                 return Provider.of<NewsProvider>(context, listen: false).forceUpdate(course.courseID);
               },
             );
-          } else {
-            return Container(
-              child: LinearProgressIndicator(),
+          }
+
+          if (snapshot.hasError) {
+            return RefreshIndicator(
+              child: ErrorWidget(snapshot.error.toString()),
+              onRefresh: () async {
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate(course.courseID);
+              },
             );
           }
+
+          return Container(
+            child: LinearProgressIndicator(),
+          );
         },
       ),
     );
