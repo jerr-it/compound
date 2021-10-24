@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:compound/navdrawer/navDrawer.dart';
+import 'package:compound/net/dbconf.dart';
 import 'package:compound/net/server.dart';
 import 'package:compound/net/webClient.dart';
 import 'package:compound/pages/startPage.dart';
@@ -35,9 +36,9 @@ class ServerSelectPage extends StatefulWidget {
 }
 
 class _ServerSelectPageState extends State<ServerSelectPage> {
-  void login(BuildContext context, Server entry) async {
+  void login(BuildContext context, Server server) async {
     var client = WebClient();
-    client.server = entry;
+    client.server = server;
 
     int statusCode = -1;
     try {
@@ -61,6 +62,28 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
     Navigator.of(context).push(navRoute(StartPage()));
   }
 
+  List<Widget> _list() {
+    List<Widget> widgets = <Widget>[];
+
+    for (int i = 0; i < ident.length; i++) {
+      widgets.add(ListTile(
+        title: Text(
+          ident[i]["name"],
+          style: GoogleFonts.montserrat(),
+        ),
+        subtitle: Text(
+          ident[i]["webAddress"],
+          style: GoogleFonts.montserrat(),
+        ),
+        onTap: () async {
+          login(context, Server(name: ident[i]["name"], webAddress: ident[i]["webAddress"], index: i));
+        },
+      ));
+    }
+
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,21 +96,7 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: ListView(
-          children: Server.instances.map((Server entry) {
-            return ListTile(
-              title: Text(
-                entry.name,
-                style: GoogleFonts.montserrat(),
-              ),
-              subtitle: Text(
-                entry.webAddress,
-                style: GoogleFonts.montserrat(),
-              ),
-              onTap: () async {
-                login(context, entry);
-              },
-            );
-          }).toList(),
+          children: _list(),
         ),
       ),
     );

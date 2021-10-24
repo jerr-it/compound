@@ -26,37 +26,23 @@ const String AUTHORIZE_URL = "/dispatch.php/api/oauth/authorize";
 class Server {
   String _name;
   String _webAddress;
-  String _consumerKey;
-  String _consumerSecret;
+  int _idx;
 
   Server({
     @required name,
     @required webAddress,
-    @required consumerKey,
-    @required consumerSecret,
+    @required index,
   }) {
     _name = name;
     _webAddress = webAddress;
-    _consumerKey = consumerKey;
-    _consumerSecret = consumerSecret;
+    _idx = index;
   }
 
   String get name => this._name;
   String get webAddress => this._webAddress;
-
-  String get consumerKey => this._consumerKey;
-  String get consumerSecret => this._consumerSecret;
+  int get index => this._idx;
 
   String get requestTokenUrl => this.webAddress + REQUEST_TOKEN_URL;
   String get accessTokenUrl => this.webAddress + ACCESS_TOKEN_URL;
   String get authorizeUrl => this.webAddress + AUTHORIZE_URL;
-
-  static List<Server> instances = [
-    Server(
-      name: "localhost",
-      webAddress: "http://192.168.122.235/studip",
-      consumerKey: "bf0922a1dd225c66f4eaf2530e9982a9061698ac2",
-      consumerSecret: "6f1b93176b783f82ddc3d465b8e1ea9c",
-    )
-  ];
 }
