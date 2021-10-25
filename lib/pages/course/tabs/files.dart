@@ -116,7 +116,16 @@ class FilesTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("files".tr(), style: GoogleFonts.montserrat()),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("files".tr(), style: GoogleFonts.montserrat()),
+            Hero(
+              tag: "files".tr(),
+              child: Icon(Icons.file_copy),
+            ),
+          ],
+        ),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(

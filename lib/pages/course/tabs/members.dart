@@ -104,7 +104,16 @@ class MembersTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("members".tr(), style: GoogleFonts.montserrat()),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("members".tr(), style: GoogleFonts.montserrat()),
+            Hero(
+              tag: "members".tr(),
+              child: Icon(Icons.people),
+            )
+          ],
+        ),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(

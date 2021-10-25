@@ -107,7 +107,18 @@ class InfoTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("info".tr() + ": " + course.title, style: GoogleFonts.montserrat()),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("info".tr() + ": " + course.title, style: GoogleFonts.montserrat()),
+            Hero(
+              tag: "news".tr(),
+              child: Icon(
+                Icons.new_releases_sharp,
+              ),
+            ),
+          ],
+        ),
         backgroundColor: course.color,
       ),
       body: FutureBuilder(

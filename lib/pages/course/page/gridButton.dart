@@ -42,9 +42,12 @@ class GridButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                _icon,
-                color: Colors.black87,
+              Hero(
+                tag: _caption,
+                child: Icon(
+                  _icon,
+                  color: Colors.black87,
+                ),
               ),
               Text(
                 _caption,

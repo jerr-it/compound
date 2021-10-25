@@ -85,7 +85,16 @@ class ForumTab extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("forum".tr(), style: GoogleFonts.montserrat()),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("forum".tr(), style: GoogleFonts.montserrat()),
+            Hero(
+              tag: "forum".tr(),
+              child: Icon(Icons.forum),
+            ),
+          ],
+        ),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(
