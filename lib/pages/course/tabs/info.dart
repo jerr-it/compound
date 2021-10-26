@@ -110,7 +110,13 @@ class InfoTab extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("info".tr() + ": " + course.title, style: GoogleFonts.montserrat()),
+            Flexible(
+              child: Text(
+                "info".tr() + ": " + course.title,
+                style: GoogleFonts.montserrat(),
+                overflow: TextOverflow.fade,
+              ),
+            ),
             Hero(
               tag: "news".tr(),
               child: Icon(

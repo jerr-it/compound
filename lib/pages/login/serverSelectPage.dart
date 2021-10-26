@@ -5,11 +5,13 @@ import 'package:compound/net/dbconf.dart';
 import 'package:compound/net/server.dart';
 import 'package:compound/net/webClient.dart';
 import 'package:compound/pages/startPage.dart';
+import 'package:compound/provider/user/userProvider.dart';
 import 'package:compound/util/dialogs/InfoBar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -59,6 +61,7 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
       return;
     }
 
+    await Provider.of<UserProvider>(context, listen: false).get("self");
     Navigator.of(context).push(navRoute(StartPage()));
   }
 
