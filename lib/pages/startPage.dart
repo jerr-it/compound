@@ -2,7 +2,7 @@ import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/provider/course/semester/semesterProvider.dart';
 import 'package:compound/provider/news/newsModel.dart';
 import 'package:compound/provider/news/newsProvider.dart';
-import 'package:compound/util/str.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:compound/util/widgets/Announcement.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -41,9 +41,9 @@ class StartPage extends StatelessWidget {
     }
 
     announcements.forEach((news) {
-      String body = StringUtil.removeHTMLTags(news.body.toString());
+      Widget html = Html(data: news.body.toString());
 
-      widgets.add(Announcement(title: news.topic, time: news.chdate, body: body));
+      widgets.add(Announcement(title: news.topic, time: news.chdate, body: html));
     });
 
     return widgets;

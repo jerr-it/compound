@@ -7,6 +7,7 @@ import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +94,7 @@ class InfoTab extends StatelessWidget {
     }
 
     news.forEach((news) {
-      String body = StringUtil.removeHTMLTags(news.body);
+      Widget body = Html(data: news.body);
 
       widgets.add(Announcement(title: news.topic, time: news.chdate, body: body));
     });

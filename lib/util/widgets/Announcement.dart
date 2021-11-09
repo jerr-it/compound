@@ -23,7 +23,7 @@ import '../str.dart';
 class Announcement extends StatelessWidget {
   final String _title;
   final int _timeStamp;
-  final String _body;
+  final Widget _body;
 
   Announcement({@required title, @required time, @required body})
       : _title = title,
@@ -47,13 +47,7 @@ class Announcement extends StatelessWidget {
           style: GoogleFonts.montserrat(),
         ),
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            child: Text(
-              _body.trim(),
-              style: GoogleFonts.montserrat(),
-            ),
-          ),
+          Container(padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10), child: _body),
         ],
       ),
     );
