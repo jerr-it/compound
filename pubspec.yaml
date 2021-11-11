@@ -41,6 +41,7 @@ dependencies:
   encrypt: ^5.0.1
   crypto: ^3.0.1
   flutter_html: ^2.1.5
+  html: ^0.15.0
   flutter:
     sdk: flutter
 

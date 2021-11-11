@@ -100,6 +100,7 @@ class CourseListTile extends StatelessWidget {
                   icon: Icons.new_releases_sharp,
                   caption: "news".tr(),
                   color: Colors.cyan,
+                  hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "news"),
                   onTap: () {
                     Navigator.push(context, navRoute(InfoTab(course: _course)));
                   },
@@ -108,6 +109,7 @@ class CourseListTile extends StatelessWidget {
                   icon: Icons.forum,
                   caption: "forum".tr(),
                   color: Colors.deepOrange,
+                  hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "forum"),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -119,6 +121,7 @@ class CourseListTile extends StatelessWidget {
                   icon: Icons.people,
                   caption: "members".tr(),
                   color: Colors.green,
+                  hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "persons"),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -130,6 +133,7 @@ class CourseListTile extends StatelessWidget {
                   icon: Icons.file_copy,
                   caption: "files".tr(),
                   color: Colors.blue,
+                  hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "files"),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -141,6 +145,7 @@ class CourseListTile extends StatelessWidget {
                   icon: Icons.chat,
                   caption: "blubber".tr(),
                   color: Colors.amber,
+                  hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "blubber"),
                   onTap: () async {
                     String threadName = _course.title;
 

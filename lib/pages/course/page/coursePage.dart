@@ -123,6 +123,7 @@ class _CoursePageState extends State<CoursePage> {
             onChanged: (SemesterFilter newFilter) {
               setState(() {
                 filter = newFilter;
+                Provider.of<CourseProvider>(context, listen: false).pushSemesterFilter(filter);
               });
             },
           ),

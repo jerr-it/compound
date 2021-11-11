@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/course/courseHtmlParser.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/provider/course/coursePreviewModel.dart';
 import 'package:compound/provider/course/semester/semesterFilter.dart';
@@ -33,6 +34,9 @@ class CourseProvider extends ChangeNotifier {
 
   //Stores all courses, grouped by semester
   Map<Semester, List<Course>> _courses;
+
+  CoursePageHtmlParser _parser = CoursePageHtmlParser();
+  CoursePageHtmlParser get parser => this._parser;
 
   //Caches image data of course images (To reduce traffic)
   //Prebuilt packages like cached_network_image exist
@@ -88,6 +92,28 @@ class CourseProvider extends ChangeNotifier {
     return Future<List<Course>>.value(courses);
   }
 
+  ///Updates the studip course page setting for the semesterfilter
+  Future<void> pushSemesterFilter(SemesterFilter filter) async {
+    String url = _client.server.webAddress + "/dispatch.php/my_courses/set_semester";
+    await _client.internal.get(
+      Uri.parse(url).replace(queryParameters: {"sem_select": filter.toStr()}),
+      headers: {"Cookie": _client.sessionCookie},
+    );
+  }
+
+  ///This function populates the [_parser].
+  ///There is no api way to find out if there is something new.
+  ///So we have to scrape that data.
+  Future<void> _checkNew() async {
+    String url = _client.server.webAddress + "/dispatch.php/my_courses";
+    http.Response response = await _client.internal.get(
+      Uri.parse(url),
+      headers: {"Cookie": _client.sessionCookie},
+    );
+
+    _parser.scan(response.body);
+  }
+
   ///Returns a given courses image.
   ///Uses the internal cache if possible.
   Future<MemoryImage> getImage(String courseID, CourseType type) async {
@@ -120,6 +146,8 @@ class CourseProvider extends ChangeNotifier {
   ///Forces the CourseProvider to update all courses of the given semesters
   Future<void> forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
     _courses ??= <Semester, List<Course>>{};
+
+    _checkNew();
 
     await Future.forEach(semesters, (Semester semester) async {
       if (semester == null) {

@@ -1,5 +1,6 @@
 //Convenience class to be used in grid view below
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
@@ -24,38 +25,50 @@ class GridButton extends StatelessWidget {
   final IconData _icon;
   final String _caption;
   final Color _color;
+  final bool _new;
   final Function _onTap;
 
-  GridButton({@required icon, @required caption, @required color, @required onTap})
+  GridButton({@required icon, @required caption, @required color, @required onTap, @required hasNew})
       : _icon = icon,
         _caption = caption,
         _color = color,
-        _onTap = onTap;
+        _onTap = onTap,
+        _new = hasNew;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Color((_color.value + Theme.of(context).canvasColor.value) ~/ 2),
       child: InkWell(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Hero(
-                tag: _caption,
-                child: Icon(
-                  _icon,
-                  color: Colors.black87,
-                ),
-              ),
-              Text(
-                _caption,
-                style: GoogleFonts.montserrat(color: Colors.black87),
-              ),
-            ],
+        child: Stack(children: [
+          Visibility(
+            visible: _new,
+            child: Icon(
+              FontAwesome.exclamation,
+              color: Colors.black87,
+            ),
           ),
-        ),
+          Container(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Hero(
+                  tag: _caption,
+                  child: Icon(
+                    _icon,
+                    color: Colors.black87,
+                  ),
+                ),
+                Text(
+                  _caption,
+                  style: GoogleFonts.montserrat(color: Colors.black87),
+                ),
+              ],
+            ),
+          ),
+        ]),
         onTap: _onTap,
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/provider/news/newsModel.dart';
 import 'package:compound/provider/news/newsProvider.dart';
-import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/Announcement.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';

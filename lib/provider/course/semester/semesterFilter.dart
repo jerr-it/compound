@@ -23,6 +23,14 @@ enum FilterType {
   SPECIFIC,
 }
 
+final Map<FilterType, String> filterToString = {
+  FilterType.CURRENT: "current",
+  FilterType.CURRENT_NEXT: "future",
+  FilterType.LAST_CURRENT: "last",
+  FilterType.LAST_CURRENT_NEXT: "lastandnext",
+  FilterType.ALL: "all",
+};
+
 ///Used to filter the course page
 class SemesterFilter {
   FilterType _type;
@@ -34,4 +42,11 @@ class SemesterFilter {
   SemesterFilter(FilterType type, String id)
       : _type = type,
         _id = id;
+
+  String toStr() {
+    if (_id != null) {
+      return id;
+    }
+    return filterToString[_type];
+  }
 }
