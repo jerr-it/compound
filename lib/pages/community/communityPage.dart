@@ -7,6 +7,7 @@ import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -54,7 +55,7 @@ class CommunityPage extends StatelessWidget {
 
       widgets.add(ListTile(
         leading: leading,
-        title: Text(thread.name),
+        title: Text(thread.name, style: GoogleFonts.montserrat()),
         subtitle: Text(StringUtil.fromUnixTime(thread.timeStamp * 1000, "dd.MM.yyyy HH:mm")),
         onTap: () async {
           Navigator.push(context, navRoute(BlubberThreadViewer(name: thread.name)));
@@ -71,7 +72,7 @@ class CommunityPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("community".tr()),
+        title: Text("community".tr(), style: GoogleFonts.montserrat()),
       ),
       body: FutureBuilder(
         future: threads,

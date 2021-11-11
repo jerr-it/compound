@@ -7,6 +7,7 @@ import 'package:compound/provider/blubber/blubberThreadModel.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -81,7 +82,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
           if (bThread.id == null) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(snapshot.data.name),
+                title: Text(snapshot.data.name, style: GoogleFonts.montserrat()),
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
@@ -93,7 +94,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
                 heightFactor: 2,
                 child: Text(
                   "blubber-not-enabled".tr(),
-                  style: TextStyle(
+                  style: GoogleFonts.montserrat(
                     fontSize: 15,
                     fontWeight: FontWeight.w200,
                   ),
@@ -104,7 +105,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
 
           return Scaffold(
             appBar: AppBar(
-              title: Text(snapshot.data.name),
+              title: Text(snapshot.data.name, style: GoogleFonts.montserrat()),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
@@ -165,7 +166,7 @@ class _BlubberThreadViewerState extends State<BlubberThreadViewer> {
         } else {
           return Scaffold(
             appBar: AppBar(
-              title: Text("blubber".tr()),
+              title: Text("blubber".tr(), style: GoogleFonts.montserrat()),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
