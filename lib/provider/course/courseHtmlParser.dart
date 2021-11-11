@@ -32,6 +32,13 @@ class CoursePageHtmlParser {
     return _new[courseNum].contains(tab);
   }
 
+  bool anythingNew(String courseNum) {
+    if (!_new.containsKey(courseNum)) {
+      return false;
+    }
+    return _new[courseNum].length > 0;
+  }
+
   void scan(String htmlDoc) {
     _parseHTML(htmlDoc);
   }

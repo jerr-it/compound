@@ -14,6 +14,7 @@ import 'package:compound/provider/user/userProvider.dart';
 import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
@@ -78,11 +79,18 @@ class CourseListTile extends StatelessWidget {
                   },
                 ),
                 VerticalDivider(),
-                Flexible(
+                Expanded(
                   child: Text(
                     _course.title,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.montserrat(),
+                  ),
+                ),
+                Visibility(
+                  visible: Provider.of<CourseProvider>(context, listen: false).parser.anythingNew(_course.number),
+                  child: Icon(
+                    Icons.notifications,
+                    color: Theme.of(context).textTheme.bodyText1.color,
                   ),
                 ),
               ],
@@ -99,7 +107,7 @@ class CourseListTile extends StatelessWidget {
                 GridButton(
                   icon: Icons.new_releases_sharp,
                   caption: "news".tr(),
-                  color: Colors.cyan,
+                  color: Theme.of(context).brightness == Brightness.light ? Colors.cyan : Colors.cyan[900],
                   hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "news"),
                   onTap: () {
                     Navigator.push(context, navRoute(InfoTab(course: _course)));
@@ -108,7 +116,7 @@ class CourseListTile extends StatelessWidget {
                 GridButton(
                   icon: Icons.forum,
                   caption: "forum".tr(),
-                  color: Colors.deepOrange,
+                  color: Theme.of(context).brightness == Brightness.light ? Colors.red : Colors.red[900],
                   hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "forum"),
                   onTap: () {
                     Navigator.push(
@@ -120,7 +128,7 @@ class CourseListTile extends StatelessWidget {
                 GridButton(
                   icon: Icons.people,
                   caption: "members".tr(),
-                  color: Colors.green,
+                  color: Theme.of(context).brightness == Brightness.light ? Colors.green : Colors.green[900],
                   hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "persons"),
                   onTap: () {
                     Navigator.push(
@@ -132,7 +140,7 @@ class CourseListTile extends StatelessWidget {
                 GridButton(
                   icon: Icons.file_copy,
                   caption: "files".tr(),
-                  color: Colors.blue,
+                  color: Theme.of(context).brightness == Brightness.light ? Colors.blue : Colors.blue[900],
                   hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "files"),
                   onTap: () {
                     Navigator.push(
@@ -144,7 +152,7 @@ class CourseListTile extends StatelessWidget {
                 GridButton(
                   icon: Icons.chat,
                   caption: "blubber".tr(),
-                  color: Colors.amber,
+                  color: Theme.of(context).brightness == Brightness.light ? Colors.amber : Colors.amber[900],
                   hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "blubber"),
                   onTap: () async {
                     String threadName = _course.title;
