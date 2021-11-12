@@ -14,7 +14,6 @@ import 'package:compound/provider/user/userProvider.dart';
 import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';

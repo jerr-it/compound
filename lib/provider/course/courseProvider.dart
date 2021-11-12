@@ -187,6 +187,7 @@ class CourseProvider extends ChangeNotifier {
       });
     });
 
+    await _checkNew();
     notifyListeners();
   }
 

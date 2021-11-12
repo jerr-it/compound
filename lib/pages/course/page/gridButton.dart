@@ -1,6 +1,5 @@
 //Convenience class to be used in grid view below
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
@@ -38,7 +37,7 @@ class GridButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color:_color,
+      color: _color,
       child: InkWell(
         child: Stack(children: [
           Visibility(
