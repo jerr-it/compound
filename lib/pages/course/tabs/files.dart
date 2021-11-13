@@ -1,5 +1,6 @@
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/provider/course/courseModel.dart';
+import 'package:compound/provider/course/courseProvider.dart';
 import 'package:compound/provider/course/files/fileModel.dart';
 import 'package:compound/provider/course/files/fileProvider.dart';
 import 'package:compound/provider/course/files/folderModel.dart';
@@ -44,6 +45,40 @@ class FilesTab extends StatelessWidget {
       return widgets;
     }
 
+    //Display new files
+    bool hasNewFiles = Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "files");
+    if (hasNewFiles) {
+      List<File> newFiles = Provider.of<FileProvider>(context, listen: false).newFiles;
+
+      newFiles.forEach((File file) {
+        widgets.add(ListTile(
+          leading: file.url != null ? Icon(Icons.link_sharp) : mimeToIcon(file.mimeType),
+          title: Text(file.name, style: GoogleFonts.montserrat(fontWeight: FontWeight.bold)),
+          onTap: () async {
+            var storagePerm = await Permission.storage.request();
+
+            if (!storagePerm.isGranted) {
+              ConfirmDialog.display(
+                context,
+                title: "no-permission".tr(),
+                leading: Icon(Icons.warning_sharp),
+                subtitle: "no-permission-body".tr(),
+                firstOptionIcon: Icon(Icons.settings),
+                secondOptionIcon: Icon(Icons.close),
+                onFirstOption: () {
+                  openAppSettings();
+                },
+                onSecondOption: () {},
+              );
+              return;
+            }
+            FileDialog.display(context, file: file);
+          },
+        ));
+      });
+    }
+
+    //Display folders
     List<Folder> subfolders = currentFolder.subFolders;
     if (subfolders == null) {
       return widgets;
@@ -75,6 +110,7 @@ class FilesTab extends StatelessWidget {
       ));
     }
 
+    //Display files
     List<File> fileRefs = currentFolder.files;
     fileRefs.forEach((fileRef) {
       widgets.add(ListTile(
@@ -112,7 +148,8 @@ class FilesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<Folder> folder = Provider.of<FileProvider>(context).get(_course.courseID, _subFolderPath);
+    bool hasNew = Provider.of<CourseProvider>(context).parser.hasNew(_course.number, "files");
+    Future<Folder> folder = Provider.of<FileProvider>(context).get(_course.courseID, _subFolderPath, hasNew);
 
     return Scaffold(
       appBar: AppBar(
@@ -140,7 +177,8 @@ class FilesTab extends StatelessWidget {
                 ),
               ),
               onRefresh: () async {
-                return Provider.of<FileProvider>(context, listen: false).forceUpdate(_course.courseID, _subFolderPath);
+                return Provider.of<FileProvider>(context, listen: false)
+                    .forceUpdate(_course.courseID, _subFolderPath, hasNew);
               },
             );
           }
@@ -149,7 +187,8 @@ class FilesTab extends StatelessWidget {
             return RefreshIndicator(
               child: ErrorWidget(snapshot.error.toString()),
               onRefresh: () async {
-                return Provider.of<FileProvider>(context, listen: false).forceUpdate(_course.courseID, _subFolderPath);
+                return Provider.of<FileProvider>(context, listen: false)
+                    .forceUpdate(_course.courseID, _subFolderPath, hasNew);
               },
             );
           }

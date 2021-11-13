@@ -147,8 +147,6 @@ class CourseProvider extends ChangeNotifier {
   Future<void> forceUpdate(BuildContext context, String userID, List<Semester> semesters) async {
     _courses ??= <Semester, List<Course>>{};
 
-    _checkNew();
-
     await Future.forEach(semesters, (Semester semester) async {
       if (semester == null) {
         return;

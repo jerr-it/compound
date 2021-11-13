@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/course/files/fileHtmlParser.dart';
+import 'package:compound/provider/course/files/fileModel.dart';
 import 'package:compound/provider/course/files/folderModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -27,6 +29,9 @@ class FileProvider extends ChangeNotifier {
   Map<String, Folder> _fileTree;
   final WebClient _client = WebClient();
 
+  //List<:file_id>
+  List<File> newFiles = [];
+
   ///Checks if a courses filetree is initialized.
   ///[subFolderIndices] is a list of indices of the courses subfolders used to traverse the tree
   bool initialized(String courseID, List<int> subFolderIndices) {
@@ -42,9 +47,9 @@ class FileProvider extends ChangeNotifier {
   }
 
   ///Retrieve a folder from the tree.
-  Future<Folder> get(String courseID, List<int> subFolderIndices) {
+  Future<Folder> get(String courseID, List<int> subFolderIndices, bool hasNew) {
     if (!initialized(courseID, subFolderIndices)) {
-      return forceUpdate(courseID, subFolderIndices);
+      return forceUpdate(courseID, subFolderIndices, hasNew);
     }
 
     Folder current = _fileTree[courseID];
@@ -55,7 +60,7 @@ class FileProvider extends ChangeNotifier {
   }
 
   //Force an update on a folder in the tree
-  Future<Folder> forceUpdate(String courseID, List<int> subFolderIndices) async {
+  Future<Folder> forceUpdate(String courseID, List<int> subFolderIndices, bool hasNew) async {
     _fileTree ??= <String, Folder>{};
 
     Response res = await _client.httpGet("/course/$courseID/top_folder", APIType.REST);
@@ -79,8 +84,39 @@ class FileProvider extends ChangeNotifier {
       current = current.subFolders[subFolderIndices[i]];
     }
 
+    //No api route to get new files
+    //So web-scraping it is
+    if (hasNew) {
+      Response response = await _client.internal.get(
+        Uri.parse("http://192.168.122.235/studip/seminar_main.php").replace(queryParameters: {
+          "auswahl": courseID,
+          "redirect_to": "http://192.168.122.235/studip/dispatch.php/course/files/flat&select=new",
+        }),
+        headers: {
+          "Cookie": _client.sessionCookie,
+        },
+      );
+
+      List<String> newFileIDs = FileHtmlParser.scan(response.body);
+      newFiles = await _getFiles(newFileIDs);
+    }
+
     notifyListeners();
     return Future<Folder>.value(current);
+  }
+
+  ///Retrieves file information about all the given file ids
+  Future<List<File>> _getFiles(List<String> ids) async {
+    List<File> files = [];
+
+    await Future.forEach(ids, (String id) async {
+      String route = "/file/$id";
+      Response res = await _client.httpGet(route, APIType.REST);
+      File file = File.fromMap(jsonDecode(res.body));
+      files.add(file);
+    });
+
+    return Future<List<File>>.value(files);
   }
 
   void resetCache() {
