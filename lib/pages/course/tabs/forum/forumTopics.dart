@@ -69,8 +69,6 @@ class ForumTopicsViewer extends StatelessWidget {
           );
         },
       ));
-
-      widgets.add(Divider());
     }
 
     return widgets;
@@ -93,7 +91,7 @@ class ForumTopicsViewer extends StatelessWidget {
             return RefreshIndicator(
               child: Container(
                 child: ListView(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   children: _buildTopicList(context, snapshot.data),
                 ),
               ),

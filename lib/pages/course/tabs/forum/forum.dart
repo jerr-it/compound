@@ -104,7 +104,7 @@ class ForumTab extends StatelessWidget {
             return RefreshIndicator(
               child: Container(
                 child: ListView(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   children: _buildCategoryList(context, snapshot.data),
                 ),
               ),
