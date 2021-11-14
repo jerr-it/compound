@@ -3,7 +3,6 @@ import 'package:compound/pages/course/tabs/forum/forumReply.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/provider/course/forum/entryModel.dart';
 import 'package:compound/provider/course/forum/forumProvider.dart';
-import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

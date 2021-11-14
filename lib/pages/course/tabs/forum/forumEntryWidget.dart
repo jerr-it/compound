@@ -1,6 +1,7 @@
 import 'package:compound/provider/course/forum/entryModel.dart';
 import 'package:compound/util/str.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ForumEntryWidget extends StatelessWidget {
@@ -40,10 +41,7 @@ class ForumEntryWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  StringUtil.removeHTMLTags(_entry.content.replaceAll("\n", "")),
-                  style: GoogleFonts.montserrat(fontWeight: _isNew ? FontWeight.bold : FontWeight.normal),
-                ),
+                Html(data: _entry.content),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(

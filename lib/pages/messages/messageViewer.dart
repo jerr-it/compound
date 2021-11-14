@@ -1,6 +1,7 @@
 import 'package:compound/provider/messages/messageModel.dart';
 import 'package:compound/util/str.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
@@ -28,37 +29,36 @@ class MessageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          children: [
-            ListTile(
-              leading: Image.network(
-                _message.sender.avatarUrlNormal,
-                width: 30,
-                height: 30,
-              ),
-              title: Text(_message.sender.email, style: GoogleFonts.montserrat()),
-              subtitle: Text(
-                StringUtil.fromUnixTime(_message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
+      appBar: AppBar(
+        title: ListTile(
+          leading: Image.network(
+            _message.sender.avatarUrlMedium,
+            width: 40,
+            height: 40,
+          ),
+          title: Text(_message.sender.email, style: GoogleFonts.montserrat()),
+          subtitle: Text(
+            StringUtil.fromUnixTime(_message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
+            style: GoogleFonts.montserrat(
+              fontWeight: FontWeight.w300,
             ),
-            Divider(),
+          ),
+        ),
+      ),
+      body: Container(
+        padding: EdgeInsets.only(top: 7.5),
+        child: ListView(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 7.5),
+          children: [
             Text(
               _message.subject,
+              textAlign: TextAlign.center,
               style: GoogleFonts.montserrat(
                 fontSize: 28,
                 fontWeight: FontWeight.normal,
               ),
             ),
-            Text(
-              StringUtil.removeHTMLTags(_message.content),
-              style: GoogleFonts.montserrat(),
-            ),
+            Html(data: _message.content),
           ],
         ),
       ),
