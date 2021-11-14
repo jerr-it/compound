@@ -29,7 +29,6 @@ class FileProvider extends ChangeNotifier {
   Map<String, Folder> _fileTree;
   final WebClient _client = WebClient();
 
-  //List<:file_id>
   List<File> newFiles = [];
 
   ///Checks if a courses filetree is initialized.

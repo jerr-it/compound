@@ -4,6 +4,7 @@ import 'package:compound/net/webClient.dart';
 import 'package:compound/provider/course/forum/areaModel.dart';
 import 'package:compound/provider/course/forum/categoryModel.dart';
 import 'package:compound/provider/course/forum/entryModel.dart';
+import 'package:compound/provider/course/forum/forumHtmlParser.dart';
 import 'package:compound/provider/course/forum/topicModel.dart';
 import 'package:compound/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class ForumProvider extends ChangeNotifier {
   Map<String, List<ForumCategory>> _forums;
   final WebClient _client = WebClient();
 
+  List<ForumEntry> newEntries = [];
+
   bool initialized(String courseID) {
     return _forums != null && _forums[courseID] != null;
   }
@@ -41,15 +44,15 @@ class ForumProvider extends ChangeNotifier {
   ///Category                        ///
   ///--------------------------------///
 
-  Future<List<ForumCategory>> getCategories(String courseID) {
+  Future<List<ForumCategory>> getCategories(BuildContext context, String courseID, bool hasNew) {
     if (!initialized(courseID)) {
-      return forceUpdateCategories(courseID);
+      return forceUpdateCategories(context, courseID, hasNew);
     }
 
     return Future<List<ForumCategory>>.value(_forums[courseID]);
   }
 
-  Future<List<ForumCategory>> forceUpdateCategories(String courseID) async {
+  Future<List<ForumCategory>> forceUpdateCategories(BuildContext context, String courseID, bool hasNew) async {
     _forums ??= <String, List<ForumCategory>>{};
 
     List<ForumCategory> categories = <ForumCategory>[];
@@ -73,8 +76,41 @@ class ForumProvider extends ChangeNotifier {
       _forums[courseID] = <ForumCategory>[];
     }
 
+    if (hasNew) {
+      Response response = await _client.internal.get(
+        Uri.parse(_client.server.webAddress + "/seminar_main.php").replace(queryParameters: {
+          "auswahl": courseID,
+          "redirect_to": _client.server.webAddress + "/plugins.php/coreforum/index/enter_seminar"
+        }),
+        headers: {
+          "Cookie": _client.sessionCookie,
+        },
+      );
+
+      List<String> newForumPostIDs = ForumHtmlParser.scan(response.body);
+      newEntries = await _getNewEntries(context, newForumPostIDs);
+    }
+
     notifyListeners();
     return Future<List<ForumCategory>>.value(_forums[courseID]);
+  }
+
+  Future<List<ForumEntry>> _getNewEntries(BuildContext context, List<String> newIDs) async {
+    List<ForumEntry> entries = [];
+
+    await Future.forEach(newIDs, (String id) async {
+      Response res = await _client.httpGet("/forum_entry/$id", APIType.REST);
+      Map<String, dynamic> data = jsonDecode(res.body);
+
+      String userID = data["user"].toString().split("/").last;
+      ForumEntry entry = ForumEntry.fromMap(data);
+
+      entry.user = await Provider.of<UserProvider>(context, listen: false).get(userID);
+
+      entries.add(entry);
+    });
+
+    return entries;
   }
 
   ///--------------------------------///

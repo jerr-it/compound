@@ -1,3 +1,4 @@
+import 'package:compound/pages/course/tabs/forum/forumEntryWidget.dart';
 import 'package:compound/pages/course/tabs/forum/forumReply.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/provider/course/forum/entryModel.dart';
@@ -47,53 +48,7 @@ class ForumEntriesViewer extends StatelessWidget {
     }
 
     entries.forEach((entry) {
-      widgets.add(
-        Padding(
-          padding: EdgeInsets.all(5),
-          child: Row(
-            children: [
-              Flexible(
-                flex: 3,
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      minRadius: 10,
-                      maxRadius: 20,
-                      backgroundImage: NetworkImage(entry.user.avatarUrlMedium),
-                    ),
-                    Text(
-                      entry.user.formattedName,
-                      style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                ),
-              ),
-              VerticalDivider(),
-              Flexible(
-                flex: 9,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      StringUtil.removeHTMLTags(entry.content.replaceAll("\n", "")),
-                      style: GoogleFonts.montserrat(),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        StringUtil.fromUnixTime(entry.mkdate * 1000, "dd.MM.yyyy HH:mm"),
-                        style: GoogleFonts.montserrat(fontWeight: FontWeight.w200),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      widgets.add(ForumEntryWidget(entry));
     });
 
     return widgets;

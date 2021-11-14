@@ -1,7 +1,10 @@
 import 'package:compound/navdrawer/navDrawer.dart';
+import 'package:compound/pages/course/tabs/forum/forumEntryWidget.dart';
 import 'package:compound/pages/course/tabs/forum/forumTopics.dart';
 import 'package:compound/provider/course/courseModel.dart';
+import 'package:compound/provider/course/courseProvider.dart';
 import 'package:compound/provider/course/forum/categoryModel.dart';
+import 'package:compound/provider/course/forum/entryModel.dart';
 import 'package:compound/provider/course/forum/forumProvider.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -32,11 +35,18 @@ class ForumTab extends StatelessWidget {
 
   ForumTab({@required course}) : _course = course;
 
-  List<Widget> _buildCategoryList(BuildContext context, List<ForumCategory> categories) {
+  List<Widget> _buildCategoryList(BuildContext context, List<ForumCategory> categories, bool hasNew) {
     List<Widget> widgets = <Widget>[];
 
     if (categories.isEmpty) {
       return <Widget>[Nothing()];
+    }
+
+    if (hasNew) {
+      List<ForumEntry> newEntries = Provider.of<ForumProvider>(context, listen: false).newEntries;
+      newEntries.forEach((ForumEntry entry) {
+        widgets.add(ForumEntryWidget(entry, isNew: true));
+      });
     }
 
     //1. display category name large
@@ -81,7 +91,9 @@ class ForumTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<ForumCategory>> categories = Provider.of<ForumProvider>(context).getCategories(_course.courseID);
+    bool hasNew = Provider.of<CourseProvider>(context).parser.hasNew(_course.number, "forum");
+    Future<List<ForumCategory>> categories =
+        Provider.of<ForumProvider>(context).getCategories(context, _course.courseID, hasNew);
 
     return Scaffold(
       appBar: AppBar(
@@ -105,11 +117,12 @@ class ForumTab extends StatelessWidget {
               child: Container(
                 child: ListView(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  children: _buildCategoryList(context, snapshot.data),
+                  children: _buildCategoryList(context, snapshot.data, hasNew),
                 ),
               ),
               onRefresh: () async {
-                return Provider.of<ForumProvider>(context, listen: false).forceUpdateCategories(_course.courseID);
+                return Provider.of<ForumProvider>(context, listen: false)
+                    .forceUpdateCategories(context, _course.courseID, hasNew);
               },
             );
           }
@@ -118,7 +131,8 @@ class ForumTab extends StatelessWidget {
             return RefreshIndicator(
               child: ErrorWidget(snapshot.error.toString()),
               onRefresh: () async {
-                return Provider.of<ForumProvider>(context, listen: false).forceUpdateCategories(_course.courseID);
+                return Provider.of<ForumProvider>(context, listen: false)
+                    .forceUpdateCategories(context, _course.courseID, hasNew);
               },
             );
           }
