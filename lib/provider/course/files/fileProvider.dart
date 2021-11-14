@@ -88,9 +88,9 @@ class FileProvider extends ChangeNotifier {
     //So web-scraping it is
     if (hasNew) {
       Response response = await _client.internal.get(
-        Uri.parse("http://192.168.122.235/studip/seminar_main.php").replace(queryParameters: {
+        Uri.parse(_client.server.webAddress + "/seminar_main.php").replace(queryParameters: {
           "auswahl": courseID,
-          "redirect_to": "http://192.168.122.235/studip/dispatch.php/course/files/flat&select=new",
+          "redirect_to": _client.server.webAddress + "/dispatch.php/course/files/flat&select=new",
         }),
         headers: {
           "Cookie": _client.sessionCookie,
