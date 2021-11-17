@@ -87,7 +87,7 @@ class ForumProvider extends ChangeNotifier {
         },
       );
 
-      List<String> newForumPostIDs = ForumHtmlParser.scan(response.body);
+      List<NewForumEntry> newForumPostIDs = ForumHtmlParser.scan(response.body);
       newEntries = await _getNewEntries(context, newForumPostIDs);
     }
 
@@ -95,19 +95,20 @@ class ForumProvider extends ChangeNotifier {
     return Future<List<ForumCategory>>.value(_forums[courseID]);
   }
 
-  Future<List<ForumEntry>> _getNewEntries(BuildContext context, List<String> newIDs) async {
+  Future<List<ForumEntry>> _getNewEntries(BuildContext context, List<NewForumEntry> newEntries) async {
     List<ForumEntry> entries = [];
 
-    await Future.forEach(newIDs, (String id) async {
-      Response res = await _client.httpGet("/forum_entry/$id", APIType.REST);
+    await Future.forEach(newEntries, (NewForumEntry entry) async {
+      Response res = await _client.httpGet("/forum_entry/" + entry.fId, APIType.REST);
       Map<String, dynamic> data = jsonDecode(res.body);
 
       String userID = data["user"].toString().split("/").last;
-      ForumEntry entry = ForumEntry.fromMap(data);
+      ForumEntry newEntry = ForumEntry.fromMap(data);
 
-      entry.user = await Provider.of<UserProvider>(context, listen: false).get(userID);
+      newEntry.user = await Provider.of<UserProvider>(context, listen: false).get(userID);
+      newEntry.subject = entry.location;
 
-      entries.add(entry);
+      entries.add(newEntry);
     });
 
     return entries;

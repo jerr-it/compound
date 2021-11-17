@@ -34,6 +34,8 @@ class ForumEntry {
   set user(User user) => this._user = user;
 
   String get subject => this._subject;
+  set subject(String subject) => this._subject = subject;
+
   String get content => this._content;
   String get contentHTML => this._contentHTML;
 

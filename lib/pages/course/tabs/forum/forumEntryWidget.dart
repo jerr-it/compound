@@ -14,8 +14,13 @@ class ForumEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 1, color: Colors.grey[800]),
+        borderRadius: BorderRadius.circular(5),
+      ),
       padding: EdgeInsets.all(5),
+      margin: EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
           Flexible(
@@ -24,7 +29,7 @@ class ForumEntryWidget extends StatelessWidget {
               children: [
                 CircleAvatar(
                   minRadius: 10,
-                  maxRadius: 20,
+                  maxRadius: 25,
                   backgroundImage: NetworkImage(_entry.user.avatarUrlMedium),
                 ),
                 Text(
@@ -41,11 +46,17 @@ class ForumEntryWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Html(data: _entry.content),
+                Html(
+                  data: _entry.content,
+                  style: {
+                    "*": Style(fontFamily: GoogleFonts.montserrat().fontFamily),
+                  },
+                ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    StringUtil.fromUnixTime(_entry.mkdate * 1000, "dd.MM.yyyy HH:mm"),
+                    StringUtil.fromUnixTime(_entry.mkdate * 1000, "dd.MM.yyyy HH:mm") +
+                        (_isNew ? "\t" + _entry.subject.replaceAll("&gt;&gt;", ">>") : ""),
                     style: GoogleFonts.montserrat(fontWeight: FontWeight.w200),
                     textAlign: TextAlign.right,
                   ),
