@@ -1,4 +1,5 @@
 import 'package:compound/provider/course/courseModel.dart';
+import 'package:compound/provider/course/courseProvider.dart';
 import 'package:compound/provider/news/newsModel.dart';
 import 'package:compound/provider/news/newsProvider.dart';
 import 'package:compound/util/widgets/Announcement.dart';
@@ -85,7 +86,7 @@ class InfoTab extends StatelessWidget {
   }
 
   ///Helper to get list of announcements from this course
-  List<Widget> _gatherAnnouncements(List<News> news) {
+  List<Widget> _gatherAnnouncements(BuildContext context, String courseID, List<News> news) {
     List<Widget> widgets = <Widget>[];
 
     if (news.isEmpty) {
@@ -95,7 +96,17 @@ class InfoTab extends StatelessWidget {
     news.forEach((news) {
       Widget body = Html(data: news.body);
 
-      widgets.add(Announcement(title: news.topic, time: news.chdate, body: body));
+      bool isNew = Provider.of<NewsProvider>(context, listen: false).newIDs.contains(news.newsID);
+
+      widgets.add(Announcement(
+        title: news.topic,
+        time: news.chdate,
+        body: body,
+        isNew: isNew,
+        onExpansionChanged: (_) {
+          Provider.of<NewsProvider>(context, listen: false).seeNews(courseID, news.newsID);
+        },
+      ));
     });
 
     return widgets;
@@ -103,7 +114,8 @@ class InfoTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<News>> news = Provider.of<NewsProvider>(context).get(course.courseID);
+    bool hasNew = Provider.of<CourseProvider>(context).parser.hasNew(course.number, "news");
+    Future<List<News>> news = Provider.of<NewsProvider>(context).get(course.courseID, hasNew);
 
     return Scaffold(
       appBar: AppBar(
@@ -138,11 +150,11 @@ class InfoTab extends StatelessWidget {
                 ),
                 child: ListView(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  children: _gatherInfo() + _gatherAnnouncements(snapshot.data),
+                  children: _gatherInfo() + _gatherAnnouncements(context, course.courseID, snapshot.data),
                 ),
               ),
               onRefresh: () async {
-                return Provider.of<NewsProvider>(context, listen: false).forceUpdate(course.courseID);
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate(course.courseID, hasNew);
               },
             );
           }
@@ -151,7 +163,7 @@ class InfoTab extends StatelessWidget {
             return RefreshIndicator(
               child: ErrorWidget(snapshot.error.toString()),
               onRefresh: () async {
-                return Provider.of<NewsProvider>(context, listen: false).forceUpdate(course.courseID);
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate(course.courseID, hasNew);
               },
             );
           }

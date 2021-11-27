@@ -24,23 +24,38 @@ class Announcement extends StatelessWidget {
   final String _title;
   final int _timeStamp;
   final Widget _body;
+  final bool _isNew;
+  final Function(bool) _onExpansionChanged;
 
-  Announcement({@required title, @required time, @required body})
+  Announcement({@required title, @required time, @required body, @required onExpansionChanged, isNew = false})
       : _title = title,
         _timeStamp = time,
-        _body = body;
+        _body = body,
+        _isNew = isNew,
+        _onExpansionChanged = onExpansionChanged;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ExpansionTile(
+        onExpansionChanged: _onExpansionChanged,
         leading: Icon(
           Icons.announcement,
           size: 36,
         ),
-        title: Text(
-          _title.trim(),
-          style: GoogleFonts.montserrat(),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                _title.trim(),
+                style: GoogleFonts.montserrat(),
+              ),
+            ),
+            Visibility(
+              child: Icon(Icons.notifications),
+              visible: _isNew,
+            )
+          ],
         ),
         subtitle: Text(
           StringUtil.fromUnixTime(_timeStamp, "dd.MM.yyyy HH:mm"),

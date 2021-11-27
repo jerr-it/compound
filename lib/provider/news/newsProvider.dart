@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:compound/net/webClient.dart';
+import 'package:compound/provider/news/newsHtmlParser.dart';
 import 'package:compound/provider/news/newsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -26,6 +27,8 @@ import 'package:http/http.dart';
 ///'global' is a special key, its associated with the route "/studip/news"
 class NewsProvider extends ChangeNotifier {
   Map<String, List<News>> _newsMap;
+  List<String> newIDs = [];
+
   final WebClient _client = WebClient();
 
   bool initialized() {
@@ -36,17 +39,17 @@ class NewsProvider extends ChangeNotifier {
     return _newsMap.containsKey(courseID);
   }
 
-  Future<List<News>> get(String courseID) async {
+  Future<List<News>> get(String courseID, bool hasNew) async {
     _newsMap ??= new Map<String, List<News>>();
 
     if (!initializedCourse(courseID)) {
-      return forceUpdate(courseID);
+      return forceUpdate(courseID, hasNew);
     }
 
     return Future<List<News>>.value(_newsMap[courseID]);
   }
 
-  Future<List<News>> forceUpdate(String courseID) async {
+  Future<List<News>> forceUpdate(String courseID, bool hasNew) async {
     Response res;
     if (courseID == "global") {
       res = await _client.httpGet("/studip/news", APIType.REST);
@@ -66,8 +69,37 @@ class NewsProvider extends ChangeNotifier {
 
     _newsMap[courseID] = news;
 
+    if (hasNew) {
+      Response response = await _client.internal.get(
+        Uri.parse(_client.server.webAddress + "/seminar_main.php").replace(queryParameters: {
+          "auswahl": courseID,
+          "redirect_to": "&new_news=true",
+        }),
+        headers: {
+          "Cookie": _client.sessionCookie,
+        },
+      );
+
+      newIDs = NewsHtmlParser.scan(response.body);
+    }
+
     notifyListeners();
     return Future<List<News>>.value(_newsMap[courseID]);
+  }
+
+  //http://192.168.122.235/studip/dispatch.php/news/visit?cid=39f22b9279dba7f4722d0cfeb56af581&show_expired=&contentbox_type=news&contentbox_open=f03d7eda872cfe24f1008bcdf4208636
+  Future<void> seeNews(String courseID, String newsID) async {
+    await _client.internal.get(
+      Uri.parse(_client.server.webAddress + "/dispatch.php/news/visit").replace(queryParameters: {
+        "cid": courseID,
+        "show_expired": "",
+        "contentbox_type": "news",
+        "contentbox_open": newsID,
+      }),
+      headers: {
+        "Cookie": _client.sessionCookie,
+      },
+    );
   }
 
   void resetCache() {

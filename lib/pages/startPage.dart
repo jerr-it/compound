@@ -43,7 +43,12 @@ class StartPage extends StatelessWidget {
     announcements.forEach((news) {
       Widget html = Html(data: news.body.toString());
 
-      widgets.add(Announcement(title: news.topic, time: news.chdate, body: html));
+      widgets.add(Announcement(
+        title: news.topic,
+        time: news.chdate,
+        body: html,
+        onExpansionChanged: (_) {},
+      ));
     });
 
     return widgets;
@@ -51,7 +56,7 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<News>> news = Provider.of<NewsProvider>(context).get("global");
+    Future<List<News>> news = Provider.of<NewsProvider>(context).get("global", false);
     Provider.of<SemesterProvider>(context, listen: false).init();
 
     return Scaffold(
@@ -67,7 +72,7 @@ class StartPage extends StatelessWidget {
                 children: _buildListEntries(snapshot.data),
               ),
               onRefresh: () {
-                return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global");
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global", false);
               },
             );
           }
@@ -75,7 +80,7 @@ class StartPage extends StatelessWidget {
             return RefreshIndicator(
               child: ErrorWidget(snapshot.error.toString()),
               onRefresh: () {
-                return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global");
+                return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global", false);
               },
             );
           }
