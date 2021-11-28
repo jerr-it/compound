@@ -114,6 +114,14 @@ class CourseProvider extends ChangeNotifier {
     _parser.scan(response.body);
   }
 
+  ///Mark a certain tab news as seen.
+  ///type can be "files", "news", "forum" .... Essentially all the types
+  ///that can occur in the html parser.
+  void markSeen(String courseNum, String type) {
+    _parser.markSeen(courseNum, type);
+    notifyListeners();
+  }
+
   ///Returns a given courses image.
   ///Uses the internal cache if possible.
   Future<MemoryImage> getImage(String courseID, CourseType type) async {

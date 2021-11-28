@@ -86,7 +86,7 @@ class InfoTab extends StatelessWidget {
   }
 
   ///Helper to get list of announcements from this course
-  List<Widget> _gatherAnnouncements(BuildContext context, String courseID, List<News> news) {
+  List<Widget> _gatherAnnouncements(BuildContext context, Course course, List<News> news) {
     List<Widget> widgets = <Widget>[];
 
     if (news.isEmpty) {
@@ -104,7 +104,8 @@ class InfoTab extends StatelessWidget {
         body: body,
         isNew: isNew,
         onExpansionChanged: (_) {
-          Provider.of<NewsProvider>(context, listen: false).seeNews(courseID, news.newsID);
+          Provider.of<NewsProvider>(context, listen: false).seeNews(course.courseID, news.newsID);
+          Provider.of<CourseProvider>(context, listen: false).markSeen(course.number, "news");
         },
       ));
     });
@@ -150,7 +151,7 @@ class InfoTab extends StatelessWidget {
                 ),
                 child: ListView(
                   padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  children: _gatherInfo() + _gatherAnnouncements(context, course.courseID, snapshot.data),
+                  children: _gatherInfo() + _gatherAnnouncements(context, course, snapshot.data),
                 ),
               ),
               onRefresh: () async {

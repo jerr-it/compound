@@ -89,6 +89,7 @@ class NewsProvider extends ChangeNotifier {
 
   //http://192.168.122.235/studip/dispatch.php/news/visit?cid=39f22b9279dba7f4722d0cfeb56af581&show_expired=&contentbox_type=news&contentbox_open=f03d7eda872cfe24f1008bcdf4208636
   Future<void> seeNews(String courseID, String newsID) async {
+    newIDs.remove(newsID);
     await _client.internal.get(
       Uri.parse(_client.server.webAddress + "/dispatch.php/news/visit").replace(queryParameters: {
         "cid": courseID,

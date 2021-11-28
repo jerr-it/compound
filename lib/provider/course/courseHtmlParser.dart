@@ -32,6 +32,10 @@ class CoursePageHtmlParser {
     return _new[courseNum].contains(tab);
   }
 
+  void markSeen(String courseNum, String tab) {
+    _new[courseNum].remove(tab);
+  }
+
   bool anythingNew(String courseNum) {
     if (!_new.containsKey(courseNum)) {
       return false;
