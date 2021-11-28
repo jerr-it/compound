@@ -95,52 +95,61 @@ class ForumTab extends StatelessWidget {
     Future<List<ForumCategory>> categories =
         Provider.of<ForumProvider>(context).getCategories(context, _course.courseID, hasNew);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("forum".tr(), style: GoogleFonts.montserrat()),
-            Hero(
-              tag: "forum".tr(),
-              child: Icon(Icons.forum),
-            ),
-          ],
-        ),
-        backgroundColor: _course.color,
-      ),
-      body: FutureBuilder(
-        future: categories,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return RefreshIndicator(
-              child: Container(
-                child: ListView(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  children: _buildCategoryList(context, snapshot.data, hasNew),
-                ),
+    return WillPopScope(
+      // Mark forum as seen when leaving the page
+      onWillPop: () {
+        if (hasNew) {
+          Provider.of<CourseProvider>(context, listen: false).markSeen(_course.number, "forum");
+        }
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("forum".tr(), style: GoogleFonts.montserrat()),
+              Hero(
+                tag: "forum".tr(),
+                child: Icon(Icons.forum),
               ),
-              onRefresh: () async {
-                return Provider.of<ForumProvider>(context, listen: false)
-                    .forceUpdateCategories(context, _course.courseID, hasNew);
-              },
-            );
-          }
+            ],
+          ),
+          backgroundColor: _course.color,
+        ),
+        body: FutureBuilder(
+          future: categories,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return RefreshIndicator(
+                child: Container(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    children: _buildCategoryList(context, snapshot.data, hasNew),
+                  ),
+                ),
+                onRefresh: () async {
+                  return Provider.of<ForumProvider>(context, listen: false)
+                      .forceUpdateCategories(context, _course.courseID, hasNew);
+                },
+              );
+            }
 
-          if (snapshot.hasError) {
-            return RefreshIndicator(
-              child: ErrorWidget(snapshot.error.toString()),
-              onRefresh: () async {
-                return Provider.of<ForumProvider>(context, listen: false)
-                    .forceUpdateCategories(context, _course.courseID, hasNew);
-              },
-            );
-          }
+            if (snapshot.hasError) {
+              return RefreshIndicator(
+                child: ErrorWidget(snapshot.error.toString()),
+                onRefresh: () async {
+                  return Provider.of<ForumProvider>(context, listen: false)
+                      .forceUpdateCategories(context, _course.courseID, hasNew);
+                },
+              );
+            }
 
-          return Container(
-            child: LinearProgressIndicator(),
-          );
-        },
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          },
+        ),
       ),
     );
   }
