@@ -151,52 +151,60 @@ class FilesTab extends StatelessWidget {
     bool hasNew = Provider.of<CourseProvider>(context).parser.hasNew(_course.number, "files");
     Future<Folder> folder = Provider.of<FileProvider>(context).get(_course.courseID, _subFolderPath, hasNew);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("files".tr(), style: GoogleFonts.montserrat()),
-            Hero(
-              tag: "files".tr(),
-              child: Icon(Icons.file_copy),
-            ),
-          ],
-        ),
-        backgroundColor: _course.color,
-      ),
-      body: FutureBuilder(
-        future: folder,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return RefreshIndicator(
-              child: Container(
-                child: ListView(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  children: _buildFileList(context, snapshot.data),
-                ),
+    return WillPopScope(
+      onWillPop: () {
+        if (hasNew) {
+          Provider.of<CourseProvider>(context, listen: false).markSeen(_course.number, "files");
+        }
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("files".tr(), style: GoogleFonts.montserrat()),
+              Hero(
+                tag: "files".tr(),
+                child: Icon(Icons.file_copy),
               ),
-              onRefresh: () async {
-                return Provider.of<FileProvider>(context, listen: false)
-                    .forceUpdate(_course.courseID, _subFolderPath, hasNew);
-              },
-            );
-          }
+            ],
+          ),
+          backgroundColor: _course.color,
+        ),
+        body: FutureBuilder(
+          future: folder,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return RefreshIndicator(
+                child: Container(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    children: _buildFileList(context, snapshot.data),
+                  ),
+                ),
+                onRefresh: () async {
+                  return Provider.of<FileProvider>(context, listen: false)
+                      .forceUpdate(_course.courseID, _subFolderPath, hasNew);
+                },
+              );
+            }
 
-          if (snapshot.hasError) {
-            return RefreshIndicator(
-              child: ErrorWidget(snapshot.error.toString()),
-              onRefresh: () async {
-                return Provider.of<FileProvider>(context, listen: false)
-                    .forceUpdate(_course.courseID, _subFolderPath, hasNew);
-              },
-            );
-          }
+            if (snapshot.hasError) {
+              return RefreshIndicator(
+                child: ErrorWidget(snapshot.error.toString()),
+                onRefresh: () async {
+                  return Provider.of<FileProvider>(context, listen: false)
+                      .forceUpdate(_course.courseID, _subFolderPath, hasNew);
+                },
+              );
+            }
 
-          return Container(
-            child: LinearProgressIndicator(),
-          );
-        },
+            return Container(
+              child: LinearProgressIndicator(),
+            );
+          },
+        ),
       ),
     );
   }
