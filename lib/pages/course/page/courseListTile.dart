@@ -5,6 +5,7 @@ import 'package:compound/pages/course/tabs/files.dart';
 import 'package:compound/pages/course/tabs/forum/forum.dart';
 import 'package:compound/pages/course/tabs/info.dart';
 import 'package:compound/pages/course/tabs/members.dart';
+import 'package:compound/pages/course/tabs/wiki.dart';
 import 'package:compound/provider/blubber/blubberProvider.dart';
 import 'package:compound/provider/course/courseModel.dart';
 import 'package:compound/provider/course/courseProvider.dart';
@@ -166,6 +167,15 @@ class CourseListTile extends StatelessWidget {
                         ),
                       ),
                     );
+                  },
+                ),
+                GridButton(
+                  icon: Icons.text_snippet,
+                  caption: "wiki".tr(),
+                  color: Theme.of(context).brightness == Brightness.light ? Colors.purple : Colors.purple[900],
+                  hasNew: Provider.of<CourseProvider>(context, listen: false).parser.hasNew(_course.number, "wiki"),
+                  onTap: () async {
+                    Navigator.push(context, navRoute(WikiPage(_course.courseID, "WikiWikiWeb")));
                   },
                 ),
               ],

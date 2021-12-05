@@ -6,6 +6,7 @@ import 'package:compound/provider/course/files/fileProvider.dart';
 import 'package:compound/provider/course/forum/forumProvider.dart';
 import 'package:compound/provider/course/members/membersProvider.dart';
 import 'package:compound/provider/course/semester/semesterProvider.dart';
+import 'package:compound/provider/course/wiki/wikiProvider.dart';
 import 'package:compound/provider/messages/messageProvider.dart';
 import 'package:compound/provider/news/newsProvider.dart';
 import 'package:compound/provider/themes/themeProvider.dart';
@@ -74,6 +75,7 @@ class App extends StatelessWidget {
               ChangeNotifierProvider(create: (_) => MessageProvider()),
               ChangeNotifierProvider(create: (_) => BlubberProvider()),
               ChangeNotifierProvider(create: (_) => CalendarProvider()),
+              ChangeNotifierProvider(create: (_) => WikiProvider()),
             ],
             child: MaterialApp(
               localizationsDelegates: context.localizationDelegates,
