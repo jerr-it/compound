@@ -42,34 +42,42 @@ class WikiPage extends StatelessWidget {
     Future<Map<String, WikiPageModel>> pages = Provider.of<WikiProvider>(context).getPages(_courseID);
     Future<WikiPageModel> page = Provider.of<WikiProvider>(context).getPage(_courseID, _pageName);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "wiki".tr(),
-          style: GoogleFonts.montserrat(),
-        ),
-        actions: [
-          Builder(
-            builder: (context) => IconButton(
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-              icon: Icon(MaterialCommunityIcons.file_tree),
-            ),
-          ),
-        ],
+    final PreferredSizeWidget appBar = AppBar(
+      title: Text(
+        "wiki".tr(),
+        style: GoogleFonts.montserrat(),
       ),
+      actions: [
+        Builder(
+          builder: (context) => IconButton(
+            onPressed: () {
+              Scaffold.of(context).openEndDrawer();
+            },
+            icon: Icon(MaterialCommunityIcons.file_tree),
+          ),
+        ),
+      ],
+    );
+
+    double height = MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar,
       body: FutureBuilder(
         future: page,
         builder: (BuildContext context, AsyncSnapshot<WikiPageModel> snapshot) {
           if (snapshot.hasData) {
             return RefreshIndicator(
-              child: Container(
-                child: Html(
-                  data: snapshot.data.content,
-                  style: {
-                    "*": Style(fontFamily: GoogleFonts.montserrat().fontFamily),
-                  },
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  child: Html(
+                    data: snapshot.data.content,
+                    style: {
+                      "*": Style(fontFamily: GoogleFonts.montserrat().fontFamily),
+                    },
+                  ),
+                  height: height,
                 ),
               ),
               onRefresh: () async {
