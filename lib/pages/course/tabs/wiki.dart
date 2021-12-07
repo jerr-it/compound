@@ -26,7 +26,7 @@ class WikiPage extends StatelessWidget {
     List<Widget> widgets = [];
     pages.forEach((String keyword, WikiPageModel page) {
       widgets.add(ListTile(
-        title: Text(page.keyword, style: GoogleFonts.montserrat()),
+        title: Text(page.keyword == "WikiWikiWeb" ? "Start page" : page.keyword, style: GoogleFonts.montserrat()),
         trailing: Text("Version " + page.version.toString(), style: GoogleFonts.montserrat()),
         onTap: () {
           Navigator.pushReplacement(context, navRoute(WikiPage(_courseID, page.keyword)));
@@ -34,7 +34,7 @@ class WikiPage extends StatelessWidget {
       ));
     });
 
-    return widgets;
+    return widgets.reversed.toList();
   }
 
   @override
