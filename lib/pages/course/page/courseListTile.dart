@@ -16,7 +16,6 @@ import 'package:compound/util/dialogs/confirmDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -83,7 +82,6 @@ class CourseListTile extends StatelessWidget {
                   child: Text(
                     _course.title,
                     overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.montserrat(),
                   ),
                 ),
                 Visibility(
@@ -207,14 +205,12 @@ class CourseListTile extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
                       "leave-success".tr(namedArgs: {"course": _course.title}),
-                      style: GoogleFonts.montserrat(),
                     ),
                   ));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
                       "leave-fail".tr(),
-                      style: GoogleFonts.montserrat(),
                     ),
                   ));
                 }

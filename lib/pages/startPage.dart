@@ -7,7 +7,6 @@ import 'package:compound/util/widgets/Announcement.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -61,7 +60,7 @@ class StartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("start".tr(), style: GoogleFonts.montserrat()),
+        title: Text("start".tr()),
       ),
       body: FutureBuilder(
         future: news,

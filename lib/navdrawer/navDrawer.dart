@@ -22,7 +22,6 @@ import 'package:compound/provider/user/userModel.dart';
 import 'package:compound/provider/user/userProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -97,7 +96,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.home, color: Theme.of(context).hintColor),
-            title: Text("start".tr(), style: GoogleFonts.montserrat()),
+            title: Text("start".tr()),
             onTap: () async {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(StartPage()));
@@ -105,7 +104,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.book_rounded, color: Theme.of(context).hintColor),
-            title: Text("event".tr(), style: GoogleFonts.montserrat()),
+            title: Text("event".tr()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
@@ -115,7 +114,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.mail, color: Theme.of(context).hintColor),
-            title: Text("messages".tr(), style: GoogleFonts.montserrat()),
+            title: Text("messages".tr()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
@@ -125,7 +124,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.people, color: Theme.of(context).hintColor),
-            title: Text("community".tr(), style: GoogleFonts.montserrat()),
+            title: Text("community".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(CommunityPage()));
@@ -133,7 +132,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.person, color: Theme.of(context).hintColor),
-            title: Text("profile".tr(), style: GoogleFonts.montserrat()),
+            title: Text("profile".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(ProfilePage()));
@@ -141,7 +140,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.event, color: Theme.of(context).hintColor),
-            title: Text("planner".tr(), style: GoogleFonts.montserrat()),
+            title: Text("planner".tr()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
@@ -151,7 +150,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.search, color: Theme.of(context).hintColor),
-            title: Text("search".tr(), style: GoogleFonts.montserrat()),
+            title: Text("search".tr()),
             onTap: () async {
               User user = await Provider.of<UserProvider>(context, listen: false).get("self");
 
@@ -161,7 +160,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.file_copy, color: Theme.of(context).hintColor),
-            title: Text("files".tr(), style: GoogleFonts.montserrat()),
+            title: Text("files".tr()),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(navRoute(FilePage()));
@@ -170,7 +169,7 @@ class NavDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.settings, color: Theme.of(context).hintColor),
-            title: Text("settings".tr(), style: GoogleFonts.montserrat()),
+            title: Text("settings".tr()),
             onTap: () {
               //Reroute to settings page
               Navigator.pop(context);
@@ -179,7 +178,7 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.logout, color: Theme.of(context).hintColor),
-            title: Text("logout".tr(), style: GoogleFonts.montserrat()),
+            title: Text("logout".tr()),
             onTap: () {
               var client = WebClient();
               client.logout();
@@ -192,10 +191,7 @@ class NavDrawer extends StatelessWidget {
           ),
           Divider(),
           AboutListTile(
-            child: Text(
-              "about".tr(),
-              style: GoogleFonts.montserrat(),
-            ),
+            child: Text("about".tr()),
             icon: Icon(Icons.text_fields, color: Theme.of(context).hintColor),
             applicationVersion: "1.0.0",
             applicationLegalese: "Released under the GNU General Public License version 3",

@@ -13,7 +13,6 @@ import 'package:compound/util/widgets/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
@@ -81,12 +80,10 @@ class _SearchPageState extends State<SearchPage> {
                                     });
                                     return Text(
                                       "join-success".tr(namedArgs: {"course": preview.title}),
-                                      style: GoogleFonts.montserrat(),
                                     );
                                   }
                                   return Text(
                                     "join-fail".tr(),
-                                    style: GoogleFonts.montserrat(),
                                   );
                                 }
 
@@ -99,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
                                     padding: EdgeInsets.all(5),
                                     child: CircularProgressIndicator(),
                                   ),
-                                  Text("signing-in".tr(), style: GoogleFonts.montserrat()),
+                                  Text("signing-in".tr()),
                                 ]);
                               },
                             ),
@@ -137,7 +134,7 @@ class _SearchPageState extends State<SearchPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("search".tr(), style: GoogleFonts.montserrat()),
+        title: Text("search".tr()),
       ),
       body: FutureBuilder(
         future: courses,
@@ -152,10 +149,8 @@ class _SearchPageState extends State<SearchPage> {
                     children: [
                       TextField(
                         controller: this.widget._controller,
-                        style: GoogleFonts.montserrat(),
                         decoration: InputDecoration(
                           hintText: "search-text".tr(),
-                          hintStyle: GoogleFonts.montserrat(),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(width: 2),
                           ),

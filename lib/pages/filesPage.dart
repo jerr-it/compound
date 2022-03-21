@@ -1,6 +1,5 @@
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -28,7 +27,7 @@ class _FilePageState extends State<FilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dateien", style: GoogleFonts.montserrat()),
+        title: Text("Dateien"),
       ),
       body: Center(
         child: Text("This is the Dateien page"),

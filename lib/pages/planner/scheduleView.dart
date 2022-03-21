@@ -5,7 +5,6 @@ import 'package:compound/util/colorMapper.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -60,11 +59,11 @@ class ScheduleViewer extends StatelessWidget {
                 children: [
                   Text(
                     _fromTime(calendarEntry.start),
-                    style: GoogleFonts.montserrat(fontSize: 24),
+                    style: TextStyle(fontSize: 24),
                   ),
                   Text(
                     _fromTime(calendarEntry.end),
-                    style: GoogleFonts.montserrat(fontSize: 18),
+                    style: TextStyle(fontSize: 18),
                   ),
                 ],
               ),
@@ -77,14 +76,14 @@ class ScheduleViewer extends StatelessWidget {
                   children: [
                     Text(
                       calendarEntry.title,
-                      style: GoogleFonts.montserrat(fontSize: 24),
+                      style: TextStyle(fontSize: 24),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.left,
                     ),
                     Text(
                       calendarEntry.content,
-                      style: GoogleFonts.montserrat(fontSize: 14),
+                      style: TextStyle(fontSize: 14),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       textAlign: TextAlign.left,
@@ -139,7 +138,7 @@ class ScheduleViewer extends StatelessWidget {
       initialIndex: DateTime.now().weekday - 1,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("planner".tr(), style: GoogleFonts.montserrat()),
+          title: Text("planner".tr()),
           bottom: TabBar(
             tabs: _buildTabHeads(),
           ),

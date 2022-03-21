@@ -10,7 +10,6 @@ import 'package:compound/util/mimeTypeMapper.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -53,7 +52,7 @@ class FilesTab extends StatelessWidget {
       newFiles.forEach((File file) {
         widgets.add(ListTile(
           leading: file.url != null ? Icon(Icons.link_sharp) : mimeToIcon(file.mimeType),
-          title: Text(file.name, style: GoogleFonts.montserrat(fontWeight: FontWeight.bold)),
+          title: Text(file.name, style: TextStyle(fontWeight: FontWeight.bold)),
           onTap: () async {
             var storagePerm = await Permission.storage.request();
 
@@ -93,7 +92,7 @@ class FilesTab extends StatelessWidget {
 
       widgets.add(ListTile(
         leading: Icon(Icons.folder),
-        title: Text(subfolder.name, style: GoogleFonts.montserrat()),
+        title: Text(subfolder.name),
         onTap: () async {
           List<int> subPath = <int>[];
           subPath.addAll(_subFolderPath);
@@ -115,7 +114,7 @@ class FilesTab extends StatelessWidget {
     fileRefs.forEach((fileRef) {
       widgets.add(ListTile(
         leading: fileRef.url != null ? Icon(Icons.link_sharp) : mimeToIcon(fileRef.mimeType),
-        title: Text(fileRef.name, style: GoogleFonts.montserrat()),
+        title: Text(fileRef.name),
         onTap: () async {
           var storagePerm = await Permission.storage.request();
 
@@ -163,7 +162,7 @@ class FilesTab extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("files".tr(), style: GoogleFonts.montserrat()),
+              Text("files".tr()),
               Hero(
                 tag: "files".tr(),
                 child: Icon(Icons.file_copy),

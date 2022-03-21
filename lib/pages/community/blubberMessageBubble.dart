@@ -2,7 +2,6 @@ import 'package:bubble/bubble.dart';
 import 'package:compound/provider/blubber/blubberMessageModel.dart';
 import 'package:compound/util/str.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 ///Creates a message bubble shape widget for a blubber message
 class BlubberMessageBubble extends StatelessWidget {
@@ -27,15 +26,15 @@ class BlubberMessageBubble extends StatelessWidget {
               children: [
                 Text(
                   comment.userName,
-                  style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                 ),
                 Text(
                   ", " + StringUtil.fromUnixTime(comment.chdate * 1000, "HH:mm"),
-                  style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                 ),
               ],
             ),
-            Text(comment.content, style: GoogleFonts.montserrat()),
+            Text(comment.content),
           ],
         ),
       ),

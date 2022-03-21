@@ -10,7 +10,6 @@ import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -54,7 +53,7 @@ class ForumTab extends StatelessWidget {
     for (int categoryIdx = 0; categoryIdx < categories.length; categoryIdx++) {
       widgets.add(Text(
         categories[categoryIdx].name,
-        style: GoogleFonts.montserrat(
+        style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -67,8 +66,8 @@ class ForumTab extends StatelessWidget {
       for (int areaIdx = 0; areaIdx < categories[categoryIdx].areas.length; areaIdx++) {
         widgets.add(ListTile(
           leading: Icon(Icons.topic, size: 30),
-          title: Text(categories[categoryIdx].areas[areaIdx].subject, style: GoogleFonts.montserrat()),
-          subtitle: Text(categories[categoryIdx].areas[areaIdx].content, style: GoogleFonts.montserrat()),
+          title: Text(categories[categoryIdx].areas[areaIdx].subject),
+          subtitle: Text(categories[categoryIdx].areas[areaIdx].content),
           onTap: () async {
             Navigator.push(
               context,
@@ -108,7 +107,7 @@ class ForumTab extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("forum".tr(), style: GoogleFonts.montserrat()),
+              Text("forum".tr()),
               Hero(
                 tag: "forum".tr(),
                 child: Icon(Icons.forum),

@@ -31,15 +31,13 @@ dependencies:
   bubble: ^1.2.1
   easy_localization: ^3.0.0
   transparent_image: ^2.0.0
-  google_fonts: ^2.1.0
   permission_handler: ^8.2.2
   path_provider: ^2.0.5
   open_file: ^3.2.1
   flutter_icons: ^1.1.0
   shared_preferences: ^2.0.8
   oauth1: ^2.0.0
-  encrypt: ^5.0.1
-  crypto: ^3.0.1
+  pointycastle: ^3.5.2
   flutter_html: ^2.1.5
   html: ^0.15.0
   flutter:
@@ -77,7 +75,6 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/translations/
-    - google_fonts/
     - banner_transparent.png
     - callbackPage.html
 

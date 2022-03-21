@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ErrorWidget extends StatelessWidget {
   ErrorWidget(String err) : errText = err;
@@ -10,7 +9,7 @@ class ErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Icon(Icons.error),
-      Text(errText, style: GoogleFonts.montserrat()),
+      Text(errText),
     ]);
   }
 }

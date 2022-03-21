@@ -3,7 +3,6 @@ import 'package:compound/provider/course/coursePreviewModel.dart';
 import 'package:compound/provider/course/courseProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -57,7 +56,6 @@ class CoursePreviewWidget extends StatelessWidget {
               child: Text(
                 _coursePreview.title,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserrat(),
               ),
             ),
           ],

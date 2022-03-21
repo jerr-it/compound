@@ -8,7 +8,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -45,7 +44,7 @@ class InfoLineWidget extends StatelessWidget {
           children: [
             Text(
               _key,
-              style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold),
             )
           ],
         ),
@@ -55,7 +54,6 @@ class InfoLineWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 _value ?? "nothing".tr(),
-                style: GoogleFonts.montserrat(),
                 textAlign: TextAlign.end,
               ),
             ),
@@ -126,7 +124,6 @@ class InfoTab extends StatelessWidget {
             Flexible(
               child: Text(
                 "info".tr() + ": " + course.title,
-                style: GoogleFonts.montserrat(),
                 overflow: TextOverflow.fade,
               ),
             ),

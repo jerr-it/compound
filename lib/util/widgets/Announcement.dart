@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../str.dart';
 
@@ -48,7 +47,6 @@ class Announcement extends StatelessWidget {
             Expanded(
               child: Text(
                 _title.trim(),
-                style: GoogleFonts.montserrat(),
               ),
             ),
             Visibility(
@@ -59,7 +57,6 @@ class Announcement extends StatelessWidget {
         ),
         subtitle: Text(
           StringUtil.fromUnixTime(_timeStamp, "dd.MM.yyyy HH:mm"),
-          style: GoogleFonts.montserrat(),
         ),
         children: [
           Container(padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10), child: _body),

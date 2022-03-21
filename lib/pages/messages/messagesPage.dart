@@ -8,7 +8,6 @@ import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -56,15 +55,15 @@ class _MessagesPageState extends State<MessagesPage> {
           leading: Icon(Icons.mail, size: 30, color: Theme.of(context).hintColor),
           title: Text(
             message.subject,
-            style: GoogleFonts.montserrat(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
+            style: TextStyle(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
           ),
           subtitle: Text(
             message.sender.formattedName,
-            style: GoogleFonts.montserrat(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
+            style: TextStyle(fontWeight: message.read ? FontWeight.normal : FontWeight.bold),
           ),
           trailing: Text(
             StringUtil.fromUnixTime(message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -117,7 +116,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("messages".tr(), style: GoogleFonts.montserrat()),
+        title: Text("messages".tr()),
       ),
       body: FutureBuilder(
         future: messages,

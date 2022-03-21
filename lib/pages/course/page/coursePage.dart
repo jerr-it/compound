@@ -9,7 +9,6 @@ import 'package:compound/util/widgets/Nothing.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -62,7 +61,7 @@ class _CoursePageState extends State<CoursePage> {
         Provider.of<SemesterProvider>(context, listen: false).get(SemesterFilter(FilterType.CURRENT, null)).first;
     widgets.add(Text(
       current.title,
-      style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
+      style: TextStyle(fontWeight: FontWeight.w300),
       textAlign: TextAlign.center,
     ));
 
@@ -75,7 +74,7 @@ class _CoursePageState extends State<CoursePage> {
       if (course.endSemester.semesterID != current.semesterID ?? null) {
         widgets.add(Text(
           course.endSemester.title,
-          style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
+          style: TextStyle(fontWeight: FontWeight.w300),
           textAlign: TextAlign.center,
         ));
         current = course.endSemester;
@@ -95,7 +94,7 @@ class _CoursePageState extends State<CoursePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("event".tr(), style: GoogleFonts.montserrat()),
+        title: Text("event".tr()),
         bottom: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width, 50),
           child: DropdownButton<SemesterFilter>(
@@ -107,7 +106,7 @@ class _CoursePageState extends State<CoursePage> {
                     filter.id == null //Translate only the special filter types
                         ? filter.type.toString().tr()
                         : Provider.of<SemesterProvider>(context, listen: false).get(filter).first.title,
-                    style: GoogleFonts.montserrat(color: Colors.black),
+                    style: TextStyle(color: Colors.black),
                   ),
                 );
               },
@@ -115,7 +114,6 @@ class _CoursePageState extends State<CoursePage> {
             value: filter,
             icon: Icon(Icons.arrow_downward),
             iconSize: 24,
-            style: GoogleFonts.montserrat(),
             underline: Container(
               height: 2,
               color: Colors.black,

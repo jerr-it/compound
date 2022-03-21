@@ -5,7 +5,6 @@ import 'package:compound/provider/course/forum/entryModel.dart';
 import 'package:compound/provider/course/forum/forumProvider.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -65,7 +64,7 @@ class ForumEntriesViewer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageTitle, style: GoogleFonts.montserrat()),
+        title: Text(_pageTitle),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(

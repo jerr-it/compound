@@ -1,6 +1,5 @@
 //Convenience class to be used in grid view below
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -62,7 +61,6 @@ class GridButton extends StatelessWidget {
                 ),
                 Text(
                   _caption,
-                  style: GoogleFonts.montserrat(),
                 ),
               ],
             ),

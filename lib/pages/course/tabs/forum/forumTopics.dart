@@ -6,7 +6,6 @@ import 'package:compound/provider/course/forum/topicModel.dart';
 import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/Nothing.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -52,8 +51,8 @@ class ForumTopicsViewer extends StatelessWidget {
 
       widgets.add(ListTile(
         leading: Icon(Icons.forum, size: 30),
-        title: Text(title, style: GoogleFonts.montserrat()),
-        subtitle: Text(subtitle, style: GoogleFonts.montserrat()),
+        title: Text(title),
+        subtitle: Text(subtitle),
         onTap: () async {
           Navigator.push(
             context,
@@ -81,7 +80,7 @@ class ForumTopicsViewer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageTitle, style: GoogleFonts.montserrat()),
+        title: Text(_pageTitle),
         backgroundColor: _course.color,
       ),
       body: FutureBuilder(

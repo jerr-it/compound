@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -34,19 +33,13 @@ class ForumReplyScreen extends StatelessWidget {
             Navigator.pop(context, null);
           },
         ),
-        title: Text("reply".tr(), style: GoogleFonts.montserrat()),
+        title: Text("reply".tr()),
       ),
       body: SizedBox(
         width: double.maxFinite,
         child: Container(
           child: Column(
-            children: [
-              TextField(
-                maxLines: null,
-                controller: controller,
-                style: GoogleFonts.montserrat(),
-              )
-            ],
+            children: [TextField(maxLines: null, controller: controller)],
           ),
         ),
       ),

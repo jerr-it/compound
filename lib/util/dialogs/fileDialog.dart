@@ -7,7 +7,6 @@ import 'package:compound/util/str.dart';
 import 'package:compound/util/widgets/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +46,6 @@ class FileInfoRow extends StatelessWidget {
           children: [
             Text(
               _property,
-              style: GoogleFonts.montserrat(),
               overflow: TextOverflow.clip,
             ),
           ],
@@ -57,7 +55,7 @@ class FileInfoRow extends StatelessWidget {
           children: [
             Text(
               _value,
-              style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
+              style: TextStyle(fontWeight: FontWeight.w300),
               overflow: TextOverflow.clip,
             ),
           ],
@@ -115,10 +113,7 @@ class _FileWidgetState extends State<FileWidget> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(
-                  "Can't start browser",
-                  style: GoogleFonts.montserrat(),
-                ),
+                content: Text("Can't start browser"),
               ),
             );
           }
@@ -150,10 +145,7 @@ class _FileWidgetState extends State<FileWidget> {
           } catch (error) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(
-                  error.toString(),
-                  style: GoogleFonts.montserrat(),
-                ),
+                content: Text(error.toString()),
               ),
             );
           }
@@ -215,10 +207,7 @@ class _FileWidgetState extends State<FileWidget> {
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
-                          error.toString(),
-                          style: GoogleFonts.montserrat(),
-                        ),
+                        content: Text(error.toString()),
                       ),
                     );
                   });
@@ -256,7 +245,7 @@ class _FileWidgetState extends State<FileWidget> {
               children: [
                 Text(
                   this.widget._file.name,
-                  style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Divider(),
                 FileInfoRow("size".tr(), formatBytes(this.widget._file.size, 2)),

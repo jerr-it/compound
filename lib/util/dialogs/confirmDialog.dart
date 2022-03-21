@@ -1,6 +1,5 @@
 import 'package:compound/util/widgets/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -42,11 +41,11 @@ class ConfirmDialog {
                 leading,
                 Text(
                   title,
-                  style: GoogleFonts.montserrat(fontSize: 22),
+                  style: TextStyle(fontSize: 22),
                 ),
               ],
             ),
-            Text(subtitle, style: GoogleFonts.montserrat(fontSize: 16)),
+            Text(subtitle, style: TextStyle(fontSize: 16)),
             Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

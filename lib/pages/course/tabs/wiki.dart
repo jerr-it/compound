@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class WikiPage extends StatelessWidget {
@@ -26,8 +25,8 @@ class WikiPage extends StatelessWidget {
     List<Widget> widgets = [];
     pages.forEach((String keyword, WikiPageModel page) {
       widgets.add(ListTile(
-        title: Text(page.keyword == "WikiWikiWeb" ? "Start page" : page.keyword, style: GoogleFonts.montserrat()),
-        trailing: Text("Version " + page.version.toString(), style: GoogleFonts.montserrat()),
+        title: Text(page.keyword == "WikiWikiWeb" ? "Start page" : page.keyword),
+        trailing: Text("Version " + page.version.toString()),
         onTap: () {
           Navigator.pushReplacement(context, navRoute(WikiPage(_courseID, page.keyword)));
         },
@@ -43,10 +42,7 @@ class WikiPage extends StatelessWidget {
     Future<WikiPageModel> page = Provider.of<WikiProvider>(context).getPage(_courseID, _pageName);
 
     final PreferredSizeWidget appBar = AppBar(
-      title: Text(
-        "wiki".tr(),
-        style: GoogleFonts.montserrat(),
-      ),
+      title: Text("wiki".tr()),
       actions: [
         Builder(
           builder: (context) => IconButton(
@@ -73,9 +69,6 @@ class WikiPage extends StatelessWidget {
                 child: Container(
                   child: Html(
                     data: snapshot.data.content,
-                    style: {
-                      "*": Style(fontFamily: GoogleFonts.montserrat().fontFamily),
-                    },
                   ),
                   height: height,
                 ),

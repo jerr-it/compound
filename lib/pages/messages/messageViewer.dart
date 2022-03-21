@@ -2,7 +2,6 @@ import 'package:compound/provider/messages/messageModel.dart';
 import 'package:compound/util/str.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -36,10 +35,10 @@ class MessageViewer extends StatelessWidget {
             width: 40,
             height: 40,
           ),
-          title: Text(_message.sender.email, style: GoogleFonts.montserrat()),
+          title: Text(_message.sender.email),
           subtitle: Text(
             StringUtil.fromUnixTime(_message.mkdate * 1000, "dd.MM.yyyy HH:mm"),
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -53,7 +52,7 @@ class MessageViewer extends StatelessWidget {
             Text(
               _message.subject,
               textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.normal,
               ),

@@ -1,7 +1,6 @@
 import 'package:compound/provider/user/userModel.dart';
 import 'package:compound/provider/user/userProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -45,11 +44,11 @@ class NavDrawerHeader extends StatelessWidget {
                   children: [
                     Text(
                       user.formattedName,
-                      style: GoogleFonts.montserrat(fontSize: 16),
+                      style: TextStyle(fontSize: 16),
                     ),
                     Text(
                       user.userName,
-                      style: GoogleFonts.montserrat(fontSize: 16),
+                      style: TextStyle(fontSize: 16),
                     )
                   ],
                 ),
@@ -60,11 +59,11 @@ class NavDrawerHeader extends StatelessWidget {
               children: [
                 Text(
                   user.email,
-                  style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
+                  style: TextStyle(fontWeight: FontWeight.w300),
                 ),
                 Text(
                   user.permissions,
-                  style: GoogleFonts.montserrat(fontWeight: FontWeight.w300),
+                  style: TextStyle(fontWeight: FontWeight.w300),
                 )
               ],
             ),

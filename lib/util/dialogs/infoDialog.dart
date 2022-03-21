@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -33,19 +32,16 @@ class InfoDialog {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Icon(Icons.warning_sharp),
-                Text(title, style: GoogleFonts.montserrat()),
+                Text(title),
               ],
             ),
-            Text(body, style: GoogleFonts.montserrat()),
+            Text(body),
             Divider(),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(
-                "understand".tr(),
-                style: GoogleFonts.montserrat(),
-              ),
+              child: Text("understand".tr()),
             ),
           ],
         ),

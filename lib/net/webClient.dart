@@ -4,8 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:compound/net/dbconf.dart';
-import 'package:crypto/crypto.dart';
-import 'package:encrypt/encrypt.dart' as enc;
+import 'package:pointycastle/export.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -70,8 +69,9 @@ class WebClient {
   Future<int> authenticate() async {
     var platform = new oauth1.Platform(
         _server.requestTokenUrl, _server.authorizeUrl, _server.accessTokenUrl, oauth1.SignatureMethods.hmacSha1);
-    var consumer = _dec(_consumer());
-    var clientCredentials = new oauth1.ClientCredentials(consumer["consumerKey"], consumer["consumerSecret"]);
+    var consumer = _dec(Uint8List.fromList(ciph[this._server.index]), Uint8List.fromList(ivs[this._server.index]));
+    var clientCredentials =
+        new oauth1.ClientCredentials(consumer["secrets"]["consumerKey"], consumer["secrets"]["consumerSecret"]);
 
     var storage = new FlutterSecureStorage();
     var jsonCredentialStr = await storage.read(key: "oauth_credentials");
@@ -94,7 +94,6 @@ class WebClient {
     }
 
     //Loaded credentials aren't valid, get new ones
-
     var auth = new oauth1.Authorization(clientCredentials, platform);
 
     oauth1.AuthorizationResponse res = await auth.requestTemporaryCredentials("http://localhost:8080/").then((res) async {
@@ -142,21 +141,18 @@ class WebClient {
     }
   }
 
-  Uint8List _consumer() {
-    return Uint8List.fromList(sec[this._server.index]);
-  }
+  dynamic _dec(Uint8List data, Uint8List iv) {
+    final engine = GCMBlockCipher(AESEngine())..init(false, ParametersWithIV(KeyParameter(Uint8List.fromList(dbKey)), iv));
 
-  dynamic _dec(Uint8List data) {
-    Digest d1 = sha512.convert(utf8.encode(DBK));
-    enc.Key key = enc.Key(d1.bytes.sublist(0, d1.bytes.length ~/ 2));
+    final text = Uint8List(data.length);
 
-    Digest d2 = sha256.convert(utf8.encode(DBK));
-    enc.IV iv = enc.IV(d2.bytes.sublist(0, d2.bytes.length ~/ 2));
+    var offset = 0;
+    while (offset < data.length) {
+      offset += engine.processBlock(data, offset, text, offset);
+    }
+    assert(offset == text.length);
 
-    enc.Encrypter en = enc.Encrypter(enc.AES(key, mode: enc.AESMode.cbc));
-    List<int> dec = en.decryptBytes(enc.Encrypted(data), iv: iv);
-
-    return jsonDecode(utf8.decode(dec));
+    return jsonDecode(utf8.decode(text));
   }
 
   ///Constructs the base url for requests depending on what type of API we're using (JSON/REST)

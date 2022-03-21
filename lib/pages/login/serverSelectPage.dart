@@ -10,7 +10,6 @@ import 'package:compound/util/dialogs/InfoBar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // Compound - Mobile StudIP client
@@ -68,18 +67,16 @@ class _ServerSelectPageState extends State<ServerSelectPage> {
   List<Widget> _list() {
     List<Widget> widgets = <Widget>[];
 
-    for (int i = 0; i < ident.length; i++) {
+    for (int i = 0; i < descriptors.length; i++) {
       widgets.add(ListTile(
         title: Text(
-          ident[i]["name"],
-          style: GoogleFonts.montserrat(),
+          descriptors[i]["name"],
         ),
         subtitle: Text(
-          ident[i]["webAddress"],
-          style: GoogleFonts.montserrat(),
+          descriptors[i]["webAddress"],
         ),
         onTap: () async {
-          login(context, Server(name: ident[i]["name"], webAddress: ident[i]["webAddress"], index: i));
+          login(context, Server(name: descriptors[i]["name"], webAddress: descriptors[i]["webAddress"], index: i));
         },
       ));
     }

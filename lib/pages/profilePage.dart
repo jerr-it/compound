@@ -1,6 +1,5 @@
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Compound - Mobile StudIP client
 // Copyright (C) 2021 Jerrit Gläsker
@@ -28,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profil", style: GoogleFonts.montserrat()),
+        title: Text("Profil"),
       ),
       body: Center(
         child: Text("This is the profil page"),
