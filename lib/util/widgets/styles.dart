@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 final Function raisedIconButtonStyle = (BuildContext context, {Color color}) {
   return ElevatedButton.styleFrom(
     minimumSize: Size(1, 36),
-    primary: color ?? Theme.of(context).colorScheme.primary,
+    primary: color ?? Theme.of(context).appBarTheme.backgroundColor,
     padding: EdgeInsets.symmetric(horizontal: 16),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(80)),

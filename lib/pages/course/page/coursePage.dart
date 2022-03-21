@@ -106,7 +106,6 @@ class _CoursePageState extends State<CoursePage> {
                     filter.id == null //Translate only the special filter types
                         ? filter.type.toString().tr()
                         : Provider.of<SemesterProvider>(context, listen: false).get(filter).first.title,
-                    style: TextStyle(color: Colors.black),
                   ),
                 );
               },

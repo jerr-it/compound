@@ -38,11 +38,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('google_fonts/OFL.txt');
-    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
-  });
-
   runApp(EasyLocalization(
     supportedLocales: [Locale("en", "GB"), Locale("de", "DE")],
     path: "assets/translations",

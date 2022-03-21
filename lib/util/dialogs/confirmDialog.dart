@@ -24,9 +24,9 @@ class ConfirmDialog {
     Widget leading = const Text(""),
     String subtitle = "",
     @required Icon firstOptionIcon,
-    Color firstOptionColor = Colors.blue,
+    Color firstOptionColor,
     @required Icon secondOptionIcon,
-    Color secondOptionColor = Colors.blue,
+    Color secondOptionColor,
     @required Function onFirstOption,
     @required Function onSecondOption,
   }) {
@@ -56,7 +56,7 @@ class ConfirmDialog {
                     Navigator.of(context).pop();
                   },
                   child: firstOptionIcon,
-                  style: raisedIconButtonStyle(context, color: firstOptionColor),
+                  style: raisedIconButtonStyle(context, color: firstOptionColor ?? Theme.of(context).colorScheme.primary),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -64,7 +64,7 @@ class ConfirmDialog {
                     Navigator.of(context).pop();
                   },
                   child: secondOptionIcon,
-                  style: raisedIconButtonStyle(context, color: secondOptionColor),
+                  style: raisedIconButtonStyle(context, color: secondOptionColor ?? Theme.of(context).colorScheme.primary),
                 ),
               ],
             )

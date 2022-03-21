@@ -113,7 +113,7 @@ class _SearchPageState extends State<SearchPage> {
               : Container(
                   child: ElevatedButton(
                     onPressed: () {},
-                    child: Icon(Icons.check, color: Colors.white),
+                    child: Icon(Icons.check),
                     style: raisedIconButtonStyle(context, color: Colors.green),
                   ),
                   padding: EdgeInsets.only(right: 5),

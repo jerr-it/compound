@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+const PRIMARY_COLOR_DARK = Color.fromRGBO(7, 90, 158, 1.0);
+
 ///Manages themes and swapping them
 class ThemeController extends ChangeNotifier {
   static Map<String, ThemeData> presets = <String, ThemeData>{
     "dark": ThemeData.dark().copyWith(
       brightness: Brightness.dark,
-      colorScheme: ColorScheme.fromSwatch().copyWith(primary: Color.fromRGBO(7, 90, 158, 1.0)),
-      appBarTheme: AppBarTheme(color: Color.fromRGBO(7, 90, 158, 1.0)),
+      colorScheme: ColorScheme.dark().copyWith(primary: PRIMARY_COLOR_DARK),
+      appBarTheme: AppBarTheme(color: PRIMARY_COLOR_DARK),
     ),
     "light": ThemeData.light(),
   };
