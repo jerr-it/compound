@@ -1,5 +1,7 @@
-const String DBK = "";
+const List<Map<String, String>> descriptors = [];
 
-const List<Map<String, String>> ident = [];
+const List<int> dbKey = [];
 
-const List<List<int>> sec = [];
+const List<List<int>> ivs = [];
+
+const List<List<int>> ciph = [];

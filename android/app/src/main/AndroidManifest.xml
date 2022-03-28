@@ -8,7 +8,6 @@
 
     <!-- REMOVE 'android:usesCleartextTraffic="true"'  LATER! -->
     <application
-        android:name="io.flutter.app.FlutterApplication"
         android:label="Compound"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
