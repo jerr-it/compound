@@ -83,9 +83,11 @@ class CourseProvider extends ChangeNotifier {
     //Filter courses by the given list of semesters
     List<Course> courses = <Course>[];
     semesters.forEach((semester) {
-      for (Course course in _courses[semester]) {
-        if (!courses.contains(course)) {
-          courses.add(course);
+      if (_courses.containsKey(semester)) {
+        for (Course course in _courses[semester]) {
+          if (!courses.contains(course)) {
+            courses.add(course);
+          }
         }
       }
     });
@@ -166,31 +168,34 @@ class CourseProvider extends ChangeNotifier {
 
       http.Response res = await _client.httpGet(route, APIType.REST, urlParams: {"semester": semester.semesterID});
       Map<String, dynamic> decoded = jsonDecode(res.body);
-      Map<String, dynamic> courseMap = decoded["collection"];
 
-      await Future.forEach(courseMap.keys, (courseKey) async {
-        Map<String, dynamic> courseData = courseMap[courseKey];
+      try {
+        Map<String, dynamic> courseMap = decoded["collection"];
 
-        String startSemesterID = courseData["start_semester"].toString().split("/").last;
-        SemesterFilter sfilter = SemesterFilter(FilterType.SPECIFIC, startSemesterID);
-        Semester start = Provider.of<SemesterProvider>(context, listen: false).get(sfilter).first;
+        await Future.forEach(courseMap.keys, (courseKey) async {
+          Map<String, dynamic> courseData = courseMap[courseKey];
 
-        String endSemesterID = courseData["end_semester"].toString().split("/").last;
-        SemesterFilter efilter = SemesterFilter(FilterType.SPECIFIC, endSemesterID);
-        Semester end = Provider.of<SemesterProvider>(context, listen: false).get(efilter).first;
+          String startSemesterID = courseData["start_semester"].toString().split("/").last;
+          SemesterFilter sfilter = SemesterFilter(FilterType.SPECIFIC, startSemesterID);
+          Semester start = Provider.of<SemesterProvider>(context, listen: false).get(sfilter).first;
 
-        Course course = Course.fromMap(courseData, start, end);
+          String endSemesterID = courseData["end_semester"].toString().split("/").last;
+          SemesterFilter efilter = SemesterFilter(FilterType.SPECIFIC, endSemesterID);
+          Semester end = Provider.of<SemesterProvider>(context, listen: false).get(efilter).first;
 
-        if (!_courses.containsKey(semester)) {
-          _courses[semester] = <Course>[];
-        }
+          Course course = Course.fromMap(courseData, start, end);
 
-        _courses[semester].add(course);
-      });
+          if (!_courses.containsKey(semester)) {
+            _courses[semester] = <Course>[];
+          }
 
-      _courses[semester].sort((Course a, Course b) {
-        return (a.color.value - b.color.value) + (b.number.compareTo(a.number));
-      });
+          _courses[semester].add(course);
+        });
+
+        _courses[semester].sort((Course a, Course b) {
+          return (a.color.value - b.color.value) + (b.number.compareTo(a.number));
+        });
+      } catch (e) {}
     });
 
     await _checkNew();

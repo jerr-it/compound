@@ -16,7 +16,7 @@ class BlubberMessageBubble extends StatelessWidget {
       child: Bubble(
         alignment: comment.isMine ? Alignment.topRight : Alignment.bottomLeft,
         nip: comment.isMine ? BubbleNip.rightTop : BubbleNip.leftBottom,
-        color: comment.isMine ? Theme.of(context).colorScheme.secondary : Theme.of(context).dialogBackgroundColor,
+        color: comment.isMine ? Theme.of(context).colorScheme.primary : Theme.of(context).dialogBackgroundColor,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: comment.isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
