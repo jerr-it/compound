@@ -205,6 +205,8 @@ class CourseProvider extends ChangeNotifier {
   ///Used by the search page.
   ///Searches all studip courses for matches.
   Future<List<CoursePreview>> searchFor(BuildContext context, String searchStr) async {
+    print("SEARCH");
+
     List<CoursePreview> courses = <CoursePreview>[];
     if (searchStr == null || searchStr.isEmpty) {
       return courses;
