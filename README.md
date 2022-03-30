@@ -40,6 +40,7 @@
     * /course/:course_id/wiki/:keyword (GET)
     * /discovery (GET)
     * /file/:file_ref_id (GET)
+    * /file/:file_ref_id/download (GET)
     * /folder/:folder_id (GET)
     * /forum_category/:category_id/areas (GET)
     * /forum_entry/:entry_id (GET)
