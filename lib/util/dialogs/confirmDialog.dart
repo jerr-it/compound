@@ -34,8 +34,9 @@ class ConfirmDialog {
       content: Container(
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 leading,
@@ -45,8 +46,9 @@ class ConfirmDialog {
                 ),
               ],
             ),
-            Text(subtitle, style: TextStyle(fontSize: 16)),
-            Divider(),
+            Divider(height: 25),
+            Text(subtitle, style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+            Divider(height: 25),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

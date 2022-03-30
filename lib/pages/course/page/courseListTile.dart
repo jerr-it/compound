@@ -191,7 +191,7 @@ class CourseListTile extends StatelessWidget {
               context,
               title: "sure?".tr(),
               subtitle: "leave-course".tr(namedArgs: {"course": _course.title}),
-              leading: Icon(Icons.warning_sharp),
+              leading: Icon(Icons.warning_sharp, size: 48),
               firstOptionIcon: Icon(Icons.check),
               firstOptionColor: Colors.red,
               secondOptionIcon: Icon(Icons.close),
