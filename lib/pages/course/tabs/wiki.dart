@@ -1,8 +1,8 @@
 import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/provider/course/wiki/wikiModel.dart';
 import 'package:compound/provider/course/wiki/wikiProvider.dart';
-import 'package:compound/util/widgets/ErrorWidget.dart' as Error;
 import 'package:compound/util/widgets/Nothing.dart';
+import 'package:compound/util/widgets/routeError.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -80,7 +80,9 @@ class WikiPage extends StatelessWidget {
           }
 
           if (snapshot.hasError) {
-            return Error.ErrorWidget(snapshot.error.toString());
+            return RouteErrorWidget(snapshot.error, () {
+              return Provider.of<WikiProvider>(context, listen: false).getPage(_courseID, _pageName);
+            });
           }
 
           return LinearProgressIndicator();
@@ -98,7 +100,9 @@ class WikiPage extends StatelessWidget {
             }
 
             if (snapshot.hasError) {
-              return Error.ErrorWidget(snapshot.error.toString());
+              return RouteErrorWidget(snapshot.error, () {
+                return Provider.of<WikiProvider>(context, listen: false).forceUpdatePages(_courseID);
+              });
             }
 
             return LinearProgressIndicator();

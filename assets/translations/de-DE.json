@@ -85,5 +85,6 @@
   "http-exception": "HTTP Fehler: {error-str}",
   "socket-exception": "Socket Fehler: {error-str}",
   "format-exception": "Ungültiges Format: {error-str}",
-  "wiki": "Wiki"
+  "wiki": "Wiki",
+  "Route not activated": "Die Route '{route}' ist nicht aktiviert. Wenden Sie sich an Ihren Administrator um diese Funktion zu aktivieren."
 }

@@ -14,13 +14,18 @@ class WikiProvider extends ChangeNotifier {
 
   Future<Map<String, WikiPageModel>> getPages(String courseID) async {
     if (!_pages.containsKey(courseID)) {
-      return _forceUpdatePages(courseID);
+      return forceUpdatePages(courseID);
     }
     return Future<Map<String, WikiPageModel>>.value(_pages[courseID]);
   }
 
-  Future<Map<String, WikiPageModel>> _forceUpdatePages(String courseID) async {
+  Future<Map<String, WikiPageModel>> forceUpdatePages(String courseID) async {
     Response response = await _client.httpGet("/course/$courseID/wiki", APIType.REST);
+
+    if (response.statusCode != 200) {
+      return Future.error({"reason": response.reasonPhrase, "route": "/course/:course_id/wiki"});
+    }
+
     Map<String, dynamic> data = jsonDecode(response.body)["collection"];
 
     Map<String, WikiPageModel> pages = {};
@@ -38,7 +43,11 @@ class WikiProvider extends ChangeNotifier {
 
   Future<WikiPageModel> getPage(String courseID, String pageName) async {
     if (!_pages.containsKey(courseID)) {
-      await _forceUpdatePages(courseID);
+      try {
+        await forceUpdatePages(courseID);
+      } catch (error) {
+        return Future.error(error);
+      }
     }
 
     WikiPageModel page = _pages[courseID][pageName];
@@ -51,6 +60,11 @@ class WikiProvider extends ChangeNotifier {
   Future<WikiPageModel> _forceUpdatePage(String courseID, WikiPageModel page) async {
     String pageName = page.keyword;
     Response response = await _client.httpGet("/course/$courseID/wiki/$pageName", APIType.REST);
+
+    if (response.statusCode != 200) {
+      return Future.error({"error": response.reasonPhrase, "route": "/course/:course_id/wiki/:keyword"});
+    }
+
     Map<String, dynamic> data = jsonDecode(response.body);
 
     _pages[courseID][page.keyword] = WikiPageModel.fromMap(data);
@@ -60,7 +74,7 @@ class WikiProvider extends ChangeNotifier {
   }
 
   void forceUpdate(String courseID, String pageName) async {
-    await _forceUpdatePages(courseID);
+    await forceUpdatePages(courseID);
     await _forceUpdatePage(courseID, _pages[courseID][pageName]);
   }
 }

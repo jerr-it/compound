@@ -53,13 +53,21 @@ class NewsProvider extends ChangeNotifier {
     Response res;
     if (courseID == "global") {
       res = await _client.httpGet("/studip/news", APIType.REST);
+
+      if (res.statusCode != 200) {
+        return Future.error({"reason": res.reasonPhrase, "route": "/studip/news"});
+      }
     } else {
       res = await _client.httpGet("/course/$courseID/news", APIType.REST);
+
+      if (res.statusCode != 200) {
+        return Future.error({"reason": res.reasonPhrase, "route": "/course/:course_id/news"});
+      }
     }
 
     List<News> news = <News>[];
     try {
-      //In case there a no news, the response objects "collection" is an array for some reason, which makes this statement fail
+      //In case there a no news, the response objects "collection" is an array instead of a map for some reason, which makes this statement fail
       Map<String, dynamic> decoded = jsonDecode(res.body)["collection"];
 
       decoded.forEach((newsIDUrl, data) {
@@ -80,7 +88,9 @@ class NewsProvider extends ChangeNotifier {
         },
       );
 
-      newIDs = NewsHtmlParser.scan(response.body);
+      if (response.statusCode == 200) {
+        newIDs = NewsHtmlParser.scan(response.body);
+      }
     }
 
     notifyListeners();

@@ -2,6 +2,7 @@ import 'package:compound/navdrawer/navDrawer.dart';
 import 'package:compound/provider/course/semester/semesterProvider.dart';
 import 'package:compound/provider/news/newsModel.dart';
 import 'package:compound/provider/news/newsProvider.dart';
+import 'package:compound/util/widgets/routeError.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:compound/util/widgets/Announcement.dart';
 import 'package:compound/util/widgets/Nothing.dart';
@@ -75,14 +76,14 @@ class StartPage extends StatelessWidget {
               },
             );
           }
+
           if (snapshot.hasError) {
-            return RefreshIndicator(
-              child: ErrorWidget(snapshot.error.toString()),
-              onRefresh: () {
-                return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global", false);
-              },
-            );
+            Map<String, dynamic> error = snapshot.error as Map<String, dynamic>;
+            return RouteErrorWidget(error, () {
+              return Provider.of<NewsProvider>(context, listen: false).forceUpdate("global", false);
+            });
           }
+
           return Container(
             child: LinearProgressIndicator(),
           );
