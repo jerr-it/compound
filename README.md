@@ -18,13 +18,6 @@
 * &#128466; Planner
 * &#128262;/&#127761; Light/Dark theme
 
-## How to enable
-#### Register
-1. Login as Administrator
-2. Navigate to Admin -> System -> API
-3. Register new application / Fill in the required information
-4. Give the consumer secret, consumer key and your StudIP URL to me in a secure manner (e.g. encrypted email)
-
 #### Enable required routes
 1. Login as Administrator
 2. Navigate to Admin -> System -> API -> Global access settings
